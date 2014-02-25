@@ -1,0 +1,14 @@
+{"origin": {
+    "application": {
+        "name": "application"
+    }
+},
+    "command": {
+        "name": "switch_binary",
+        "value": true
+    },
+    "creation_time" : 1385815582,
+    "creation_time_iso": "2013-07-31 08:42:52:512",
+    "uuid": "86f93c70-6c47-4cfc-91eb-30d3b069e417",
+    "service_point_id": "S-451-12"
+}
