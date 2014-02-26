@@ -1,0 +1,48 @@
+{% extends "base_layout.html" %}
+{% block body %}
+</h1>
+<h3>Devices</h3>
+<div class="container-fluid">
+
+<div class="table-responsive">
+ <table class="table table-striped">
+     <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>msg class</th>
+                      <th>address</th>
+                      <th>action</th>
+                      <th></th>
+                    </tr>
+     </thead>
+     <tbody>
+     {% for item in mapping %}
+      <tr>
+       <td> {{ item.name }}  </td>
+       <td> {{ item.msg_class }} </td>
+       <td> {{ item.address }}  </td>
+       <td> <a>Open msg</a></td>
+       <td>
+          {% if item.ui_mapping.ui_element=="toggle_switch" %}
+            <a href="#" class="btn btn-default btn active" >On</a>
+            <a href="#" class="btn btn-default btn active" >Off</a>
+          {% endif %}
+          {% if item.ui_mapping.ui_element=="binary_light" %}
+             <div class="alert alert-success">On</div>
+          {% endif %}
+          {% if item.ui_mapping.ui_element=="free_text" %}
+             <div><button type="button" class="btn">Free</button></div>
+          {% endif %}
+          {% if item.ui_mapping.ui_element=="sensor_value" %}
+                     <h3> 23 <small>C</small></h3>
+          {% endif %}
+       </td>
+       <td>{{ item.id }} </td>
+      </tr>
+      {% endfor %}
+     </tbody>
+
+ </table>
+</div>
+</div>
+{% endblock %}

@@ -3,8 +3,8 @@
         "name": "installer",
         "location": "remote"
     }
-},
-    "command": {
+   },
+ "command": {
         "name": "inclusion_mode",
         "value": true
     },
