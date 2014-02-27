@@ -8,23 +8,51 @@ class MsgCache():
         self.cache = {}
         self.msg_man = msg_man
         self.address_mapping = self.msg_man.load_address_mapping()
+        self.msg_class_mapping = self.msg_man.load_msg_class_mapping()
 
-    def put(self,address,payload,type):
-        if type =="event":
+    def put(self,address,payload):
+        if "event" in payload:
           path = self.msg_man.msg_class_path_event
+          msg_type = "event"
         else :
           path = self.msg_man.msg_class_path_command
+          msg_type = "command"
 
         msg_class = self.msg_man.get_value_from_msg(payload,path)[0]
-        id = self.msg_man.generate_id(msg_class,address)
-        self.cache[id]=payload
+        id = self.msg_man.generate_key(msg_class,address)
+
+        # extract values
+        extracted_values = {}
+        try:
+            ui_mapping = self.msg_man.get_msg_class_by_key(id)["ui_mapping"]
+            for key,value in ui_mapping.items():
+                if "path" in key:
+                    print "trying to extract value from "+value
+                    ex_value = self.msg_man.get_value_from_msg(payload,value)[0]
+                    extracted_values[key.replace("_path","")]=ex_value
+        except SystemExit as ex :
+            print ex
+
+        self.cache[id]={"raw_msg":payload,"ui_element":ui_mapping["ui_element"],"extracted_values":extracted_values}
+
 
     def get_all(self):
         return self.cache
 
+    def get(self,msg_class,address):
+        id = self.msg_man.generate_key(msg_class,address)
+        return self.cache(id)
+
+    def get_by_key(self,key):
+        if self.cache.has_key(key):
+          return self.cache[key]
+        else :
+          return None
+
 if __name__ == "__main__":
     m = MessageManager()
-    jobj = json.load(file(os.path.join(m.root,"messages","events","temperature_sensor.json") ))
+    jobj = json.load(file(os.path.join(m.root,"messages","events","temperature.json") ))
     cache = MsgCache(m)
-    cache.put("/zw/15/multilevel_sensor/1/events",jobj,"event")
-    print cache.get_all()
+    cache.put("/zw/15/multilevel_sensor/1/events",jobj)
+    cache.put("/zw/0/controller/1/events",json.load(file(os.path.join(m.root,"messages","events","inclusion.json") )))
+    print json.dumps(cache.get_all(),indent=True)
