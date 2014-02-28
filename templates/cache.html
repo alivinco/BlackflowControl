@@ -1,0 +1,12 @@
+{% extends "base_layout.html" %}
+{% block li_cache %}class="active"{% endblock %}
+{% block body %}
+
+    <div>
+    {% for k ,v in cache.iteritems() %}
+     <b>Key:{{ k }}</b>
+     <pre>{{v}}</pre>
+    {% endfor %}
+    </div>
+
+{% endblock %}

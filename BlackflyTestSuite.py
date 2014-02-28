@@ -1,12 +1,17 @@
 from flask import Flask, Response
 from flask import render_template
 from flask import request
+from modules.mqtt_adapter import MqttAdapter
 from modules.msg_cache import MsgCache
 from modules.msg_manager import MessageManager
 import json
 app = Flask(__name__)
 msg_man = MessageManager()
 cache = MsgCache(msg_man)
+
+mqtt = MqttAdapter(cache)
+mqtt.connect("192.168.31.252", 1883)
+mqtt.start()
 a = 0
 
 
@@ -20,11 +25,29 @@ def index():
     msg_list = msg_man.load_templates()
     return render_template('index.html', msg_list=msg_list)
 
+@app.route('/sys/mqtt_ctrl/<command>')
+def mqtt_control(command):
+    if command == "start":
+       mqtt.start()
+    elif command == "stop":
+       mqtt.stop()
 
-@app.route('/devices/<name>')
-def devices(name):
+    dev = json.dumps({"success":True})
+    return Response(response=dev, mimetype='application/json' )
+
+@app.route('/ui/inter_console')
+def inter_console_ui():
     mapping = msg_man.generate_linked_mapping(msg_man.load_msg_class_mapping(), msg_man.load_address_mapping())
-    return render_template('devices.html', mapping=mapping,cache=cache)
+    return render_template('inter_console.html', mapping=mapping,cache=cache)
+
+@app.route('/ui/cache')
+def cache_ui():
+    # ch = json.dumps(cache.get_all(),indent=True)
+    result = {}
+    for k,v in cache.get_all().iteritems():
+       result[k]=json.dumps(v,indent=True)
+    return render_template('cache.html',cache=result)
+
 
 @app.route('/api/send_command',methods=["POST"])
 def send_command():
@@ -37,8 +60,10 @@ def send_command():
     # format : {"msg_key":"switch_binary@.zw.7.binary_switch.2.commands","user_params":{"value":"True"}}
     req = request.get_json()
     command = msg_man.generate_command_from_user_params(req["msg_key"],req["user_params"])
-    # print json.dumps(command,indent=True)
-    cache.put(req["msg_key"].split("@")[1],command)
+    address = req["msg_key"].split("@")[1]
+    # print json.dumps(command,indent=True
+    mqtt.mqtt.publish(address.replace(".","/"),json.dumps(command),1)
+    cache.put(address,command)
     dev = json.dumps({"success":True})
     # print request.get_json()
     return Response(response=dev, mimetype='application/json' )
@@ -63,5 +88,5 @@ def get_last_raw_msg(key):
     return Response(response=dev, mimetype='application/json' )
 
 if __name__ == '__main__':
-    app.debug = True
+    app.debug = False
     app.run()

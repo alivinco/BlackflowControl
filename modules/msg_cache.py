@@ -10,6 +10,7 @@ class MsgCache():
         self.address_mapping = self.msg_man.load_address_mapping()
         self.msg_class_mapping = self.msg_man.load_msg_class_mapping()
 
+    # address - topic address , payload - msg payload object
     def put(self,address,payload):
         if "event" in payload:
           path = self.msg_man.msg_class_path_event
@@ -23,6 +24,7 @@ class MsgCache():
 
         # extract values
         extracted_values = {}
+        ui_mapping = {}
         try:
             ui_mapping = self.msg_man.get_msg_class_by_key(id)["ui_mapping"]
             for key,value in ui_mapping.items():
@@ -30,8 +32,10 @@ class MsgCache():
                     print "trying to extract value from "+value
                     ex_value = self.msg_man.get_value_from_msg(payload,value)[0]
                     extracted_values[key.replace("_path","")]=ex_value
-        except SystemExit as ex :
-            print ex
+        except Exception as ex :
+            #default value
+            ui_mapping["ui_element"] = {"ui_element":"free_text","value_path":"$.event.value"}
+            print "Can't extract value"
 
         self.cache[id]={"raw_msg":payload,"ui_element":ui_mapping["ui_element"],"extracted_values":extracted_values}
 

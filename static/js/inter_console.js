@@ -6,6 +6,10 @@
  * To change this template use File | Settings | File Templates.
  */
 
+function start_pooling_cache()
+{
+    setInterval(load_data,1000);
+}
 
 function load_data()
 {
@@ -16,7 +20,7 @@ function load_data()
 //        zipcode: 97201
 //      },
       success: function( data ) {
-        console.dir(data)
+//        console.dir(data)
         update_elements(data.result)
       }
     });
@@ -61,16 +65,24 @@ function update_elements(msg_cache)
         }else if(ui_type=="binary_light")
         {
             if(msg_cache[k_item].extracted_values.value)
+            {
+                $("#"+jq_elector(ui_element_id)).removeClass("alert-danger")
                 $("#"+jq_elector(ui_element_id)).addClass("alert-success")
+            }
             else
+            {
+                $("#"+jq_elector(ui_element_id)).removeClass("alert-success")
                 $("#"+jq_elector(ui_element_id)).addClass("alert-danger")
 
+            }
         }else if(ui_type=="free_text")
         {
 
         }else if(ui_type=="sensor_value")
         {
-            $("#"+jq_elector(ui_element_id)).html = "<h3>"+msg_cache[k_item].extracted_values.value+"<small>"+msg_cache[k_item].extracted_values.unit+"</small></h3>"
+            console.log("sensor value:"+msg_cache[k_item].extracted_values.value)
+            $("#"+jq_elector(ui_element_id)).html("<h3>"+msg_cache[k_item].extracted_values.value+"<small>"+msg_cache[k_item].extracted_values.unit+"</small></h3>")
+            console.dir($("#"+jq_elector(ui_element_id)))
         }
 
 
@@ -81,4 +93,5 @@ function update_elements(msg_cache)
 $(function() {
     console.log( "ready!" );
     load_data()
+    start_pooling_cache()
 });

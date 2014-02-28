@@ -1,42 +1,47 @@
 {
-    "origin": {
-        "application": {
-            "name": "zwave_TA",
-            "location": "xxxx"
-        }
-    },
-    "event": {
-        "type": "inclusion",
-        "device": {
-            "id": 17,
-            "serial_nr": "2131311",
-            "protocol": "zw",
-            "vendor": "0086",
-            "version": "1.0",
-            "product_id": "0040"
-        },
-        "resource_list": [
-            {
-                "id": "1",
-                "uri": "/zw/17/binary_sensor/1",
-                "capabilities": {
-                    "device_type": "BINARY_SENSOR",
-                    "command_classes": ["BATTERY", "WAKE_UP", "BINARY_SENSOR", "ALARM"]
-                }
+   "creation_time" : "2014-02-28.19:07:52",
+   "creation_time_iso" : "will_be_implemented",
+   "event" : {
+      "device" : {
+         "id" : 16,
+         "product_id" : "will_be_implemented",
+         "protocol" : "zw",
+         "vendor" : "0002",
+         "version" : "1.0"
+      },
+      "resource_list" : [
+         {
+            "capabilities" : {
+               "command_classes" : "will_be_implemented"
             },
-            {
-                "id": "2",
-                "uri": "/zw/17/binary_sensor/2",
-                "capabilities": {
-                    "device_type": "BINARY_SENSOR",
-                    "command_classes": ["BATTERY", "WAKE_UP", "BINARY_SENSOR", "ALARM"]
-                }
-            }
-        ]
-
-    },
-    "creation_time" : 1385815582,
-    "creation_time_iso": "2013-07-31 08:42:52:512",
-    "uuid": "86f93c70-6c47-4cfc-91eb-30d3b069e417",
-    "service_point_id": "S-451-12"
+            "id" : 1,
+            "name" : "battery",
+            "uri" : "/zw/16/battery/1"
+         },
+         {
+            "capabilities" : {
+               "command_classes" : "will_be_implemented"
+            },
+            "id" : 1,
+            "name" : "multilevel_sensor",
+            "uri" : "/zw/16/multilevel_sensor/1"
+         },
+         {
+            "capabilities" : {
+               "command_classes" : "will_be_implemented"
+            },
+            "id" : 1,
+            "name" : "thermostat",
+            "uri" : "/zw/16/thermostat/1"
+         }
+      ],
+      "type" : "inclusion"
+   },
+   "origin" : {
+      "application" : {
+         "name" : "zwave_ta"
+      }
+   },
+   "service_point_id" : "will_be_implemented",
+   "uuid" : "0b67bde7-6119-47fa-a302-66a6a8f1dcc9"
 }
