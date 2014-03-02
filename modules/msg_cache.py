@@ -55,8 +55,8 @@ class MsgCache():
 
 if __name__ == "__main__":
     m = MessageManager()
-    jobj = json.load(file(os.path.join(m.root,"messages","events","temperature.json") ))
+    jobj = json.load(file(os.path.join(m.app_root_path,"messages","events","temperature.json") ))
     cache = MsgCache(m)
     cache.put("/zw/15/multilevel_sensor/1/events",jobj)
-    cache.put("/zw/0/controller/1/events",json.load(file(os.path.join(m.root,"messages","events","inclusion.json") )))
+    cache.put("/zw/0/controller/1/events",json.load(file(os.path.join(m.app_root_path,"messages","events","inclusion.json") )))
     print json.dumps(cache.get_all(),indent=True)

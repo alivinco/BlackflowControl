@@ -10,7 +10,7 @@ msg_man = MessageManager()
 cache = MsgCache(msg_man)
 
 mqtt = MqttAdapter(cache)
-mqtt.connect("192.168.31.252", 1883)
+mqtt.connect("lego.r", 1883)
 mqtt.start()
 a = 0
 

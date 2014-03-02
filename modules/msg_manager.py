@@ -9,9 +9,9 @@ msg_list = [{"file_name": "inclusion.json", "type": "event"}]
 
 class MessageManager:
     def __init__(self):
-        self.root = "C:\ALWorks\SG\BlackflyTestSuite"
-        self.events_dir = os.path.join(self.root, "messages", "events")
-        self.commands_dir = os.path.join(self.root, "messages", "commands")
+        self.app_root_path = os.getcwd()
+        self.events_dir = os.path.join(self.app_root_path, "messages", "events")
+        self.commands_dir = os.path.join(self.app_root_path, "messages", "commands")
         self.msg_class_path_event = "$.event.type"
         self.msg_class_path_command = "$.command.name"
         self.msg_class_mapping = self.load_msg_class_mapping()
@@ -43,18 +43,18 @@ class MessageManager:
         address = msg_key.split("@")[1]
         result = None
         if "event" in address:
-           result = json.load(file(os.path.join(self.root, "messages","events", msg_class+".json")))
+           result = json.load(file(os.path.join(self.app_root_path, "messages","events", msg_class+".json")))
         elif "command" in address:
-            result = json.load(file(os.path.join(self.root, "messages","commands", msg_class+".json")))
+            result = json.load(file(os.path.join(self.app_root_path, "messages","commands", msg_class+".json")))
         else : result = None
         return result
 
     def load_msg_class_mapping(self):
-        jobj = json.load(file(os.path.join(self.root, "configs", "msg_class_mapping.json")))
+        jobj = json.load(file(os.path.join(self.app_root_path, "configs", "msg_class_mapping.json")))
         return jobj
 
     def load_address_mapping(self):
-        jobj = json.load(file(os.path.join(self.root, "configs", "address_mapping.json")))
+        jobj = json.load(file(os.path.join(self.app_root_path, "configs", "address_mapping.json")))
         return jobj
 
     def generate_key(self,msg_class,address):
@@ -106,6 +106,7 @@ class MessageManager:
 if __name__ == "__main__":
 
     m = MessageManager()
+    m.app_root_path = "C:\ALWorks\SG\BlackflyTestSuite"
     print type({"test":1})
     flist = m.load_templates()
     jobj = m.parse_file(os.path.join(m.commands_dir, "include.json"))
