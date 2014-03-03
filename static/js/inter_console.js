@@ -6,7 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 var wsUri = "http://127.0.0.1:5000/test";
-
+var msg_cache
 function start_pooling_cache()
 {
     setInterval(load_data,1000);
@@ -24,13 +24,25 @@ function load_data()
       success: function( data ) {
 //        console.dir(data)
         update_elements(data.result)
+        msg_cache = data.result
       }
     });
 }
 
 function send_command(key,ui_type,value)
 {
-    obj = {"msg_key":key,"user_params":{"value":value}}
+
+    if (ui_type=="input_num_field")
+    {
+        val = $("#"+jq_elector(key+"_input")).val()
+        console.log("var:"+val)
+
+    }else
+    {
+        val = value
+    }
+
+    obj = {"msg_key":key,"user_params":{"value":val}}
     $.ajax({
       url: "../api/send_command",
       type: 'POST',
@@ -82,9 +94,9 @@ function update_elements(msg_cache)
 
         }else if(ui_type=="sensor_value")
         {
-            console.log("sensor value:"+msg_cache[k_item].extracted_values.value)
-            $("#"+jq_elector(ui_element_id)).html("<h3>"+msg_cache[k_item].extracted_values.value+"<small>"+msg_cache[k_item].extracted_values.unit+"</small></h3>")
-            console.dir($("#"+jq_elector(ui_element_id)))
+//            console.log("sensor value:"+msg_cache[k_item].extracted_values.value)
+            $("#"+jq_elector(ui_element_id)).html("<h3>"+msg_cache[k_item].extracted_values.value+"<small>"+ msg_cache[k_item].extracted_values.unit+"</small></h3>")
+//            console.dir($("#"+jq_elector(ui_element_id)))
         }
 
 
@@ -92,8 +104,23 @@ function update_elements(msg_cache)
     }
 }
 
+function open_free_text(key)
+{
+    $("#free_text_modal").modal('show')
+    try{
+       if (typeof msg_cache[key].extracted_values.value == "object" )
+          out_text = JSON.stringify(msg_cache[key].extracted_values.value)
+       else
+          out_text = msg_cache[key].extracted_values.value
+
+        $("#free_text_placeholder").html("<pre>"+out_text+"</pre>")
+    }catch(err){
+       $("#free_text_placeholder").html("<pre>...</pre>")
+    }
+}
+
 $(function() {
-    console.log( "ready!" );
+//    console.log( "ready!" );
     load_data()
     start_pooling_cache()
 });

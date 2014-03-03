@@ -1,9 +1,12 @@
 [{"msg_class":"inclusion_mode","msg_type":"command","ui_mapping":{"ui_element":"toggle_switch","value_path":"$.command.value"}},
  {"msg_class":"exclusion_mode","msg_type":"command","ui_mapping":{"ui_element":"toggle_switch","value_path":"$.command.value"}},
  {"msg_class":"switch_binary","msg_type":"command","ui_mapping":{"ui_element":"toggle_switch","value_path":"$.command.value"}},
+ {"msg_class":"heating_point","msg_type":"command","ui_mapping":{"ui_element":"input_num_field","value_path":"$.command.value"}},
  {"msg_class":"door_opened","msg_type":"event","ui_mapping":{"ui_element":"binary_light","value_path":"$.event.value"}},
  {"msg_class":"inclusion","msg_type":"event","ui_mapping":{"ui_element":"free_text","value_path":"$.event.resource_list"}},
+ {"msg_class":"exclusion","msg_type":"event","ui_mapping":{"ui_element":"free_text","value_path":"$.event.resource_list"}},
  {"msg_class":"temperature","msg_type":"event","ui_mapping":{"ui_element":"sensor_value","value_path":"$.event.value","unit_path":"$.event.units"}},
  {"msg_class":"battery_level","msg_type":"event","ui_mapping":{"ui_element":"sensor_value","value_path":"$.event.value","unit_path":"$.event.units"}},
  {"msg_class":"wakeup_interval","msg_type":"event","ui_mapping":{"ui_element":"sensor_value","value_path":"$.event.value","unit_path":"$.event.units"}}
+
 ]

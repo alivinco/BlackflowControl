@@ -23,23 +23,36 @@
        <td> {{ item.msg_class }} </td>
        <td> {{ item.address }}  </td>
        <td> <a href="../api/get_last_raw_msg/{{item.id}}" target="_blank">Open last msg</a></td>
-       <td>
+       <td style="width: 200px">
           {% set cache_item = cache.get_by_key(item.id) %}
           {% if item.ui_mapping.ui_element=="toggle_switch" %}
                <div id="{{ item.id }}">
-                <a id="{{ item.id+"_on" }}"  href="#" onclick="send_command('{{ item.id }}','toggle_button',true)" class="btn btn-default btn" >On</a>
-                <a id="{{ item.id+"_off" }}"  href="#" onclick="send_command('{{ item.id }}','toggle_button',false)" class="btn btn-default btn" >Off</a>
+                <a id="{{ item.id+"_on" }}"  href="#" onclick="send_command('{{ item.id }}','toggle_switch',true)" class="btn btn-default btn" >On</a>
+                <a id="{{ item.id+"_off" }}"  href="#" onclick="send_command('{{ item.id }}','toggle_switch',false)" class="btn btn-default btn" >Off</a>
                </div>
           {% endif %}
           {% if item.ui_mapping.ui_element=="binary_light" %}
              <div id="{{ item.id }}" class="alert alert-success"> </div>
           {% endif %}
           {% if item.ui_mapping.ui_element=="free_text" %}
-             <div id="{{ item.id }}"></div>
+             <div id="{{ item.id }}"> <a class="btn btn-default btn" onclick="open_free_text('{{ item.id }}')" data-toggle="modal" data-target=".bs-example-modal-lg">Show value</a> </div>
           {% endif %}
           {% if item.ui_mapping.ui_element=="sensor_value" %}
             <div id="{{ item.id }}"> <h3>  <small> </small></h3></div>
           {% endif %}
+           {% if item.ui_mapping.ui_element=="input_num_field" %}
+            <div id="{{ item.id }}">
+                <div class="input-group">
+                  <input id="{{ item.id }}_input" type="text" class="form-control">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default"  onclick="send_command('{{ item.id }}','input_num_field','')" type="button">Set</button>
+                  </span>
+                </div>
+
+
+            </div>
+          {% endif %}
+
        </td>
 
       </tr>
@@ -49,7 +62,23 @@
  </table>
 </div>
 </div>
-
+{#Modal dialog #}
+<div class="modal fade" id="free_text_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Extracted data</h4>
+      </div>
+      <div id = "free_text_placeholder" class="modal-body">
+        <pre>...</pre>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
 {% block js_scripts %}

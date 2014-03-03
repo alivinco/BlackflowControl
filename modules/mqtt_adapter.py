@@ -14,16 +14,15 @@ logger.addHandler(logging.StreamHandler())
 class MqttAdapter:
     logger = logging.getLogger(__name__)
 
-    def __init__(self, cache):
+    def __init__(self, msg_pipeline):
         """
         Contructor takes single argument which is reference to device registry object .
         :param device_registry:
         """
         self.retry_delay = 5
         self.logger.setLevel(logging.DEBUG)
-        self.device_registry = cache
         self.mqtt = mosquitto.Mosquitto("blackfly_test_suite", clean_session=False)
-        self.cache = cache
+        self.msg_pipeline = msg_pipeline
 
     def connect(self, host="localhost", port=1883, keepalive=60):
         self._host = host
@@ -46,7 +45,7 @@ class MqttAdapter:
         :param msg:
         """
         self.logger.debug("New message :" + str(msg))
-        self.cache.put(msg.topic,json.loads(msg.payload))
+        self.msg_pipeline.process_event(msg.topic,json.loads(msg.payload))
 
     def _loop_start(self):
         self._thread_terminate = False

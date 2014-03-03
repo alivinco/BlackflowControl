@@ -6,14 +6,16 @@ from modules.msg_cache import MsgCache
 from modules.msg_manager import MessageManager
 import json
 # Flask initialization
+from modules.msg_pipeline import MsgPipeline
+
 app = Flask(__name__)
 msg_man = MessageManager()
 cache = MsgCache(msg_man)
 # Mqtt initialization
-mqtt = MqttAdapter(cache)
-mqtt.connect("lego.r", 1883)
+msg_pipeline = MsgPipeline(msg_man,cache)
+mqtt = MqttAdapter(msg_pipeline)
+mqtt.connect("192.168.31.252", 1883)
 mqtt.start()
-
 
 
 @app.route('/')
@@ -38,6 +40,7 @@ def mqtt_control(command):
 
 @app.route('/ui/inter_console')
 def inter_console_ui():
+    msg_man.reload_all_mappings()
     mapping = msg_man.generate_linked_mapping(msg_man.load_msg_class_mapping(), msg_man.load_address_mapping())
     return render_template('inter_console.html', mapping=mapping,cache=cache)
 
@@ -63,8 +66,10 @@ def send_command():
     command = msg_man.generate_command_from_user_params(req["msg_key"],req["user_params"])
     address = req["msg_key"].split("@")[1]
     # print json.dumps(command,indent=True
-    mqtt.mqtt.publish(address.replace(".","/"),json.dumps(command),1)
-    cache.put(address,command)
+    # mqtt.mqtt.publish(address.replace(".","/"),json.dumps(command),1)
+    # cache.put(address,command)
+    print "address :"+address
+    msg_pipeline.process_command(mqtt,address.replace(".","/"),json.dumps(command))
     dev = json.dumps({"success":True})
     # print request.get_json()
     return Response(response=dev, mimetype='application/json' )

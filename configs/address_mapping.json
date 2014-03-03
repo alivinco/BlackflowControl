@@ -1,9 +1,114 @@
-[{"msg_class":"inclusion_mode","address":"/zw/0/controller/1/commands","name":"SG inclusion","msg_type":"command","group_name":"table1"},
- {"msg_class":"exclusion_mode","address":"/zw/0/controller/1/commands","name":"SG exclusion","msg_type":"command","group_name":"table1"},
- {"msg_class":"inclusion","address":"/zw/0/controller/1/events","name":"Last included","msg_type":"event","group_name":"table1"},
- {"msg_class":"switch_binary","address":"/zw/3/binary_switch/1/commands","name":"wallplug","msg_type":"command","group_name":"table1"},
- {"msg_class":"door_opened","address":"/zw/15/binary_sensor/1/events","name":"door sensor","msg_type":"event","group_name":"table1"},
- {"msg_class":"door_opened","address":"/zw/14/binary_sensor/1/events","name":"door sensor","msg_type":"event","group_name":"table1"},
- {"msg_class":"temperature","address":"/zw/15/multilevel_sensor/1/events","name":"temperature","msg_type":"event","group_name":"table1"},
- {"msg_class":"battery_level","address":"/zw/16/battery/1/events","name":"Danfos battary","msg_type":"event","group_name":"table1"},
- {"msg_class":"wakeup_interval","address":"/zw/16/thermostat/1/events","name":"Danfos wakup interval","msg_type":"event","group_name":"table1"}]
+[
+ {
+  "group_name": "table1", 
+  "address": "/zw/0/controller/1/commands", 
+  "name": "SG inclusion", 
+  "msg_type": "command", 
+  "msg_class": "inclusion_mode"
+ }, 
+ {
+  "group_name": "table1", 
+  "address": "/zw/0/controller/1/commands", 
+  "name": "SG exclusion", 
+  "msg_type": "command", 
+  "msg_class": "exclusion_mode"
+ }, 
+ {
+  "group_name": "table1", 
+  "address": "/zw/0/controller/1/events", 
+  "name": "Last included", 
+  "msg_type": "event", 
+  "msg_class": "inclusion"
+ }, 
+ {
+  "group_name": "table1", 
+  "address": "/zw/3/binary_switch/1/commands", 
+  "name": "wallplug", 
+  "msg_type": "command", 
+  "msg_class": "switch_binary"
+ }, 
+ {
+  "group_name": "table1", 
+  "address": "/zw/15/binary_sensor/1/events", 
+  "name": "door sensor", 
+  "msg_type": "event", 
+  "msg_class": "door_opened"
+ }, 
+ {
+  "group_name": "table1", 
+  "address": "/zw/15/multilevel_sensor/1/events", 
+  "name": "temperature", 
+  "msg_type": "event", 
+  "msg_class": "temperature"
+ }, 
+ {
+  "group_name": "table1", 
+  "address": "/zw/16/battery/1/events", 
+  "name": "Danfos battary", 
+  "msg_type": "event", 
+  "msg_class": "battery_level"
+ }, 
+ {
+  "group_name": "table1", 
+  "address": "/zw/16/thermostat/1/events", 
+  "name": "Danfos wakup interval", 
+  "msg_type": "event", 
+  "msg_class": "wakeup_interval"
+ },
+ {
+  "group_name": "table1",
+  "address": "/zw/16/thermostat/1/commands",
+  "name": "Danfos set heating point",
+  "msg_type": "command",
+  "msg_class": "heating_point"
+ },
+ {
+  "msg_class": "inclusion",
+  "address": "/zw/inclusion",
+  "name": "inclusion",
+  "msg_type": "event",
+  "group_name": "table1"
+ },
+ {
+  "group_name": "table1", 
+  "address": "/zw/exclusion", 
+  "name": "exclusion", 
+  "msg_type": "event", 
+  "msg_class": "exclusion"
+ }, 
+ {
+  "msg_class": "door_opened", 
+  "address": "/zw/17/binary_sensor/1/events", 
+  "name": "door_opened", 
+  "msg_type": "event", 
+  "group_name": "table1"
+ }, 
+ {
+  "group_name": "table1", 
+  "address": "/zw/17/battery_manager/1/events", 
+  "name": "battery_level", 
+  "msg_type": "event", 
+  "msg_class": "battery_level"
+ },
+ {
+  "group_name": "table1", 
+  "address": "/zw/15/battery_manager/1/events", 
+  "name": "battery_level", 
+  "msg_type": "event", 
+  "msg_class": "battery_level"
+ }, 
+ {
+  "msg_class": "door_opened", 
+  "address": "/zw/18/binary_sensor/1/events", 
+  "name": "door_opened", 
+  "msg_type": "event", 
+  "group_name": "table1"
+ }, 
+ {
+  "group_name": "table1", 
+  "address": "/zw/18/battery_manager/1/events", 
+  "name": "battery_level", 
+  "msg_type": "event", 
+  "msg_class": "battery_level"
+ }
+]

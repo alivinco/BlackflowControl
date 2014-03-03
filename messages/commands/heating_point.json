@@ -1,17 +1,14 @@
 {"origin": {
     "application": {
-        "name": "installer",
-        "location": "remote"
+        "name": "application"
     }
    },
  "command": {
-        "name": "exclusion_mode",
-        "value": true
+        "name": "heating_point",
+        "value": 27.0
     },
     "creation_time" : 1385815582,
     "creation_time_iso": "2013-07-31 08:42:52:512",
     "uuid": "86f93c70-6c47-4cfc-91eb-30d3b069e417",
     "service_point_id": "S-451-12"
 }
-
-
