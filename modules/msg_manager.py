@@ -101,6 +101,8 @@ class MessageManager:
             self.set_value_to_msg(msg_template,path,v)
         return msg_template
 
+    def add_address_to_mapping(self,address,msg_class):
+        pass
 
 
 if __name__ == "__main__":

@@ -5,11 +5,13 @@
  * Time: 15:08
  * To change this template use File | Settings | File Templates.
  */
+var wsUri = "http://127.0.0.1:5000/test";
 
 function start_pooling_cache()
 {
     setInterval(load_data,1000);
 }
+
 
 function load_data()
 {

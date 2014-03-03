@@ -5,14 +5,15 @@ from modules.mqtt_adapter import MqttAdapter
 from modules.msg_cache import MsgCache
 from modules.msg_manager import MessageManager
 import json
+# Flask initialization
 app = Flask(__name__)
 msg_man = MessageManager()
 cache = MsgCache(msg_man)
-
+# Mqtt initialization
 mqtt = MqttAdapter(cache)
 mqtt.connect("lego.r", 1883)
 mqtt.start()
-a = 0
+
 
 
 @app.route('/')

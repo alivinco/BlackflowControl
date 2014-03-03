@@ -1,0 +1,3 @@
+{
+    "msg_class_lookup_path":[{"type":"single","event_path":"$.event.type","command_path":"$.event.type","priority":1}]
+}

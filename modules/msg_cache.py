@@ -6,9 +6,11 @@ __author__ = 'aleksandrsl'
 class MsgCache():
     def __init__(self,msg_man):
         self.cache = {}
+        self.approve_cache = {}
         self.msg_man = msg_man
         self.address_mapping = self.msg_man.load_address_mapping()
         self.msg_class_mapping = self.msg_man.load_msg_class_mapping()
+
 
     # address - topic address , payload - msg payload object
     def put(self,address,payload):
@@ -52,6 +54,13 @@ class MsgCache():
           return self.cache[key]
         else :
           return None
+
+    def put_for_approve(self,address,payload,text):
+        self.approve_cache[self.approve_seq] = {"address":address,"payload":payload,"text":text}
+
+
+
+
 
 if __name__ == "__main__":
     m = MessageManager()
