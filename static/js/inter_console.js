@@ -34,7 +34,8 @@ function send_command(key,ui_type,value)
 
     if (ui_type=="input_num_field")
     {
-        val = $("#"+jq_elector(key+"_input")).val()
+        val = $("#"+jq_elector(key+"_input")).val()*1
+        console.log(typeof val)
         console.log("var:"+val)
 
     }else

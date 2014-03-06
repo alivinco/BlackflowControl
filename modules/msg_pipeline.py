@@ -73,7 +73,7 @@ class MsgPipeline():
         msg_class = self.__get_msg_class_from_msg(payload)
         print "msg_class-"+str(msg_class)
 
-        mqtt.mqtt.publish(address,payload,1)
+        mqtt.mqtt.publish(address,json.dumps(payload),1)
 
         exdt = self.__extract_data(address,msg_class,payload)
         cache_key = self.msg_man.generate_key(msg_class,address)
@@ -87,8 +87,6 @@ class MsgPipeline():
         :return:
         """
         for path in self.msg_man.global_configs["msg_class_lookup_path"]:
-           print path
-           print "pathL:"+path["path"]
            msg_class = self.msg_man.get_value_from_msg(payload, path["path"])
            if msg_class:
                return msg_class[0]

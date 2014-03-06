@@ -90,10 +90,14 @@ class MessageManager:
         var_type = type(value)
         if var_type is bool:
             path_str = path_str + " = " + str(value)
+        elif var_type is int:
+            path_str = path_str + " = " + str(value)
         elif var_type is str:
             path_str = path_str + " = '" + str(value) + "'"
         elif var_type is dict:
             path_str = path_str + " = " + json.dumps(value)
+        else :
+            print "!!!!UNKNOWN OBJECT TYPE , set operation will be skipped. Type is"+str(var_type)+" value "+str(value)
         exec (path_str)
 
     # params have to have the same values as explained in ui_mapping part of msg class mapping
@@ -103,7 +107,6 @@ class MessageManager:
         #parameters = {"value":"True"}
         for k,v in params.items():
             path = msg_class_map["ui_mapping"][k+"_path"]
-            print path
             self.set_value_to_msg(msg_template,path,v)
         return msg_template
 

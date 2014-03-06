@@ -33,6 +33,7 @@ class MqttAdapter:
         self.logger.debug("DR connected to broker .")
 
     def initiate_listeners(self):
+
         self.mqtt.subscribe("#", 1)
 
 
@@ -44,8 +45,11 @@ class MqttAdapter:
         :param obj:
         :param msg:
         """
-        self.logger.debug("New message :" + str(msg))
-        self.msg_pipeline.process_event(msg.topic,json.loads(msg.payload))
+        if "command" in msg.topic:
+            self.logger.debug("Command type of message will be skipped")
+        else :
+            self.logger.debug("New message :" + str(msg))
+            self.msg_pipeline.process_event(msg.topic,json.loads(msg.payload))
 
     def _loop_start(self):
         self._thread_terminate = False
