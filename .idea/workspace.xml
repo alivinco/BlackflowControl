@@ -3,23 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BlackflyTestSuite.py" afterPath="$PROJECT_DIR$/BlackflyTestSuite.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/configs/address_mapping.json" afterPath="$PROJECT_DIR$/configs/address_mapping.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/configs/app.py" afterPath="$PROJECT_DIR$/configs/app.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base_layout.html" afterPath="$PROJECT_DIR$/templates/base_layout.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/configs/global.json" afterPath="$PROJECT_DIR$/configs/global.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/inter_console.js" afterPath="$PROJECT_DIR$/static/js/inter_console.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/mqtt_adapter.py" afterPath="$PROJECT_DIR$/modules/mqtt_adapter.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/msg_manager.py" afterPath="$PROJECT_DIR$/modules/msg_manager.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/msg_pipeline.py" afterPath="$PROJECT_DIR$/modules/msg_pipeline.py" />
     </list>
     <ignored path="BlackflyTestSuite.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="$PROJECT_DIR$/../SGDeviceRegistry/tests/test_zwave_activate_inclusion.py" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393941350963" ignored="false" />
     <file path="/test_zwave_activate_inclusion.py" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393940121780" ignored="false" />
     <file path="/index.html" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393414775934" ignored="false" />
-    <file path="/BlackflyTestSuite.py" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1394124887659" ignored="false" />
+    <file path="/BlackflyTestSuite.py" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1394126178833" ignored="false" />
     <file path="/msg_manager.py" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393930643800" ignored="false" />
-    <file path="/Dummy.txt" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393836582899" ignored="false" />
+    <file path="/Dummy.txt" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1394125619118" ignored="false" />
     <file path="/msg_type_mapping.json" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393413319403" ignored="false" />
     <file path="/address_mapping.json" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393422756483" ignored="false" />
     <file path="/base_layout.html" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1394038112969" ignored="false" />
@@ -56,9 +48,9 @@
       <file leaf-file-name="BlackflyTestSuite.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/BlackflyTestSuite.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="51" selection-start="537" selection-end="537" vertical-scroll-proportion="0.15088758">
+            <state line="7" column="51" selection-start="589" selection-end="589" vertical-scroll-proportion="0.13631158">
               <folding>
-                <element signature="e#539#572#0" expanded="true" />
+                <element signature="e#591#634#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -76,7 +68,7 @@
       <file leaf-file-name="inter_console.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/js/inter_console.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="0" selection-start="765" selection-end="765" vertical-scroll-proportion="-19.04">
+            <state line="39" column="0" selection-start="765" selection-end="765" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -86,9 +78,7 @@
         <entry file="file://$PROJECT_DIR$/modules/msg_cache.py">
           <provider selected="true" editor-type-id="text-editor">
             <state line="16" column="32" selection-start="520" selection-end="520" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#46#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -96,7 +86,7 @@
       <file leaf-file-name="base_layout.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/base_layout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="52" column="40" selection-start="2262" selection-end="2262" vertical-scroll-proportion="-7.1538463">
+            <state line="52" column="40" selection-start="2262" selection-end="2262" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -106,9 +96,7 @@
         <entry file="file://$PROJECT_DIR$/modules/msg_pipeline.py">
           <provider selected="true" editor-type-id="text-editor">
             <state line="104" column="23" selection-start="5023" selection-end="5023" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#38#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -125,7 +113,7 @@
       <file leaf-file-name="global.json" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/configs/global.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="1" selection-start="142" selection-end="142" vertical-scroll-proportion="-1.9615384">
+            <state line="3" column="1" selection-start="142" selection-end="142" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -327,13 +315,13 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="recentsLimit" value="5" />
-    <property name="restartRequiresConfirmation" value="true" />
+    <property name="options.lastSelected" value="com.jetbrains.python.configuration.PythonSdkConfigurable" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="restartRequiresConfirmation" value="true" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -564,11 +552,11 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17922497" sideWeight="0.7826087" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18137783" sideWeight="0.7826087" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2173913" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21691974" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -642,9 +630,7 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/messages/events/inclusion.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="30" selection-start="937" selection-end="937" vertical-scroll-proportion="0.85779816">
-          <folding />
-        </state>
+        <state line="33" column="30" selection-start="937" selection-end="937" vertical-scroll-proportion="0.85779816" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/inter_console.html">
@@ -656,7 +642,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/js/inter_console.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="0" selection-start="765" selection-end="765" vertical-scroll-proportion="-19.04">
+        <state line="39" column="0" selection-start="765" selection-end="765" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -664,9 +650,7 @@
     <entry file="file://$PROJECT_DIR$/modules/msg_pipeline.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="104" column="23" selection-start="5023" selection-end="5023" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#38#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -679,7 +663,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/base_layout.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="40" selection-start="2262" selection-end="2262" vertical-scroll-proportion="-7.1538463">
+        <state line="52" column="40" selection-start="2262" selection-end="2262" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -693,28 +677,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/configs/address_mapping.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="118" column="30" selection-start="2752" selection-end="2752" vertical-scroll-proportion="0.9876923">
-          <folding />
-        </state>
+        <state line="118" column="30" selection-start="2752" selection-end="2752" vertical-scroll-proportion="0.9876923" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/messages/commands/heating_point.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="1" selection-start="326" selection-end="326" vertical-scroll-proportion="0.34">
-          <folding />
-        </state>
+        <state line="13" column="1" selection-start="326" selection-end="326" vertical-scroll-proportion="0.34" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/messages/commands/exclusion_mode.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="6" selection-start="158" selection-end="158" vertical-scroll-proportion="0.20923077">
-          <folding />
-        </state>
+        <state line="8" column="6" selection-start="158" selection-end="158" vertical-scroll-proportion="0.20923077" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/configs/global.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="1" selection-start="142" selection-end="142" vertical-scroll-proportion="-1.9615384">
+        <state line="3" column="1" selection-start="142" selection-end="142" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -729,9 +707,7 @@
     <entry file="file://$PROJECT_DIR$/modules/msg_cache.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="16" column="32" selection-start="520" selection-end="520" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#46#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -744,16 +720,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/libs/mosquitto.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/BlackflyTestSuite.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="51" selection-start="537" selection-end="537" vertical-scroll-proportion="0.15088758">
+        <state line="7" column="51" selection-start="589" selection-end="589" vertical-scroll-proportion="0.13631158">
           <folding>
-            <element signature="e#539#572#0" expanded="true" />
+            <element signature="e#591#634#0" expanded="true" />
           </folding>
         </state>
       </provider>
