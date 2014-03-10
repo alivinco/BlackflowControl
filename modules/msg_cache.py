@@ -57,9 +57,13 @@ class MsgCache():
 
     def put_msg_class_for_approval(self,address,payload,msg_class,text):
         id = self.msg_man.generate_key(msg_class,address)
-        self.approve_cache[id] = {"address":address,"payload":payload,"msg_class":msg_class,"text":text}
+        self.approve_cache[id] = {"address":address,"payload":json.dumps(payload,indent=True),"msg_class":msg_class,"text":text}
+
     def remove_msg_clas_for_approval(self,key):
         del self.approve_cache[key]
+
+    def get_approval_list(self):
+        return self.approve_cache
 
 
 

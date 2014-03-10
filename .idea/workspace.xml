@@ -1,29 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" name="Default" comment="" />
+    <list default="true" id="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/address_mapping.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/static/js/address_mapping.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/msg_types_for_approval.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BlackflyTestSuite.py" afterPath="$PROJECT_DIR$/BlackflyTestSuite.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base_layout.html" afterPath="$PROJECT_DIR$/templates/base_layout.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/inter_console.html" afterPath="$PROJECT_DIR$/templates/inter_console.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/js/inter_console.js" afterPath="$PROJECT_DIR$/static/js/inter_console.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/modules/msg_cache.py" afterPath="$PROJECT_DIR$/modules/msg_cache.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="BlackflyTestSuite.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="$PROJECT_DIR$/../SGDeviceRegistry/tests/test_zwave_activate_inclusion.py" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393941350963" ignored="false" />
+    <file path="$PROJECT_DIR$/../SGDeviceRegistry/tests/test_zwave_activate_inclusion.py" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1394205740761" ignored="false" />
     <file path="/test_zwave_activate_inclusion.py" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393940121780" ignored="false" />
     <file path="/index.html" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393414775934" ignored="false" />
-    <file path="/BlackflyTestSuite.py" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1394126178833" ignored="false" />
+    <file path="/BlackflyTestSuite.py" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1394473096278" ignored="false" />
     <file path="/msg_manager.py" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393930643800" ignored="false" />
     <file path="/Dummy.txt" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1394125619118" ignored="false" />
     <file path="/msg_type_mapping.json" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393413319403" ignored="false" />
     <file path="/address_mapping.json" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393422756483" ignored="false" />
-    <file path="/base_layout.html" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1394038112969" ignored="false" />
+    <file path="/base_layout.html" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1394461759173" ignored="false" />
     <file path="/devices.html" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393585517672" ignored="false" />
     <file path="/msg_class_mapping.json" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393864547039" ignored="false" />
-    <file path="/msg_cache.py" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393840454755" ignored="false" />
+    <file path="/msg_cache.py" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1394461200024" ignored="false" />
     <file path="/devices.js" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393519587348" ignored="false" />
     <file path="/mqtt_adapter.py" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393928399743" ignored="false" />
     <file path="/__init__.py" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393586474275" ignored="false" />
     <file path="/cache.html" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393591228334" ignored="false" />
-    <file path="/inter_console.html" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393866344037" ignored="false" />
+    <file path="/inter_console.html" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1394448837871" ignored="false" />
     <file path="/inter_console.js" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393930480918" ignored="false" />
     <file path="/msg_pipeline.py" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1393929435743" ignored="false" />
     <file path="/app.py" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1394123857141" ignored="false" />
+    <file path="/address_mapping.html" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1394458642267" ignored="false" />
+    <file path="/msg_types_for_approval.html" changelist="21248e1a-c7e0-40cd-81a2-b1c0f1e2a273" time="1394461536534" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,54 +49,44 @@
   <component name="DaemonCodeAnalyzer">
     <disable_hints />
   </component>
+  <component name="DockManager">
+    <window id="1">
+      <content type="file-editors">
+        <state>
+          <leaf>
+            <file leaf-file-name="address_mapping.json" pinned="false" current="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/configs/address_mapping.json">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state line="59" column="21" selection-start="1358" selection-end="1361" vertical-scroll-proportion="0.020070838">
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
+        </state>
+      </content>
+    </window>
+  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="BlackflyTestSuite" />
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="BlackflyTestSuite.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/BlackflyTestSuite.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="16" selection-start="502" selection-end="502" vertical-scroll-proportion="0.116838485">
-              <folding>
-                <element signature="e#591#634#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mqtt_adapter.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/mqtt_adapter.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="22" selection-start="67" selection-end="67" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="inter_console.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/js/inter_console.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="0" selection-start="765" selection-end="765" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="msg_cache.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="msg_cache.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/modules/msg_cache.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="32" selection-start="520" selection-end="520" vertical-scroll-proportion="0.0">
+            <state line="60" column="0" selection-start="2244" selection-end="2244" vertical-scroll-proportion="0.43085882">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="base_layout.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/base_layout.html">
+      <file leaf-file-name="inter_console.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/inter_console.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="52" column="40" selection-start="2262" selection-end="2262" vertical-scroll-proportion="0.0">
+            <state line="74" column="59" selection-start="3110" selection-end="3110" vertical-scroll-proportion="-27.5">
               <folding />
             </state>
           </provider>
@@ -93,34 +95,47 @@
       <file leaf-file-name="msg_pipeline.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/modules/msg_pipeline.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="104" column="23" selection-start="5023" selection-end="5023" vertical-scroll-proportion="0.0">
+            <state line="58" column="126" selection-start="2873" selection-end="2987" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#0#38#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BlackflyTestSuite.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BlackflyTestSuite.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="69" column="20" selection-start="2330" selection-end="2330" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#591#634#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="msg_types_for_approval.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/msg_types_for_approval.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="13" selection-start="506" selection-end="506" vertical-scroll-proportion="-11.115385">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="msg_manager.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modules/msg_manager.py">
+      <file leaf-file-name="base_layout.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/base_layout.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="71" column="72" selection-start="2916" selection-end="2916" vertical-scroll-proportion="0.0">
+            <state line="54" column="62" selection-start="2400" selection-end="2400" vertical-scroll-proportion="-17.653847">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="global.json" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/configs/global.json">
+      <file leaf-file-name="mqtt_adapter.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/mqtt_adapter.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="1" selection-start="142" selection-end="142" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="app.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/configs/app.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="16" selection-start="73" selection-end="73" vertical-scroll-proportion="0.0">
+            <state line="89" column="33" selection-start="2888" selection-end="2888" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -144,28 +159,28 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/messages/events/exclusion.json" />
-        <option value="$PROJECT_DIR$/modules/msg_cache.py" />
-        <option value="$PROJECT_DIR$/messages/events/inclusion.json" />
-        <option value="$PROJECT_DIR$/messages/commands/exclusion_mode.json" />
         <option value="$PROJECT_DIR$/configs/msg_class_mapping.json" />
-        <option value="$PROJECT_DIR$/templates/inter_console.html" />
         <option value="$PROJECT_DIR$/messages/commands/heating_point.json" />
         <option value="$PROJECT_DIR$/modules/mqtt_adapter.py" />
         <option value="$PROJECT_DIR$/modules/msg_pipeline.py" />
-        <option value="$PROJECT_DIR$/static/js/inter_console.js" />
         <option value="$PROJECT_DIR$/modules/msg_manager.py" />
         <option value="$PROJECT_DIR$/configs/address_mapping.json" />
-        <option value="$PROJECT_DIR$/templates/base_layout.html" />
         <option value="$PROJECT_DIR$/configs/global.json" />
         <option value="$PROJECT_DIR$/configs/app.py" />
+        <option value="$PROJECT_DIR$/static/js/address_mapping.js" />
+        <option value="$PROJECT_DIR$/static/js/inter_console.js" />
+        <option value="$PROJECT_DIR$/templates/inter_console.html" />
+        <option value="$PROJECT_DIR$/templates/address_mapping.html" />
+        <option value="$PROJECT_DIR$/modules/msg_cache.py" />
+        <option value="$PROJECT_DIR$/templates/msg_types_for_approval.html" />
+        <option value="$PROJECT_DIR$/templates/base_layout.html" />
         <option value="$PROJECT_DIR$/BlackflyTestSuite.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="3" />
-    <option name="y" value="2" />
+    <option name="x" value="23" />
+    <option name="y" value="1" />
     <option name="width" value="1920" />
     <option name="height" value="1054" />
   </component>
@@ -252,42 +267,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="messages" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="events" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BlackflyTestSuite" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BlackflyTestSuite" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="messages" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="commands" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BlackflyTestSuite" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BlackflyTestSuite" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="libs" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -331,13 +310,13 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\ALWorks\SG\BlackflyTestSuite\templates" />
       <recent name="C:\ALWorks\SG\BlackflyTestSuite\messages\commands" />
       <recent name="C:\ALWorks\SG\BlackflyTestSuite\configs" />
       <recent name="C:\ALWorks\SG\BlackflyTestSuite\libs" />
-      <recent name="C:\ALWorks\SG\BlackflyTestSuite\templates" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.msg_pipeline">
+  <component name="RunManager" selected="Python.BlackflyTestSuite">
     <configuration default="false" name="msg_manager" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -543,18 +522,18 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="3" y="2" width="1920" height="1054" extended-state="0" />
+    <frame x="23" y="1" width="1920" height="1054" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18137783" sideWeight="0.7826087" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18137783" sideWeight="0.79310346" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21691974" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20689656" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -626,107 +605,121 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/messages/events/inclusion.json">
+    <entry file="file://$PROJECT_DIR$/messages/events/exclusion.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="30" selection-start="937" selection-end="937" vertical-scroll-proportion="0.85779816" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inter_console.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="112" selection-start="2284" selection-end="2284" vertical-scroll-proportion="-17.0">
+        <state line="18" column="10" selection-start="0" selection-end="625" vertical-scroll-proportion="-11.769231">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/inter_console.js">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="0" selection-start="765" selection-end="765" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/msg_pipeline.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="104" column="23" selection-start="5023" selection-end="5023" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/msg_manager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="72" selection-start="2916" selection-end="2916" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/base_layout.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="40" selection-start="2262" selection-end="2262" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/msg_class_mapping.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="123" selection-start="884" selection-end="884" vertical-scroll-proportion="0.15692307">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/address_mapping.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="118" column="30" selection-start="2752" selection-end="2752" vertical-scroll-proportion="0.9876923" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/messages/commands/heating_point.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="1" selection-start="326" selection-end="326" vertical-scroll-proportion="0.34" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/messages/commands/exclusion_mode.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="6" selection-start="158" selection-end="158" vertical-scroll-proportion="0.20923077" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/global.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="1" selection-start="142" selection-end="142" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configs/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="16" selection-start="73" selection-end="73" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modules/msg_cache.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="32" selection-start="520" selection-end="520" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/modules/mqtt_adapter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="22" selection-start="67" selection-end="67" vertical-scroll-proportion="0.0">
+        <state line="89" column="33" selection-start="2888" selection-end="2888" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/mosquitto.py">
+    <entry file="file://$PROJECT_DIR$/configs/address_mapping.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="59" column="21" selection-start="1358" selection-end="1361" vertical-scroll-proportion="0.020070838">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/inter_console.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="127" column="3" selection-start="3403" selection-end="3403" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/inter_console.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="74" column="59" selection-start="3110" selection-end="3110" vertical-scroll-proportion="-27.5">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/address_mapping.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="0" selection-start="885" selection-end="885" vertical-scroll-proportion="2.3846154">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/msg_manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="28" selection-start="640" selection-end="660" vertical-scroll-proportion="-0.1539855">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/cache.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configs/msg_class_mapping.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="1" selection-start="1339" selection-end="1339" vertical-scroll-proportion="-7.1923075">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/address_mapping.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="38" selection-start="201" selection-end="237" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#151#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/base_layout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="54" column="62" selection-start="2400" selection-end="2400" vertical-scroll-proportion="-17.653847">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/msg_types_for_approval.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="13" selection-start="506" selection-end="506" vertical-scroll-proportion="-11.115385">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/msg_pipeline.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="58" column="126" selection-start="2873" selection-end="2987" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/BlackflyTestSuite.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="16" selection-start="502" selection-end="502" vertical-scroll-proportion="0.116838485">
+        <state line="69" column="20" selection-start="2330" selection-end="2330" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#591#634#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/msg_cache.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="60" column="0" selection-start="2244" selection-end="2244" vertical-scroll-proportion="0.43085882">
+          <folding />
         </state>
       </provider>
     </entry>

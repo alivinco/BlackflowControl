@@ -124,4 +124,5 @@ $(function() {
 //    console.log( "ready!" );
     load_data()
     start_pooling_cache()
+    $("#inter_console_table").stupidtable();
 });
