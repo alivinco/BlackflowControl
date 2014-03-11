@@ -10,6 +10,8 @@
          <p>Comments:{{ v.text }}</p>
          <p>Message payload:{{ v.text }}</p>
          <pre>{{v.payload}}</pre>
+         <a href="#" onclick="approve_msg_class(v.address,v.msg_class,true)" class="btn btn-default btn" >Add to class definition</a>
+         <a href="#" onclick="approve_msg_class(v.address,v.msg_class,false)" class="btn btn-default btn" >Decline</a>
 
     </div>
     {% endfor %}
