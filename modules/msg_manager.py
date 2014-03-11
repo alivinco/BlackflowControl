@@ -12,10 +12,10 @@ class MessageManager:
         self.app_root_path = os.getcwd()
         self.events_dir = os.path.join(self.app_root_path, "messages", "events")
         self.commands_dir = os.path.join(self.app_root_path, "messages", "commands")
-        self.msg_class_path_event = "$.event.type"
-        self.msg_class_path_command = "$.command.name"
         self.msg_class_mapping = self.load_msg_class_mapping()
+        self.address_mapping_file_path = os.path.join(self.app_root_path, "configs", "address_mapping.json")
         self.address_mapping = self.load_address_mapping()
+        self.global_configs = json.load(file(os.path.join(self.app_root_path, "configs", "global.json")))
 
     def load_templates(self):
 
@@ -34,7 +34,9 @@ class MessageManager:
 
         if "event" in address: msg_type = "event"
         elif "commands" in address: msg_type = "command"
-        else: msg_type = "unknown"
+        else:
+            print "the system can't identify message type , default value 'event' will be set"
+            msg_type = "event"
 
         return filter(lambda map_item: (map_item["msg_class"] == msg_class and map_item["msg_type"]==msg_type) ,self.msg_class_mapping)[0]
 
@@ -54,8 +56,12 @@ class MessageManager:
         return jobj
 
     def load_address_mapping(self):
-        jobj = json.load(file(os.path.join(self.app_root_path, "configs", "address_mapping.json")))
+        jobj = json.load(file(self.address_mapping_file_path))
         return jobj
+
+    def reload_all_mappings(self):
+        self.msg_class_mapping = self.load_msg_class_mapping()
+        self.address_mapping = self.load_address_mapping()
 
     def generate_key(self,msg_class,address):
         return msg_class+"@"+address.replace("/",".")
@@ -84,10 +90,14 @@ class MessageManager:
         var_type = type(value)
         if var_type is bool:
             path_str = path_str + " = " + str(value)
+        elif var_type is int:
+            path_str = path_str + " = " + str(value)
         elif var_type is str:
             path_str = path_str + " = '" + str(value) + "'"
         elif var_type is dict:
             path_str = path_str + " = " + json.dumps(value)
+        else :
+            print "!!!!UNKNOWN OBJECT TYPE , set operation will be skipped. Type is"+str(var_type)+" value "+str(value)
         exec (path_str)
 
     # params have to have the same values as explained in ui_mapping part of msg class mapping
@@ -97,13 +107,17 @@ class MessageManager:
         #parameters = {"value":"True"}
         for k,v in params.items():
             path = msg_class_map["ui_mapping"][k+"_path"]
-            print path
             self.set_value_to_msg(msg_template,path,v)
         return msg_template
 
     def add_address_to_mapping(self,address,msg_class):
-        pass
-
+        # register new address
+        addr_map = self.load_address_mapping()
+        addr_map.append({"msg_class":msg_class,"address":address,"name":msg_class,"msg_type":"event","group_name":"table1"})
+        f = open(self.address_mapping_file_path,"w")
+        f.write(json.dumps(addr_map,indent=True))
+        f.close()
+        self.address_mapping = addr_map
 
 if __name__ == "__main__":
 

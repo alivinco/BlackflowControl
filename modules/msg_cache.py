@@ -13,33 +13,33 @@ class MsgCache():
 
 
     # address - topic address , payload - msg payload object
-    def put(self,address,payload):
-        if "event" in payload:
-          path = self.msg_man.msg_class_path_event
-          msg_type = "event"
-        else :
-          path = self.msg_man.msg_class_path_command
-          msg_type = "command"
+    def put(self,key,payload,ui_mapping,extracted_data):
+        # if "event" in payload:
+        #   path = self.msg_man.msg_class_path_event
+        #   msg_type = "event"
+        # else :
+        #   path = self.msg_man.msg_class_path_command
+        #   msg_type = "command"
+        #
+        # msg_class = self.msg_man.get_value_from_msg(payload,path)[0]
+        # id = self.msg_man.generate_key(msg_class,address)
+        #
+        # # extract values
+        # extracted_values = {}
+        # ui_mapping = {}
+        # try:
+        #     ui_mapping = self.msg_man.get_msg_class_by_key(id)["ui_mapping"]
+        #     for key,value in ui_mapping.items():
+        #         if "path" in key:
+        #             print "trying to extract value from "+value
+        #             ex_value = self.msg_man.get_value_from_msg(payload,value)[0]
+        #             extracted_values[key.replace("_path","")]=ex_value
+        # except Exception as ex :
+        #     #default value
+        #     ui_mapping["ui_element"] = {"ui_element":"free_text","value_path":"$.event.value"}
+        #     print "Can't extract value"
 
-        msg_class = self.msg_man.get_value_from_msg(payload,path)[0]
-        id = self.msg_man.generate_key(msg_class,address)
-
-        # extract values
-        extracted_values = {}
-        ui_mapping = {}
-        try:
-            ui_mapping = self.msg_man.get_msg_class_by_key(id)["ui_mapping"]
-            for key,value in ui_mapping.items():
-                if "path" in key:
-                    print "trying to extract value from "+value
-                    ex_value = self.msg_man.get_value_from_msg(payload,value)[0]
-                    extracted_values[key.replace("_path","")]=ex_value
-        except Exception as ex :
-            #default value
-            ui_mapping["ui_element"] = {"ui_element":"free_text","value_path":"$.event.value"}
-            print "Can't extract value"
-
-        self.cache[id]={"raw_msg":payload,"ui_element":ui_mapping["ui_element"],"extracted_values":extracted_values}
+        self.cache[key]={"raw_msg":payload,"ui_element":ui_mapping["ui_element"],"extracted_values":extracted_data}
 
 
     def get_all(self):
@@ -55,8 +55,15 @@ class MsgCache():
         else :
           return None
 
-    def put_for_approve(self,address,payload,text):
-        self.approve_cache[self.approve_seq] = {"address":address,"payload":payload,"text":text}
+    def put_msg_class_for_approval(self,address,payload,msg_class,text):
+        id = self.msg_man.generate_key(msg_class,address)
+        self.approve_cache[id] = {"address":address,"payload":json.dumps(payload,indent=True),"msg_class":msg_class,"text":text}
+
+    def remove_msg_clas_for_approval(self,key):
+        del self.approve_cache[key]
+
+    def get_approval_list(self):
+        return self.approve_cache
 
 
 
