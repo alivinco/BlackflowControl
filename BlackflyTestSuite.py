@@ -24,8 +24,8 @@ cache = MsgCache(msg_man)
 # Mqtt initialization
 msg_pipeline = MsgPipeline(msg_man,cache)
 mqtt = MqttAdapter(msg_pipeline)
-mqtt.connect(configs.app.MQTT_HOST, configs.app.MQTT_PORT)
-mqtt.start()
+#mqtt.connect(configs.app.MQTT_HOST, configs.app.MQTT_PORT)
+#mqtt.start()
 
 
 @app.route('/')
@@ -108,6 +108,27 @@ def get_msg_from_cache(key="all"):
     dev = json.dumps({"result":result,"success":True})
 
     return Response(response=dev, mimetype='application/json' )
+
+
+@app.route('/api/approve_msg_class')
+def approve_msg_class(key):
+    # {"address":address,"msg_class":msg_class,"is_approved":is_approved}
+
+    req = request.get_json()
+    if req["is_approved"]:
+       #adding class
+       msg_man.add_msg_class(req["msg_class"],req["msg_type"])
+       #adding address
+       msg_man.add_address_to_mapping(req["address","msg_class"])
+       # removing the item from approval cache
+       cache.remove_msg_clas_for_approval(msg_man.generate_key(req["msg_class"],req["msg_address"]))
+    else :
+       #TODO:remove the class from approval cache
+        pass
+
+    dev = json.dumps({"success":True})
+    return Response(response=dev, mimetype='application/json' )
+
 
 @app.route('/api/get_last_raw_msg/<key>')
 def get_last_raw_msg(key):

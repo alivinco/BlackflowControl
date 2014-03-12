@@ -12,8 +12,9 @@ class MessageManager:
         self.app_root_path = os.getcwd()
         self.events_dir = os.path.join(self.app_root_path, "messages", "events")
         self.commands_dir = os.path.join(self.app_root_path, "messages", "commands")
-        self.msg_class_mapping = self.load_msg_class_mapping()
+        self.msg_class_mapping_file_path = os.path.join(self.app_root_path, "configs", "msg_class_mapping.json")
         self.address_mapping_file_path = os.path.join(self.app_root_path, "configs", "address_mapping.json")
+        self.msg_class_mapping = self.load_msg_class_mapping()
         self.address_mapping = self.load_address_mapping()
         self.global_configs = json.load(file(os.path.join(self.app_root_path, "configs", "global.json")))
 
@@ -40,6 +41,22 @@ class MessageManager:
 
         return filter(lambda map_item: (map_item["msg_class"] == msg_class and map_item["msg_type"]==msg_type) ,self.msg_class_mapping)[0]
 
+    def add_msg_class(self,msg_class,msg_type,ui_element=None,value_path=None):
+
+        #define default values
+        default_path = ""
+        if msg_type == "command":
+            default_path = self.global_configs["defaults"]["cmd_value_path_for_new_class"]
+        elif msg_type == "event":
+            default_path = self.global_configs["defaults"]["event_value_path_for_new_class"]
+
+        new_class = {"msg_class":msg_class,"msg_type":msg_type,"ui_mapping":{"ui_element":"free_text","value_path":default_path}}
+
+        self.msg_class_mapping.append(new_class)
+        # let's serialize the updated structure
+        # f = open(self.msg_class_mapping_file_path,"w")
+        json.dumps(file(self.msg_class_mapping_file_path))
+
     def load_template_by_key(self,msg_key):
         msg_class = msg_key.split("@")[0]
         address = msg_key.split("@")[1]
@@ -52,7 +69,7 @@ class MessageManager:
         return result
 
     def load_msg_class_mapping(self):
-        jobj = json.load(file(os.path.join(self.app_root_path, "configs", "msg_class_mapping.json")))
+        jobj = json.load(file(self.msg_class_mapping_file_path))
         return jobj
 
     def load_address_mapping(self):

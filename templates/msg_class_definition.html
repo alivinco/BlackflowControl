@@ -1,0 +1,58 @@
+{% extends "base_layout.html" %}
+{% block li_inter_console %}class="active"{% endblock %}
+{% block body %}
+</h1>
+<h3>Message classes and subclases</h3>
+<div class="container-fluid">
+
+<div class="table-responsive">
+ <table id="addr_map_table" class="table table-striped">
+     <thead>
+                    <tr>
+                      <th data-sort="string" >Message class</th>
+                      <th>message sub class (↑↓)</th>
+                      <th data-sort="string">type (↑↓)</th>
+                      <th  data-sort="string">address (↑↓)</th>
+                      <th>action</th>
+                    </tr>
+     </thead>
+     <tbody>
+     {% for item in mapping %}
+      <tr>
+       <td> {{ item.name }}  </td>
+       <td> {{ item.msg_class }} </td>
+       <td> {{ item.msg_type }} </td>
+       <td > {{ item.address }} </td>
+       <td> <a href="#">edit</a>|<a href="#">delete</a>   </td>
+
+      </tr>
+      {% endfor %}
+     </tbody>
+
+ </table>
+</div>
+</div>
+{#Modal dialog #}
+<div class="modal fade" id="free_text_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Extracted data</h4>
+      </div>
+      <div id = "free_text_placeholder" class="modal-body">
+        <pre>...</pre>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block js_scripts %}
+    <script src="/static/js/stupidtable.min.js"></script>
+    <script src="/static/js/address_mapping.js"></script>
+
+{% endblock %}
