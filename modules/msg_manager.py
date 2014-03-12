@@ -1,7 +1,7 @@
 __author__ = 'aleksandrsl'
 import os
 import json
-import jsonpath
+from libs import jsonpath
 import copy
 # msg_list = {"events": ["file_name"], "commands": ["file_name"]}
 msg_list = [{"file_name": "inclusion.json", "type": "event"}]

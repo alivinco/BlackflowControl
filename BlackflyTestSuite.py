@@ -116,4 +116,4 @@ def get_last_raw_msg(key):
     return Response(response=dev, mimetype='application/json' )
 
 if __name__ == '__main__':
-    app.run(use_debugger=True,use_reloader=False)
+    app.run(host="0.0.0.0",use_debugger=True,use_reloader=False)
