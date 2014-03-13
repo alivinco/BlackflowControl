@@ -24,8 +24,8 @@ cache = MsgCache(msg_man)
 # Mqtt initialization
 msg_pipeline = MsgPipeline(msg_man,cache)
 mqtt = MqttAdapter(msg_pipeline)
-#mqtt.connect(configs.app.MQTT_HOST, configs.app.MQTT_PORT)
-#mqtt.start()
+mqtt.connect(configs.app.MQTT_HOST, configs.app.MQTT_PORT)
+mqtt.start()
 
 
 @app.route('/')

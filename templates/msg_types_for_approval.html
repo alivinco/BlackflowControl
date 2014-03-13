@@ -3,17 +3,18 @@
 {% block body %}
 {# {"address":address,"payload":json.dumps(payload,indent=True),"msg_class":msg_class,"text":text}#}
     <div>
-    {% for v in cache %}
+    {% for k,v in cache.iteritems() %}
     <div>
-         <p>Address:{{ v.address }}</p>
-         <p>Msg class(type):{{ v.msg_class }}</p>
-         <p>Comments:{{ v.text }}</p>
-         <p>Message payload:{{ v.text }}</p>
+         <p><b>Address:</b>{{ v.address }}</p>
+         <p><b>Msg class(type):</b>{{ v.msg_class }}</p>
+         <p><b>Comments:</b>{{ v.text }}</p>
+         <p><b>Message payload:</b></p>
          <pre>{{v.payload}}</pre>
-         <a href="#" onclick="approve_msg_class(v.address,v.msg_class,true)" class="btn btn-default btn" >Add to class definition</a>
-         <a href="#" onclick="approve_msg_class(v.address,v.msg_class,false)" class="btn btn-default btn" >Decline</a>
+         <a href="#" onclick="approve_msg_class('{{ v.address }}','{{ v.msg_class }}',true)" class="btn btn-default btn" >Add to class definition</a>
+         <a href="#" onclick="approve_msg_class('{{ v.address }}','{{ v.msg_class }}',false)" class="btn btn-default btn" >Decline</a>
 
     </div>
+    <br/>
     {% endfor %}
     </div>
 

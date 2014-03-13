@@ -131,5 +131,19 @@
   "name": "battery_level", 
   "msg_type": "event", 
   "msg_class": "battery_level"
+ }, 
+ {
+  "msg_class": "temperature", 
+  "address": "/zw/22/multilevel_sensor/1/events", 
+  "name": "temperature", 
+  "msg_type": "event", 
+  "group_name": "table1"
+ }, 
+ {
+  "group_name": "table1", 
+  "address": "/zw/23/multilevel_sensor/1/events", 
+  "name": "temperature", 
+  "msg_type": "event", 
+  "msg_class": "temperature"
  }
 ]
