@@ -55,7 +55,7 @@ class MessageManager:
         self.msg_class_mapping.append(new_class)
         # let's serialize the updated structure
         # f = open(self.msg_class_mapping_file_path,"w")
-        json.dumps(file(self.msg_class_mapping_file_path))
+        json.dump(self.msg_class_mapping,open(self.msg_class_mapping_file_path,"w"))
 
     def load_template_by_key(self,msg_key):
         msg_class = msg_key.split("@")[0]

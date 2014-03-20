@@ -2,7 +2,7 @@ __author__ = 'alivinco'
 
 config = {
     'version': 1,
-    'disable_existing_loggers': False,  # this fixes the problem
+    'disable_existing_loggers': True,  # this fixes the problem
     'formatters': {
         'standard': {
             'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
@@ -10,12 +10,13 @@ config = {
     },
     'handlers': {
         'default': {
-            'level':'INFO',
+            'level':'DEBUG',
             'class':'logging.StreamHandler',
+            'formatter': "standard"
         },
         'info_file_handler': {
             "class": "logging.handlers.RotatingFileHandler",
-            "level": "INFO",
+            "level": "DEBUG",
             "formatter": "standard",
             "filename": "info.log",
             "maxBytes": "10485760",
@@ -34,9 +35,24 @@ config = {
         }
     },
     'loggers': {
-        '': {
-            'handlers': ['info_file_handler'],
-            'level': 'INFO',
+        'werkzeug': {
+            'handlers': ['default'],
+            'level': 'ERROR',
+            'propagate': False
+        },
+        'bf_web':{
+            "handlers": ["default", "info_file_handler", "error_file_handler"],
+            'level':'INFO',
+            'propagate': True
+        },
+        'bf_msg_pipeline':{
+            "handlers": ["default", "info_file_handler", "error_file_handler"],
+            'level':'DEBUG',
+            'propagate': True
+        },
+        'bf_mqtt':{
+            "handlers": ["default", "info_file_handler", "error_file_handler"],
+            'level':'INFO',
             'propagate': True
         }
     }

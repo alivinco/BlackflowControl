@@ -4,6 +4,10 @@ from modules.msg_manager import MessageManager
 
 __author__ = 'alivinco'
 import json, os
+import configs.log
+import logging,logging.config
+logging.config.dictConfig(configs.log.config)
+log = logging.getLogger("bf_msg_pipeline")
 
 
 class MsgPipeline():
@@ -27,6 +31,7 @@ class MsgPipeline():
         # add class and address into mapping
         # user can enter path manually and retry validation
         # if everything fails then add message to error_cache
+        log.info("New event entered message pipeline")
         msg_class_is_registered = False
         cache_key = ""
         addr_is_registered = self.__check_address(address)
@@ -40,7 +45,7 @@ class MsgPipeline():
             # message is known and registered in system
             exdt = self.__extract_data(address,msg_class,payload)
             self.cache.put(cache_key,payload,exdt["ui_mapping"],exdt["extracted_values"])
-            print "success"
+            log.info("Message class = "+msg_class+" and address = "+address+" are known to the system")
             return {"success":True,"code":0}
 
         elif not addr_is_registered and msg_class and msg_class_is_registered :
@@ -49,21 +54,21 @@ class MsgPipeline():
             self.msg_man.add_address_to_mapping(address,msg_class)
             exdt = self.__extract_data(address,msg_class,payload)
             self.cache.put(cache_key,payload,exdt["ui_mapping"],exdt["extracted_values"])
-            print "Address "+address+" doesn't exist in mapping file .It will be added automatically "
+            log.info("Address "+address+" doesn't exist in mapping file .It will be added automatically ")
             return {"success":True,"code":1,"text":"New address has been registered :"+address}
 
         elif not addr_is_registered and msg_class and not msg_class_is_registered:
             # the address is not known to the system , msg class is not known to system but msg_class is not empy .
             # Means new unregistered command class
             # let's add into approve cache for user approval
-            print "Unknown message class:"+msg_class+". It will be added for user approval"
+            log.info("Unknown message class:"+msg_class+". It will be added for user approval")
             self.cache.put_msg_class_for_approval(address,payload,msg_class,"Message class is unknown and has to be approved")
             return {"success":True,"code":1,"text":"Unknown message class:"+msg_class+". It will be added for user approval"}
 
         elif not addr_is_registered and not msg_class :
             # the address is unknown and default message class path doesn't exists
             # check ignore list and then either make log entry or ignore
-            print "Address :"+address+" is unknown and command class can't be extracted from the message.The message will be skipped"
+            log.info("Address :"+address+" is unknown and command class can't be extracted from the message.The message will be skipped")
             return {"success":False,"code":1,"text": "Address :"+address+" is unknown and command class can't be extracted from the message.The message will be skipped"}
 
         return {"success":False}
@@ -71,8 +76,9 @@ class MsgPipeline():
     def process_command(self,mqtt, address, payload ):
         # push message to cache
         # publish to mqtt
+        log.info("New command entered message pipeline")
         msg_class = self.__get_msg_class_from_msg(payload)
-        print "msg_class-"+str(msg_class)
+        log.info("Msg class = "+str(msg_class))
 
         mqtt.mqtt.publish(address,json.dumps(payload),1)
 
@@ -119,14 +125,15 @@ class MsgPipeline():
             ui_mapping = self.msg_man.get_msg_class_by_key(id)["ui_mapping"]
             for key,value in ui_mapping.items():
                 if "path" in key:
-                    print "trying to extract data from "+value
+                    log.debug("Extracting data from = "+str(value))
                     ex_value = self.msg_man.get_value_from_msg(payload,value)[0]
+                    log.debug("Extracted data is = "+str(ex_value))
                     extracted_values[key.replace("_path","")]=ex_value
         except Exception as ex :
             #default value
-
             ui_mapping["ui_element"] = {"ui_element":"free_text","value_path":"$.event.value"}
-            print "Can't extract ui mapping data"
+            log.error("Can't extract ui mapping data")
+            log.exception(ex)
 
         return {"ui_mapping":ui_mapping,"extracted_values":extracted_values}
 

@@ -7,12 +7,13 @@ import logging
 import time,socket
 from configs import app
 
-logger = logging.getLogger(__name__)
-logger.addHandler(logging.StreamHandler())
-
+import configs.log
+import logging,logging.config
+logging.config.dictConfig(configs.log.config)
+log = logging.getLogger("bf_mqtt")
 
 class MqttAdapter:
-    logger = logging.getLogger(__name__)
+
 
     def __init__(self, msg_pipeline):
         """
@@ -20,7 +21,7 @@ class MqttAdapter:
         :param device_registry:
         """
         self.retry_delay = 5
-        self.logger.setLevel(logging.DEBUG)
+        self.sub_topic = "/#"
         self.mqtt = mosquitto.Mosquitto("blackfly_test_suite", clean_session=False)
         self.msg_pipeline = msg_pipeline
 
@@ -30,12 +31,12 @@ class MqttAdapter:
         self._keepalive = keepalive
         self.mqtt.on_message = self._on_message
         self.mqtt.connect(host, port, keepalive)
-        self.logger.debug("DR connected to broker .")
+        log.info("BlackflyTestSuite connected to broker .")
 
     def initiate_listeners(self):
 
-        self.mqtt.subscribe("/#", 1)
-
+        self.mqtt.subscribe(self.sub_topic, 1)
+        log.info("mqtt adapter subscribed to topic "+self.sub_topic)
 
     def _on_message(self, mosq, obj, msg):
 
@@ -46,9 +47,9 @@ class MqttAdapter:
         :param msg:
         """
         if "command" in msg.topic:
-            self.logger.debug("Command type of message will be skipped")
+            log.debug("Command type of message is skipped")
         else :
-            self.logger.debug("New message :" + str(msg))
+            log.info("New message :")
             self.msg_pipeline.process_event(msg.topic,json.loads(msg.payload))
 
     def _loop_start(self):
@@ -56,45 +57,54 @@ class MqttAdapter:
         self._thread = threading.Thread(target=self._thread_main)
         self._thread.daemon = True
         self._thread.start()
+        log.info("Loop started")
 
     def _loop_stop(self):
         self._thread_terminate = True
         self._thread.join()
         self._thread = None
+        log.info("Loop stopped")
 
     def _thread_main(self):
         rc = 0
         while not self._thread_terminate:
             while rc == 0:
-                rc = self.mqtt.loop()
-                if self._thread_terminate:
-                    rc=1
+                try:
+                    rc = self.mqtt.loop()
+                    if self._thread_terminate:
+                        rc=1
+                except Exception as ex:
+                    log.error("Mqtt loop error")
+                    log.exception(ex)
+
             if not self._thread_terminate :
-                self.logger.error("Loop interrupted because of error" + str(rc))
+                log.error("Loop interrupted because of error" + str(rc))
                 time.sleep(self.retry_delay)
                 try:
-                    self.logger.info("Reconnecting to broker.....")
+                    log.info("Reconnecting to broker.....")
                     self.connect(self._host, self._port, self._keepalive)
                     self.initiate_listeners()
-                    self.logger.info("Reconnection succeeded.")
+                    log.info("Reconnection succeeded.")
                     rc = 0
                 except socket.error as err:
-                    self.logger.error("Reconnection attempt failed because of error : %s"%str(err))
+                    log.error("Reconnection attempt failed because of error : %s"%str(err))
                 except Exception as err:
-                    self.logger.error(err)
-                    self.logger.error("Non recoverable error. Shutting down the adapter")
+                    log.exception(err)
+                    log.error("Non recoverable error. Shutting down the adapter")
                     run = False
 
 
     def start(self):
         self.initiate_listeners()
+        log.info("Starting mqtt listener loop")
         self._loop_start()
-        self.logger.info("Mqtt loop started")
+
 
     def stop(self):
+        log.info("Stopping mqtt listener loop")
         self.mqtt.disconnect()
         self._loop_stop()
-        self.logger.info("DR disconnected from mqtt broker")
+
 
 
 if __name__ == "__main__":

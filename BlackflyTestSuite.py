@@ -16,12 +16,12 @@ from modules.msg_manager import MessageManager
 import json
 # Flask initialization
 from modules.msg_pipeline import MsgPipeline
-import configs
-import logging,logging.config
-from configs import log
 
-logger = logging.getLogger(__name__)
-logging.config.dictConfig(log.config)
+import configs.log
+import logging,logging.config
+logging.config.dictConfig(configs.log.config)
+log = logging.getLogger("bf_web")
+
 
 app = Flask(__name__)
 msg_man = MessageManager()
@@ -50,7 +50,7 @@ def mqtt_control(command):
 
 @app.route('/ui/inter_console')
 def inter_console_ui():
-    logging.info("Inter console works")
+    log.info("Inter console works")
     msg_man.reload_all_mappings()
     mapping = msg_man.generate_linked_mapping(msg_man.load_msg_class_mapping(), msg_man.load_address_mapping())
     return render_template('inter_console.html', mapping=mapping,cache=cache)
@@ -76,10 +76,7 @@ def msg_types_for_approval_ui():
     cache.put_msg_class_for_approval("test","test","switch_binary_new","Message class is unknown and has to be approved")
     # ch = json.dumps(cache.get_all(),indent=True)
     result = cache.get_approval_list()
-
     return render_template('msg_types_for_approval.html',cache=result)
-
-
 
 @app.route('/api/send_command',methods=["POST"])
 def send_command():
@@ -90,15 +87,22 @@ def send_command():
     # 3)
     # add to cache
     # format : {"msg_key":"switch_binary@.zw.7.binary_switch.2.commands","user_params":{"value":"True"}}
-    req = request.get_json()
-    command = msg_man.generate_command_from_user_params(req["msg_key"],req["user_params"])
-    address = req["msg_key"].split("@")[1]
-    # print json.dumps(command,indent=True
-    # mqtt.mqtt.publish(address.replace(".","/"),json.dumps(command),1)
-    # cache.put(address,command)
-    print "address :"+address
-    msg_pipeline.process_command(mqtt,address.replace(".","/"),command)
-    dev = json.dumps({"success":True})
+    log.info("New message from UI")
+    try:
+        req = request.get_json()
+        command = msg_man.generate_command_from_user_params(req["msg_key"],req["user_params"])
+        log.debug("Command = "+str(command))
+        address = req["msg_key"].split("@")[1]
+        log.info("Destination address = "+str(address.replace(".","/")))
+        # print json.dumps(command,indent=True
+        # mqtt.mqtt.publish(address.replace(".","/"),json.dumps(command),1)
+        # cache.put(address,command)
+        msg_pipeline.process_command(mqtt,address.replace(".","/"),command)
+        dev = json.dumps({"success":True})
+    except Exception as ex:
+        dev = json.dumps({"success":False})
+        log.error("Command can't be sent because of error:")
+        log.exception(ex)
     # print request.get_json()
     return Response(response=dev, mimetype='application/json' )
 
@@ -117,22 +121,28 @@ def get_msg_from_cache(key="all"):
 
 
 @app.route('/api/approve_msg_class',methods=["POST"])
-def approve_msg_class(key):
+def approve_msg_class():
     # {"address":address,"msg_class":msg_class,"is_approved":is_approved}
 
-    req = request.get_json()
-    if req["is_approved"]:
-       #adding class
-       msg_man.add_msg_class(req["msg_class"],req["msg_type"])
-       #adding address
-       msg_man.add_address_to_mapping(req["address","msg_class"])
-       # removing the item from approval cache
-       cache.remove_msg_clas_for_approval(msg_man.generate_key(req["msg_class"],req["msg_address"]))
-    else :
-       #TODO:remove the class from approval cache
-        pass
+    try:
+        req = request.get_json()
+        log.info("Msg class for approval , msg class = "+req["msg_class"]+" from address = "+req["address"])
 
-    dev = json.dumps({"success":True})
+        if req["is_approved"]:
+           #adding class
+           msg_man.add_msg_class(req["msg_class"],"event")
+           #adding address
+           msg_man.add_address_to_mapping(req["address"],req["msg_class"])
+           # removing the item from approval cache
+           cache.remove_msg_clas_for_approval(msg_man.generate_key(req["msg_class"],req["address"]))
+        else :
+           #TODO:remove the class from approval cache
+            log.info("<NOT implemented> the "+req["msg_class"]+" class has to be removed from approval cache")
+
+        dev = json.dumps({"success":True})
+    except Exception as ex:
+        log.exception(ex)
+        dev = json.dumps({"success":False})
     return Response(response=dev, mimetype='application/json' )
 
 
@@ -143,4 +153,4 @@ def get_last_raw_msg(key):
     return Response(response=dev, mimetype='application/json' )
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",use_debugger=True,use_reloader=False)
+    app.run(host="0.0.0.0",use_debugger=False,use_reloader=False)
