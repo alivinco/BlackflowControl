@@ -17,6 +17,11 @@ import json
 # Flask initialization
 from modules.msg_pipeline import MsgPipeline
 import configs
+import logging,logging.config
+from configs import log
+
+logger = logging.getLogger(__name__)
+logging.config.dictConfig(log.config)
 
 app = Flask(__name__)
 msg_man = MessageManager()
@@ -45,6 +50,7 @@ def mqtt_control(command):
 
 @app.route('/ui/inter_console')
 def inter_console_ui():
+    logging.info("Inter console works")
     msg_man.reload_all_mappings()
     mapping = msg_man.generate_linked_mapping(msg_man.load_msg_class_mapping(), msg_man.load_address_mapping())
     return render_template('inter_console.html', mapping=mapping,cache=cache)
@@ -110,7 +116,7 @@ def get_msg_from_cache(key="all"):
     return Response(response=dev, mimetype='application/json' )
 
 
-@app.route('/api/approve_msg_class')
+@app.route('/api/approve_msg_class',methods=["POST"])
 def approve_msg_class(key):
     # {"address":address,"msg_class":msg_class,"is_approved":is_approved}
 
