@@ -34,7 +34,7 @@ function send_command(key,ui_type,value)
 
     if (ui_type=="input_num_field")
     {
-        val = $("#"+jq_elector(key+"_input")).val()*1
+        val = parseFloat($("#"+jq_elector(key+"_input")).val())
         console.log(typeof val)
         console.log("var:"+val)
 

@@ -67,7 +67,7 @@ def cache_ui():
 
 @app.route('/ui/msg_types_for_approval')
 def msg_types_for_approval_ui():
-    cache.put_msg_class_for_approval("test","test","switch_binary","Message class is unknown and has to be approved")
+    cache.put_msg_class_for_approval("test","test","switch_binary_new","Message class is unknown and has to be approved")
     # ch = json.dumps(cache.get_all(),indent=True)
     result = cache.get_approval_list()
 
@@ -110,7 +110,7 @@ def get_msg_from_cache(key="all"):
     return Response(response=dev, mimetype='application/json' )
 
 
-@app.route('/api/approve_msg_class')
+@app.route('/api/approve_msg_class',methods=["POST"])
 def approve_msg_class(key):
     # {"address":address,"msg_class":msg_class,"is_approved":is_approved}
 

@@ -34,7 +34,7 @@ class MqttAdapter:
 
     def initiate_listeners(self):
 
-        self.mqtt.subscribe("#", 1)
+        self.mqtt.subscribe("/#", 1)
 
 
     def _on_message(self, mosq, obj, msg):

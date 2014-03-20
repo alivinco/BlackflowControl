@@ -61,7 +61,14 @@
   "name": "Danfos set heating point", 
   "msg_type": "command", 
   "msg_class": "heating_point"
- }, 
+ },
+ {
+  "group_name": "table1",
+  "address": "/zw/16/thermostat/1/events",
+  "name": "Heating point from Danfos",
+  "msg_type": "event",
+  "msg_class": "heating_point"
+ },
  {
   "msg_class": "inclusion", 
   "address": "/zw/inclusion", 
@@ -142,6 +149,34 @@
  {
   "group_name": "table1", 
   "address": "/zw/23/multilevel_sensor/1/events", 
+  "name": "temperature", 
+  "msg_type": "event", 
+  "msg_class": "temperature"
+ }, 
+ {
+  "msg_class": "temperature", 
+  "address": "/zw/24/multilevel_sensor/1/events", 
+  "name": "temperature", 
+  "msg_type": "event", 
+  "group_name": "table1"
+ }, 
+ {
+  "group_name": "table1", 
+  "address": "/zw/26/multilevel_sensor/1/events", 
+  "name": "temperature", 
+  "msg_type": "event", 
+  "msg_class": "temperature"
+ }, 
+ {
+  "msg_class": "temperature", 
+  "address": "/zw/27/multilevel_sensor/1/events", 
+  "name": "temperature", 
+  "msg_type": "event", 
+  "group_name": "table1"
+ }, 
+ {
+  "group_name": "table1", 
+  "address": "/zw/28/multilevel_sensor/1/events", 
   "name": "temperature", 
   "msg_type": "event", 
   "msg_class": "temperature"

@@ -101,6 +101,8 @@ class MessageManager:
     def set_value_to_msg(self, jobj, json_path, value):
         path_array = jsonpath.jsonpath(jobj, json_path, 'IPATH', False)[0]
 
+        # building expression jobj[el1][el2] = 123
+
         path_str = "jobj"
         for item in path_array:
             path_str = path_str + "['" + item + "']"
@@ -108,6 +110,8 @@ class MessageManager:
         if var_type is bool:
             path_str = path_str + " = " + str(value)
         elif var_type is int:
+            path_str = path_str + " = " + str(value)
+        elif var_type is float:
             path_str = path_str + " = " + str(value)
         elif var_type is str:
             path_str = path_str + " = '" + str(value) + "'"
@@ -124,6 +128,13 @@ class MessageManager:
         #parameters = {"value":"True"}
         for k,v in params.items():
             path = msg_class_map["ui_mapping"][k+"_path"]
+            # converting to float if expected type is float
+            if msg_class_map["ui_mapping"]["ui_element"]=="input_num_field":
+                if msg_class_map["ui_mapping"]["num_type"]=="float":
+                    v = float(v)
+                else:
+                    v = int(v)
+
             self.set_value_to_msg(msg_template,path,v)
         return msg_template
 
