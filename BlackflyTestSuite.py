@@ -73,7 +73,7 @@ def cache_ui():
 
 @app.route('/ui/msg_types_for_approval')
 def msg_types_for_approval_ui():
-    cache.put_msg_class_for_approval("test","test","switch_binary_new","Message class is unknown and has to be approved")
+    # cache.put_msg_class_for_approval("test","test","switch_binary_new","Message class is unknown and has to be approved")
     # ch = json.dumps(cache.get_all(),indent=True)
     result = cache.get_approval_list()
     return render_template('msg_types_for_approval.html',cache=result)
@@ -145,6 +145,16 @@ def approve_msg_class():
         dev = json.dumps({"success":False})
     return Response(response=dev, mimetype='application/json' )
 
+@app.route('/api/address_manager',methods=["POST"])
+def address_manager():
+    # command should be {"cmd":"remove","address":"/dev/zw/1","msg_class":"thermostat"}
+    req = request.get_json()
+    log.info("UI call for address manager . Command = "+req['cmd'])
+    if req["cmd"] == "remove":
+        msg_man.remove_address_from_mapping(req["address"],req["msg_class"])
+
+    dev = json.dumps({"success":True})
+    return Response(response=dev, mimetype='application/json' )
 
 @app.route('/api/get_last_raw_msg/<key>')
 def get_last_raw_msg(key):

@@ -3,6 +3,12 @@ import os
 import json
 from libs import jsonpath
 import copy
+
+import configs.log
+import logging,logging.config
+logging.config.dictConfig(configs.log.config)
+log = logging.getLogger("bf_web")
+
 # msg_list = {"events": ["file_name"], "commands": ["file_name"]}
 msg_list = [{"file_name": "inclusion.json", "type": "event"}]
 
@@ -28,7 +34,6 @@ class MessageManager:
 
         return msg_list
     def get_msg_class_by_key(self,msg_key):
-        print msg_key
         split_str = msg_key.split("@")
         msg_class = split_str[0]
         address = split_str[1]
@@ -36,7 +41,7 @@ class MessageManager:
         if "event" in address: msg_type = "event"
         elif "commands" in address: msg_type = "command"
         else:
-            print "the system can't identify message type , default value 'event' will be set"
+            log.info("the system can't identify message type , default value 'event' will be set")
             msg_type = "event"
 
         return filter(lambda map_item: (map_item["msg_class"] == msg_class and map_item["msg_type"]==msg_type) ,self.msg_class_mapping)[0]
@@ -55,7 +60,7 @@ class MessageManager:
         self.msg_class_mapping.append(new_class)
         # let's serialize the updated structure
         # f = open(self.msg_class_mapping_file_path,"w")
-        json.dump(self.msg_class_mapping,open(self.msg_class_mapping_file_path,"w"))
+        json.dump(self.msg_class_mapping,open(self.msg_class_mapping_file_path,"w"),indent=True)
 
     def load_template_by_key(self,msg_key):
         msg_class = msg_key.split("@")[0]
@@ -118,7 +123,7 @@ class MessageManager:
         elif var_type is dict:
             path_str = path_str + " = " + json.dumps(value)
         else :
-            print "!!!!UNKNOWN OBJECT TYPE , set operation will be skipped. Type is"+str(var_type)+" value "+str(value)
+            log.error("!!!!UNKNOWN OBJECT TYPE , set operation will be skipped. Type is"+str(var_type)+" value "+str(value))
         exec (path_str)
 
     # params have to have the same values as explained in ui_mapping part of msg class mapping
@@ -140,12 +145,33 @@ class MessageManager:
 
     def add_address_to_mapping(self,address,msg_class):
         # register new address
+        log.info("Adding address to the mapping , address = "+str(address)+" msg_class="+str(msg_class))
         addr_map = self.load_address_mapping()
         addr_map.append({"msg_class":msg_class,"address":address,"name":msg_class,"msg_type":"event","group_name":"table1"})
-        f = open(self.address_mapping_file_path,"w")
-        f.write(json.dumps(addr_map,indent=True))
-        f.close()
         self.address_mapping = addr_map
+        self.serialize_address_mapping()
+
+    def remove_address_from_mapping(self,address,msg_class):
+        log.info("Removing address from mapping , address = "+str(address)+" msg_class="+str(msg_class))
+        # addr = filter(lambda addr_map: (addr_map["msg_class"] == msg_class and addr_map["address"]==address),self.address_mapping)
+        i=0
+        item_to_delete = -1
+        for addr_map in self.address_mapping:
+           if addr_map["msg_class"] == msg_class and addr_map["address"]==address:
+               item_to_delete = i
+           i=i+1
+        if item_to_delete > -1:
+            log.info("deleting item nr = "+str(item_to_delete))
+            del self.address_mapping[item_to_delete]
+        self.serialize_address_mapping()
+
+    def serialize_address_mapping(self):
+        log.info("Serializing address mapping to file "+self.address_mapping_file_path)
+        f = open(self.address_mapping_file_path,"w")
+        f.write(json.dumps(self.address_mapping,indent=True))
+        f.close()
+
+
 
 if __name__ == "__main__":
 

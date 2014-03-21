@@ -1,5 +1,6 @@
 from modules.msg_manager import MessageManager
 import json , os
+from datetime import datetime
 __author__ = 'aleksandrsl'
 
 
@@ -38,8 +39,8 @@ class MsgCache():
         #     #default value
         #     ui_mapping["ui_element"] = {"ui_element":"free_text","value_path":"$.event.value"}
         #     print "Can't extract value"
-
-        self.cache[key]={"raw_msg":payload,"ui_element":ui_mapping["ui_element"],"extracted_values":extracted_data}
+        timestamp_iso = datetime.now().isoformat()
+        self.cache[key]={"raw_msg":payload,"ui_element":ui_mapping["ui_element"],"extracted_values":extracted_data,"timestamp_iso":timestamp_iso}
 
 
     def get_all(self):
@@ -57,7 +58,8 @@ class MsgCache():
 
     def put_msg_class_for_approval(self,address,payload,msg_class,text):
         id = self.msg_man.generate_key(msg_class,address)
-        self.approve_cache[id] = {"address":address,"payload":json.dumps(payload,indent=True),"msg_class":msg_class,"text":text}
+        timestamp_iso = datetime.now().isoformat()
+        self.approve_cache[id] = {"address":address,"payload":json.dumps(payload,indent=True),"msg_class":msg_class,"text":text,"timestamp_iso":timestamp_iso}
 
     def remove_msg_clas_for_approval(self,key):
         del self.approve_cache[key]

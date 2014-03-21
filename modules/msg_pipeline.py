@@ -81,10 +81,12 @@ class MsgPipeline():
         log.info("Msg class = "+str(msg_class))
 
         mqtt.mqtt.publish(address,json.dumps(payload),1)
+        log.info("Message was published to topic = "+str(address))
 
         exdt = self.__extract_data(address,msg_class,payload)
         cache_key = self.msg_man.generate_key(msg_class,address)
         self.cache.put(cache_key,payload,exdt["ui_mapping"],exdt["extracted_values"])
+        log.info("Message was saved to cache with key ="+str(cache_key))
         return {"success":True}
 
     def __get_msg_class_from_msg(self, payload):

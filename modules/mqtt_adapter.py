@@ -76,6 +76,7 @@ class MqttAdapter:
                 except Exception as ex:
                     log.error("Mqtt loop error")
                     log.exception(ex)
+                    rc = 1
 
             if not self._thread_terminate :
                 log.error("Loop interrupted because of error" + str(rc))

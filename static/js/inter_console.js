@@ -23,8 +23,9 @@ function load_data()
 //      },
       success: function( data ) {
 //        console.dir(data)
-        update_elements(data.result)
         msg_cache = data.result
+        update_elements(data.result)
+
       }
     });
 }
@@ -66,6 +67,7 @@ function update_elements(msg_cache)
     {
         ui_type = msg_cache[k_item].ui_element
         ui_element_id = k_item
+        check_for_inclusion(k_item,msg_cache[k_item])
         if(ui_type=="toggle_switch")
         {
             if(msg_cache[k_item].extracted_values.value)
@@ -104,6 +106,27 @@ function update_elements(msg_cache)
 //        $("#testdiv").html(msg_cache[k_item].ui_element)
     }
 }
+var last_inclusion_timestamp = ""
+
+function check_for_inclusion(key,item)
+{
+
+
+    if(item.raw_msg.event)
+        if(item.raw_msg.event.type == "inclusion" && item.timestamp_iso != last_inclusion_timestamp )
+        {
+
+           if (last_inclusion_timestamp!="")
+           {
+            last_inclusion_timestamp = item.timestamp_iso
+            open_free_text(key)
+           }else
+           {
+            last_inclusion_timestamp = item.timestamp_iso
+              // open_free_text(key)
+           }
+        }
+}
 
 function open_free_text(key)
 {
@@ -116,6 +139,7 @@ function open_free_text(key)
 
         $("#free_text_placeholder").html("<pre>"+out_text+"</pre>")
     }catch(err){
+       console.dir(err)
        $("#free_text_placeholder").html("<pre>...</pre>")
     }
 }

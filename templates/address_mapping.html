@@ -1,5 +1,5 @@
 {% extends "base_layout.html" %}
-{% block li_inter_console %}class="active"{% endblock %}
+{% block li_address_mapping %}class="active"{% endblock %}
 {% block body %}
 </h1>
 <h3>Address to message type mapping</h3>
@@ -23,7 +23,7 @@
        <td> {{ item.msg_class }} </td>
        <td> {{ item.msg_type }} </td>
        <td > {{ item.address }} </td>
-       <td> <a href="#">edit</a>|<a href="#">delete</a>   </td>
+       <td> <a href="#">edit</a>|<a href="#" onclick="remove_address('{{ item.address }}','{{ item.msg_class }}')" >delete</a>   </td>
 
       </tr>
       {% endfor %}

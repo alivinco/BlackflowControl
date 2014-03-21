@@ -54,6 +54,16 @@ config = {
             "handlers": ["default", "info_file_handler", "error_file_handler"],
             'level':'INFO',
             'propagate': True
+        },
+        'bf_cache':{
+            "handlers": ["default", "info_file_handler", "error_file_handler"],
+            'level':'INFO',
+            'propagate': True
+        },
+        'bf_msg_manager':{
+            "handlers": ["default", "info_file_handler", "error_file_handler"],
+            'level':'INFO',
+            'propagate': True
         }
     }
 }

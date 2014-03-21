@@ -1,0 +1,1 @@
+File function check_for_inclusion in inter_console.js contains hardcoded value for extracting event type . The functionality will be broken if the message format is changed .

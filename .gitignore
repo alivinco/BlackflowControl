@@ -3,3 +3,4 @@
 .idea/workspace.xml
 .idea/BlackflyTestSuite.iml
 .idea/misc.xml
+*.log
