@@ -114,6 +114,7 @@ if __name__ == "__main__":
     mqtt_ad.connect("localhost", 1883)
     # mqtt_ad.mqtt.publish("/system/discovery",json.dumps(self.inclusion_msg),1)
     print "message published"
+    # read binary
 
     mqtt_ad.start()
     time.sleep(5)
