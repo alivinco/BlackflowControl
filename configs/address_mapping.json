@@ -91,6 +91,20 @@
   "group_name": "table1"
  }, 
  {
+  "msg_class": "switch_binary", 
+  "address": "/zw/7/binary_switch/1/commands", 
+  "name": "Fibaro ralay 1", 
+  "msg_type": "command", 
+  "group_name": "table1"
+ }, 
+ {
+  "msg_class": "switch_binary", 
+  "address": "/zw/7/binary_switch/2/commands", 
+  "name": " Fibaro ralay 1", 
+  "msg_type": "command", 
+  "group_name": "table1"
+ }, 
+ {
   "group_name": "table1", 
   "address": "/zw/20/binary_sensor/1/events", 
   "name": "door_opened", 
@@ -173,5 +187,68 @@
   "name": "temperature", 
   "msg_type": "event", 
   "group_name": "table1"
+ }, 
+ {
+  "msg_class": "RadonLevel", 
+  "address": "/zw/33/multilevel_sensor/1/events", 
+  "name": "RadonLevel", 
+  "msg_type": "event", 
+  "group_name": "table1"
+ }, 
+ {
+  "group_name": "table1", 
+  "address": "/zw/34/battery/1/events", 
+  "name": "battery_level", 
+  "msg_type": "event", 
+  "msg_class": "battery_level"
+ }, 
+ {
+  "msg_class": "wakeup_interval", 
+  "address": "/zw/34/thermostat/1/events", 
+  "name": "wakeup_interval", 
+  "msg_type": "event", 
+  "group_name": "table1"
+ }, 
+ {
+  "msg_class": "heating_point", 
+  "address": "/zw/34/thermostat/1/commands", 
+  "name": "Danfos set heating point", 
+  "msg_type": "command", 
+  "group_name": "table1"
+ }, 
+ {
+  "group_name": "table1", 
+  "address": "/zw/35/multilevel_sensor/1/events", 
+  "name": "temperature", 
+  "msg_type": "event", 
+  "msg_class": "temperature"
+ }, 
+ {
+  "msg_class": "temperature", 
+  "address": "/zw/38/multilevel_sensor/1/events", 
+  "name": "temperature", 
+  "msg_type": "event", 
+  "group_name": "table1"
+ }, 
+ {
+  "group_name": "table1", 
+  "address": "/zw/40/multilevel_sensor/1/events", 
+  "name": "temperature", 
+  "msg_type": "event", 
+  "msg_class": "temperature"
+ }, 
+ {
+  "msg_class": "temperature", 
+  "address": "/zw/41/multilevel_sensor/1/events", 
+  "name": "temperature", 
+  "msg_type": "event", 
+  "group_name": "table1"
+ }, 
+ {
+  "group_name": "table1", 
+  "address": "/zw/42/multilevel_sensor/1/events", 
+  "name": "temperature", 
+  "msg_type": "event", 
+  "msg_class": "temperature"
  }
 ]
