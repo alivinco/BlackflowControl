@@ -31,7 +31,7 @@ class MsgPipeline():
         # add class and address into mapping
         # user can enter path manually and retry validation
         # if everything fails then add message to error_cache
-        log.info("New event entered message pipeline")
+        log.info("New event is entering message processing pipeline")
         msg_class_is_registered = False
         cache_key = ""
         addr_is_registered = self.__check_address(address)
@@ -39,7 +39,9 @@ class MsgPipeline():
         if msg_class :
            msg_class_is_registered = self.__check_msg_class(msg_class)
            cache_key = self.msg_man.generate_key(msg_class,address)
-
+        else :
+           log.error("The system can't identify message class . Therefore message processing stoped and the message will be skipped.")
+           log.debug( json.dumps(payload,indent=True))
 
         if addr_is_registered and msg_class_is_registered:
             # message is known and registered in system
@@ -57,7 +59,7 @@ class MsgPipeline():
             log.info("Address "+address+" doesn't exist in mapping file .It will be added automatically ")
             return {"success":True,"code":1,"text":"New address has been registered :"+address}
 
-        elif not addr_is_registered and msg_class and not msg_class_is_registered:
+        elif msg_class and not msg_class_is_registered:
             # the address is not known to the system , msg class is not known to system but msg_class is not empy .
             # Means new unregistered command class
             # let's add into approve cache for user approval
@@ -70,6 +72,9 @@ class MsgPipeline():
             # check ignore list and then either make log entry or ignore
             log.info("Address :"+address+" is unknown and command class can't be extracted from the message.The message will be skipped")
             return {"success":False,"code":1,"text": "Address :"+address+" is unknown and command class can't be extracted from the message.The message will be skipped"}
+        else :
+            log.info("The message doesn't match any of rules and will be skipped.")
+            log.debug(json.dumps(payload,indent=True))
 
         return {"success":False}
 

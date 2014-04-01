@@ -26,8 +26,8 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "value_path": "$.command.value", 
-   "num_type": "float"
+   "num_type": "float", 
+   "value_path": "$.command.value"
   }, 
   "msg_type": "command", 
   "msg_class": "heating_point"
@@ -103,7 +103,7 @@
  {
   "ui_mapping": {
    "ui_element": "free_text", 
-   "value_path": "$.event.type"
+   "value_path": "$.event.value"
   }, 
   "msg_type": "event", 
   "msg_class": "energy_consumption"
@@ -111,7 +111,7 @@
  {
   "ui_mapping": {
    "ui_element": "free_text", 
-   "value_path": "$.event.type"
+   "value_path": "$.event.value"
   }, 
   "msg_type": "event", 
   "msg_class": "power"
@@ -119,7 +119,7 @@
  {
   "ui_mapping": {
    "ui_element": "free_text", 
-   "value_path": "$.event.type"
+   "value_path": "$.event.value"
   }, 
   "msg_type": "event", 
   "msg_class": "power"
@@ -127,7 +127,7 @@
  {
   "ui_mapping": {
    "ui_element": "free_text", 
-   "value_path": "$.event.type"
+   "value_path": "$.event.value"
   }, 
   "msg_type": "event", 
   "msg_class": "energy_consumption"
@@ -135,9 +135,18 @@
  {
   "ui_mapping": {
    "ui_element": "free_text", 
-   "value_path": "$.event.type"
+   "value_path": "$.event.value"
   }, 
   "msg_type": "event", 
   "msg_class": "RadonLevel"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "sensor_value",
+   "value_path": "$.event.value",
+   "unit_path": "$.event.units"
+  },
+  "msg_type": "event", 
+  "msg_class": "radon"
  }
 ]

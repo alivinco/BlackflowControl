@@ -67,7 +67,7 @@ def msg_class_mapping_ui():
     msg_man.reload_all_mappings()
 
     mapping = msg_man.msg_class_mapping
-    return render_template('address_mapping.html', mapping=mapping)
+    return render_template('msg_class_mapping.html', mapping=mapping)
 
 
 

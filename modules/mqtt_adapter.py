@@ -49,7 +49,7 @@ class MqttAdapter:
         if "command" in msg.topic:
             log.debug("Command type of message is skipped")
         else :
-            log.info("New message :")
+            log.info("New message from topic = "+str(msg.topic))
             self.msg_pipeline.process_event(msg.topic,json.loads(msg.payload))
 
     def _loop_start(self):
