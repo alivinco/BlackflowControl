@@ -33,6 +33,20 @@ class MessageManager:
             msg_list.append({"file_name": file, "type": "command"})
 
         return msg_list
+
+    def get_msg_class_template_by_name(self,msg_type,msg_class_name):
+
+        if "event" == msg_type:
+           result = json.load(file(os.path.join(self.app_root_path, "messages","events", msg_class_name+".json")))
+        elif "command" == msg_type:
+            result = json.load(file(os.path.join(self.app_root_path, "messages","commands", msg_class_name+".json")))
+        else : result = None
+
+        return result
+
+    def get_msg_clas_by_name(self,msg_type,msg_class_name):
+        return filter(lambda map_item: (map_item["msg_class"] == msg_class_name and map_item["msg_type"]==msg_type) ,self.msg_class_mapping)[0]
+
     def get_msg_class_by_key(self,msg_key):
         split_str = msg_key.split("@")
         msg_class = split_str[0]

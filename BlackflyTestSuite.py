@@ -69,6 +69,18 @@ def msg_class_mapping_ui():
     mapping = msg_man.msg_class_mapping
     return render_template('msg_class_mapping.html', mapping=mapping)
 
+@app.route('/ui/msg_class/<msg_type>/<msg_class>')
+def msg_class_ui(msg_type,msg_class):
+
+    msg_man.reload_all_mappings()
+    msg_class_obj = msg_man.get_msg_clas_by_name(msg_type,msg_class)
+    try:
+        msg_template = json.dumps(msg_man.get_msg_class_template_by_name(msg_type,msg_class),indent=True)
+    except Exception as ex:
+        log.error("The system can't find the template.")
+        log.exception(ex)
+        msg_template = "The system can't find the template.Please add template first"
+    return render_template('msg_class.html', msg_class=msg_class_obj,msg_template=msg_template)
 
 
 @app.route('/ui/cache')
