@@ -22,7 +22,9 @@ class MessageManager:
         self.address_mapping_file_path = os.path.join(self.app_root_path, "configs", "address_mapping.json")
         self.msg_class_mapping = self.load_msg_class_mapping()
         self.address_mapping = self.load_address_mapping()
-        self.global_configs = json.load(file(os.path.join(self.app_root_path, "configs", "global.json")))
+        self.global_configs_path = os.path.join(self.app_root_path, "configs", "global.json")
+        self.global_configs = json.load(file(self.global_configs_path))
+
 
     def load_templates(self):
 

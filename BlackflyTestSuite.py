@@ -29,7 +29,8 @@ cache = MsgCache(msg_man)
 # Mqtt initialization
 msg_pipeline = MsgPipeline(msg_man,cache)
 mqtt = MqttAdapter(msg_pipeline)
-mqtt.connect(configs.app.MQTT_HOST, configs.app.MQTT_PORT)
+mqtt.connect(msg_man.global_configs["mqtt"]["host"],int(msg_man.global_configs["mqtt"]["port"]))
+mqtt.sub_topic = msg_man.global_configs["mqtt"]["root_topic"]
 mqtt.start()
 
 
@@ -41,12 +42,17 @@ def red():
 @app.route('/sys/mqtt_ctrl/<command>')
 def mqtt_control(command):
     if command == "start":
+       mqtt.connect(msg_man.global_configs["mqtt"]["host"],int(msg_man.global_configs["mqtt"]["port"]))
+       mqtt.sub_topic = msg_man.global_configs["mqtt"]["root_topic"]
        mqtt.start()
+       status = "Connected to broker"
     elif command == "stop":
        mqtt.stop()
+       status = "Disconnected from broker"
 
-    dev = json.dumps({"success":True})
-    return Response(response=dev, mimetype='application/json' )
+    # dev = json.dumps({"success":True})
+    # return Response(response=dev, mimetype='application/json' )
+    return render_template('mqtt_status.html', status=status)
 
 @app.route('/ui/inter_console')
 def inter_console_ui():
@@ -97,6 +103,22 @@ def msg_types_for_approval_ui():
     # ch = json.dumps(cache.get_all(),indent=True)
     result = cache.get_approval_list()
     return render_template('msg_types_for_approval.html',cache=result)
+
+@app.route('/ui/settings',methods=["POST","GET"])
+def settings_ui():
+    if request.method == 'POST':
+         msg_man.global_configs["mqtt"]["host"] = request.form["mqtt_host"]
+         msg_man.global_configs["mqtt"]["port"] = request.form["mqtt_port"]
+         msg_man.global_configs["mqtt"]["root_topic"] = request.form["mqtt_root_topic"]
+
+         f = open(msg_man.global_configs_path,"w")
+         f.write(json.dumps(msg_man.global_configs,indent=True))
+         f.close()
+         log.info("Global config was successfully updated")
+         log.info("New values are mqtt host = "+request.form["mqtt_host"]+" port = "+request.form["mqtt_port"]+" root topic = "+request.form["mqtt_root_topic"])
+
+    return render_template('settings.html',cfg=msg_man.global_configs)
+
 
 @app.route('/api/send_command',methods=["POST"])
 def send_command():
@@ -183,4 +205,4 @@ def get_last_raw_msg(key):
     return Response(response=dev, mimetype='application/json' )
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",use_debugger=False,use_reloader=False)
+    app.run(host="0.0.0.0",use_debugger=True,use_reloader=False)

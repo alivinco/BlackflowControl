@@ -33,6 +33,11 @@ class MqttAdapter:
         self.mqtt.connect(host, port, keepalive)
         log.info("BlackflyTestSuite connected to broker .")
 
+    def reconnect(self):
+        self.mqtt.on_message = self._on_message
+        self.mqtt.connect(self._host, self._port, self._keepalive)
+        log.info("The system reconnected to mqtt broker")
+
     def initiate_listeners(self):
 
         self.mqtt.subscribe(self.sub_topic, 1)

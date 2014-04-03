@@ -21,7 +21,7 @@
      {% for item in mapping %}
       <tr>
        <td> {{ item.name }}  </td>
-       <td> {{ item.msg_class }} </td>
+       <td><a onclick="location.href ='/ui/msg_class/{{ item.msg_type }}/{{ item.msg_class }}'">{{ item.msg_class }}</a> </td>
       <td> {{ item.msg_type }} </td>
        <td> {{ item.address }}  </td>
        <td> <a href="../api/get_last_raw_msg/{{item.id}}" target="_blank">Open last msg</a></td>

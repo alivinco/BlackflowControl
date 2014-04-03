@@ -69,8 +69,8 @@
   <div class="form-group">
 
     <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-default">Save changes</button>
-        <button  onclick="document.location='/ui/msg_class_mapping'" class="btn btn-default">Cancel</button>
+{#      <button type="submit" class="btn btn-default">Save changes</button>#}
+        <button type="button" onclick="window.history.back()" class="btn btn-default">Cancel</button>
     </div>
   </div>
 </form>
@@ -78,10 +78,16 @@
 
 </div>
 
+<h3>Message template</h3>
+<pre id="msg_template_pre">
 
+{{ msg_template }}
+
+</pre>
 {% endblock %}
 {% block js_scripts %}
     <script src="/static/js/stupidtable.min.js"></script>
+    <script src="/static/js/msg_class.js"></script>
     <script src="/static/js/utils.js"></script>
 
 {% endblock %}

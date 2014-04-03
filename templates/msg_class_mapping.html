@@ -2,7 +2,7 @@
 {% block li_msg_types %}class="active"{% endblock %}
 {% block body %}
 </h1>
-<h3>Message classes and subclases</h3>
+<h3>Message classes</h3>
 <div class="container-fluid">
 
 <div class="table-responsive">
@@ -23,7 +23,7 @@
        <td> {{ item.msg_class }} </td>
        <td> {{ item.msg_type }} </td>
        <td> {{ item.ui_mapping.ui_element }}</td>
-       <td> <a href="/ui/msg_class/{{ item.msg_type }}/{{ item.msg_class }}">edit</a> </td>
+       <td> <a href="/ui/msg_class/{{ item.msg_type }}/{{ item.msg_class }}">open</a> </td>
 
       </tr>
       {% endfor %}

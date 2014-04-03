@@ -1,6 +1,23 @@
 {
-    "msg_class_lookup_path":[{"type":"single","path":"$.event.type","priority":1},{"type":"single","path":"$.command.name","priority":1}],
-    "defaults":{"event_value_path_for_new_class":"$.event.value","cmd_value_path_for_new_class":"$.command.value"}
-
-
+ "mqtt": {
+  "host": "192.168.31.252", 
+  "port": "1883", 
+  "root_topic": "/#"
+ }, 
+ "msg_class_lookup_path": [
+  {
+   "priority": 1, 
+   "path": "$.event.type", 
+   "type": "single"
+  }, 
+  {
+   "priority": 1, 
+   "path": "$.command.name", 
+   "type": "single"
+  }
+ ], 
+ "defaults": {
+  "event_value_path_for_new_class": "$.event.value", 
+  "cmd_value_path_for_new_class": "$.command.value"
+ }
 }

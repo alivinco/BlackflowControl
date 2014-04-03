@@ -35,7 +35,7 @@
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Settings</a></li>
+            <li><a href="/ui/settings">Settings</a></li>
             <li><a href="#">Help</a></li>
           </ul>
 
@@ -51,10 +51,10 @@
             <li {% block li_address_mapping %}{% endblock %}><a href="/ui/address_mapping">Address mapping</a></li>
             <li  {% block li_msg_types %} {% endblock %}><a href="/ui/msg_class_mapping">Message classes </a></li>
             <li><a href="#">Device types (todo)</a></li>
-            <li  {% block li_type_approval %} {% endblock %}><a href="/ui/msg_types_for_approval">New type approval</a></li>
+            <li  {% block li_type_approval %} {% endblock %}><a href="/ui/msg_types_for_approval">New msg class approval</a></li>
             <li><a href="#">Device simulation (todo) </a></li>
             <li  {% block li_cache %} {% endblock %}><a href="/ui/cache">State cache</a></li>
-            <li><a href="#">Logs</a></li>
+{#            <li><a href="#">Logs</a></li>#}
           </ul>
 
 {#          <ul class="nav nav-sidebar">#}
