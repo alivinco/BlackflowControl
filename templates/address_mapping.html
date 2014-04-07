@@ -2,7 +2,7 @@
 {% block li_address_mapping %}class="active"{% endblock %}
 {% block body %}
 </h1>
-<h3>Address to message class mapping</h3>
+<h3>Address to message class bindings ( <a href="/ui/address_map/0">add</a>)</h3>
 <div class="container-fluid">
 
 <div class="table-responsive">
@@ -23,7 +23,7 @@
        <td> {{ item.msg_class }} </td>
        <td> {{ item.msg_type }} </td>
        <td > {{ item.address }} </td>
-       <td> <a href="#">edit</a>|<a href="#" onclick="remove_address('{{ item.address }}','{{ item.msg_class }}')" >delete</a>   </td>
+       <td> <a onclick="location.href='/ui/address_map/{{ item.key }}'">edit</a>|<a href="#" onclick="remove_address('{{ item.address }}','{{ item.msg_class }}')" >delete</a>   </td>
 
       </tr>
       {% endfor %}

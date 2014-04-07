@@ -26,8 +26,8 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "float", 
-   "value_path": "$.command.value"
+   "value_path": "$.command.value", 
+   "num_type": "float"
   }, 
   "msg_type": "command", 
   "msg_class": "heating_point"
@@ -142,10 +142,10 @@
  }, 
  {
   "ui_mapping": {
-   "ui_element": "sensor_value",
-   "value_path": "$.event.value",
-   "unit_path": "$.event.units"
-  },
+   "ui_element": "sensor_value", 
+   "unit_path": "$.event.units", 
+   "value_path": "$.event.value"
+  }, 
   "msg_type": "event", 
   "msg_class": "radon"
  }

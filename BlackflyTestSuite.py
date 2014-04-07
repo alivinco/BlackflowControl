@@ -7,7 +7,7 @@
 # The software provided as is without any support .
 # Package dependencies : Flask framework , jsonpath
 
-from flask import Flask, Response, redirect
+from flask import Flask, Response, redirect, url_for
 from flask import render_template
 from flask import request
 from modules.mqtt_adapter import MqttAdapter
@@ -66,7 +66,20 @@ def address_mapping_ui():
     msg_man.reload_all_mappings()
 
     mapping = msg_man.address_mapping
+    # let's add key
+
     return render_template('address_mapping.html', mapping=mapping)
+
+@app.route('/ui/address_map/<key>')
+def address_map_ui(key):
+    msg_man.reload_all_mappings()
+    mapping = msg_man.get_address_by_key(key)
+    if not mapping:
+       mapping = {"name":"","key":"","msg_type":"","address":"","msg_class":""}
+      # log.info(mapping)
+
+    return render_template('address_map.html', mapping=mapping)
+
 
 @app.route('/ui/msg_class_mapping')
 def msg_class_mapping_ui():
@@ -176,7 +189,13 @@ def approve_msg_class():
            #adding address
            msg_man.add_address_to_mapping(req["address"],req["msg_class"])
            # removing the item from approval cache
-           cache.remove_msg_clas_for_approval(msg_man.generate_key(req["msg_class"],req["address"]))
+           approval_key = msg_man.generate_key(req["msg_class"],req["address"])
+           msg_man.save_template("event",req["msg_class"],cache.approve_cache[approval_key]["payload"])
+
+           cache.remove_msg_clas_for_approval(approval_key)
+
+
+
         else :
            #TODO:remove the class from approval cache
             log.info("<NOT implemented> the "+req["msg_class"]+" class has to be removed from approval cache")
@@ -187,16 +206,26 @@ def approve_msg_class():
         dev = json.dumps({"success":False})
     return Response(response=dev, mimetype='application/json' )
 
-@app.route('/api/address_manager',methods=["POST"])
+@app.route('/api/address_manager',methods=["POST","PUT"])
 def address_manager():
     # command should be {"cmd":"remove","address":"/dev/zw/1","msg_class":"thermostat"}
-    req = request.get_json()
-    log.info("UI call for address manager . Command = "+req['cmd'])
-    if req["cmd"] == "remove":
-        msg_man.remove_address_from_mapping(req["address"],req["msg_class"])
+    try:
+        if request.method == "PUT":
+            req = request.get_json()
+            log.info("UI call for address manager . Command = "+req['cmd'])
+            if req["cmd"] == "remove":
+                msg_man.remove_address_from_mapping(req["address"],req["msg_class"])
+            dev = json.dumps({"success":True})
+            return Response(response=dev, mimetype='application/json' )
+        elif request.method == "POST":
+            key = request.form["key"]
+            msg_man.update_address_mapping(key,request.form["name"],request.form["msg_class"],request.form["type"],request.form["address"])
+            log.info("Address mapping successfully updated")
+            return redirect(url_for("address_mapping_ui"))
+    except Exception as ex :
+        log.exception(ex)
 
-    dev = json.dumps({"success":True})
-    return Response(response=dev, mimetype='application/json' )
+
 
 @app.route('/api/get_last_raw_msg/<key>')
 def get_last_raw_msg(key):

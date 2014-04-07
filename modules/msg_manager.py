@@ -5,7 +5,8 @@ from libs import jsonpath
 import copy
 
 import configs.log
-import logging,logging.config
+import logging, logging.config
+
 logging.config.dictConfig(configs.log.config)
 log = logging.getLogger("bf_web")
 
@@ -36,33 +37,45 @@ class MessageManager:
 
         return msg_list
 
-    def get_msg_class_template_by_name(self,msg_type,msg_class_name):
+    def get_msg_class_template_by_name(self, msg_type, msg_class_name):
 
         if "event" == msg_type:
-           result = json.load(file(os.path.join(self.app_root_path, "messages","events", msg_class_name+".json")))
+            result = json.load(file(os.path.join(self.app_root_path, "messages", "events", msg_class_name + ".json")))
         elif "command" == msg_type:
-            result = json.load(file(os.path.join(self.app_root_path, "messages","commands", msg_class_name+".json")))
-        else : result = None
+            result = json.load(file(os.path.join(self.app_root_path, "messages", "commands", msg_class_name + ".json")))
+        else:
+            result = None
 
         return result
 
-    def get_msg_clas_by_name(self,msg_type,msg_class_name):
-        return filter(lambda map_item: (map_item["msg_class"] == msg_class_name and map_item["msg_type"]==msg_type) ,self.msg_class_mapping)[0]
+    def save_template(self,msg_type,msg_class_name,payload):
+        path = os.path.join(self.app_root_path, "messages", msg_type+"s", msg_class_name + ".json")
+        f = open(path,"w")
+        f.write(payload)
+        f.close()
+        log.info("New template was saved to file = "+path)
 
-    def get_msg_class_by_key(self,msg_key):
+    def get_msg_clas_by_name(self, msg_type, msg_class_name):
+        return filter(lambda map_item: (map_item["msg_class"] == msg_class_name and map_item["msg_type"] == msg_type),
+                      self.msg_class_mapping)[0]
+
+    def get_msg_class_by_key(self, msg_key):
         split_str = msg_key.split("@")
         msg_class = split_str[0]
         address = split_str[1]
 
-        if "event" in address: msg_type = "event"
-        elif "commands" in address: msg_type = "command"
+        if "event" in address:
+            msg_type = "event"
+        elif "commands" in address:
+            msg_type = "command"
         else:
             log.info("the system can't identify message type , default value 'event' will be set")
             msg_type = "event"
 
-        return filter(lambda map_item: (map_item["msg_class"] == msg_class and map_item["msg_type"]==msg_type) ,self.msg_class_mapping)[0]
+        return filter(lambda map_item: (map_item["msg_class"] == msg_class and map_item["msg_type"] == msg_type),
+                      self.msg_class_mapping)[0]
 
-    def add_msg_class(self,msg_class,msg_type,ui_element=None,value_path=None):
+    def add_msg_class(self, msg_class, msg_type, ui_element=None, value_path=None):
 
         #define default values
         default_path = ""
@@ -71,22 +84,24 @@ class MessageManager:
         elif msg_type == "event":
             default_path = self.global_configs["defaults"]["event_value_path_for_new_class"]
 
-        new_class = {"msg_class":msg_class,"msg_type":msg_type,"ui_mapping":{"ui_element":"free_text","value_path":default_path}}
+        new_class = {"msg_class": msg_class, "msg_type": msg_type,
+                     "ui_mapping": {"ui_element": "free_text", "value_path": default_path}}
 
         self.msg_class_mapping.append(new_class)
         # let's serialize the updated structure
         # f = open(self.msg_class_mapping_file_path,"w")
-        json.dump(self.msg_class_mapping,open(self.msg_class_mapping_file_path,"w"),indent=True)
+        json.dump(self.msg_class_mapping, open(self.msg_class_mapping_file_path, "w"), indent=True)
 
-    def load_template_by_key(self,msg_key):
+    def load_template_by_key(self, msg_key):
         msg_class = msg_key.split("@")[0]
         address = msg_key.split("@")[1]
         result = None
         if "event" in address:
-           result = json.load(file(os.path.join(self.app_root_path, "messages","events", msg_class+".json")))
+            result = json.load(file(os.path.join(self.app_root_path, "messages", "events", msg_class + ".json")))
         elif "command" in address:
-            result = json.load(file(os.path.join(self.app_root_path, "messages","commands", msg_class+".json")))
-        else : result = None
+            result = json.load(file(os.path.join(self.app_root_path, "messages", "commands", msg_class + ".json")))
+        else:
+            result = None
         return result
 
     def load_msg_class_mapping(self):
@@ -95,20 +110,31 @@ class MessageManager:
 
     def load_address_mapping(self):
         jobj = json.load(file(self.address_mapping_file_path))
+        # let's add a key
+        for map in jobj:
+            map["key"] = self.generate_key(map["msg_class"], map["address"])
         return jobj
 
     def reload_all_mappings(self):
         self.msg_class_mapping = self.load_msg_class_mapping()
         self.address_mapping = self.load_address_mapping()
 
-    def generate_key(self,msg_class,address):
-        return msg_class+"@"+address.replace("/",".")
+    def generate_key(self, msg_class, address):
+        return msg_class + "@" + address.replace("/", ".")
 
-    def generate_linked_mapping(self,msg_class_mapping,address_mapping):
+    def decode_key(self, msg_key):
+        msg_class = msg_key.split("@")[0]
+        address = msg_key.split("@")[1]
+        address = address.replace(".", "/")
+        return {"msg_class": msg_class, "address": address}
+
+    def generate_linked_mapping(self, msg_class_mapping, address_mapping):
         mapping = copy.copy(address_mapping)
         for item in mapping:
-            item["ui_mapping"] = filter(lambda msg_class: (msg_class["msg_class"] == item["msg_class"] and msg_class["msg_type"]==item["msg_type"]) ,msg_class_mapping)[0]["ui_mapping"]
-            item["id"] = self.generate_key(item["msg_class"],item["address"])
+            item["ui_mapping"] = filter(lambda msg_class: (
+                msg_class["msg_class"] == item["msg_class"] and msg_class["msg_type"] == item["msg_type"]),
+                                        msg_class_mapping)[0]["ui_mapping"]
+            item["id"] = self.generate_key(item["msg_class"], item["address"])
         return mapping
 
     def parse_file(self, file_path):
@@ -138,62 +164,83 @@ class MessageManager:
             path_str = path_str + " = '" + str(value) + "'"
         elif var_type is dict:
             path_str = path_str + " = " + json.dumps(value)
-        else :
-            log.error("!!!!UNKNOWN OBJECT TYPE , set operation will be skipped. Type is"+str(var_type)+" value "+str(value))
+        else:
+            log.error(
+                "!!!!UNKNOWN OBJECT TYPE , set operation will be skipped. Type is" + str(var_type) + " value " + str(
+                    value))
         exec (path_str)
 
     # params have to have the same values as explained in ui_mapping part of msg class mapping
-    def generate_command_from_user_params(self,msg_key,params):
+    def generate_command_from_user_params(self, msg_key, params):
         msg_template = self.load_template_by_key(msg_key)
         msg_class_map = self.get_msg_class_by_key(msg_key)
         #parameters = {"value":"True"}
-        for k,v in params.items():
-            path = msg_class_map["ui_mapping"][k+"_path"]
+        for k, v in params.items():
+            path = msg_class_map["ui_mapping"][k + "_path"]
             # converting to float if expected type is float
-            if msg_class_map["ui_mapping"]["ui_element"]=="input_num_field":
-                if msg_class_map["ui_mapping"]["num_type"]=="float":
+            if msg_class_map["ui_mapping"]["ui_element"] == "input_num_field":
+                if msg_class_map["ui_mapping"]["num_type"] == "float":
                     v = float(v)
                 else:
                     v = int(v)
 
-            self.set_value_to_msg(msg_template,path,v)
+            self.set_value_to_msg(msg_template, path, v)
         return msg_template
 
-    def add_address_to_mapping(self,address,msg_class):
+    def update_address_mapping(self, key, name, msg_class, msg_type, address):
+        if key:
+            item = filter(lambda addr: (addr["key"] == key ), self.address_mapping)[0]
+            item["msg_class"] = msg_class
+            item["address"] = address
+            item["name"] = name
+            item["msg_type"] = msg_type
+            log.info("Address mapping updated with " + str(item))
+        else :
+            self.address_mapping.append({"msg_class": msg_class, "address": address, "name": msg_class, "msg_type": msg_type, "group_name": "table1","key": self.generate_key(msg_class, address)})
+
+        self.serialize_address_mapping()
+
+    def add_address_to_mapping(self, address, msg_class):
         # register new address
-        log.info("Adding address to the mapping , address = "+str(address)+" msg_class="+str(msg_class))
+        log.info("Adding address to the mapping , address = " + str(address) + " msg_class=" + str(msg_class))
         addr_map = self.load_address_mapping()
-        addr_map.append({"msg_class":msg_class,"address":address,"name":msg_class,"msg_type":"event","group_name":"table1"})
+        addr_map.append({"msg_class": msg_class, "address": address, "name": msg_class, "msg_type": "event", "group_name": "table1","key": self.generate_key(msg_class, address)})
         self.address_mapping = addr_map
         self.serialize_address_mapping()
 
-    def remove_address_from_mapping(self,address,msg_class):
-        log.info("Removing address from mapping , address = "+str(address)+" msg_class="+str(msg_class))
+    def get_address_by_key(self, key):
+        try:
+          k = self.decode_key(key)
+          r = filter(lambda addr: (addr["msg_class"] == k["msg_class"] and addr["address"] == k['address']),self.address_mapping)[0]
+        except Exception as ex :
+          r = None
+        return r
+
+    def remove_address_from_mapping(self, address, msg_class):
+        log.info("Removing address from mapping , address = " + str(address) + " msg_class=" + str(msg_class))
         # addr = filter(lambda addr_map: (addr_map["msg_class"] == msg_class and addr_map["address"]==address),self.address_mapping)
-        i=0
+        i = 0
         item_to_delete = -1
         for addr_map in self.address_mapping:
-           if addr_map["msg_class"] == msg_class and addr_map["address"]==address:
-               item_to_delete = i
-           i=i+1
+            if addr_map["msg_class"] == msg_class and addr_map["address"] == address:
+                item_to_delete = i
+            i = i + 1
         if item_to_delete > -1:
-            log.info("deleting item nr = "+str(item_to_delete))
+            log.info("deleting item nr = " + str(item_to_delete))
             del self.address_mapping[item_to_delete]
         self.serialize_address_mapping()
 
     def serialize_address_mapping(self):
-        log.info("Serializing address mapping to file "+self.address_mapping_file_path)
-        f = open(self.address_mapping_file_path,"w")
-        f.write(json.dumps(self.address_mapping,indent=True))
+        log.info("Serializing address mapping to file " + self.address_mapping_file_path)
+        f = open(self.address_mapping_file_path, "w")
+        f.write(json.dumps(self.address_mapping, indent=True))
         f.close()
 
 
-
 if __name__ == "__main__":
-
     m = MessageManager()
     m.app_root_path = "C:\ALWorks\SG\BlackflyTestSuite"
-    print type({"test":1})
+    print type({"test": 1})
     flist = m.load_templates()
     jobj = m.parse_file(os.path.join(m.commands_dir, "include.json"))
 
@@ -203,4 +250,5 @@ if __name__ == "__main__":
     # print json.dumps(m.generate_linked_mapping(m.load_msg_class_mapping(),m.load_address_mapping()),indent=True)
     # print  m.load_template_by_key("temperature@.zw.15.multilevel_sensor.1.events")
     # print m.get_msg_class_by_key("temperature@.zw.15.multilevel_sensor.1.events")
-    print json.dumps(m.generate_command_from_user_params("temperature@.zw.15.multilevel_sensor.1.events",{"value":"33","unit":"F"}) , indent=True)
+    print json.dumps(m.generate_command_from_user_params("temperature@.zw.15.multilevel_sensor.1.events",
+                                                         {"value": "33", "unit": "F"}), indent=True)

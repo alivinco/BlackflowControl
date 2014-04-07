@@ -48,7 +48,7 @@ class MsgCache():
 
     def get(self,msg_class,address):
         id = self.msg_man.generate_key(msg_class,address)
-        return self.cache(id)
+        return self.cache[id]
 
     def get_by_key(self,key):
         if self.cache.has_key(key):
