@@ -15,7 +15,8 @@ def send(topic,msg):
 
 def generate_new_type():
    msg = {"event":{"type":"brand_new_type","value":136,"units":"ccc"}}
-   send("/tst/50/brand_new_type/1/events",json.dumps(msg))
+   # send("/zw/3/binary_switch/1/commands",json.dumps(msg))
+   send("/zw/3/binary_switch/1/commands","")
 
 
 generate_new_type()

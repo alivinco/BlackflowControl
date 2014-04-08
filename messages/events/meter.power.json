@@ -1,0 +1,109 @@
+{
+ "origin": {
+  "@id": 1085886,
+  "vendor": "Kamstrup",
+  "@type": "met_power",
+  "location": "meterpoint"
+ },
+ "creation_time_iso": "2014-04-08 10:04:49.984915",
+ "creation_time": "1396944289",
+ "event": {
+  "default": {
+   "value": 0.004,
+   "unit": "kW"
+  },
+  "subtype": "power",
+  "@type": "meter",
+  "properties": {
+   "power_P_pos": {
+    "value": 0.004,
+    "unit": "kW"
+   },
+   "energy_A_pos": {
+    "value": 90.84,
+    "unit": "kWh"
+   },
+   "power_P_L3": {
+    "value": 0.0,
+    "unit": "kW"
+   },
+   "phase_deg": {
+    "value": 36.86989764584401,
+    "unit": "deg"
+   },
+   "power_P_L1": {
+    "value": 0.004,
+    "unit": "kW"
+   },
+   "current_L3": {
+    "value": 0.0,
+    "unit": "A"
+   },
+   "energy_R_neg": {
+    "value": 668.46,
+    "unit": "kvarh"
+   },
+   "current_L1": {
+    "value": 0.05,
+    "unit": "A"
+   },
+   "power_P_L2": {
+    "value": 0.0,
+    "unit": "kW"
+   },
+   "volt_L3": {
+    "value": 0,
+    "unit": "V"
+   },
+   "volt_L2": {
+    "value": 0,
+    "unit": "V"
+   },
+   "volt_L1": {
+    "value": 231,
+    "unit": "V"
+   },
+   "current_L2": {
+    "value": 0.0,
+    "unit": "A"
+   },
+   "power_Q_pos": {
+    "value": 0.0,
+    "unit": "kvar"
+   },
+   "power_Q": {
+    "value": -0.003,
+    "unit": "kvar"
+   },
+   "power_P": {
+    "value": 0.004,
+    "unit": "kW"
+   },
+   "phase_num": {
+    "value": 1,
+    "unit": "number"
+   },
+   "power_P_neg": {
+    "value": 0.0,
+    "unit": "kW"
+   },
+   "energy_A_neg": {
+    "value": 2.8000000000000003,
+    "unit": "kWh"
+   },
+   "energy_R_pos": {
+    "value": 0.03,
+    "unit": "kvarh"
+   },
+   "energy_A": {
+    "value": 88.04,
+    "unit": "kWh"
+   },
+   "power_Q_neg": {
+    "value": 0.003,
+    "unit": "kvar"
+   }
+  }
+ },
+ "uuid": "dc38af71-802e-4646-9925-e0c6e21bb26f"
+}

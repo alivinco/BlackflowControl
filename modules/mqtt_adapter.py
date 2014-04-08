@@ -22,7 +22,7 @@ class MqttAdapter:
         """
         self.retry_delay = 5
         self.sub_topic = "/#"
-        self.mqtt = mosquitto.Mosquitto("blackfly_test_suite", clean_session=False)
+        self.mqtt = mosquitto.Mosquitto("blackfly_test_suite", clean_session=True)
         self.msg_pipeline = msg_pipeline
 
     def connect(self, host="localhost", port=1883, keepalive=60):
