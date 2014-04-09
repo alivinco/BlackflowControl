@@ -5,31 +5,25 @@
 <h3>Message class</h3>
 <div class="container-fluid">
 
-<form class="form-horizontal" role="form">
+<form class="form-horizontal" role="form" method="post">
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Class</label>
+    <label for="inputClass" class="col-sm-2 control-label">Class</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputEmail3" placeholder="" value="{{ msg_class.msg_class }}">
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">Subclass</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputPassword3"  value="{{ msg_class.msg_class }}">
+      <input type="text" name="class" class="form-control" id="inputClass" placeholder="" value="{{ msg_class.msg_class }}">
     </div>
   </div>
 
   <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">Type</label>
+    <label for="inputType" class="col-sm-2 control-label">Type</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputPassword3"  value="{{ msg_class.msg_type }}">
+      <input type="text" name="type" class="form-control" id="inputType"  value="{{ msg_class.msg_type }}">
     </div>
   </div>
 
   <div class="form-group">
-    <label for="UI element" class="col-sm-2 control-label">UI element</label>
+    <label for="UIelement" class="col-sm-2 control-label">UI element</label>
     <div class="col-sm-10">
-      <select class="form-control">
+      <select name ="ui_element" class="form-control" id="UIelement">
           <option {% if msg_class.ui_mapping.ui_element=="binary_light" %}selected="selected"{% endif %} >binary_light</option>
           <option {% if msg_class.ui_mapping.ui_element=="sensor_value" %}selected="selected"{% endif %}>sensor_value</option>
           <option {% if msg_class.ui_mapping.ui_element=="free_text" %}selected="selected"{% endif %}>free_text</option>
@@ -44,7 +38,7 @@
   <div class="form-group">
     <label for="inputUiValueCfg" class="col-sm-2 control-label">value path</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputUiValueCfg"  value="{{ msg_class.ui_mapping.value_path }}">
+      <input type="text" name="ui_value_path" class="form-control" id="inputUiValueCfg"  value="{{ msg_class.ui_mapping.value_path }}">
     </div>
   </div>
 
@@ -52,15 +46,15 @@
   <div class="form-group">
     <label for="inputUiUnitCfg" class="col-sm-2 control-label">unit path</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputUiUnitCfg"  value="{{ msg_class.ui_mapping.unit_path }}">
+      <input type="text" class="form-control" name="ui_unit_path"  id="inputUiUnitCfg"  value="{{ msg_class.ui_mapping.unit_path }}">
     </div>
   </div>
   {% endif %}
  {% if msg_class.ui_mapping.ui_element=="input_num_field" %}
   <div class="form-group">
-    <label for="inputUiUnitCfg" class="col-sm-2 control-label">num type</label>
+    <label for="inputUiNumType" class="col-sm-2 control-label">num type</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputUiUnitCfg"  value="{{ msg_class.ui_mapping.num_type }}">
+      <input type="text" name="ui_num_type" class="form-control" id="inputUiNumType"  value="{{ msg_class.ui_mapping.num_type }}">
     </div>
   </div>
   {% endif %}
@@ -69,7 +63,7 @@
   <div class="form-group">
 
     <div class="col-sm-offset-2 col-sm-10">
-{#      <button type="submit" class="btn btn-default">Save changes</button>#}
+        <button type="submit" class="btn btn-default">Save changes</button>
         <button type="button" onclick="window.history.back()" class="btn btn-default">Cancel</button>
     </div>
   </div>

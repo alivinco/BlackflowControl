@@ -15,14 +15,24 @@
   <div class="form-group">
     <label for="inputMsgClass" class="col-sm-2 control-label">Msg class</label>
     <div class="col-sm-10">
-      <input type="text" name="msg_class" class="form-control" id="inputMsgClass"  value="{{ mapping.msg_class }}">
+       <select name="msg_class" id="inputMsgClass" class="form-control">
+         {% for item in msg_class_list %}
+            <option {% if item.msg_class == mapping.msg_class %}selected="selected"{% endif %} value="{{ item.msg_class }}" >{{ item.msg_type }} -> {{ item.msg_class }}</option>
+         {% endfor %}
+      </select>
+
     </div>
   </div>
 
   <div class="form-group">
     <label for="inputType" class="col-sm-2 control-label">Type</label>
     <div class="col-sm-10">
-      <input type="text" name="type" class="form-control" id="inputType"  value="{{ mapping.msg_type }}">
+{#      <input type="text" name="type" class="form-control" id="inputType"  value="{{ mapping.msg_type }}">#}
+
+      <select name="type" id="inputType" class="form-control">
+            <option {% if mapping.msg_type == "event" %}selected="selected"{% endif %} >event</option>
+            <option {% if mapping.msg_tyep == "command" %}selected="selected"{% endif %} >command</option>
+      </select>
     </div>
   </div>
 

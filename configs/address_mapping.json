@@ -168,38 +168,6 @@
   "address": "/zw/29/thermostat/1/commands"
  }, 
  {
-  "name": "energy_consumption", 
-  "msg_type": "event", 
-  "msg_class": "energy_consumption", 
-  "group_name": "table1", 
-  "key": "energy_consumption@.zw.19.binary_switch.1.events", 
-  "address": "/zw/19/binary_switch/1/events"
- }, 
- {
-  "name": "power", 
-  "msg_type": "event", 
-  "msg_class": "power", 
-  "group_name": "table1", 
-  "key": "power@.zw.3.binary_switch.1.events", 
-  "address": "/zw/3/binary_switch/1/events"
- }, 
- {
-  "name": "power", 
-  "msg_type": "event", 
-  "msg_class": "power", 
-  "group_name": "table1", 
-  "key": "power@.zw.19.binary_switch.1.events", 
-  "address": "/zw/19/binary_switch/1/events"
- }, 
- {
-  "name": "energy_consumption", 
-  "msg_type": "event", 
-  "msg_class": "energy_consumption", 
-  "group_name": "table1", 
-  "key": "energy_consumption@.zw.3.binary_switch.1.events", 
-  "address": "/zw/3/binary_switch/1/events"
- }, 
- {
   "name": "temperature", 
   "msg_type": "event", 
   "msg_class": "temperature", 
@@ -252,40 +220,8 @@
   "msg_type": "event", 
   "msg_class": "temperature", 
   "group_name": "table1", 
-  "key": "temperature@.zw.35.multilevel_sensor.1.events", 
-  "address": "/zw/35/multilevel_sensor/1/events"
- }, 
- {
-  "name": "temperature", 
-  "msg_type": "event", 
-  "msg_class": "temperature", 
-  "group_name": "table1", 
   "key": "temperature@.zw.38.multilevel_sensor.1.events", 
   "address": "/zw/38/multilevel_sensor/1/events"
- }, 
- {
-  "name": "temperature", 
-  "msg_type": "event", 
-  "msg_class": "temperature", 
-  "group_name": "table1", 
-  "key": "temperature@.zw.40.multilevel_sensor.1.events", 
-  "address": "/zw/40/multilevel_sensor/1/events"
- }, 
- {
-  "name": "temperature", 
-  "msg_type": "event", 
-  "msg_class": "temperature", 
-  "group_name": "table1", 
-  "key": "temperature@.zw.41.multilevel_sensor.1.events", 
-  "address": "/zw/41/multilevel_sensor/1/events"
- }, 
- {
-  "name": "temperature442", 
-  "msg_type": "event", 
-  "msg_class": "temperature", 
-  "group_name": "table1", 
-  "key": "temperature@.zw.42.multilevel_sensor.1.events", 
-  "address": "/zw/42/multilevel_sensor/1/events"
  }, 
  {
   "name": "radon", 
@@ -294,5 +230,13 @@
   "group_name": "table1", 
   "key": "radon@.zw.38.multilevel_sensor.1.events", 
   "address": "/zw/38/multilevel_sensor/1/events"
+ }, 
+ {
+  "name": "meter.power", 
+  "msg_type": "event", 
+  "msg_class": "meter.power", 
+  "group_name": "table1", 
+  "key": "meter.power@.dev.serial.1243423.met_power.1.events", 
+  "address": "/dev/serial/1243423/met_power/1/events"
  }
 ]

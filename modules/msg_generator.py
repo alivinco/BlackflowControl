@@ -1,7 +1,7 @@
 import json
 import time
 from libs import mosquitto
-
+import os
 __author__ = 'aleksandrsl'
 
 
@@ -16,7 +16,9 @@ def send(topic,msg):
 def generate_new_type():
    msg = {"event":{"type":"brand_new_type","value":136,"units":"ccc"}}
    # send("/zw/3/binary_switch/1/commands",json.dumps(msg))
-   send("/zw/3/binary_switch/1/commands","")
+   pr = "C:/ALWorks/SG/BlackflyTestSuite"
+   f = open(os.path.join(pr,"messages","events","meter.power.json"))
+   send("/dev/serial/1243423/met_power/1/events",f.read())
 
 
 generate_new_type()

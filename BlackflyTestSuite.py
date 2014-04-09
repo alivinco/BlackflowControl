@@ -28,7 +28,7 @@ msg_man = MessageManager()
 cache = MsgCache(msg_man)
 # Mqtt initialization
 msg_pipeline = MsgPipeline(msg_man,cache)
-mqtt = MqttAdapter(msg_pipeline)
+mqtt = MqttAdapter(msg_pipeline,msg_man.global_configs["mqtt"]["client_id"])
 mqtt.connect(msg_man.global_configs["mqtt"]["host"],int(msg_man.global_configs["mqtt"]["port"]))
 mqtt.sub_topic = msg_man.global_configs["mqtt"]["root_topic"]
 mqtt.start()
@@ -74,25 +74,74 @@ def address_mapping_ui():
 def address_map_ui(key):
     msg_man.reload_all_mappings()
     mapping = msg_man.get_address_by_key(key)
+    msg_class_list = msg_man.msg_class_mapping
     if not mapping:
        mapping = {"name":"","key":"","msg_type":"","address":"","msg_class":""}
       # log.info(mapping)
 
-    return render_template('address_map.html', mapping=mapping)
+    return render_template('address_map.html', mapping=mapping,msg_class_list=msg_class_list )
 
 
 @app.route('/ui/msg_class_mapping')
 def msg_class_mapping_ui():
     msg_man.reload_all_mappings()
 
-    mapping = msg_man.msg_class_mapping
+    mapping = list(msg_man.msg_class_mapping)
+
+    for item in mapping :
+        if "." in item["msg_class"]:
+            sp = item["msg_class"].split(".")
+            item["class"] = sp[0]
+            item["subclass"] = sp[1]
+        else :
+            item["class"] = ""
+            item["subclass"] = item["msg_class"]
+
     return render_template('msg_class_mapping.html', mapping=mapping)
 
-@app.route('/ui/msg_class/<msg_type>/<msg_class>')
+@app.route('/ui/msg_class/<msg_type>/<msg_class>',methods=["POST","GET"])
 def msg_class_ui(msg_type,msg_class):
+    try:
+        if request.method == 'POST':
+           class_name = request.form["class"]
+           msg_type = request.form["type"]
+           msg_class_obj = msg_man.get_msg_clas_by_name(msg_type,class_name)
+           ui_el = request.form["ui_element"]
+           is_new_class = False
 
-    msg_man.reload_all_mappings()
+           if not msg_class_obj:
+              is_new_class = True
+              msg_class_obj = {"ui_mapping": {
+                               "ui_element": "",
+                               "value_path": ""
+                              },
+                              "msg_type": "",
+                              "msg_class": ""
+                             }
+
+           msg_class_obj["ui_mapping"]["ui_element"] = ui_el
+           msg_class_obj["ui_mapping"]["value_path"] = request.form["ui_value_path"]
+           if ui_el == "sensor_value":
+              um = msg_class_obj["ui_mapping"]
+              um["unit_path"] = request.form["ui_unit_path"]
+           elif ui_el == "input_num_field":
+              msg_class_obj["ui_mapping"]["num_type"] = request.form["num_type"]
+
+           if is_new_class:
+              log.info("Adding new message class to mapping ; "+str(msg_class_obj))
+              msg_man.msg_class_mapping.append(msg_class)
+           else:
+              log.info("Updating class mapping "+str(msg_class_obj))
+
+           msg_man.serialize_class_mapping()
+        else :
+           msg_man.reload_all_mappings()
+
+    except Exception as ex :
+        log.error(ex)
+
     msg_class_obj = msg_man.get_msg_clas_by_name(msg_type,msg_class)
+
     try:
         msg_template = json.dumps(msg_man.get_msg_class_template_by_name(msg_type,msg_class),indent=True)
     except Exception as ex:
@@ -123,12 +172,14 @@ def settings_ui():
          msg_man.global_configs["mqtt"]["host"] = request.form["mqtt_host"]
          msg_man.global_configs["mqtt"]["port"] = request.form["mqtt_port"]
          msg_man.global_configs["mqtt"]["root_topic"] = request.form["mqtt_root_topic"]
+         msg_man.global_configs["mqtt"]["client_id"] = request.form["mqtt_client_id"]
+         mqtt.set_mqtt_params(request.form["mqtt_client_id"])
 
          f = open(msg_man.global_configs_path,"w")
          f.write(json.dumps(msg_man.global_configs,indent=True))
          f.close()
          log.info("Global config was successfully updated")
-         log.info("New values are mqtt host = "+request.form["mqtt_host"]+" port = "+request.form["mqtt_port"]+" root topic = "+request.form["mqtt_root_topic"])
+         log.info("New values are mqtt host = "+request.form["mqtt_host"]+" port = "+request.form["mqtt_port"]+" root topic = "+request.form["mqtt_root_topic"]+" client id="+request.form["mqtt_client_id"])
 
     return render_template('settings.html',cfg=msg_man.global_configs)
 

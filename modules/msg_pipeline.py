@@ -101,10 +101,29 @@ class MsgPipeline():
         :return:
         """
         for path in self.msg_man.global_configs["msg_class_lookup_path"]:
-           msg_class = self.msg_man.get_value_from_msg(payload, path["path"])
-           if msg_class:
-               return msg_class[0]
+           try:
+               if path["type"]=="single":
+                   msg_class = self.msg_man.get_value_from_msg(payload, path["path"])
+                   if msg_class:
+                      return msg_class[0]
+               elif path["type"]=="multiple":
+                   # message class can be aggregated from several field
+                   # all results are concatenated with "." , for example meter.power
+                   class_list = []
+                   for item in path["path"]:
+                     t = self.msg_man.get_value_from_msg(payload,item)
+                     if t :
+                       class_list.append(t[0])
+                     else :
+                       return None
+                   msg_class = ".".join(class_list)
+                   return msg_class
+
+           except Exception as ex:
+               log.debug("__get_msg_class_from_msg : class can't be extracted from msg because of error :"+str(ex))
+
         return None
+
 
     def __check_address(self, address):
         r = filter(lambda map_item: (map_item["address"] == address ), self.msg_man.address_mapping)
@@ -119,7 +138,6 @@ class MsgPipeline():
             return True
         else:
             return False
-
 
 
     def __extract_data(self,address,msg_class,payload):
@@ -149,6 +167,8 @@ if __name__ == "__main__":
     m = MessageManager()
     cache = MsgCache(m)
     t = MsgPipeline(m,cache)
-    jobj = m.parse_file(os.path.join(m.events_dir, "inclusion.json"))
-    t.process_event("/zw/inclusion",jobj)
-    print cache.approve_cache
+    jobj = m.parse_file(os.path.join(m.events_dir, "meter.power.json"))
+    # msg_clas = t.get_msg_class_from_msg(jobj)
+    # print msg_clas
+    # t.process_event("/zw/inclusion",jobj)
+    # print cache.approve_cache

@@ -15,15 +15,18 @@ log = logging.getLogger("bf_mqtt")
 class MqttAdapter:
 
 
-    def __init__(self, msg_pipeline):
+    def __init__(self, msg_pipeline,client_id="blackfly_test_suite"):
         """
         Contructor takes single argument which is reference to device registry object .
         :param device_registry:
         """
         self.retry_delay = 5
         self.sub_topic = "/#"
-        self.mqtt = mosquitto.Mosquitto("blackfly_test_suite", clean_session=True)
+        self.mqtt = mosquitto.Mosquitto(client_id, clean_session=True)
         self.msg_pipeline = msg_pipeline
+
+    def set_mqtt_params(self,client_id):
+        self.mqtt._client_id = client_id
 
     def connect(self, host="localhost", port=1883, keepalive=60):
         self._host = host

@@ -99,39 +99,7 @@
   }, 
   "msg_type": "event", 
   "msg_class": "smoke_detected"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "free_text", 
-   "value_path": "$.event.value"
-  }, 
-  "msg_type": "event", 
-  "msg_class": "energy_consumption"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "free_text", 
-   "value_path": "$.event.value"
-  }, 
-  "msg_type": "event", 
-  "msg_class": "power"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "free_text", 
-   "value_path": "$.event.value"
-  }, 
-  "msg_type": "event", 
-  "msg_class": "power"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "free_text", 
-   "value_path": "$.event.value"
-  }, 
-  "msg_type": "event", 
-  "msg_class": "energy_consumption"
- }, 
+ },
  {
   "ui_mapping": {
    "ui_element": "free_text", 
@@ -148,5 +116,14 @@
   }, 
   "msg_type": "event", 
   "msg_class": "radon"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "sensor_value", 
+   "unit_path": "$.event.default.unit", 
+   "value_path": "$.event.default.value"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "meter.power"
  }
 ]

@@ -196,7 +196,7 @@ class MessageManager:
             item["msg_type"] = msg_type
             log.info("Address mapping updated with " + str(item))
         else :
-            self.address_mapping.append({"msg_class": msg_class, "address": address, "name": msg_class, "msg_type": msg_type, "group_name": "table1","key": self.generate_key(msg_class, address)})
+            self.address_mapping.append({"msg_class": msg_class, "address": address, "name": name, "msg_type": msg_type, "group_name": "table1","key": self.generate_key(msg_class, address)})
 
         self.serialize_address_mapping()
 
@@ -234,6 +234,12 @@ class MessageManager:
         log.info("Serializing address mapping to file " + self.address_mapping_file_path)
         f = open(self.address_mapping_file_path, "w")
         f.write(json.dumps(self.address_mapping, indent=True))
+        f.close()
+
+    def serialize_class_mapping(self):
+        log.info("Serializing class mapping to file " + self.msg_class_mapping_file_path)
+        f = open(self.msg_class_mapping_file_path, "w")
+        f.write(json.dumps(self.msg_class_mapping, indent=True))
         f.close()
 
 
