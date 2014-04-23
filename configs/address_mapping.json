@@ -238,5 +238,157 @@
   "group_name": "table1", 
   "key": "meter.power@.dev.serial.1243423.met_power.1.events", 
   "address": "/dev/serial/1243423/met_power/1/events"
+ }, 
+ {
+  "name": "battery_level", 
+  "msg_type": "event", 
+  "msg_class": "battery_level", 
+  "group_name": "table1", 
+  "key": "battery_level@.zw.44.battery.1.events", 
+  "address": "/zw/44/battery/1/events"
+ }, 
+ {
+  "name": "Danfos 2", 
+  "msg_type": "command", 
+  "msg_class": "heating_point", 
+  "group_name": "table1", 
+  "key": "heating_point@.zw.44.thermostat.1.commands", 
+  "address": "/zw/44/thermostat/1/commands"
+ }, 
+ {
+  "name": "wakeup_interval", 
+  "msg_type": "event", 
+  "msg_class": "wakeup_interval", 
+  "group_name": "table1", 
+  "key": "wakeup_interval@.zw.44.thermostat.1.events", 
+  "address": "/zw/44/thermostat/1/events"
+ }, 
+ {
+  "name": "energy_consumption", 
+  "msg_type": "event", 
+  "msg_class": "energy_consumption", 
+  "group_name": "table1", 
+  "key": "energy_consumption@.zw.3.binary_switch.1.events", 
+  "address": "/zw/3/binary_switch/1/events"
+ }, 
+ {
+  "name": "power", 
+  "msg_type": "event", 
+  "msg_class": "power", 
+  "group_name": "table1", 
+  "key": "power@.zw.19.binary_switch.1.events", 
+  "address": "/zw/19/binary_switch/1/events"
+ }, 
+ {
+  "name": "radon", 
+  "msg_type": "event", 
+  "msg_class": "radon", 
+  "group_name": "table1", 
+  "key": "radon@.zw.38.met_radon.1.events", 
+  "address": "/zw/38/met_radon/1/events"
+ }, 
+ {
+  "name": "temperature", 
+  "msg_type": "event", 
+  "msg_class": "temperature", 
+  "group_name": "table1", 
+  "key": "temperature@.zw.38.sen_temp.1.events", 
+  "address": "/zw/38/sen_temp/1/events"
+ }, 
+ {
+  "name": "radon", 
+  "msg_type": "event", 
+  "msg_class": "radon", 
+  "group_name": "table1", 
+  "key": "radon@.zw.45.met_radon.1.events", 
+  "address": "/zw/45/met_radon/1/events"
+ }, 
+ {
+  "name": "temperature", 
+  "msg_type": "event", 
+  "msg_class": "temperature", 
+  "group_name": "table1", 
+  "key": "temperature@.zw.45.sen_temp.1.events", 
+  "address": "/zw/45/sen_temp/1/events"
+ }, 
+ {
+  "name": "radon", 
+  "msg_type": "event", 
+  "msg_class": "radon", 
+  "group_name": "table1", 
+  "key": "radon@.zw.46.met_radon.1.events", 
+  "address": "/zw/46/met_radon/1/events"
+ }, 
+ {
+  "name": "temperature", 
+  "msg_type": "event", 
+  "msg_class": "temperature", 
+  "group_name": "table1", 
+  "key": "temperature@.zw.46.sen_temp.1.events", 
+  "address": "/zw/46/sen_temp/1/events"
+ }, 
+ {
+  "name": "battery_level", 
+  "msg_type": "event", 
+  "msg_class": "battery_level", 
+  "group_name": "table1", 
+  "key": "battery_level@.zw.47.battery.1.events", 
+  "address": "/zw/47/battery/1/events"
+ }, 
+ {
+  "name": "wakeup_interval", 
+  "msg_type": "event", 
+  "msg_class": "wakeup_interval", 
+  "group_name": "table1", 
+  "key": "wakeup_interval@.zw.47.thermostat.1.events", 
+  "address": "/zw/47/thermostat/1/events"
+ }, 
+ {
+  "name": "radon", 
+  "msg_type": "event", 
+  "msg_class": "radon", 
+  "group_name": "table1", 
+  "key": "radon@.zw.49.met_radon.1.events", 
+  "address": "/zw/49/met_radon/1/events"
+ }, 
+ {
+  "name": "temperature", 
+  "msg_type": "event", 
+  "msg_class": "temperature", 
+  "group_name": "table1", 
+  "key": "temperature@.zw.49.sen_temp.1.events", 
+  "address": "/zw/49/sen_temp/1/events"
+ }, 
+ {
+  "name": "radon", 
+  "msg_type": "event", 
+  "msg_class": "radon", 
+  "group_name": "table1", 
+  "key": "radon@.zw.50.met_radon.1.events", 
+  "address": "/zw/50/met_radon/1/events"
+ }, 
+ {
+  "name": "temperature", 
+  "msg_type": "event", 
+  "msg_class": "temperature", 
+  "group_name": "table1", 
+  "key": "temperature@.zw.50.sen_temp.1.events", 
+  "address": "/zw/50/sen_temp/1/events"
+ }, 
+ {
+  "name": "radon", 
+  "msg_type": "event", 
+  "msg_class": "radon", 
+  "group_name": "table1", 
+  "key": "radon@.zw.51.met_radon.1.events", 
+  "address": "/zw/51/met_radon/1/events"
+ }, 
+ {
+  "name": "temperature", 
+  "msg_type": "event", 
+  "msg_class": "temperature", 
+  "group_name": "table1", 
+  "key": "temperature@.zw.51.sen_temp.1.events", 
+  "address": "/zw/51/sen_temp/1/events"
  }
 ]

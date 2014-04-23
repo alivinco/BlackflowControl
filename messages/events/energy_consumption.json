@@ -1,0 +1,29 @@
+{
+ "origin": {
+  "device": {
+   "vendor": "010f", 
+   "resource": {
+    "instance": 1, 
+    "name": "binary_switch"
+   }, 
+   "protocol": "zw", 
+   "id": 3, 
+   "type": "Binary Power Switch"
+  }
+ }, 
+ "uuid": "080c133a-dd5a-4a3a-b26c-9f2e1a81cd4a", 
+ "service_point_id": "NotImplemented", 
+ "creation_time": "2014-04-10.16:50:32", 
+ "creation_time_iso": "NotImplemented", 
+ "event": {
+  "Energy": {
+   "units": "kWh", 
+   "value": 0.01999999955296516
+  }, 
+  "type": "energy_consumption", 
+  "Power": {
+   "units": "W", 
+   "value": 0
+  }
+ }
+}

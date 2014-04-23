@@ -1,0 +1,31 @@
+{% extends "base_layout.html" %}
+{% block li_device_browser %}class="active"{% endblock %}
+{% block body %}
+</h1>
+<h3>Device browser</h3>
+<div class="container-fluid">
+
+<div class="table-responsive">
+ <table id="addr_map_table" class="table table-striped">
+     <thead>
+                    <tr>
+                      <th data-sort="string" >Device name (↑↓)</th>
+                      <th>device class </th>
+                      <th>action</th>
+                    </tr>
+     </thead>
+     <tbody>
+
+     </tbody>
+
+ </table>
+</div>
+</div>
+
+
+{% endblock %}
+{% block js_scripts %}
+    <script src="/static/js/stupidtable.min.js"></script>
+    <script src="/static/js/address_mapping.js"></script>
+
+{% endblock %}

@@ -57,8 +57,11 @@ def mqtt_control(command):
 @app.route('/ui/inter_console')
 def inter_console_ui():
     log.info("Inter console works")
-    msg_man.reload_all_mappings()
-    mapping = msg_man.generate_linked_mapping(msg_man.load_msg_class_mapping(), msg_man.load_address_mapping())
+    try :
+        msg_man.reload_all_mappings()
+        mapping = msg_man.generate_linked_mapping(msg_man.load_msg_class_mapping(), msg_man.load_address_mapping())
+    except Exception as ex :
+        log.exception(ex)
     return render_template('inter_console.html', mapping=mapping,cache=cache)
 
 @app.route('/ui/address_mapping')
@@ -69,6 +72,15 @@ def address_mapping_ui():
     # let's add key
 
     return render_template('address_mapping.html', mapping=mapping)
+
+@app.route('/ui/device_browser')
+def device_browser_ui():
+
+    mapping = msg_man.address_mapping
+    # let's add key
+
+    return render_template('device_browser.html', mapping=mapping)
+
 
 @app.route('/ui/address_map/<key>')
 def address_map_ui(key):
