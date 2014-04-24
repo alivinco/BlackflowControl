@@ -1,5 +1,26 @@
 [
     {
-        "name":"wall_plug"
+        "dev_name":"wallplug",
+        "dev_id":"wallplug",
+        "virt_devices":{
+            "bin_switch":{
+                "supported_msg_classes":{"command.binary.switch":{"endpoints":2}},
+                "emitted_msg_classes":{"event.binary.switch":{"endpoints":2}}
+            }
+        }
+    },
+    {
+        "dev_name":"door sensor",
+        "dev_id":"door_sensor",
+        "virt_devices":{
+            "bin_switch":{
+                "supported_msg_classes":{},
+                "emitted_msg_classes":{"event.binary.opening":{"endpoints":1}}
+            },
+            "lvl_battery":{
+                "emitted_msg_classes":{"event.level.battery":{"endpoints":1}}
+            }
+
+        }
     }
 ]

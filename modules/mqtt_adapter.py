@@ -58,7 +58,12 @@ class MqttAdapter:
             log.debug("Command type of message is skipped")
         else :
             log.info("New message from topic = "+str(msg.topic))
-            self.msg_pipeline.process_event(msg.topic,json.loads(msg.payload))
+            if self.msg_pipeline:
+                self.msg_pipeline.process_event(msg.topic,json.loads(msg.payload))
+            else :
+                self.on_message(msg.topic,json.loads(msg.payload))
+    def on_message(self,topic,json_msg):
+        log.info("do nothing and skipp the message")
 
     def _loop_start(self):
         self._thread_terminate = False
