@@ -4,7 +4,7 @@ from modules.msg_manager import MessageManager
 
 __author__ = 'aleksandrsl'
 
-class RuleMagic:
+class App:
 
     def __init__(self,name,topic):
         self.context = {}
@@ -19,7 +19,7 @@ class RuleMagic:
         self.mqtt.on_message = self.do_magic
         self.mqtt.start()
 
-    def set_magic_name(self,name):
+    def set_app_name(self,name):
         self.name = name
     # the class subscribes to topic /bftst/magic
     def do_magic(self,topic,json_msg):
