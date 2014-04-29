@@ -1,0 +1,21 @@
+{
+ "origin": {
+  "endp_id": 1, 
+  "vendor": "0002", 
+  "@id": 47, 
+  "@type": "lvl_battery", 
+  "location": "NotImplemented"
+ }, 
+ "uuid": "812403b2-e4c2-4dc6-842a-65a29338727c", 
+ "creation_time": 1398777024, 
+ "spid": "NotImplemented", 
+ "@context": "http://smartly.no/context", 
+ "event": {
+  "default": {
+   "units": "%", 
+   "value": 72
+  }, 
+  "subtype": "battery", 
+  "@type": "level"
+ }
+}

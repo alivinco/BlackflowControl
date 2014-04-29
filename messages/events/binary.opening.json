@@ -1,0 +1,20 @@
+{
+ "origin": {
+  "endp_id": 1, 
+  "vendor": "010f", 
+  "@id": 15, 
+  "@type": "bin_opening", 
+  "location": "NotImplemented"
+ }, 
+ "uuid": "587cf046-5ce1-490f-8833-08a1348cc105", 
+ "creation_time": 1398777140, 
+ "spid": "NotImplemented", 
+ "@context": "http://smartly.no/context", 
+ "event": {
+  "default": {
+   "value": true
+  }, 
+  "subtype": "opening", 
+  "@type": "binary"
+ }
+}

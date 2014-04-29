@@ -1,0 +1,21 @@
+{
+ "origin": {
+  "endp_id": 1, 
+  "vendor": "0002", 
+  "@id": 47, 
+  "@type": "dev_sys", 
+  "location": "NotImplemented"
+ }, 
+ "uuid": "0897e452-c63c-4ae6-b2d0-0a65a18af6a4", 
+ "creation_time": 1398777912, 
+ "spid": "NotImplemented", 
+ "@context": "http://smartly.no/context", 
+ "event": {
+  "default": {
+   "units": "secs", 
+   "value": 300
+  }, 
+  "subtype": "wakeup_interval", 
+  "@type": "time"
+ }
+}

@@ -26,8 +26,8 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "float", 
-   "value_path": "$.command.value"
+   "value_path": "$.command.value", 
+   "num_type": "float"
   }, 
   "msg_type": "command", 
   "msg_class": "heating_point"
@@ -143,5 +143,39 @@
   }, 
   "msg_type": "event", 
   "msg_class": "power"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "sensor_value", 
+   "unit_path": "$.event.default.units", 
+   "value_path": "$.event.default.value"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "level.battery"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "sensor_value", 
+   "unit_path": "$.event.default.units", 
+   "value_path": "$.event.default.value"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "sensor.temperature"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "binary_light", 
+   "value_path": "$.event.default.value"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "binary.opening"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "free_text", 
+   "value_path": "$.event.value"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "time.wakeup_interval"
  }
 ]

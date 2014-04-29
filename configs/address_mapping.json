@@ -24,22 +24,6 @@
   "address": "/zw/3/binary_switch/1/commands"
  }, 
  {
-  "name": "door sensor", 
-  "msg_type": "event", 
-  "msg_class": "door_opened", 
-  "group_name": "table1", 
-  "key": "door_opened@.zw.15.binary_sensor.1.events", 
-  "address": "/zw/15/binary_sensor/1/events"
- }, 
- {
-  "name": "temperature", 
-  "msg_type": "event", 
-  "msg_class": "temperature", 
-  "group_name": "table1", 
-  "key": "temperature@.zw.15.multilevel_sensor.1.events", 
-  "address": "/zw/15/multilevel_sensor/1/events"
- }, 
- {
   "name": "Danfos battary", 
   "msg_type": "event", 
   "msg_class": "battery_level", 
@@ -86,14 +70,6 @@
   "group_name": "table1", 
   "key": "exclusion@.zw.exclusion", 
   "address": "/zw/exclusion"
- }, 
- {
-  "name": "battery_level", 
-  "msg_type": "event", 
-  "msg_class": "battery_level", 
-  "group_name": "table1", 
-  "key": "battery_level@.zw.15.battery_manager.1.events", 
-  "address": "/zw/15/battery_manager/1/events"
  }, 
  {
   "name": "wallplug 2", 
@@ -240,14 +216,6 @@
   "address": "/dev/serial/1243423/met_power/1/events"
  }, 
  {
-  "name": "battery_level", 
-  "msg_type": "event", 
-  "msg_class": "battery_level", 
-  "group_name": "table1", 
-  "key": "battery_level@.zw.44.battery.1.events", 
-  "address": "/zw/44/battery/1/events"
- }, 
- {
   "name": "Danfos 2", 
   "msg_type": "command", 
   "msg_class": "heating_point", 
@@ -280,54 +248,6 @@
   "address": "/zw/19/binary_switch/1/events"
  }, 
  {
-  "name": "radon", 
-  "msg_type": "event", 
-  "msg_class": "radon", 
-  "group_name": "table1", 
-  "key": "radon@.zw.38.met_radon.1.events", 
-  "address": "/zw/38/met_radon/1/events"
- }, 
- {
-  "name": "temperature", 
-  "msg_type": "event", 
-  "msg_class": "temperature", 
-  "group_name": "table1", 
-  "key": "temperature@.zw.38.sen_temp.1.events", 
-  "address": "/zw/38/sen_temp/1/events"
- }, 
- {
-  "name": "radon", 
-  "msg_type": "event", 
-  "msg_class": "radon", 
-  "group_name": "table1", 
-  "key": "radon@.zw.45.met_radon.1.events", 
-  "address": "/zw/45/met_radon/1/events"
- }, 
- {
-  "name": "temperature", 
-  "msg_type": "event", 
-  "msg_class": "temperature", 
-  "group_name": "table1", 
-  "key": "temperature@.zw.45.sen_temp.1.events", 
-  "address": "/zw/45/sen_temp/1/events"
- }, 
- {
-  "name": "radon", 
-  "msg_type": "event", 
-  "msg_class": "radon", 
-  "group_name": "table1", 
-  "key": "radon@.zw.46.met_radon.1.events", 
-  "address": "/zw/46/met_radon/1/events"
- }, 
- {
-  "name": "temperature", 
-  "msg_type": "event", 
-  "msg_class": "temperature", 
-  "group_name": "table1", 
-  "key": "temperature@.zw.46.sen_temp.1.events", 
-  "address": "/zw/46/sen_temp/1/events"
- }, 
- {
   "name": "battery_level", 
   "msg_type": "event", 
   "msg_class": "battery_level", 
@@ -342,22 +262,6 @@
   "group_name": "table1", 
   "key": "wakeup_interval@.zw.47.thermostat.1.events", 
   "address": "/zw/47/thermostat/1/events"
- }, 
- {
-  "name": "radon", 
-  "msg_type": "event", 
-  "msg_class": "radon", 
-  "group_name": "table1", 
-  "key": "radon@.zw.49.met_radon.1.events", 
-  "address": "/zw/49/met_radon/1/events"
- }, 
- {
-  "name": "temperature", 
-  "msg_type": "event", 
-  "msg_class": "temperature", 
-  "group_name": "table1", 
-  "key": "temperature@.zw.49.sen_temp.1.events", 
-  "address": "/zw/49/sen_temp/1/events"
  }, 
  {
   "name": "radon", 
@@ -390,5 +294,69 @@
   "group_name": "table1", 
   "key": "temperature@.zw.51.sen_temp.1.events", 
   "address": "/zw/51/sen_temp/1/events"
+ }, 
+ {
+  "name": "level.battery", 
+  "msg_type": "event", 
+  "msg_class": "level.battery", 
+  "group_name": "table1", 
+  "key": "level.battery@.dev.zw.47.lvl_battery.1.events", 
+  "address": "/dev/zw/47/lvl_battery/1/events"
+ }, 
+ {
+  "name": "meter.power", 
+  "msg_type": "event", 
+  "msg_class": "meter.power", 
+  "group_name": "table1", 
+  "key": "meter.power@.dev.zw.3.met_power.1.events", 
+  "address": "/dev/zw/3/met_power/1/events"
+ }, 
+ {
+  "name": "meter.power", 
+  "msg_type": "event", 
+  "msg_class": "meter.power", 
+  "group_name": "table1", 
+  "key": "meter.power@.dev.zw.19.met_power.1.events", 
+  "address": "/dev/zw/19/met_power/1/events"
+ }, 
+ {
+  "name": "level.battery", 
+  "msg_type": "event", 
+  "msg_class": "level.battery", 
+  "group_name": "table1", 
+  "key": "level.battery@.dev.zw.15.lvl_battery.1.events", 
+  "address": "/dev/zw/15/lvl_battery/1/events"
+ }, 
+ {
+  "name": "sensor.temperature", 
+  "msg_type": "event", 
+  "msg_class": "sensor.temperature", 
+  "group_name": "table1", 
+  "key": "sensor.temperature@.dev.zw.15.sen_temp.1.events", 
+  "address": "/dev/zw/15/sen_temp/1/events"
+ }, 
+ {
+  "name": "binary.opening", 
+  "msg_type": "event", 
+  "msg_class": "binary.opening", 
+  "group_name": "table1", 
+  "key": "binary.opening@.dev.zw.15.bin_opening.1.events", 
+  "address": "/dev/zw/15/bin_opening/1/events"
+ }, 
+ {
+  "name": "level.battery", 
+  "msg_type": "event", 
+  "msg_class": "level.battery", 
+  "group_name": "table1", 
+  "key": "level.battery@.dev.zw.44.lvl_battery.1.events", 
+  "address": "/dev/zw/44/lvl_battery/1/events"
+ }, 
+ {
+  "name": "time.wakeup_interval", 
+  "msg_type": "event", 
+  "msg_class": "time.wakeup_interval", 
+  "group_name": "table1", 
+  "key": "time.wakeup_interval@.dev.zw.47.dev_sys.1.events", 
+  "address": "/dev/zw/47/dev_sys/1/events"
  }
 ]
