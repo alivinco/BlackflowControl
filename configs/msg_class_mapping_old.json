@@ -6,23 +6,23 @@
   }, 
   "msg_type": "command", 
   "msg_class": "inclusion_mode"
- }, 
+ },
  {
   "ui_mapping": {
-   "ui_element": "toggle_switch", 
+   "ui_element": "toggle_switch",
    "value_path": "$.command.default.value"
-  }, 
-  "msg_type": "command", 
+  },
+  "msg_type": "command",
   "msg_class": "zw_ta.inclusion_mode"
- }, 
+ },
  {
   "ui_mapping": {
-   "ui_element": "toggle_switch", 
+   "ui_element": "toggle_switch",
    "value_path": "$.command.default.value"
-  }, 
-  "msg_type": "command", 
+  },
+  "msg_type": "command",
   "msg_class": "zw_ta.exclusion_mode"
- }, 
+ },
  {
   "ui_mapping": {
    "ui_element": "toggle_switch", 
@@ -42,8 +42,8 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "value_path": "$.command.value", 
-   "num_type": "float"
+   "num_type": "float", 
+   "value_path": "$.command.value"
   }, 
   "msg_type": "command", 
   "msg_class": "heating_point"
@@ -194,22 +194,5 @@
   }, 
   "msg_type": "event", 
   "msg_class": "time.wakeup_interval"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "sensor_value", 
-   "unit_path": "$.event.default.unit", 
-   "value_path": "$.event.default.value"
-  }, 
-  "msg_type": "event", 
-  "msg_class": "zw_ta.exclusion_report"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "free_text", 
-   "value_path": "$.event.default.value"
-  }, 
-  "msg_type": "event", 
-  "msg_class": "zw_ta.inclusion_report"
  }
 ]

@@ -22,11 +22,15 @@ class MqttAdapter:
         """
         self.retry_delay = 5
         self.sub_topic = "/#"
+        self.topic_prefix = ""
         self.mqtt = mosquitto.Mosquitto(client_id, clean_session=True)
         self.msg_pipeline = msg_pipeline
 
-    def set_mqtt_params(self,client_id):
+    def set_mqtt_params(self,client_id,username="",password="",topic_prefix=""):
         self.mqtt._client_id = client_id
+        self.topic_prefix = topic_prefix
+        if username:
+            self.mqtt.username_pw_set(username,password)
 
     def connect(self, host="localhost", port=1883, keepalive=60):
         self._host = host
@@ -42,9 +46,9 @@ class MqttAdapter:
         log.info("The system reconnected to mqtt broker")
 
     def initiate_listeners(self):
-
-        self.mqtt.subscribe(self.sub_topic, 1)
-        log.info("mqtt adapter subscribed to topic "+self.sub_topic)
+        topic = self.topic_prefix+self.sub_topic
+        self.mqtt.subscribe(topic, 1)
+        log.info("mqtt adapter subscribed to topic "+topic)
 
     def _on_message(self, mosq, obj, msg):
 
@@ -62,6 +66,11 @@ class MqttAdapter:
                 self.msg_pipeline.process_event(msg.topic,json.loads(msg.payload))
             else :
                 self.on_message(msg.topic,json.loads(msg.payload))
+    def publish(self,address,payload,qos):
+        topic = self.topic_prefix+address
+        self.mqtt.publish(topic,payload,qos)
+        log.info("Message was published to topic = "+topic)
+
     def on_message(self,topic,json_msg):
         log.info("do nothing and skipp the message")
 

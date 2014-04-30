@@ -1,13 +1,12 @@
 {
  "mqtt": {
   "host": "192.168.31.252", 
-  "client_id": "blackfly_test_suite_2", 
+  "root_topic": "/#", 
   "port": "1883", 
-  "root_topic": "/#"
- }, 
- "defaults": {
-  "event_value_path_for_new_class": "$.event.value", 
-  "cmd_value_path_for_new_class": "$.command.value"
+  "client_id": "blackfly_test_suite_2",
+  "username":"blackfly",
+  "password":"Lyse3124",
+  "global_topic_prefix":""
  }, 
  "msg_class_lookup_path": [
   {
@@ -28,5 +27,9 @@
    ], 
    "type": "multiple"
   }
- ]
+ ], 
+ "defaults": {
+  "event_value_path_for_new_class": "$.event.value", 
+  "cmd_value_path_for_new_class": "$.command.value"
+ }
 }

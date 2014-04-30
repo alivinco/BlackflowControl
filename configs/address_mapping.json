@@ -1,21 +1,5 @@
 [
  {
-  "name": "SG inclusion", 
-  "msg_type": "command", 
-  "msg_class": "inclusion_mode", 
-  "group_name": "table1", 
-  "key": "inclusion_mode@.zw.0.controller.1.commands", 
-  "address": "/zw/0/controller/1/commands"
- }, 
- {
-  "name": "SG exclusion", 
-  "msg_type": "command", 
-  "msg_class": "exclusion_mode", 
-  "group_name": "table1", 
-  "key": "exclusion_mode@.zw.0.controller.1.commands", 
-  "address": "/zw/0/controller/1/commands"
- }, 
- {
   "name": "wallplug", 
   "msg_type": "command", 
   "msg_class": "switch_binary", 
@@ -54,22 +38,6 @@
   "group_name": "table1", 
   "key": "heating_point@.zw.16.thermostat.1.events", 
   "address": "/zw/16/thermostat/1/events"
- }, 
- {
-  "name": "inclusion", 
-  "msg_type": "event", 
-  "msg_class": "inclusion", 
-  "group_name": "table1", 
-  "key": "inclusion@.zw.inclusion", 
-  "address": "/zw/inclusion"
- }, 
- {
-  "name": "exclusion", 
-  "msg_type": "event", 
-  "msg_class": "exclusion", 
-  "group_name": "table1", 
-  "key": "exclusion@.zw.exclusion", 
-  "address": "/zw/exclusion"
  }, 
  {
   "name": "wallplug 2", 
@@ -264,38 +232,6 @@
   "address": "/zw/47/thermostat/1/events"
  }, 
  {
-  "name": "radon", 
-  "msg_type": "event", 
-  "msg_class": "radon", 
-  "group_name": "table1", 
-  "key": "radon@.zw.50.met_radon.1.events", 
-  "address": "/zw/50/met_radon/1/events"
- }, 
- {
-  "name": "temperature", 
-  "msg_type": "event", 
-  "msg_class": "temperature", 
-  "group_name": "table1", 
-  "key": "temperature@.zw.50.sen_temp.1.events", 
-  "address": "/zw/50/sen_temp/1/events"
- }, 
- {
-  "name": "radon", 
-  "msg_type": "event", 
-  "msg_class": "radon", 
-  "group_name": "table1", 
-  "key": "radon@.zw.51.met_radon.1.events", 
-  "address": "/zw/51/met_radon/1/events"
- }, 
- {
-  "name": "temperature", 
-  "msg_type": "event", 
-  "msg_class": "temperature", 
-  "group_name": "table1", 
-  "key": "temperature@.zw.51.sen_temp.1.events", 
-  "address": "/zw/51/sen_temp/1/events"
- }, 
- {
   "name": "level.battery", 
   "msg_type": "event", 
   "msg_class": "level.battery", 
@@ -358,5 +294,53 @@
   "group_name": "table1", 
   "key": "time.wakeup_interval@.dev.zw.47.dev_sys.1.events", 
   "address": "/dev/zw/47/dev_sys/1/events"
+ }, 
+ {
+  "name": "SG inclusion", 
+  "msg_type": "command", 
+  "msg_class": "zw_ta.inclusion_mode", 
+  "group_name": "table1", 
+  "key": "zw_ta.inclusion_mode@.ta.zw.commands", 
+  "address": "/ta/zw/commands"
+ }, 
+ {
+  "name": "SG exclusion", 
+  "msg_type": "command", 
+  "msg_class": "zw_ta.exclusion_mode", 
+  "group_name": "table1", 
+  "key": "zw_ta.exclusion_mode@.ta.zw.commands", 
+  "address": "/ta/zw/commands"
+ }, 
+ {
+  "name": "zw_ta.exclusion_report", 
+  "msg_type": "event", 
+  "msg_class": "zw_ta.exclusion_report", 
+  "group_name": "table1", 
+  "key": "zw_ta.exclusion_report@.ta.zw.events", 
+  "address": "/ta/zw/events"
+ }, 
+ {
+  "name": "level.battery", 
+  "msg_type": "event", 
+  "msg_class": "level.battery", 
+  "group_name": "table1", 
+  "key": "level.battery@.dev.zw.54.lvl_battery.1.events", 
+  "address": "/dev/zw/54/lvl_battery/1/events"
+ }, 
+ {
+  "name": "zw_ta.inclusion_report", 
+  "msg_type": "event", 
+  "msg_class": "zw_ta.inclusion_report", 
+  "group_name": "table1", 
+  "key": "zw_ta.inclusion_report@.ta.zw.events", 
+  "address": "/ta/zw/events"
+ }, 
+ {
+  "name": "time.wakeup_interval", 
+  "msg_type": "event", 
+  "msg_class": "time.wakeup_interval", 
+  "group_name": "table1", 
+  "key": "time.wakeup_interval@.dev.zw.54.dev_sys.1.events", 
+  "address": "/dev/zw/54/dev_sys/1/events"
  }
 ]

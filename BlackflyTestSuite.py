@@ -29,6 +29,7 @@ cache = MsgCache(msg_man)
 # Mqtt initialization
 msg_pipeline = MsgPipeline(msg_man,cache)
 mqtt = MqttAdapter(msg_pipeline,msg_man.global_configs["mqtt"]["client_id"])
+mqtt.set_mqtt_params(msg_man.global_configs["mqtt"]["client_id"],msg_man.global_configs["mqtt"]["username"],msg_man.global_configs["mqtt"]["password"])
 mqtt.connect(msg_man.global_configs["mqtt"]["host"],int(msg_man.global_configs["mqtt"]["port"]))
 mqtt.sub_topic = msg_man.global_configs["mqtt"]["root_topic"]
 mqtt.start()
@@ -185,7 +186,10 @@ def settings_ui():
          msg_man.global_configs["mqtt"]["port"] = request.form["mqtt_port"]
          msg_man.global_configs["mqtt"]["root_topic"] = request.form["mqtt_root_topic"]
          msg_man.global_configs["mqtt"]["client_id"] = request.form["mqtt_client_id"]
-         mqtt.set_mqtt_params(request.form["mqtt_client_id"])
+         msg_man.global_configs["mqtt"]["username"] = request.form["mqtt_username"]
+         msg_man.global_configs["mqtt"]["password"] = request.form["mqtt_password"]
+         msg_man.global_configs["mqtt"]["global_topic_prefix"] = request.form["mqtt_global_topic_prefix"]
+         mqtt.set_mqtt_params(request.form["mqtt_client_id"],request.form["mqtt_username"],request.form["mqtt_password"],request.form["mqtt_global_topic_prefix"])
 
          f = open(msg_man.global_configs_path,"w")
          f.write(json.dumps(msg_man.global_configs,indent=True))

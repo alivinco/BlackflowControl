@@ -1,0 +1,80 @@
+{
+ "origin": {
+  "endp_id": 1, 
+  "@id": "1", 
+  "@type": "zw_ta"
+ }, 
+ "uuid": "9530e63b-1335-485f-89c0-3a73351e95a7", 
+ "creation_time": 1398872218, 
+ "spid": "will_be_implemented", 
+ "@context": "http://smartly.no/context", 
+ "event": {
+  "default": {
+   "@type": "array", 
+   "value": [
+    "/dev/zw/54/lvl_battery/1", 
+    "/dev/zw/54/sen_temp/1", 
+    "/dev/zw/54/lvl_thermostat/1", 
+    "/dev/zw/54/dev_sys/1"
+   ]
+  }, 
+  "subtype": "inclusion_report", 
+  "@type": "zw_ta", 
+  "properties": {
+   "inclusion_report": {
+    "@type": "complex", 
+    "value": {
+     "device": {
+      "vendor": "0002", 
+      "version": "1.0", 
+      "protocol": "zw", 
+      "id": 54, 
+      "product_id": "will_be_implemented"
+     }, 
+     "resource_list": [
+      {
+       "uri": "/dev/zw/54/lvl_battery/1", 
+       "id": 1, 
+       "capabilities": {
+        "command_classes": [
+         "COMMAND_CLASS_BATTERY"
+        ]
+       }, 
+       "name": "lvl_battery"
+      }, 
+      {
+       "uri": "/dev/zw/54/sen_temp/1", 
+       "id": 1, 
+       "capabilities": {
+        "command_classes": [
+         "COMMAND_CLASS_SENSOR_MULTILEVEL"
+        ]
+       }, 
+       "name": "sen_temp"
+      }, 
+      {
+       "uri": "/dev/zw/54/lvl_thermostat/1", 
+       "id": 1, 
+       "capabilities": {
+        "command_classes": [
+         "COMMAND_CLASS_THERMOSTAT_SETPOINT"
+        ]
+       }, 
+       "name": "lvl_thermostat"
+      }, 
+      {
+       "uri": "/dev/zw/54/dev_sys/1", 
+       "id": 1, 
+       "capabilities": {
+        "command_classes": [
+         "COMMAND_CLASS_WAKE_UP"
+        ]
+       }, 
+       "name": "dev_sys"
+      }
+     ]
+    }
+   }
+  }
+ }
+}

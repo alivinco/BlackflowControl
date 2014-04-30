@@ -20,7 +20,7 @@
   </div>
 
   <div class="form-group">
-    <label for="mqtt_topic_input" class="col-sm-2 control-label">root topic</label>
+    <label for="mqtt_topic_input" class="col-sm-2 control-label">subscribe topic</label>
     <div class="col-sm-10">
       <input type="text" name="mqtt_root_topic" class="form-control" id="mqtt_topic_input"  value="{{ cfg.mqtt.root_topic }}">
     </div>
@@ -30,6 +30,24 @@
     <label for="mqtt_client_id_input" class="col-sm-2 control-label">client id</label>
     <div class="col-sm-10">
       <input type="text" name="mqtt_client_id" class="form-control" id="mqtt_client_id_input"  value="{{ cfg.mqtt.client_id }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="mqtt_client_id_input" class="col-sm-2 control-label">username</label>
+    <div class="col-sm-10">
+      <input type="text" name="mqtt_username" class="form-control" id="mqtt_client_id_input"  value="{{ cfg.mqtt.username }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="mqtt_client_id_input" class="col-sm-2 control-label">password</label>
+    <div class="col-sm-10">
+      <input type="text" name="mqtt_password" class="form-control" id="mqtt_client_id_input"  value="{{ cfg.mqtt.password }}">
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="mqtt_client_id_input" class="col-sm-2 control-label">global topic prefix</label>
+    <div class="col-sm-10">
+      <input type="text" name="mqtt_global_topic_prefix" class="form-control" id="mqtt_client_id_input"  value="{{ cfg.mqtt.global_topic_prefix }}">
     </div>
   </div>
 
