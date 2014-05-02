@@ -1,0 +1,21 @@
+{
+ "origin": {
+  "endp_id": 1, 
+  "vendor": "7401", 
+  "@id": 52, 
+  "@type": "met_radon", 
+  "location": "NotImplemented"
+ }, 
+ "uuid": "e795e1c3-afb2-495a-8440-8ccac9757de2", 
+ "creation_time": 1399043195, 
+ "spid": "NotImplemented", 
+ "@context": "http://smartly.no/context", 
+ "event": {
+  "default": {
+   "units": "C", 
+   "value": 7168
+  }, 
+  "subtype": "radiation", 
+  "@type": "meter"
+ }
+}

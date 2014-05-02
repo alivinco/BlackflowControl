@@ -138,7 +138,7 @@ def msg_class_ui(msg_type,msg_class):
               um = msg_class_obj["ui_mapping"]
               um["unit_path"] = request.form["ui_unit_path"]
            elif ui_el == "input_num_field":
-              msg_class_obj["ui_mapping"]["num_type"] = request.form["num_type"]
+              msg_class_obj["ui_mapping"]["num_type"] = request.form["ui_num_type"]
 
            if is_new_class:
               log.info("Adding new message class to mapping ; "+str(msg_class_obj))
@@ -213,7 +213,7 @@ def send_command():
     try:
         req = request.get_json()
         command = msg_man.generate_command_from_user_params(req["msg_key"],req["user_params"])
-        log.debug("Command = "+str(command))
+        log.debug("Command message = "+str(command))
         address = req["msg_key"].split("@")[1]
         log.info("Destination address = "+str(address.replace(".","/")))
         # print json.dumps(command,indent=True

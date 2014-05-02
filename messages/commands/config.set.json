@@ -1,0 +1,24 @@
+{
+                    "@context" : "http://smartly.no/context", 
+                    "origin" : 
+                        { 
+                            "@type" : "app",
+                            "@id" : "smartly_ios",
+                            "vendor" : "Sensio"
+                        },
+                    "command" : 
+                        { 
+                            "@type" : "config",
+                            "subtype" : "set",
+                            "default" : { 
+                                "value" : null
+                            }, 
+                            "target" : "/dev/zw/14/lvl_dimmer/1/events",
+                            "properties" : {
+                                        "step_size" : {"value" : 99 }
+                                        }
+                        },
+                    "creation_time" : 1385815582,
+                    "uuid" : "86f93c70-6c47-4cfc-91eb-30d3b069e417",
+                    "spid" : "S-451-12"
+}

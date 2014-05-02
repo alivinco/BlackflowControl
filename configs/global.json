@@ -10,15 +10,15 @@
  }, 
  "msg_class_lookup_path": [
   {
-   "priority": 1, 
-   "path": "$.event.type", 
+   "priority": 1,
+   "path": "$.event.type",
    "type": "single"
-  }, 
+  },
   {
-   "priority": 1, 
-   "path": "$.command.name", 
+   "priority": 1,
+   "path": "$.command.name",
    "type": "single"
-  }, 
+  },
   {
    "priority": 1, 
    "path": [
@@ -26,10 +26,18 @@
     "$.event.subtype"
    ], 
    "type": "multiple"
+  },
+  {
+   "priority": 1,
+   "path": [
+    "$.command.@type",
+    "$.command.subtype"
+   ],
+   "type": "multiple"
   }
  ], 
  "defaults": {
-  "event_value_path_for_new_class": "$.event.value", 
-  "cmd_value_path_for_new_class": "$.command.value"
+  "event_value_path_for_new_class": "$.event.default.value",
+  "cmd_value_path_for_new_class": "$.command.default.value"
  }
 }

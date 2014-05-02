@@ -2,14 +2,6 @@
  {
   "ui_mapping": {
    "ui_element": "toggle_switch", 
-   "value_path": "$.command.value"
-  }, 
-  "msg_type": "command", 
-  "msg_class": "inclusion_mode"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value"
   }, 
   "msg_type": "command", 
@@ -26,18 +18,10 @@
  {
   "ui_mapping": {
    "ui_element": "toggle_switch", 
-   "value_path": "$.command.value"
+   "value_path": "$.command.default.value"
   }, 
   "msg_type": "command", 
-  "msg_class": "exclusion_mode"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "toggle_switch", 
-   "value_path": "$.command.value"
-  }, 
-  "msg_type": "command", 
-  "msg_class": "switch_binary"
+  "msg_class": "binary.switch"
  }, 
  {
   "ui_mapping": {
@@ -46,7 +30,7 @@
    "num_type": "float"
   }, 
   "msg_type": "command", 
-  "msg_class": "heating_point"
+  "msg_class": "level.thermostat"
  }, 
  {
   "ui_mapping": {
@@ -55,83 +39,7 @@
    "value_path": "$.event.value"
   }, 
   "msg_type": "event", 
-  "msg_class": "heating_point"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "binary_light", 
-   "value_path": "$.event.value"
-  }, 
-  "msg_type": "event", 
-  "msg_class": "door_opened"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "free_text", 
-   "value_path": "$.event.resource_list"
-  }, 
-  "msg_type": "event", 
-  "msg_class": "inclusion"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "free_text", 
-   "value_path": "$.event.resource_list"
-  }, 
-  "msg_type": "event", 
-  "msg_class": "exclusion"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "sensor_value", 
-   "unit_path": "$.event.units", 
-   "value_path": "$.event.value"
-  }, 
-  "msg_type": "event", 
-  "msg_class": "temperature"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "sensor_value", 
-   "unit_path": "$.event.units", 
-   "value_path": "$.event.value"
-  }, 
-  "msg_type": "event", 
-  "msg_class": "battery_level"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "sensor_value", 
-   "unit_path": "$.event.units", 
-   "value_path": "$.event.value"
-  }, 
-  "msg_type": "event", 
-  "msg_class": "wakeup_interval"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "binary_light", 
-   "value_path": "$.event.value"
-  }, 
-  "msg_type": "event", 
-  "msg_class": "smoke_detected"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "free_text", 
-   "value_path": "$.event.value"
-  }, 
-  "msg_type": "event", 
-  "msg_class": "RadonLevel"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "sensor_value", 
-   "unit_path": "$.event.units", 
-   "value_path": "$.event.value"
-  }, 
-  "msg_type": "event", 
-  "msg_class": "radon"
+  "msg_class": "level.thermostat"
  }, 
  {
   "ui_mapping": {
@@ -141,24 +49,6 @@
   }, 
   "msg_type": "event", 
   "msg_class": "meter.power"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "sensor_value", 
-   "unit_path": "$.event.Energy.units", 
-   "value_path": "$.event.Energy.value"
-  }, 
-  "msg_type": "event", 
-  "msg_class": "energy_consumption"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "sensor_value", 
-   "unit_path": "$.event.units", 
-   "value_path": "$.event.value"
-  }, 
-  "msg_type": "event", 
-  "msg_class": "power"
  }, 
  {
   "ui_mapping": {
@@ -188,6 +78,14 @@
  }, 
  {
   "ui_mapping": {
+   "ui_element": "binary_light", 
+   "value_path": "$.event.default.value"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "binary.switch"
+ }, 
+ {
+  "ui_mapping": {
    "ui_element": "sensor_value", 
    "unit_path": "$.event.default.units", 
    "value_path": "$.event.default.value"
@@ -211,5 +109,40 @@
   }, 
   "msg_type": "event", 
   "msg_class": "zw_ta.inclusion_report"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "binary_light", 
+   "value_path": "$.event.default.value"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "binary.flood"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "input_num_field", 
+   "num_type": "int", 
+   "value_path": "$.command.default.value"
+  }, 
+  "msg_type": "command", 
+  "msg_class": "level.dimmer"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "input_num_field", 
+   "num_type": "int", 
+   "value_path": "$.command.properties.step_size.value"
+  }, 
+  "msg_type": "command", 
+  "msg_class": "config.set"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "sensor_value", 
+   "unit_path": "$.event.default.units", 
+   "value_path": "$.event.default.value"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "meter.radiation"
  }
 ]

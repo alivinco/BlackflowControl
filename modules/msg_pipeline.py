@@ -113,10 +113,9 @@ class MsgPipeline():
                      t = self.msg_man.get_value_from_msg(payload,item)
                      if t :
                        class_list.append(t[0])
-                     else :
-                       return None
-                   msg_class = ".".join(class_list)
-                   return msg_class
+                   if len(class_list)>0:
+                       msg_class = ".".join(class_list)
+                       return msg_class
 
            except Exception as ex:
                log.debug("__get_msg_class_from_msg : class can't be extracted from msg because of error :"+str(ex))
