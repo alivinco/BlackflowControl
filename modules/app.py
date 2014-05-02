@@ -6,14 +6,17 @@ __author__ = 'aleksandrsl'
 
 class App:
 
-    def __init__(self,name,topic):
+    global_app_context = {"app_counter":0}
+
+    def __init__(self,name,topics):
+        self.global_app_context["app_counter"] = self.global_app_context["app_counter"]+1
         self.context = {}
         self.name = name
-        self.topic = topic
+        self.topics = topics
         self.msg_man = MessageManager()
 
     def init_mqtt(self):
-        self.mqtt = MqttAdapter(None,self.msg_man.global_configs["mqtt"]["client_id"]+"_magic_"+self.name)
+        self.mqtt = MqttAdapter(None,self.msg_man.global_configs["mqtt"]["client_id"]+"_app_"+self.name)
         self.mqtt.connect(self.msg_man.global_configs["mqtt"]["host"],int(self.msg_man.global_configs["mqtt"]["port"]))
         self.mqtt.sub_topic = self.topic
         self.mqtt.on_message = self.do_magic
@@ -33,6 +36,36 @@ class App:
         """
         self.mqtt.publish(topic,json.dumps(json_msg))
 
+    def start(self):
+        """
+        method start application
+
+        """
+        pass
+
+    def stop(self):
+        """
+        method stops application
+
+        """
+        pass
+
+    def get_state(self):
+
+        """
+        method returns application state
+
+        """
+        pass
+
+
+    def control(self,name,value):
+        """
+        method controls application via setting control parameters
+        :param name:
+        :param value:
+        """
+        pass
 
 
 

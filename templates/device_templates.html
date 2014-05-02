@@ -1,0 +1,57 @@
+{% extends "base_layout.html" %}
+{% block li_device_browser %}class="active"{% endblock %}
+{% block body %}
+</h1>
+<h3>Device Api browser</h3>
+<div class="container-fluid">
+
+  <div class="row">
+      <div class="col-md-10">
+
+         <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Device : <b>Fibaro wallplug</b></h3>
+            </div>
+            <div class="panel-body">
+
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">Virtual device : <b>sen_temp</b></h3>
+                    </div>
+                    <div class="panel-body">
+                          <div class="panel panel-success">
+                            <div class="panel-heading">
+                              <h3 class="panel-title">supported messages </h3>
+                            </div>
+                            <div class="panel-body">
+                               <h5>command.binary.switch</h5>
+                                <h5>command.binary.switch</h5>
+                            </div>
+                          </div>
+                          <div class="panel panel-info">
+                            <div class="panel-heading">
+                              <h3 class="panel-title">emitted messages </h3>
+                            </div>
+                            <div class="panel-body">
+                               <h5>command.binary.switch</h5>
+                                <h5>command.binary.switch</h5>
+                            </div>
+                          </div>
+                    </div>
+                  </div>
+            </div>
+          </div>
+
+      </div>
+  </div>
+
+
+</div>
+
+
+{% endblock %}
+{% block js_scripts %}
+    <script src="/static/js/stupidtable.min.js"></script>
+    <script src="/static/js/address_mapping.js"></script>
+
+{% endblock %}

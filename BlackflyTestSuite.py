@@ -74,13 +74,13 @@ def address_mapping_ui():
 
     return render_template('address_mapping.html', mapping=mapping)
 
-@app.route('/ui/device_browser')
-def device_browser_ui():
+@app.route('/ui/device_templates')
+def device_templates_ui():
 
     mapping = msg_man.address_mapping
     # let's add key
 
-    return render_template('device_browser.html', mapping=mapping)
+    return render_template('device_templates.html', mapping=mapping)
 
 
 @app.route('/ui/address_map/<key>')
