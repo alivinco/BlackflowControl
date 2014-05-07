@@ -16,3 +16,7 @@ device location graph .
 
 
 #curl -o /tmp/get-pip.py https://raw.github.com/pypa/pip/master/contrib/get-pip.py
+
+TODO :
+1) Integrate with graphite
+2) Try out https://github.com/PrFalken/leonardo

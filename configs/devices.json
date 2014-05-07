@@ -1,0 +1,13 @@
+[
+    {
+        "dev_id":"wallplug",
+        "location":"table",
+        "address":1
+
+    },
+    {
+        "dev_id":"door_sensor",
+        "location":"kitchen" ,
+        "address":2
+    }
+]

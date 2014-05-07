@@ -1,7 +1,7 @@
 [
     {
+        "id":"wallplug",
         "dev_name":"wallplug",
-        "dev_id":"wallplug",
         "virt_devices":{
             "bin_switch":{
                 "supported_msg_classes":{"command.binary.switch":{"endpoints":2}},
@@ -10,8 +10,8 @@
         }
     },
     {
+        "id":"door_sensor",
         "dev_name":"door sensor",
-        "dev_id":"door_sensor",
         "virt_devices":{
             "bin_switch":{
                 "supported_msg_classes":{},
