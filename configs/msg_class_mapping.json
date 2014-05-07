@@ -26,8 +26,8 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "value_path": "$.command.value", 
-   "num_type": "float"
+   "num_type": "float", 
+   "value_path": "$.command.value"
   }, 
   "msg_type": "command", 
   "msg_class": "level.thermostat"
@@ -35,7 +35,7 @@
  {
   "ui_mapping": {
    "ui_element": "sensor_value", 
-   "unit_path": "$.event.units", 
+   "unit_path": "$.event.unit", 
    "value_path": "$.event.value"
   }, 
   "msg_type": "event", 
@@ -53,7 +53,7 @@
  {
   "ui_mapping": {
    "ui_element": "sensor_value", 
-   "unit_path": "$.event.default.units", 
+   "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
   "msg_type": "event", 
@@ -62,7 +62,7 @@
  {
   "ui_mapping": {
    "ui_element": "sensor_value", 
-   "unit_path": "$.event.default.units", 
+   "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
   "msg_type": "event", 
@@ -87,7 +87,7 @@
  {
   "ui_mapping": {
    "ui_element": "sensor_value", 
-   "unit_path": "$.event.default.units", 
+   "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
   "msg_type": "event", 
@@ -117,12 +117,20 @@
   }, 
   "msg_type": "event", 
   "msg_class": "binary.flood"
- }, 
+ },
+ {
+  "ui_mapping": {
+   "ui_element": "binary_light",
+   "value_path": "$.event.default.value"
+  },
+  "msg_type": "event",
+  "msg_class": "binary.fire"
+ },
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "int", 
-   "value_path": "$.command.default.value"
+   "value_path": "$.command.default.value", 
+   "num_type": "int"
   }, 
   "msg_type": "command", 
   "msg_class": "level.dimmer"
@@ -130,8 +138,8 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "int", 
-   "value_path": "$.command.properties.step_size.value"
+   "value_path": "$.command.properties.step_size.value", 
+   "num_type": "int"
   }, 
   "msg_type": "command", 
   "msg_class": "config.set"
@@ -139,10 +147,37 @@
  {
   "ui_mapping": {
    "ui_element": "sensor_value", 
-   "unit_path": "$.event.default.units", 
+   "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
   "msg_type": "event", 
   "msg_class": "meter.radiation"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "sensor_value", 
+   "unit_path": "$.event.default.unit", 
+   "value_path": "$.event.default.value"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "sensor.time"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "sensor_value", 
+   "unit_path": "$.event.default.unit", 
+   "value_path": "$.event.default.value"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "sensor.baro_pressure"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "sensor_value", 
+   "unit_path": "$.event.default.unit", 
+   "value_path": "$.event.default.value"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "sensor.humidity"
  }
 ]

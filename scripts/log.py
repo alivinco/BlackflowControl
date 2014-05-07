@@ -18,7 +18,7 @@ config = {
             "class": "logging.handlers.RotatingFileHandler",
             "level": "DEBUG",
             "formatter": "standard",
-            "filename": "/var/log/blackfly/info.log",
+            "filename": "/var/log/blackfly_info.log",
             "maxBytes": "10485760",
             "backupCount": "20",
             "encoding": "utf8"
@@ -28,7 +28,7 @@ config = {
             "class": "logging.handlers.RotatingFileHandler",
             "level": "ERROR",
             "formatter": "standard",
-            "filename": "/var/log/blackfly/errors.log",
+            "filename": "/var/log/blackfly_errors.log",
             "maxBytes": "10485760",
             "backupCount": "20",
             "encoding": "utf8"
