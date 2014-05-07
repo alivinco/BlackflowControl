@@ -1,0 +1,26 @@
+          {% if item.ui_mapping.ui_element=="toggle_switch" %}
+               <div id="{{ item.id }}">
+                <a id="{{ item.id+"_on" }}"  href="#" onclick="send_command('{{ item.id }}','toggle_switch',true)" class="btn btn-default btn" >On</a>
+                <a id="{{ item.id+"_off" }}"  href="#" onclick="send_command('{{ item.id }}','toggle_switch',false)" class="btn btn-default btn" >Off</a>
+               </div>
+          {% endif %}
+          {% if item.ui_mapping.ui_element=="binary_light" %}
+             <div id="{{ item.id }}" class="alert alert-success"></div>
+          {% endif %}
+          {% if item.ui_mapping.ui_element=="free_text" %}
+             <div id="{{ item.id }}"> <a class="btn btn-default btn" onclick="open_free_text('{{ item.id }}')" data-toggle="modal" data-target=".bs-example-modal-lg">Show value</a> </div>
+          {% endif %}
+          {% if item.ui_mapping.ui_element=="sensor_value" %}
+            <div id="{{ item.id }}"> <h3>  <small> </small></h3></div>
+          {% endif %}
+           {% if item.ui_mapping.ui_element=="input_num_field" %}
+            <div id="{{ item.id }}">
+                <div class="input-group">
+                  <input id="{{ item.id }}_input" type="text" class="form-control">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default"  onclick="send_command('{{ item.id }}','input_num_field','')" type="button">Set</button>
+                  </span>
+                </div>
+
+            </div>
+          {% endif %}

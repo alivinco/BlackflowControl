@@ -1,0 +1,29 @@
+{
+ "origin": {
+  "@id": "1", 
+  "@type": "zw_ta"
+ }, 
+ "uuid": "895f1f6f-2e64-4b96-abbd-222127922e21", 
+ "creation_time": 1399476216, 
+ "spid": "NotImplemented", 
+ "@context": "http://smartly.no/context", 
+ "event": {
+  "default": {
+   "value": 107
+  }, 
+  "subtype": "status_code", 
+  "corid": "86f93c70-6c47-4cfc-91eb-30d3b069e417", 
+  "@type": "error", 
+  "properties": {
+   "message": {
+    "value": "Error in getting valueID"
+   }, 
+   "code": {
+    "value": 107
+   }, 
+   "details": {
+    "value": ""
+   }
+  }
+ }
+}

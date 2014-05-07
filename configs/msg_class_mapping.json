@@ -26,8 +26,8 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "float", 
-   "value_path": "$.command.value"
+   "value_path": "$.command.default.value", 
+   "num_type": "float"
   }, 
   "msg_type": "command", 
   "msg_class": "level.thermostat"
@@ -117,20 +117,20 @@
   }, 
   "msg_type": "event", 
   "msg_class": "binary.flood"
- },
+ }, 
  {
   "ui_mapping": {
-   "ui_element": "binary_light",
+   "ui_element": "binary_light", 
    "value_path": "$.event.default.value"
-  },
-  "msg_type": "event",
+  }, 
+  "msg_type": "event", 
   "msg_class": "binary.fire"
- },
+ }, 
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "value_path": "$.command.default.value", 
-   "num_type": "int"
+   "num_type": "int", 
+   "value_path": "$.command.default.value"
   }, 
   "msg_type": "command", 
   "msg_class": "level.dimmer"
@@ -138,8 +138,8 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "value_path": "$.command.properties.step_size.value", 
-   "num_type": "int"
+   "num_type": "int", 
+   "value_path": "$.command.properties.step_size.value"
   }, 
   "msg_type": "command", 
   "msg_class": "config.set"
@@ -179,5 +179,13 @@
   }, 
   "msg_type": "event", 
   "msg_class": "sensor.humidity"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "free_text", 
+   "value_path": "$.event.properties"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "error.status_code"
  }
 ]

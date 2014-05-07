@@ -8,14 +8,6 @@
   "address": "/dev/zw/3/bin_switch/1/commands"
  }, 
  {
-  "name": "Danfos set heating point", 
-  "msg_type": "event", 
-  "msg_class": "level.thermostat", 
-  "group_name": "table1", 
-  "key": "level.thermostat@.dev.zw.16.lvl_thermostat.1.commands", 
-  "address": "/dev/zw/16/lvl_thermostat/1/commands"
- }, 
- {
   "name": "wallplug 2", 
   "msg_type": "command", 
   "msg_class": "binary.switch", 
@@ -40,36 +32,12 @@
   "address": "/dev/zw/7/bin_switch/2/commands"
  }, 
  {
-  "name": "Danfos set heating point", 
-  "msg_type": "event", 
-  "msg_class": "level.thermostat", 
-  "group_name": "table1", 
-  "key": "level.thermostat@.dev.zw.29.lvl_thermostat.1.commands", 
-  "address": "/dev/zw/29/lvl_thermostat/1/commands"
- }, 
- {
-  "name": "Danfos set heating point", 
-  "msg_type": "event", 
-  "msg_class": "level.thermostat", 
-  "group_name": "table1", 
-  "key": "level.thermostat@.dev.zw.34.lvl_thermostat.1.commands", 
-  "address": "/dev/zw/34/lvl_thermostat/1/commands"
- }, 
- {
   "name": "meter.power", 
   "msg_type": "event", 
   "msg_class": "meter.power", 
   "group_name": "table1", 
   "key": "meter.power@.dev.serial.1243423.met_power.1.events", 
   "address": "/dev/serial/1243423/met_power/1/events"
- }, 
- {
-  "name": "Danfos 2", 
-  "msg_type": "event", 
-  "msg_class": "level.thermostat", 
-  "group_name": "table1", 
-  "key": "level.thermostat@.dev.zw.44.lvl_thermostat.1.commands", 
-  "address": "/dev/zw/44/lvl_thermostat/1/commands"
  }, 
  {
   "name": "level.battery", 
@@ -118,14 +86,6 @@
   "group_name": "table1", 
   "key": "binary.opening@.dev.zw.15.bin_opening.1.events", 
   "address": "/dev/zw/15/bin_opening/1/events"
- }, 
- {
-  "name": "level.battery", 
-  "msg_type": "event", 
-  "msg_class": "level.battery", 
-  "group_name": "table1", 
-  "key": "level.battery@.dev.zw.44.lvl_battery.1.events", 
-  "address": "/dev/zw/44/lvl_battery/1/events"
  }, 
  {
   "name": "time.wakeup_interval", 
@@ -262,5 +222,37 @@
   "group_name": "table1", 
   "key": "sensor.humidity@.dev.zw.53.sen_humidity.1.events", 
   "address": "/dev/zw/53/sen_humidity/1/events"
+ }, 
+ {
+  "name": "Danfos on my desk", 
+  "msg_type": "command", 
+  "msg_class": "level.thermostat", 
+  "group_name": "table1", 
+  "key": "level.thermostat@.dev.zw.54.lvl_thermostat.1.commands", 
+  "address": "/dev/zw/54/lvl_thermostat/1/commands"
+ }, 
+ {
+  "name": "Danfos on the heater", 
+  "msg_type": "command", 
+  "msg_class": "level.thermostat", 
+  "group_name": "table1", 
+  "key": "level.thermostat@.dev.zw.47.lvl_thermostat.1.commands", 
+  "address": "/dev/zw/47/lvl_thermostat/1/commands"
+ }, 
+ {
+  "name": "error.status_code", 
+  "msg_type": "event", 
+  "msg_class": "error.status_code", 
+  "group_name": "table1", 
+  "key": "error.status_code@.dev.zw.54.lvl_thermostat.1.events", 
+  "address": "/dev/zw/54/lvl_thermostat/1/events"
+ }, 
+ {
+  "name": "error.status_code", 
+  "msg_type": "event", 
+  "msg_class": "error.status_code", 
+  "group_name": "table1", 
+  "key": "error.status_code@.dev.zw.47.lvl_thermostat.1.events", 
+  "address": "/dev/zw/47/lvl_thermostat/1/events"
  }
 ]

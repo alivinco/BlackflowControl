@@ -13,48 +13,24 @@
                       <th data-sort="string">msg class (↑↓)</th>
                       <th data-sort="string">type (↑↓)</th>
                       <th data-sort="string">address (↑↓)</th>
+                      <th data-sort="string">last msg (↑↓)</th>
                       <th>action</th>
 
                     </tr>
      </thead>
      <tbody>
      {% for item in mapping %}
+     {% set cache_item = cache.get_by_key(item.id) %}
       <tr>
        <td> {{ item.name }}  </td>
        <td><a onclick="location.href ='/ui/msg_class/{{ item.msg_type }}/{{ item.msg_class }}'">{{ item.msg_class }}</a> </td>
-      <td> {{ item.msg_type }} </td>
+       <td> {{ item.msg_type }} </td>
        <td> {{ item.address }}  </td>
+       <td id="{{ item.id }}_msg_time"> {{ cache_item.timestamp_iso }} </td>
        <td> <a href="../api/get_last_raw_msg/{{item.id}}" target="_blank">Open last msg</a></td>
        <td style="width: 200px">
-          {% set cache_item = cache.get_by_key(item.id) %}
-          {% if item.ui_mapping.ui_element=="toggle_switch" %}
-               <div id="{{ item.id }}">
-                <a id="{{ item.id+"_on" }}"  href="#" onclick="send_command('{{ item.id }}','toggle_switch',true)" class="btn btn-default btn" >On</a>
-                <a id="{{ item.id+"_off" }}"  href="#" onclick="send_command('{{ item.id }}','toggle_switch',false)" class="btn btn-default btn" >Off</a>
-               </div>
-          {% endif %}
-          {% if item.ui_mapping.ui_element=="binary_light" %}
-             <div id="{{ item.id }}" class="alert alert-success"> </div>
-          {% endif %}
-          {% if item.ui_mapping.ui_element=="free_text" %}
-             <div id="{{ item.id }}"> <a class="btn btn-default btn" onclick="open_free_text('{{ item.id }}')" data-toggle="modal" data-target=".bs-example-modal-lg">Show value</a> </div>
-          {% endif %}
-          {% if item.ui_mapping.ui_element=="sensor_value" %}
-            <div id="{{ item.id }}"> <h3>  <small> </small></h3></div>
-          {% endif %}
-           {% if item.ui_mapping.ui_element=="input_num_field" %}
-            <div id="{{ item.id }}">
-                <div class="input-group">
-                  <input id="{{ item.id }}_input" type="text" class="form-control">
-                  <span class="input-group-btn">
-                    <button class="btn btn-default"  onclick="send_command('{{ item.id }}','input_num_field','')" type="button">Set</button>
-                  </span>
-                </div>
 
-
-            </div>
-          {% endif %}
-
+          {% include 'msg_ui_element.html' %}
        </td>
 
       </tr>

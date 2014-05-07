@@ -13,3 +13,6 @@ device location graph .
 
 1) (dev1.event.bin_motion = true) and (dev1.location.role = "koridor")
 2) (bin_event
+
+
+#curl -o /tmp/get-pip.py https://raw.github.com/pypa/pip/master/contrib/get-pip.py

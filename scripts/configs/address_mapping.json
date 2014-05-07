@@ -1,0 +1,34 @@
+[
+ {
+  "name": "SG inclusion", 
+  "msg_type": "command", 
+  "msg_class": "zw_ta.inclusion_mode", 
+  "group_name": "table1", 
+  "key": "zw_ta.inclusion_mode@.ta.zw.commands", 
+  "address": "/ta/zw/commands"
+ }, 
+ {
+  "name": "SG exclusion", 
+  "msg_type": "command", 
+  "msg_class": "zw_ta.exclusion_mode", 
+  "group_name": "table1", 
+  "key": "zw_ta.exclusion_mode@.ta.zw.commands", 
+  "address": "/ta/zw/commands"
+ }, 
+ {
+  "name": "zw_ta.exclusion_report", 
+  "msg_type": "event", 
+  "msg_class": "zw_ta.exclusion_report", 
+  "group_name": "table1", 
+  "key": "zw_ta.exclusion_report@.ta.zw.events", 
+  "address": "/ta/zw/events"
+ },
+ {
+  "name": "zw_ta.inclusion_report", 
+  "msg_type": "event", 
+  "msg_class": "zw_ta.inclusion_report", 
+  "group_name": "table1", 
+  "key": "zw_ta.inclusion_report@.ta.zw.events", 
+  "address": "/ta/zw/events"
+ }
+]
