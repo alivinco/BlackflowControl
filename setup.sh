@@ -7,5 +7,6 @@ chmod a+x BlackflyTestSuite.py
 cp -i scripts/etc/init.d/blackfly /etc/init.d/
 cp -i scripts/log.py configs/
 # address mapping replaced by fresh address mapping
-#cp -i scripts/config/address_mapping.json configs/
+cp -i scripts/config/address_mapping.json configs/
 update-rc.d blackfly defaults
+
