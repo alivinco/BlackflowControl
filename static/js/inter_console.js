@@ -59,7 +59,10 @@ function jq_elector(str)
 {
 	return str.replace(/([;&,\.\+\*\~':"\!\^#$%@\[\]\(\)=>\|])/g, '\\$1');
 }
-
+function format_datetime(ts)
+{
+    return ts.getUTCFullYear()+"-"+(ts.getUTCMonth()+1)+"-"+ts.getUTCDate()+" "+ts.getUTCHours()+":"+ts.getUTCMinutes()+":"+ts.getUTCSeconds()
+}
 function update_elements(msg_cache)
 {
     //iterate over all devices
@@ -68,6 +71,10 @@ function update_elements(msg_cache)
         ui_type = msg_cache[k_item].ui_element
         ui_element_id = k_item
         check_for_inclusion(k_item,msg_cache[k_item])
+        // update timestamp
+        ts = new Date(msg_cache[k_item].timestamp_iso)
+        $("#"+jq_elector(k_item)+"_msg_time").html(format_datetime(ts))
+
         if(ui_type=="toggle_switch")
         {
             if(msg_cache[k_item].extracted_values.value)
