@@ -5,8 +5,8 @@ pip install Flask
 chmod a+x scripts/etc/init.d/blackfly
 chmod a+x BlackflyTestSuite.py
 cp -i scripts/etc/init.d/blackfly /etc/init.d/
-cp -i scripts/log.py configs/
+cp -i scripts/configs/log.py configs/
 # address mapping replaced by fresh address mapping
-cp -i scripts/config/address_mapping.json configs/
+cp -i scripts/configs/address_mapping.json configs/
 update-rc.d blackfly defaults
 
