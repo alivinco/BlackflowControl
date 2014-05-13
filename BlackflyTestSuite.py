@@ -19,6 +19,7 @@ from modules.msg_pipeline import MsgPipeline
 
 import configs.log
 import logging,logging.config
+global_context = {}
 logging.config.dictConfig(configs.log.config)
 log = logging.getLogger("bf_web")
 
@@ -30,9 +31,17 @@ cache = MsgCache(msg_man)
 msg_pipeline = MsgPipeline(msg_man,cache)
 mqtt = MqttAdapter(msg_pipeline,msg_man.global_configs["mqtt"]["client_id"])
 mqtt.set_mqtt_params(msg_man.global_configs["mqtt"]["client_id"],msg_man.global_configs["mqtt"]["username"],msg_man.global_configs["mqtt"]["password"])
-mqtt.connect(msg_man.global_configs["mqtt"]["host"],int(msg_man.global_configs["mqtt"]["port"]))
 mqtt.sub_topic = msg_man.global_configs["mqtt"]["root_topic"]
-mqtt.start()
+mqtt.set_global_context(global_context)
+try:
+  mqtt.connect(msg_man.global_configs["mqtt"]["host"],int(msg_man.global_configs["mqtt"]["port"]))
+  mqtt.start()
+except Exception as ex :
+  global_context['mqtt_conn_status'] = "offline"
+  log.error("application can't connect to message broker.")
+  log.error(ex)
+
+
 
 
 @app.route('/')
@@ -43,17 +52,24 @@ def red():
 @app.route('/sys/mqtt_ctrl/<command>')
 def mqtt_control(command):
     if command == "start":
-       mqtt.connect(msg_man.global_configs["mqtt"]["host"],int(msg_man.global_configs["mqtt"]["port"]))
-       mqtt.sub_topic = msg_man.global_configs["mqtt"]["root_topic"]
-       mqtt.start()
-       status = "Connected to broker"
+
+       try :
+         mqtt.connect(msg_man.global_configs["mqtt"]["host"],int(msg_man.global_configs["mqtt"]["port"]))
+         mqtt.sub_topic = msg_man.global_configs["mqtt"]["root_topic"]
+         mqtt.start()
+         status = "Connected to broker"
+       except Exception as ex :
+         log.error("Can't connect to server because of error:")
+         log.error(ex)
+         status = "Can't connect to broker"
+
     elif command == "stop":
        mqtt.stop()
        status = "Disconnected from broker"
 
     # dev = json.dumps({"success":True})
     # return Response(response=dev, mimetype='application/json' )
-    return render_template('mqtt_status.html', status=status)
+    return render_template('mqtt_status.html', status=status,global_context=global_context)
 
 @app.route('/ui/inter_console')
 def inter_console_ui():
@@ -63,7 +79,7 @@ def inter_console_ui():
         mapping = msg_man.generate_linked_mapping(msg_man.load_msg_class_mapping(), msg_man.load_address_mapping())
     except Exception as ex :
         log.exception(ex)
-    return render_template('inter_console.html', mapping=mapping,cache=cache)
+    return render_template('inter_console.html', mapping=mapping,cache=cache,global_context=global_context)
 
 @app.route('/ui/address_mapping')
 def address_mapping_ui():
@@ -72,7 +88,7 @@ def address_mapping_ui():
     mapping = msg_man.address_mapping
     # let's add key
 
-    return render_template('address_mapping.html', mapping=mapping)
+    return render_template('address_mapping.html', mapping=mapping,global_context=global_context)
 
 @app.route('/ui/device_templates')
 def device_templates_ui():
@@ -80,7 +96,7 @@ def device_templates_ui():
     mapping = msg_man.address_mapping
     # let's add key
 
-    return render_template('device_templates.html', mapping=mapping)
+    return render_template('device_templates.html', mapping=mapping,global_context=global_context)
 
 
 @app.route('/ui/address_map/<key>')
@@ -92,7 +108,7 @@ def address_map_ui(key):
        mapping = {"name":"","key":"","msg_type":"","address":"","msg_class":""}
       # log.info(mapping)
 
-    return render_template('address_map.html', mapping=mapping,msg_class_list=msg_class_list )
+    return render_template('address_map.html', mapping=mapping,msg_class_list=msg_class_list,global_context=global_context)
 
 
 @app.route('/ui/msg_class_mapping')
@@ -110,7 +126,7 @@ def msg_class_mapping_ui():
             item["class"] = ""
             item["subclass"] = item["msg_class"]
 
-    return render_template('msg_class_mapping.html', mapping=mapping)
+    return render_template('msg_class_mapping.html', mapping=mapping,global_context=global_context)
 
 @app.route('/ui/msg_class/<msg_type>/<msg_class>',methods=["POST","GET"])
 def msg_class_ui(msg_type,msg_class):
@@ -161,7 +177,7 @@ def msg_class_ui(msg_type,msg_class):
         log.error("The system can't find the template.")
         log.exception(ex)
         msg_template = "The system can't find the template.Please add template first"
-    return render_template('msg_class.html', msg_class=msg_class_obj,msg_template=msg_template)
+    return render_template('msg_class.html', msg_class=msg_class_obj,msg_template=msg_template,global_context=global_context)
 
 
 @app.route('/ui/cache')
@@ -170,14 +186,14 @@ def cache_ui():
     result = {}
     for k,v in cache.get_all().iteritems():
        result[k]=json.dumps(v,indent=True)
-    return render_template('cache.html',cache=result)
+    return render_template('cache.html',cache=result,global_context=global_context)
 
 @app.route('/ui/msg_types_for_approval')
 def msg_types_for_approval_ui():
     # cache.put_msg_class_for_approval("test","test","switch_binary_new","Message class is unknown and has to be approved")
     # ch = json.dumps(cache.get_all(),indent=True)
     result = cache.get_approval_list()
-    return render_template('msg_types_for_approval.html',cache=result)
+    return render_template('msg_types_for_approval.html',cache=result,global_context=global_context)
 
 @app.route('/ui/settings',methods=["POST","GET"])
 def settings_ui():
@@ -197,7 +213,7 @@ def settings_ui():
          log.info("Global config was successfully updated")
          log.info("New values are mqtt host = "+request.form["mqtt_host"]+" port = "+request.form["mqtt_port"]+" root topic = "+request.form["mqtt_root_topic"]+" client id="+request.form["mqtt_client_id"])
 
-    return render_template('settings.html',cfg=msg_man.global_configs)
+    return render_template('settings.html',cfg=msg_man.global_configs,global_context=global_context)
 
 
 @app.route('/api/send_command',methods=["POST"])

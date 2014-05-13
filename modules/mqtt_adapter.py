@@ -23,6 +23,7 @@ class MqttAdapter:
         self.retry_delay = 5
         self.sub_topic = "/#"
         self.topic_prefix = ""
+        self.global_context = {}
         self.mqtt = mosquitto.Mosquitto(client_id, clean_session=True)
         self.msg_pipeline = msg_pipeline
 
@@ -32,13 +33,17 @@ class MqttAdapter:
         if username:
             self.mqtt.username_pw_set(username,password)
 
+    def set_global_context(self,context):
+        self.global_context = context
+
     def connect(self, host="localhost", port=1883, keepalive=60):
         self._host = host
         self._port = port
         self._keepalive = keepalive
         self.mqtt.on_message = self._on_message
         self.mqtt.connect(host, port, keepalive)
-        log.info("BlackflyTestSuite connected to broker .")
+        self.global_context['mqtt_conn_status'] = "offline"
+        log.info("BlackflyTestSuite connected to broker . host="+host+" port="+str(port))
 
     def reconnect(self):
         self.mqtt.on_message = self._on_message
@@ -69,6 +74,8 @@ class MqttAdapter:
                 self.on_message(msg.topic,json.loads(msg.payload))
     def publish(self,address,payload,qos):
         topic = self.topic_prefix+address
+        log.debug("Publishing msg to topic "+str(address))
+        log.debug(payload)
         self.mqtt.publish(topic,payload,qos)
         log.info("Message was published to topic = "+topic)
 
@@ -80,13 +87,16 @@ class MqttAdapter:
         self._thread = threading.Thread(target=self._thread_main)
         self._thread.daemon = True
         self._thread.start()
+        self.global_context['mqtt_conn_status'] = "online"
         log.info("Loop started")
 
     def _loop_stop(self):
         self._thread_terminate = True
         self._thread.join()
         self._thread = None
+        self.global_context['mqtt_conn_status'] = "offline"
         log.info("Loop stopped")
+
 
     def _thread_main(self):
         rc = 0
@@ -103,6 +113,7 @@ class MqttAdapter:
 
             if not self._thread_terminate :
                 log.error("Loop interrupted because of error" + str(rc))
+                self.global_context['mqtt_conn_status'] = "reconnecting"
                 time.sleep(self.retry_delay)
                 try:
                     log.info("Reconnecting to broker.....")
@@ -111,9 +122,11 @@ class MqttAdapter:
                     log.info("Reconnection succeeded.")
                     rc = 0
                 except socket.error as err:
+                    self.global_context['mqtt_conn_status'] = "offline"
                     log.error("Reconnection attempt failed because of error : %s"%str(err))
                 except Exception as err:
                     log.exception(err)
+                    self.global_context['mqtt_conn_status'] = "offline"
                     log.error("Non recoverable error. Shutting down the adapter")
                     run = False
 
@@ -121,12 +134,14 @@ class MqttAdapter:
     def start(self):
         self.initiate_listeners()
         log.info("Starting mqtt listener loop")
+        self.global_context['mqtt_conn_status'] = "online"
         self._loop_start()
 
 
     def stop(self):
         log.info("Stopping mqtt listener loop")
         self.mqtt.disconnect()
+        self.global_context['mqtt_conn_status'] = "offline"
         self._loop_stop()
 
 
