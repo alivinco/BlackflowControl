@@ -25,6 +25,8 @@ class MessageManager:
         self.address_mapping = self.load_address_mapping()
         self.global_configs_path = os.path.join(self.app_root_path, "configs", "global.json")
         self.global_configs = json.load(file(self.global_configs_path))
+        self.ui_elements_command = ["input_num_field","toggle_switch"]
+        self.ui_elements_event = ["binary_light","sensor_value","free_text"]
 
 
     def load_templates(self):
@@ -136,7 +138,7 @@ class MessageManager:
                item["ui_mapping"] = mclass[0]["ui_mapping"]
             else :
                log.error("Linked mapping can't be generated because class = "+item["msg_class"]+" does not exist in msg class mapping.")
-            item["id"] = self.generate_key(item["msg_class"], item["address"])
+            # item["id"] = self.generate_key(item["msg_class"], item["address"])
         return mapping
 
     def parse_file(self, file_path):
@@ -247,16 +249,15 @@ class MessageManager:
 
 if __name__ == "__main__":
     m = MessageManager()
-    m.app_root_path = "C:\ALWorks\SG\BlackflyTestSuite"
+    # m.app_root_path = "C:\ALWorks\SG\BlackflyTestSuite"
     print type({"test": 1})
     flist = m.load_templates()
-    jobj = m.parse_file(os.path.join(m.commands_dir, "include.json"))
+    jobj = m.parse_file(os.path.join(m.commands_dir, "zw_ta.inclusion_mode.json"))
 
-    print m.get_value_from_msg(jobj, "$.command.name")[0]
+    print m.get_value_from_msg(jobj, "$.command.@type")[0]
     # m.set_value_to_msg(jobj, "$.command.name", "Test new path")
     # print jobj
-    # print json.dumps(m.generate_linked_mapping(m.load_msg_class_mapping(),m.load_address_mapping()),indent=True)
+    print json.dumps(m.generate_linked_mapping(m.load_msg_class_mapping(),m.load_address_mapping()),indent=True)
     # print  m.load_template_by_key("temperature@.zw.15.multilevel_sensor.1.events")
     # print m.get_msg_class_by_key("temperature@.zw.15.multilevel_sensor.1.events")
-    print json.dumps(m.generate_command_from_user_params("temperature@.zw.15.multilevel_sensor.1.events",
-                                                         {"value": "33", "unit": "F"}), indent=True)
+    # print json.dumps(m.generate_command_from_user_params("temperature@.zw.15.multilevel_sensor.1.events",{"value": "33", "unit": "F"}), indent=True)

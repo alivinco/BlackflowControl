@@ -26,6 +26,7 @@ log = logging.getLogger("bf_web")
 
 app = Flask(__name__)
 msg_man = MessageManager()
+global_context["version"] = msg_man.global_configs["system"]["version"]
 cache = MsgCache(msg_man)
 # Mqtt initialization
 msg_pipeline = MsgPipeline(msg_man,cache)

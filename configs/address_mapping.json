@@ -20,8 +20,8 @@
   "msg_type": "command", 
   "msg_class": "binary.switch", 
   "group_name": "table1", 
-  "key": "binary.switch@.dev.zw.7.bin_switch.1.commands", 
-  "address": "/dev/zw/7/bin_switch/1/commands"
+  "key": "binary.switch@.dev.zw.7.bin_relay.1.commands", 
+  "address": "/dev/zw/7/bin_relay/1/commands"
  }, 
  {
   "name": " Fibaro ralay 1", 
@@ -254,5 +254,149 @@
   "group_name": "table1", 
   "key": "error.status_code@.dev.zw.47.lvl_thermostat.1.events", 
   "address": "/dev/zw/47/lvl_thermostat/1/events"
+ }, 
+ {
+  "name": "sensor.humidity", 
+  "msg_type": "event", 
+  "msg_class": "sensor.humidity", 
+  "group_name": "table1", 
+  "key": "sensor.humidity@.dev.zw.56.sen_humidity.1.events", 
+  "address": "/dev/zw/56/sen_humidity/1/events"
+ }, 
+ {
+  "name": "sensor.temperature", 
+  "msg_type": "event", 
+  "msg_class": "sensor.temperature", 
+  "group_name": "table1", 
+  "key": "sensor.temperature@.dev.zw.56.sen_temp.1.events", 
+  "address": "/dev/zw/56/sen_temp/1/events"
+ }, 
+ {
+  "name": "sensor.baro_pressure", 
+  "msg_type": "event", 
+  "msg_class": "sensor.baro_pressure", 
+  "group_name": "table1", 
+  "key": "sensor.baro_pressure@.dev.zw.56.sen_baropress.1.events", 
+  "address": "/dev/zw/56/sen_baropress/1/events"
+ }, 
+ {
+  "name": "meter.radiation", 
+  "msg_type": "event", 
+  "msg_class": "meter.radiation", 
+  "group_name": "table1", 
+  "key": "meter.radiation@.dev.zw.56.met_radon.1.events", 
+  "address": "/dev/zw/56/met_radon/1/events"
+ }, 
+ {
+  "name": "sensor.time", 
+  "msg_type": "event", 
+  "msg_class": "sensor.time", 
+  "group_name": "table1", 
+  "key": "sensor.time@.dev.zw.56.sen_time.1.events", 
+  "address": "/dev/zw/56/sen_time/1/events"
+ }, 
+ {
+  "name": "meter.radiation", 
+  "msg_type": "event", 
+  "msg_class": "meter.radiation", 
+  "group_name": "table1", 
+  "key": "meter.radiation@.dev.zw.58.met_radon.1.events", 
+  "address": "/dev/zw/58/met_radon/1/events"
+ }, 
+ {
+  "name": "sensor.time", 
+  "msg_type": "event", 
+  "msg_class": "sensor.time", 
+  "group_name": "table1", 
+  "key": "sensor.time@.dev.zw.58.sen_time.1.events", 
+  "address": "/dev/zw/58/sen_time/1/events"
+ }, 
+ {
+  "name": "sensor.humidity", 
+  "msg_type": "event", 
+  "msg_class": "sensor.humidity", 
+  "group_name": "table1", 
+  "key": "sensor.humidity@.dev.zw.58.sen_humidity.1.events", 
+  "address": "/dev/zw/58/sen_humidity/1/events"
+ }, 
+ {
+  "name": "sensor.temperature", 
+  "msg_type": "event", 
+  "msg_class": "sensor.temperature", 
+  "group_name": "table1", 
+  "key": "sensor.temperature@.dev.zw.58.sen_temp.1.events", 
+  "address": "/dev/zw/58/sen_temp/1/events"
+ }, 
+ {
+  "name": "sensor.baro_pressure", 
+  "msg_type": "event", 
+  "msg_class": "sensor.baro_pressure", 
+  "group_name": "table1", 
+  "key": "sensor.baro_pressure@.dev.zw.58.sen_baropress.1.events", 
+  "address": "/dev/zw/58/sen_baropress/1/events"
+ }, 
+ {
+  "name": "error.status_code", 
+  "msg_type": "event", 
+  "msg_class": "error.status_code", 
+  "group_name": "table1", 
+  "key": "error.status_code@.dev.zw.7.bin_switch.1.events", 
+  "address": "/dev/zw/7/bin_switch/1/events"
+ }, 
+ {
+  "name": "error.status_code", 
+  "msg_type": "event", 
+  "msg_class": "error.status_code", 
+  "group_name": "table1", 
+  "key": "error.status_code@.dev.zw.7.bin_switch.2.events", 
+  "address": "/dev/zw/7/bin_switch/2/events"
+ }, 
+ {
+  "name": "meter.radiation", 
+  "msg_type": "event", 
+  "msg_class": "meter.radiation", 
+  "group_name": "table1", 
+  "key": "meter.radiation@.dev.zw.59.met_radon.1.events", 
+  "address": "/dev/zw/59/met_radon/1/events"
+ }, 
+ {
+  "name": "sensor.time", 
+  "msg_type": "event", 
+  "msg_class": "sensor.time", 
+  "group_name": "table1", 
+  "key": "sensor.time@.dev.zw.59.sen_time.1.events", 
+  "address": "/dev/zw/59/sen_time/1/events"
+ }, 
+ {
+  "name": "sensor.humidity", 
+  "msg_type": "event", 
+  "msg_class": "sensor.humidity", 
+  "group_name": "table1", 
+  "key": "sensor.humidity@.dev.zw.59.sen_humidity.1.events", 
+  "address": "/dev/zw/59/sen_humidity/1/events"
+ }, 
+ {
+  "name": "sensor.temperature", 
+  "msg_type": "event", 
+  "msg_class": "sensor.temperature", 
+  "group_name": "table1", 
+  "key": "sensor.temperature@.dev.zw.59.sen_temp.1.events", 
+  "address": "/dev/zw/59/sen_temp/1/events"
+ }, 
+ {
+  "name": "sensor.baro_pressure", 
+  "msg_type": "event", 
+  "msg_class": "sensor.baro_pressure", 
+  "group_name": "table1", 
+  "key": "sensor.baro_pressure@.dev.zw.59.sen_baropress.1.events", 
+  "address": "/dev/zw/59/sen_baropress/1/events"
+ }, 
+ {
+  "name": "meter.radiation", 
+  "msg_type": "event", 
+  "msg_class": "meter.radiation", 
+  "group_name": "table1", 
+  "key": "meter.radiation@.dev.zw.60.met_radon.1.events", 
+  "address": "/dev/zw/60/met_radon/1/events"
  }
 ]
