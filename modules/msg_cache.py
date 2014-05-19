@@ -7,6 +7,7 @@ __author__ = 'aleksandrsl'
 class MsgCache():
     def __init__(self,msg_man):
         self.cache = {}
+        self.generic_cache = {}
         self.approve_cache = {}
         self.msg_man = msg_man
         self.address_mapping = self.msg_man.load_address_mapping()
@@ -42,13 +43,22 @@ class MsgCache():
         timestamp_iso = datetime.now().isoformat()
         self.cache[key]={"raw_msg":payload,"ui_element":ui_mapping["ui_element"],"extracted_values":extracted_data,"timestamp_iso":timestamp_iso}
 
+    def put_generic(self,key,value):
+        timestamp_iso = datetime.now().isoformat()
+        self.generic_cache[key] = {"raw_msg":value,"timestamp_iso":timestamp_iso}
 
     def get_all(self):
         return self.cache
 
+    def get_all_generic(self):
+        return self.generic_cache
+
     def get(self,msg_class,address):
         id = self.msg_man.generate_key(msg_class,address)
         return self.cache[id]
+
+    def get_generic(self,key):
+        return self.generic_cache[key]
 
     def get_by_key(self,key):
         if self.cache.has_key(key):

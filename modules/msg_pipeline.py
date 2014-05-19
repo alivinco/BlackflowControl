@@ -31,6 +31,12 @@ class MsgPipeline():
         # add class and address into mapping
         # user can enter path manually and retry validation
         # if everything fails then add message to error_cache
+
+        # mqtt broker system message
+        if "$SYS" in address :
+            self.cache.put_generic(address,payload)
+            return {"success":True,"code":0}
+
         log.info("New event is entering message processing pipeline")
         msg_class_is_registered = False
         cache_key = ""

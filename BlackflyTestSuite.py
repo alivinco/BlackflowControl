@@ -19,6 +19,8 @@ from modules.msg_pipeline import MsgPipeline
 
 import configs.log
 import logging,logging.config
+from configs import mqtt_broker_status_mapping
+
 global_context = {}
 logging.config.dictConfig(configs.log.config)
 log = logging.getLogger("bf_web")
@@ -81,6 +83,14 @@ def inter_console_ui():
     except Exception as ex :
         log.exception(ex)
     return render_template('inter_console.html', mapping=mapping,cache=cache,global_context=global_context)
+
+@app.route('/ui/mqtt_broker_monitor')
+def mqtt_broker_monitor_ui():
+    try :
+        ch = cache.get_all_generic()
+    except Exception as ex :
+        log.exception(ex)
+    return render_template('mqtt_broker_monitor.html',cache=ch,status_mapping = mqtt_broker_status_mapping,global_context=global_context)
 
 @app.route('/ui/address_mapping')
 def address_mapping_ui():

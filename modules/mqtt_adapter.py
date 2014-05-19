@@ -41,6 +41,7 @@ class MqttAdapter:
         self._port = port
         self._keepalive = keepalive
         self.mqtt.on_message = self._on_message
+        self.mqtt.on_connect = self._on_connect
         self.mqtt.connect(host, port, keepalive)
         self.global_context['mqtt_conn_status'] = "offline"
         log.info("BlackflyTestSuite connected to broker . host="+host+" port="+str(port))
@@ -53,7 +54,14 @@ class MqttAdapter:
     def initiate_listeners(self):
         topic = self.topic_prefix+self.sub_topic
         self.mqtt.subscribe(topic, 1)
+        # mosquitto internal monitoring topic
+        self.mqtt.subscribe("$SYS/#",1)
         log.info("mqtt adapter subscribed to topic "+topic)
+        log.info("mqtt adapter subscribed to $SYS/# mqtt internal monitoring topic.")
+
+    def _on_connect(self, mosq, userdata, rc):
+        if rc == 0 :
+           self.global_context['mqtt_conn_status'] = "online"
 
     def _on_message(self, mosq, obj, msg):
 
@@ -63,15 +71,23 @@ class MqttAdapter:
         :param obj:
         :param msg:
         """
-        if "command" in msg.topic:
+        if "$SYS" in msg.topic:
+           if self.msg_pipeline:
+               self.msg_pipeline.process_event(msg.topic,msg.payload)
+
+        elif "command" in msg.topic:
             log.debug("Command type of message is skipped")
         else :
             log.info("New message from topic = "+str(msg.topic))
             log.debug(msg.payload)
             if self.msg_pipeline:
-                self.msg_pipeline.process_event(msg.topic,json.loads(msg.payload))
+                try:
+                  msg_obj = json.loads(msg.payload)
+                except Exception as ex :
+                  log.error("The message can't be recognized as json object and therefore ignored.")
+                if msg_obj : self.msg_pipeline.process_event(msg.topic,msg_obj)
             else :
-                self.on_message(msg.topic,json.loads(msg.payload))
+                self.on_message(msg.topic,msg.payload)
     def publish(self,address,payload,qos):
         topic = self.topic_prefix+address
         log.debug("Publishing msg to topic "+str(address))

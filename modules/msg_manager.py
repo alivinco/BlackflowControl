@@ -138,7 +138,7 @@ class MessageManager:
                item["ui_mapping"] = mclass[0]["ui_mapping"]
             else :
                log.error("Linked mapping can't be generated because class = "+item["msg_class"]+" does not exist in msg class mapping.")
-            # item["id"] = self.generate_key(item["msg_class"], item["address"])
+            item["id"] = self.generate_key(item["msg_class"], item["address"])
         return mapping
 
     def parse_file(self, file_path):
