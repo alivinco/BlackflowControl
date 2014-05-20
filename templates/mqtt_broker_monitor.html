@@ -24,6 +24,11 @@
  <h3>{{ cache["$SYS/broker/clients/total"].raw_msg }}</h3>
  </div>
 
+ <div class="col-md-3 "> <h4>Current heap size</h4>
+ <p><small>The current size of the heap memory in use by mosquitto. Note that this topic may be unavailable depending on compile time options.</small><p>
+ <h3>{{ cache["$SYS/broker/heap/current"].raw_msg|filesizeformat(False)  }}</h3>
+ </div>
+
 </div>
 <div class="row">
 
@@ -43,6 +48,10 @@
  <h3>{{ cache["$SYS/broker/retained messages/count"].raw_msg }}</h3>
  </div>
 
+ <div class="col-md-3 "> <h4>Max heap size</h4>
+ <p><small>The largest amount of heap memory used by mosquitto. Note that this topic may be unavailable depending on compile time options.</small><p>
+ <h3>{{ cache["$SYS/broker/heap/maximum"].raw_msg|filesizeformat(False)  }}</h3>
+ </div>
 </div>
 
 <div class="row">
