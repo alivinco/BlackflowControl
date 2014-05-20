@@ -77,9 +77,14 @@ def mqtt_control(command):
 @app.route('/ui/inter_console')
 def inter_console_ui():
     log.info("Inter console works")
+    filter_value = request.args.get("filter","")
+    filter_type = request.args.get("filter_type","address")
+    log.info(filter_value)
     try :
-        msg_man.reload_all_mappings()
+        #msg_man.reload_all_mappings()
         mapping = msg_man.generate_linked_mapping(msg_man.load_msg_class_mapping(), msg_man.load_address_mapping())
+        if filter_value:
+           mapping = filter(lambda item: (filter_value in item["address"]),mapping)
     except Exception as ex :
         log.exception(ex)
     return render_template('inter_console.html', mapping=mapping,cache=cache,global_context=global_context)

@@ -144,14 +144,6 @@
   "address": "/dev/zw/54/dev_sys/1/events"
  }, 
  {
-  "name": "sensor.temperature", 
-  "msg_type": "event", 
-  "msg_class": "sensor.temperature", 
-  "group_name": "table1", 
-  "key": "sensor.temperature@.dev.zw.52.sen_temp.1.events", 
-  "address": "/dev/zw/52/sen_temp/1/events"
- }, 
- {
   "name": "meter.radiation", 
   "msg_type": "event", 
   "msg_class": "meter.radiation", 
@@ -352,7 +344,7 @@
   "address": "/dev/zw/7/bin_switch/2/events"
  }, 
  {
-  "name": "meter.radiation", 
+  "name": "meter.radiation #15", 
   "msg_type": "event", 
   "msg_class": "meter.radiation", 
   "group_name": "table1", 
@@ -432,7 +424,7 @@
   "address": "/dev/zw/60/sen_time/1/events"
  }, 
  {
-  "name": "meter.radiation", 
+  "name": "meter.radiation #13", 
   "msg_type": "event", 
   "msg_class": "meter.radiation", 
   "group_name": "table1", 
