@@ -462,5 +462,61 @@
   "group_name": "table1", 
   "key": "sensor.baro_pressure@.dev.zw.61.sen_baropress.1.events", 
   "address": "/dev/zw/61/sen_baropress/1/events"
+ }, 
+ {
+  "name": "meter.radiation", 
+  "msg_type": "event", 
+  "msg_class": "meter.radiation", 
+  "group_name": "table1", 
+  "key": "meter.radiation@.dev.zw.63.met_radon.1.events", 
+  "address": "/dev/zw/63/met_radon/1/events"
+ }, 
+ {
+  "name": "sensor.time", 
+  "msg_type": "event", 
+  "msg_class": "sensor.time", 
+  "group_name": "table1", 
+  "key": "sensor.time@.dev.zw.63.sen_time.1.events", 
+  "address": "/dev/zw/63/sen_time/1/events"
+ }, 
+ {
+  "name": "sensor.humidity", 
+  "msg_type": "event", 
+  "msg_class": "sensor.humidity", 
+  "group_name": "table1", 
+  "key": "sensor.humidity@.dev.zw.63.sen_humidity.1.events", 
+  "address": "/dev/zw/63/sen_humidity/1/events"
+ }, 
+ {
+  "name": "sensor.temperature", 
+  "msg_type": "event", 
+  "msg_class": "sensor.temperature", 
+  "group_name": "table1", 
+  "key": "sensor.temperature@.dev.zw.63.sen_temp.1.events", 
+  "address": "/dev/zw/63/sen_temp/1/events"
+ }, 
+ {
+  "name": "sensor.baro_pressure", 
+  "msg_type": "event", 
+  "msg_class": "sensor.baro_pressure", 
+  "group_name": "table1", 
+  "key": "sensor.baro_pressure@.dev.zw.63.sen_baropress.1.events", 
+  "address": "/dev/zw/63/sen_baropress/1/events"
+ }, 
+ {
+  "name": "Set walplug led ring colour", 
+  "msg_type": "command", 
+  "msg_class": "config.set", 
+  "group_name": "table1", 
+  "key": "config.set@.dev.zw.3.dev_sys.1.commands", 
+  "address": "/dev/zw/3/dev_sys/1/commands"
+ }, 
+ {
+  "name": "error.status_code", 
+  "msg_type": "event", 
+  "msg_class": "error.status_code", 
+  "group_name": "table1", 
+  "key": "error.status_code@.dev.zw.3.dev_sys.1.events", 
+  "address": "/dev/zw/3/dev_sys/1/events"
  }
 ]
