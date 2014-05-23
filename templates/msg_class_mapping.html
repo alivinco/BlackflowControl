@@ -17,7 +17,7 @@
                     </tr>
      </thead>
      <tbody>
-     {% for item in mapping %}
+     {% for item in mapping|sort(attribute="class",reverse=True) %}
       <tr>
        <td> {{ item.class }}  </td>
        <td> {{ item.subclass }} </td>

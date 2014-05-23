@@ -146,18 +146,37 @@ class MsgPipeline():
 
     def __extract_data(self,address,msg_class,payload):
          # extract values
+        """
+         Method extracts simple data from message . The date then is stored in cache in is used by UI to render element value .
+        :param address:
+        :param msg_class:
+        :param payload:
+        :return:
+        """
         extracted_values = {}
         ui_mapping = {}
         id = self.msg_man.generate_key(msg_class,address)
+        address_map = self.msg_man.get_address_by_key(id)
         # print id
         try:
             ui_mapping = self.msg_man.get_msg_class_by_key(id)["ui_mapping"]
-            for key,value in ui_mapping.items():
-                if "path" in key:
-                    log.debug("Extracting data from = "+str(value))
-                    ex_value = self.msg_man.get_value_from_msg(payload,value)[0]
-                    log.debug("Extracted data is = "+str(ex_value))
-                    extracted_values[key.replace("_path","")]=ex_value
+            override_path = ""
+            if "override_value_path" in address_map:
+               override_path = address_map["override_value_path"]
+               if override_path :
+                  log.debug("Extracting data from overrided path = "+str(override_path))
+                  ex_value = self.msg_man.get_value_from_msg(payload,override_path)[0]
+                  log.debug("Extracted data is = "+str(ex_value))
+                  extracted_values["value"] = ex_value
+
+            if not override_path :
+                for key,value in ui_mapping.items():
+                    if "path" in key:
+                        log.debug("Extracting data from = "+str(value))
+                        ex_value = self.msg_man.get_value_from_msg(payload,value)[0]
+                        log.debug("Extracted data is = "+str(ex_value))
+                        extracted_values[key.replace("_path","")]=ex_value
+
         except Exception as ex :
             #default value
             ui_mapping["ui_element"] = {"ui_element":"free_text","value_path":"$.event.value"}

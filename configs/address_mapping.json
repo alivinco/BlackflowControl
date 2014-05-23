@@ -1,11 +1,13 @@
 [
  {
-  "name": "wallplug", 
+  "name": "wallplug 3", 
   "msg_type": "command", 
   "msg_class": "binary.switch", 
   "group_name": "table1", 
+  "override_value_path": "", 
   "key": "binary.switch@.dev.zw.3.bin_switch.1.commands", 
-  "address": "/dev/zw/3/bin_switch/1/commands"
+  "address": "/dev/zw/3/bin_switch/1/commands", 
+  "override_properties": ""
  }, 
  {
   "name": "wallplug 2", 
@@ -508,8 +510,17 @@
   "msg_type": "command", 
   "msg_class": "config.set", 
   "group_name": "table1", 
+  "override_value_path": "$.command.properties.fibaro_wp_led_colour.value", 
   "key": "config.set@.dev.zw.3.dev_sys.1.commands", 
-  "address": "/dev/zw/3/dev_sys/1/commands"
+  "address": "/dev/zw/3/dev_sys/1/commands", 
+  "override_properties": {
+   "update_property_name": {
+    "value": "fibaro_wp_led_colour"
+   }, 
+   "fibaro_wp_led_colour": {
+    "value": 1
+   }
+  }
  }, 
  {
   "name": "error.status_code", 

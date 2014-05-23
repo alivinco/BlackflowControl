@@ -12,18 +12,19 @@
       <input type="text" name="name" class="form-control" id="inputName" placeholder="" value="{{ mapping.name }}">
     </div>
   </div>
+
+
   <div class="form-group">
     <label for="inputMsgClass" class="col-sm-2 control-label">Msg class</label>
     <div class="col-sm-10">
        <select name="msg_class" id="inputMsgClass" class="form-control">
          {% for item in msg_class_list %}
-            <option {% if item.msg_class == mapping.msg_class %}selected="selected"{% endif %} value="{{ item.msg_class }}" >{{ item.msg_type }} -> {{ item.msg_class }}</option>
+            <option {% if item.msg_class == mapping.msg_class and item.msg_type == mapping.msg_type %}selected="selected" {% endif %} value="{{ item.msg_class }}" >{{ item.msg_type }} -> {{ item.msg_class }}</option>
          {% endfor %}
       </select>
 
     </div>
   </div>
-
   <div class="form-group">
     <label for="inputType" class="col-sm-2 control-label">Type</label>
     <div class="col-sm-10">
@@ -31,11 +32,10 @@
 
       <select name="type" id="inputType" class="form-control">
             <option {% if mapping.msg_type == "event" %}selected="selected"{% endif %} >event</option>
-            <option {% if mapping.msg_tyep == "command" %}selected="selected"{% endif %} >command</option>
+            <option {% if mapping.msg_type == "command" %}selected="selected"{% endif %} >command</option>
       </select>
     </div>
   </div>
-
   <div class="form-group">
     <label for="inputAddress" class="col-sm-2 control-label">Address</label>
     <div class="col-sm-10">
@@ -43,7 +43,23 @@
       <input type="hidden" name="key" class="form-control" id="inputKey"  value="{{ mapping.key }}">
     </div>
   </div>
+{% for item in msg_class_list %}
+    {% if item.msg_class == mapping.msg_class and item.msg_type == mapping.msg_type and item.ui_mapping.override_properties %}
+      <div class="form-group">
+        <label for="inputProperties" class="col-sm-2 control-label">Override properties</label>
+        <div class="col-sm-10">
+          <textarea  name="override_properties" class="form-control" id="inputProperties"  >{{ mapping.override_properties|tojson() }}</textarea>
+        </div>
+      </div>
 
+       <div class="form-group">
+        <label for="inputOverrideValuePath" class="col-sm-2 control-label">Override value path</label>
+        <div class="col-sm-10">
+          <input type="text" name="override_value_path" class="form-control" id="inputOverrideValuePath"  value="{{ mapping.override_value_path}}">
+        </div>
+       </div>
+    {% endif %}
+{% endfor %}
   <div class="form-group">
 
     <div class="col-sm-offset-2 col-sm-10">

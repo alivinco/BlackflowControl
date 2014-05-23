@@ -120,6 +120,7 @@ def address_map_ui(key):
     msg_man.reload_all_mappings()
     mapping = msg_man.get_address_by_key(key)
     msg_class_list = msg_man.msg_class_mapping
+
     if not mapping:
        mapping = {"name":"","key":"","msg_type":"","address":"","msg_class":""}
       # log.info(mapping)
@@ -318,7 +319,16 @@ def address_manager():
             return Response(response=dev, mimetype='application/json' )
         elif request.method == "POST":
             key = request.form["key"]
-            msg_man.update_address_mapping(key,request.form["name"],request.form["msg_class"],request.form["type"],request.form["address"])
+            override_props = ""
+            override_value_path = ""
+            try:
+              if request.form["override_properties"] != "None" and request.form["override_properties"]!= "":
+               override_props = json.loads(request.form["override_properties"])
+              override_value_path = request.form["override_value_path"]
+            except:
+              log.error("Override properties is not a json object,therefore it will be skipped")
+
+            msg_man.update_address_mapping(key,request.form["name"],request.form["msg_class"],request.form["type"],request.form["address"],override_props,override_value_path)
             log.info("Address mapping successfully updated")
             return redirect(url_for("address_mapping_ui"))
     except Exception as ex :

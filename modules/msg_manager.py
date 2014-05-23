@@ -178,9 +178,20 @@ class MessageManager:
     def generate_command_from_user_params(self, msg_key, params):
         msg_template = self.load_template_by_key(msg_key)
         msg_class_map = self.get_msg_class_by_key(msg_key)
+        address = self.get_address_by_key(msg_key)
         #parameters = {"value":"True"}
         for k, v in params.items():
-            path = msg_class_map["ui_mapping"][k + "_path"]
+            if "override_properties" in address:
+              if address["override_properties"]:
+                log.debug("The system overriding properties from template by properties from address mapping.")
+                msg_template["command"]["properties"] = address["override_properties"]
+
+              if address["override_value_path"]:
+                path = address["override_value_path"]
+                log.debug("The system overriding value path by "+str(path))
+              else :
+                path = msg_class_map["ui_mapping"][k + "_path"]
+
             # converting to float if expected type is float
             if msg_class_map["ui_mapping"]["ui_element"] == "input_num_field":
                 if msg_class_map["ui_mapping"]["num_type"] == "float":
@@ -191,16 +202,18 @@ class MessageManager:
             self.set_value_to_msg(msg_template, path, v)
         return msg_template
 
-    def update_address_mapping(self, key, name, msg_class, msg_type, address):
+    def update_address_mapping(self, key, name, msg_class, msg_type, address,override_properties="",override_value_path=""):
         if key:
             item = filter(lambda addr: (addr["key"] == key ), self.address_mapping)[0]
             item["msg_class"] = msg_class
             item["address"] = address
             item["name"] = name
             item["msg_type"] = msg_type
+            item["override_properties"]=override_properties
+            item["override_value_path"]=override_value_path
             log.info("Address mapping updated with " + str(item))
         else :
-            self.address_mapping.append({"msg_class": msg_class, "address": address, "name": name, "msg_type": msg_type, "group_name": "table1","key": self.generate_key(msg_class, address)})
+            self.address_mapping.append({"msg_class": msg_class, "address": address, "name": name, "msg_type": msg_type, "override_properties":override_properties,"override_value_path":override_value_path,"key": self.generate_key(msg_class, address)})
 
         self.serialize_address_mapping()
 

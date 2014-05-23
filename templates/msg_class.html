@@ -32,6 +32,14 @@
       </select>
     </div>
   </div>
+
+  <div class="form-group">
+    <label for="override_properties" class="col-sm-2 control-label">Overridable properties</label>
+    <div class="col-sm-1">
+      <input type="checkbox" name="override_properties"  id="override_properties" {% if msg_class.ui_mapping.override_properties==True %}checked{% endif %}  value="true">
+    </div>
+  </div>
+
   <div class="form-group">
     <label  class="col-sm-2 control-label">UI element config</label>
   </div>

@@ -139,7 +139,8 @@
   "ui_mapping": {
    "ui_element": "input_num_field", 
    "num_type": "int", 
-   "value_path": "$.command.properties.step_size.value"
+   "value_path": "$.command.properties.step_size.value",
+   "override_properties":true
   }, 
   "msg_type": "command", 
   "msg_class": "config.set"
