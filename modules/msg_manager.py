@@ -191,6 +191,8 @@ class MessageManager:
                 log.debug("The system overriding value path by "+str(path))
               else :
                 path = msg_class_map["ui_mapping"][k + "_path"]
+            else :
+                path = msg_class_map["ui_mapping"][k + "_path"]
 
             # converting to float if expected type is float
             if msg_class_map["ui_mapping"]["ui_element"] == "input_num_field":

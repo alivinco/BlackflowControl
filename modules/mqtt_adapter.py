@@ -75,8 +75,9 @@ class MqttAdapter:
            if self.msg_pipeline:
                self.msg_pipeline.process_event(msg.topic,msg.payload)
 
-        elif "command" in msg.topic:
-            log.debug("Command type of message is skipped")
+        # elif "command" in msg.topic:
+        #     log.debug("Command type of message is skipped")
+
         else :
             log.info("New message from topic = "+str(msg.topic))
             log.debug(msg.payload)
