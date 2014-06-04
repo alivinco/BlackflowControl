@@ -1,0 +1,2 @@
+- There is a bug when message is not captured when there is already entry in addressing config file , which has the same address but different
+class type . For example it was reported error event first but then it was reported real value .
