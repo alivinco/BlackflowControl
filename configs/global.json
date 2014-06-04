@@ -3,12 +3,12 @@
   "username": "blackfly", 
   "root_topic": "/#", 
   "global_topic_prefix": "", 
-  "host": "192.168.31.252", 
+  "host": "127.0.0.1",
   "client_id": "blackfly_test_suite_2", 
   "password": "Lyse3124", 
   "port": "1883"
  },
- "system":{"version":"1.0"}
+ "system":{"version":"1.1"}
  ,
  "defaults": {
   "event_value_path_for_new_class": "$.event.default.value", 

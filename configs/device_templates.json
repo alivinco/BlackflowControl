@@ -4,8 +4,8 @@
         "dev_name":"wallplug",
         "virt_devices":{
             "bin_switch":{
-                "supported_msg_classes":{"command.binary.switch":{"endpoints":2}},
-                "emitted_msg_classes":{"event.binary.switch":{"endpoints":2}}
+                "in_cmd_msg_classes":{"binary.switch":{"endpoints":2 ,"properties":{}}},
+                "out_event_msg_classes":{"binary.switch":{"endpoints":2}}
             }
         }
     },
@@ -14,11 +14,11 @@
         "dev_name":"door sensor",
         "virt_devices":{
             "bin_switch":{
-                "supported_msg_classes":{},
-                "emitted_msg_classes":{"event.binary.opening":{"endpoints":1}}
+                "in_cmd_msg_classes":{},
+                "out_event_msg_classes":{"event.binary.opening":{"endpoints":1}}
             },
             "lvl_battery":{
-                "emitted_msg_classes":{"event.level.battery":{"endpoints":1}}
+                "out_event_msg_classes":{"event.level.battery":{"endpoints":1}}
             }
 
         }

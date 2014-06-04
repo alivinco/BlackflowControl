@@ -12,7 +12,7 @@
  "@context": "http://smartly.no/context", 
  "event": {
   "default": {
-   "units": "C", 
+   "unit": "Bq",
    "value": 7168
   }, 
   "subtype": "radiation", 

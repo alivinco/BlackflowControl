@@ -24,7 +24,7 @@ function load_data()
       success: function( data ) {
 //        console.dir(data)
         msg_cache = data.result
-        update_elements(data.result)
+        if (mode=="normal") update_elements(data.result)
 
       }
     });
@@ -44,14 +44,15 @@ function send_command(key,ui_type,value)
         val = value
     }
 
-    obj = {"msg_key":key,"user_params":{"value":val}}
+    obj = {"msg_key":key,"user_params":{"value":val},"mode":mode}
     $.ajax({
       url: "../api/send_command",
       type: 'POST',
       contentType: 'application/json; charset=utf-8',
       data:  JSON.stringify(obj),
       success: function( data ) {
-        load_data()
+
+       if (mode=="normal") load_data()
       }
     });
 }
@@ -154,6 +155,8 @@ function open_free_text(key)
 $(function() {
 //    console.log( "ready!" );
     load_data()
-    start_pooling_cache()
+    if (mode == "normal") start_pooling_cache()
+    console.log(mode)
+
     $("#inter_console_table").stupidtable();
 });

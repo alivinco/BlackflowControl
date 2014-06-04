@@ -12,7 +12,7 @@
  "@context": "http://smartly.no/context", 
  "event": {
   "default": {
-   "units": "C", 
+   "unit": "C",
    "value": 22.93000030517578
   }, 
   "subtype": "temperature", 

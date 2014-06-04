@@ -13,6 +13,7 @@ from flask import request
 from modules.mqtt_adapter import MqttAdapter
 from modules.msg_cache import MsgCache
 from modules.msg_manager import MessageManager
+from modules.dev_simulator import DeviceSimulator
 import json
 # Flask initialization
 from modules.msg_pipeline import MsgPipeline
@@ -28,10 +29,12 @@ log = logging.getLogger("bf_web")
 
 app = Flask(__name__)
 msg_man = MessageManager()
+
 global_context["version"] = msg_man.global_configs["system"]["version"]
 cache = MsgCache(msg_man)
 # Mqtt initialization
 msg_pipeline = MsgPipeline(msg_man,cache)
+dev_simulator = DeviceSimulator(msg_man)
 mqtt = MqttAdapter(msg_pipeline,msg_man.global_configs["mqtt"]["client_id"])
 mqtt.set_mqtt_params(msg_man.global_configs["mqtt"]["client_id"],msg_man.global_configs["mqtt"]["username"],msg_man.global_configs["mqtt"]["password"])
 mqtt.sub_topic = msg_man.global_configs["mqtt"]["root_topic"]
@@ -78,16 +81,20 @@ def mqtt_control(command):
 def inter_console_ui():
     log.info("Inter console works")
     filter_value = request.args.get("filter","")
+    mode = request.args.get("mode","normal")
     filter_type = request.args.get("filter_type","address")
     log.info(filter_value)
     try :
         #msg_man.reload_all_mappings()
-        mapping = msg_man.generate_linked_mapping(msg_man.load_msg_class_mapping(), msg_man.load_address_mapping())
+        if mode == "sim" :
+            mapping = dev_simulator.get_msg_mapping()
+        else :
+            mapping = msg_man.generate_linked_mapping(msg_man.load_msg_class_mapping(), msg_man.load_address_mapping())
         if filter_value:
            mapping = filter(lambda item: (filter_value in item["address"]),mapping)
     except Exception as ex :
         log.exception(ex)
-    return render_template('inter_console.html', mapping=mapping,cache=cache,global_context=global_context)
+    return render_template('inter_console.html', mapping=mapping,cache=cache,global_context=global_context,mode=mode)
 
 @app.route('/ui/mqtt_broker_monitor')
 def mqtt_broker_monitor_ui():
@@ -248,7 +255,7 @@ def send_command():
         command = msg_man.generate_command_from_user_params(req["msg_key"],req["user_params"])
         log.debug("Command message = "+str(command))
         address = req["msg_key"].split("@")[1]
-        log.info("Destination address = "+str(address.replace(".","/")))
+        log.info("Destination address = "+str(address.replace(".","/"))+"; Mode = "+req["mode"])
         # print json.dumps(command,indent=True
         # mqtt.mqtt.publish(address.replace(".","/"),json.dumps(command),1)
         # cache.put(address,command)

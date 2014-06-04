@@ -56,13 +56,14 @@ class MsgPipeline():
             log.info("Message class = "+msg_class+" and address = "+address+" are known to the system")
             return {"success":True,"code":0}
 
-        elif not addr_is_registered and msg_class and msg_class_is_registered :
-            # the address is not known to system but message class is known
+        elif (not addr_is_registered and msg_class_is_registered) or (addr_is_registered and msg_class and not msg_class_is_registered) :
+            # the address is not known to the system but message class is known OR
+            # the address is know but msg_class is not know to the system , for example when the same address can produce several events like error report and temperature readings
             # let's add the address to the mapping
             self.msg_man.add_address_to_mapping(address,msg_class)
             exdt = self.__extract_data(address,msg_class,payload)
             self.cache.put(cache_key,payload,exdt["ui_mapping"],exdt["extracted_values"])
-            log.info("Address "+address+" doesn't exist in mapping file .It will be added automatically ")
+            log.info("Address "+address+" or message class doesn't exist in mapping file .It will be added automatically ")
             return {"success":True,"code":1,"text":"New address has been registered :"+address}
 
         elif msg_class and not msg_class_is_registered:
@@ -90,7 +91,7 @@ class MsgPipeline():
         log.info("New command entered message pipeline")
         msg_class = self.__get_msg_class_from_msg(payload)
         log.info("Msg class = "+str(msg_class))
-
+        self.__update_static_part_of_message(payload)
         mqtt.publish(address,json.dumps(payload),1)
 
         exdt = self.__extract_data(address,msg_class,payload)
@@ -127,6 +128,12 @@ class MsgPipeline():
                log.debug("__get_msg_class_from_msg : class can't be extracted from msg because of error :"+str(ex))
 
         return None
+
+    def __update_static_part_of_message(self,payload):
+        payload["origin"]["@type"]="app"
+        payload["origin"]["@id"]="blackfly"
+        payload["origin"]["vendor"]="blackfly"
+        payload["origin"]["location"]="lab"
 
 
     def __check_address(self, address):

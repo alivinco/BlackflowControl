@@ -26,8 +26,8 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "value_path": "$.command.default.value", 
-   "num_type": "float"
+   "num_type": "float", 
+   "value_path": "$.command.default.value"
   }, 
   "msg_type": "command", 
   "msg_class": "level.thermostat"
@@ -129,8 +129,8 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "int", 
-   "value_path": "$.command.default.value"
+   "value_path": "$.command.default.value", 
+   "num_type": "int"
   }, 
   "msg_type": "command", 
   "msg_class": "level.dimmer"
@@ -138,9 +138,9 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "int", 
-   "value_path": "$.command.properties.step_size.value",
-   "override_properties":true
+   "override_properties": true, 
+   "value_path": "$.command.properties.step_size.value", 
+   "num_type": "int"
   }, 
   "msg_type": "command", 
   "msg_class": "config.set"

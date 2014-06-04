@@ -5,7 +5,7 @@
         "address":1,
         "virt_devices":{
             "bin_switch":[
-                {"addr_map_id":1,"properties":{}}
+                {"addr_map_id":1}
             ]
 
         }

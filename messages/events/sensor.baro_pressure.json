@@ -12,7 +12,7 @@
  "@context": "http://smartly.no/context", 
  "event": {
   "default": {
-   "units": "kPa", 
+   "unit": "kPa",
    "value": 101.0800018310547
   }, 
   "subtype": "baro_pressure", 
