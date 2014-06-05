@@ -1,18 +1,18 @@
 {
  "origin": {
   "endp_id": 1, 
-  "vendor": "7401", 
+  "vendor": "1074",
   "@id": 52, 
   "@type": "met_radon", 
   "location": "NotImplemented"
  }, 
  "uuid": "e795e1c3-afb2-495a-8440-8ccac9757de2", 
  "creation_time": 1399043195, 
- "spid": "NotImplemented", 
+ "spid": "S-451-12",
  "@context": "http://smartly.no/context", 
  "event": {
   "default": {
-   "unit": "Bq",
+   "unit": "Bq/m3",
    "value": 7168
   }, 
   "subtype": "radiation", 

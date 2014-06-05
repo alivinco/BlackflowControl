@@ -1,0 +1,108 @@
+{% extends "base_layout.html" %}
+{% block li_msg_types %}{% endblock %}
+{% block body %}
+</h1>
+<h3>Help</h3>
+<div class="container-fluid">
+<h3>The Device class enumeration</h3>
+<p>The Device class enumeration is limited set of available devices which has to be used as part of URI  as well as part of message (origin.device.@type) .</p>
+
+<h4> Binary devices </h4>
+the devices which are binary by nature  therefore they either accepts binary command or emits binary event  :
+<pre>
+bin_switch
+bin_motion
+bin_opening
+bin_fire
+bin_flood
+bin_gas
+bin_relay
+bin_smoke
+</pre>
+
+<h4>Mode centric devices  :</h4>
+<pre>
+mod_scenario
+mod_siren
+</pre>
+
+<h4>Level change devices :</h4>
+<pre>lvl_dimmer
+lvl_volume
+lvl_thermostat
+lvl_battery
+</pre>
+<h4> Sensors </h4>
+a sensors is a device which reports instant simple measurement ( instant measurement sample ) , it doesn't do any complex data aggregation or post processing . The reported value has to be atomic and do not have mandatory links to other measurements , in other words it can be used as stand alone measurement :
+<pre>
+sen_temp
+sen_humidity
+sen_gas
+sen_genpurpose
+sen_lumin
+sen_power
+sen_velocity
+sen_derection
+sen_atmpress
+sen_baropress
+sen_solarrad
+sen_dewpoint
+sen_rainrate
+sen_tidelevel
+sen_weight
+sen_voltage
+sen_current
+sen_co2lvl
+sen_airflow
+sen_tankcap
+sen_distance
+sen_anglepos
+sen_rotation
+sen_seismint
+sen_seismmag
+sen_ultraviolet
+sen_elresist
+sen_elconduct
+sen_loudness
+sen_moisture
+sen_freq
+sen_time
+</pre>
+<h4>Meters</h4>
+ a meter is complex device which performs data aggregation and post processing , normally it consists of sensor + aggregation memory + post processing calculations :
+
+<pre>
+met_power
+met_flow
+met_flow
+met_heat
+met_radiation
+met_radon
+</pre>
+<h4>Complex devices</h4>
+<pre>
+com_smartdoor
+dev_sys
+</pre>
+
+<h4>Usage example </h4>
+<p>Temperature sensor event uri : /dev/zw/12/<b>sen_temp</b>/1/events</p>
+<p> Configuration setting : /dev/zw/3/<b>dev_sys</b>/1/commands </p>
+    
+<h4>Zwave network reset</h4>
+<pre>
+service zwdaemon stop
+rm /media/app/zwave/zwcfg_*
+cd /media/app/zwave/zwaveFirmware/
+zwFlasher -E EEPROM.hex
+service zwdaemon start
+</pre>
+
+</div>
+
+
+{% endblock %}
+{% block js_scripts %}
+
+
+{% endblock %}

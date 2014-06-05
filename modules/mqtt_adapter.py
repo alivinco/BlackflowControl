@@ -81,6 +81,7 @@ class MqttAdapter:
         else :
             log.info("New message from topic = "+str(msg.topic))
             log.debug(msg.payload)
+            msg_obj = None
             if self.msg_pipeline:
                 try:
                   msg_obj = json.loads(msg.payload)

@@ -345,9 +345,17 @@ def address_manager():
 
 @app.route('/api/get_last_raw_msg/<key>')
 def get_last_raw_msg(key):
-    result = cache.get_by_key(key)["raw_msg"]
-    dev = json.dumps(result)
-    return Response(response=dev, mimetype='application/json' )
+    try:
+        result = cache.get_by_key(key)["raw_msg"]
+        dev = json.dumps(result)
+    except :
+        dev = {"error":"The message not found.Perhaps it has never been captured by the system"}
+    return Response(response=dev, mimetype='application/json')
+
+@app.route('/ui/help/<page>')
+def help(page):
+    return render_template('help_main.html',cfg=msg_man.global_configs,global_context=global_context)
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0",use_debugger=True,use_reloader=False)
