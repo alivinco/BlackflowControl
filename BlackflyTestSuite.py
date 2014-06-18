@@ -316,6 +316,7 @@ def approve_msg_class():
 @app.route('/api/address_manager',methods=["POST","PUT"])
 def address_manager():
     # command should be {"cmd":"remove","address":"/dev/zw/1","msg_class":"thermostat"}
+    error_msg = ""
     try:
         if request.method == "PUT":
             req = request.get_json()
@@ -333,13 +334,16 @@ def address_manager():
                override_props = json.loads(request.form["override_properties"])
               override_value_path = request.form["override_value_path"]
             except:
-              log.error("Override properties is not a json object,therefore it will be skipped")
+              error_msg = "Override properties is not a json object,therefore it will be skipped"
+              log.error(error_msg)
+
 
             msg_man.update_address_mapping(key,request.form["name"],request.form["msg_class"],request.form["type"],request.form["address"],override_props,override_value_path)
             log.info("Address mapping successfully updated")
             return redirect(url_for("address_mapping_ui"))
     except Exception as ex :
         log.exception(ex)
+        return redirect(url_for("address_mapping_ui"))
 
 
 

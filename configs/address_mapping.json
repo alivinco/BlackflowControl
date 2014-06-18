@@ -63,5 +63,177 @@
     "value": 3
    }
   }
+ }, 
+ {
+  "name": "sensor.temperature", 
+  "msg_type": "event", 
+  "msg_class": "sensor.temperature", 
+  "group_name": "table1", 
+  "key": "sensor.temperature@.dev.zw.3.sen_temp.1.events", 
+  "address": "/dev/zw/3/sen_temp/1/events"
+ }, 
+ {
+  "name": "level.thermostat", 
+  "msg_type": "event", 
+  "msg_class": "level.thermostat", 
+  "group_name": "table1", 
+  "key": "level.thermostat@.dev.zw.3.lvl_thermostat.1.events", 
+  "address": "/dev/zw/3/lvl_thermostat/1/events"
+ }, 
+ {
+  "name": "Temp report interval for wheel controller", 
+  "msg_type": "command", 
+  "msg_class": "config.set", 
+  "override_value_path": "$.command.properties.setpoint_min.value", 
+  "key": "config.set@.dev.zw.3.dev_sys.1.commands", 
+  "address": "/dev/zw/3/dev_sys/1/commands", 
+  "override_properties": {
+   "prop_name": {
+    "value": "setpoint_min"
+   }, 
+   "setpoint_min": {
+    "value": 10
+   }, 
+   "setpoint_max": {
+    "value": 10
+   }, 
+   "temp_report_interval": {
+    "value": 10
+   }
+  }
+ }, 
+ {
+  "name": "Wheel controller thermostat setpoint", 
+  "msg_type": "command", 
+  "msg_class": "level.thermostat", 
+  "override_value_path": "", 
+  "key": "level.thermostat@.dev.zw.3.lvl_thermostat.1.commands", 
+  "address": "/dev/zw/3/lvl_thermostat/1/commands", 
+  "override_properties": ""
+ }, 
+ {
+  "name": "meter.power", 
+  "msg_type": "event", 
+  "msg_class": "meter.power", 
+  "group_name": "table1", 
+  "key": "meter.power@.dev.zw.4.met_power.1.events", 
+  "address": "/dev/zw/4/met_power/1/events"
+ }, 
+ {
+  "name": "Wallplug 2 ", 
+  "msg_type": "command", 
+  "msg_class": "binary.switch", 
+  "override_value_path": "", 
+  "key": "binary.switch@.dev.zw.4.bin_switch.1.commands", 
+  "address": "/dev/zw/4/bin_switch/1/commands", 
+  "override_properties": ""
+ }, 
+ {
+  "name": "error.status_code", 
+  "msg_type": "event", 
+  "msg_class": "error.status_code", 
+  "group_name": "table1", 
+  "key": "error.status_code@.dev.zw.2.bin_switch.1.events", 
+  "address": "/dev/zw/2/bin_switch/1/events"
+ }, 
+ {
+  "name": "meter.radiation", 
+  "msg_type": "event", 
+  "msg_class": "meter.radiation", 
+  "group_name": "table1", 
+  "key": "meter.radiation@.dev.zw.6.met_radon.1.events", 
+  "address": "/dev/zw/6/met_radon/1/events"
+ }, 
+ {
+  "name": "sensor.time", 
+  "msg_type": "event", 
+  "msg_class": "sensor.time", 
+  "group_name": "table1", 
+  "key": "sensor.time@.dev.zw.6.sen_time.1.events", 
+  "address": "/dev/zw/6/sen_time/1/events"
+ }, 
+ {
+  "name": "sensor.humidity", 
+  "msg_type": "event", 
+  "msg_class": "sensor.humidity", 
+  "group_name": "table1", 
+  "key": "sensor.humidity@.dev.zw.6.sen_humidity.1.events", 
+  "address": "/dev/zw/6/sen_humidity/1/events"
+ }, 
+ {
+  "name": "sensor.temperature", 
+  "msg_type": "event", 
+  "msg_class": "sensor.temperature", 
+  "group_name": "table1", 
+  "key": "sensor.temperature@.dev.zw.6.sen_temp.1.events", 
+  "address": "/dev/zw/6/sen_temp/1/events"
+ }, 
+ {
+  "name": "sensor.baro_pressure", 
+  "msg_type": "event", 
+  "msg_class": "sensor.baro_pressure", 
+  "group_name": "table1", 
+  "key": "sensor.baro_pressure@.dev.zw.6.sen_baropress.1.events", 
+  "address": "/dev/zw/6/sen_baropress/1/events"
+ }, 
+ {
+  "name": "meter.radiation", 
+  "msg_type": "event", 
+  "msg_class": "meter.radiation", 
+  "group_name": "table1", 
+  "key": "meter.radiation@.dev.zw.6.met_radon.2.events", 
+  "address": "/dev/zw/6/met_radon/2/events"
+ }, 
+ {
+  "name": "meter.radiation", 
+  "msg_type": "event", 
+  "msg_class": "meter.radiation", 
+  "group_name": "table1", 
+  "key": "meter.radiation@.dev.zw.6.met_radon.3.events", 
+  "address": "/dev/zw/6/met_radon/3/events"
+ }, 
+ {
+  "name": "Set fibaro association", 
+  "msg_type": "command", 
+  "msg_class": "association.set", 
+  "override_value_path": "", 
+  "key": "association.set@.dev.zw.4.dev_sys.1.commands", 
+  "address": "/dev/zw/4/dev_sys/1/commands", 
+  "override_properties": {
+   "group": {
+    "value": 1
+   }, 
+   "devices": {
+    "value": [
+     7
+    ]
+   }
+  }
+ }, 
+ {
+  "name": "Wall plug association delete", 
+  "msg_type": "command", 
+  "msg_class": "association.delete", 
+  "override_value_path": "", 
+  "key": "association.delete@.dev.zw.4.dev_sys.1.commands", 
+  "address": "/dev/zw/4/dev_sys/1/commands", 
+  "override_properties": {
+   "group": {
+    "value": 1
+   }, 
+   "devices": {
+    "value": [
+     7
+    ]
+   }
+  }
+ }, 
+ {
+  "name": "error.status_code", 
+  "msg_type": "event", 
+  "msg_class": "error.status_code", 
+  "group_name": "table1", 
+  "key": "error.status_code@.dev.zw.4.dev_sys.1.events", 
+  "address": "/dev/zw/4/dev_sys/1/events"
  }
 ]

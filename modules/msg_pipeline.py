@@ -1,3 +1,5 @@
+import uuid
+import time
 from modules.msg_cache import MsgCache
 from modules.msg_manager import MessageManager
 
@@ -91,7 +93,7 @@ class MsgPipeline():
         log.info("New command entered message pipeline")
         msg_class = self.__get_msg_class_from_msg(payload)
         log.info("Msg class = "+str(msg_class))
-        self.__update_static_part_of_message(payload)
+        self.__update_static_part_of_message(payload,address)
         mqtt.publish(address,json.dumps(payload),1)
 
         exdt = self.__extract_data(address,msg_class,payload)
@@ -129,11 +131,14 @@ class MsgPipeline():
 
         return None
 
-    def __update_static_part_of_message(self,payload):
+    def __update_static_part_of_message(self,payload,topic = "/dev/default"):
         payload["origin"]["@type"]="app"
         payload["origin"]["@id"]="blackfly"
         payload["origin"]["vendor"]="blackfly"
         payload["origin"]["location"]="lab"
+        if "command" in payload: payload["command"]["target"] = topic
+        payload["uuid"] = str(uuid.uuid4())
+        payload["creation_time"] = int(time.time()) * 1000
 
 
     def __check_address(self, address):

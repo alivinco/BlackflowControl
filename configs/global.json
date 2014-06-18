@@ -4,7 +4,7 @@
   "root_topic": "/#", 
   "global_topic_prefix": "", 
   "host": "192.168.31.252", 
-  "client_id": "blackfly_test_suite_3", 
+  "client_id": "blackfly_test_suite_2",
   "password": "Lyse3124", 
   "port": "1883"
  }, 

@@ -1,0 +1,29 @@
+{ 
+                    "@context" : "http://smartly.no/context",
+                    "origin" :
+                        {
+                            "@type" : "app",
+                            "@id" : "smartly_ios",
+                            "vendor" : "Sensio"
+                        },
+                    "command" :
+                        {
+                            "@type" : "association",
+                            "subtype" : "set",
+                            "default" : {
+                                "value" : null
+                            },
+                            "properties" : {
+                                "group" : {
+                                    "value" : 1
+                                },
+                                "devices" : {
+                                    "value" : [20]
+                                }
+                            },
+                            "target" : "/dev/zw/5/dev_sys/1/commands"
+                        },
+                    "creation_time" : 1385815582,
+                    "uuid" : "86f93c70-6c47-4cfc-91eb-30d3b069e417",
+                    "spid" : "S-451-12"
+}

@@ -150,13 +150,19 @@ class MessageManager:
         return jsonpath.jsonpath(jobj, json_path, 'VALUE', False)
 
     def set_value_to_msg(self, jobj, json_path, value):
-        path_array = jsonpath.jsonpath(jobj, json_path, 'IPATH', False)[0]
+        log.debug("JsonPath to set the value :"+str(json_path))
+        path_array = jsonpath.jsonpath(jobj, json_path, 'PATH',0, False)[0]
 
         # building expression jobj[el1][el2] = 123
 
         path_str = "jobj"
-        for item in path_array:
-            path_str = path_str + "['" + item + "']"
+        path_str = path_array.replace("$","jobj")
+        # print path_array
+        # for item in path_array:
+        #     if item is int :
+        #         path_str = path_str + "[" + str(item) + "]"
+        #     else :
+        #         path_str = path_str + "['" + str(item) + "']"
         var_type = type(value)
         if var_type is bool:
             path_str = path_str + " = " + str(value)
@@ -166,12 +172,16 @@ class MessageManager:
             path_str = path_str + " = " + str(value)
         elif var_type is str:
             path_str = path_str + " = '" + str(value) + "'"
+        elif var_type is unicode:
+            path_str = path_str + " = '" + str(value) + "'"
         elif var_type is dict:
             path_str = path_str + " = " + json.dumps(value)
         else:
             log.error(
                 "!!!!UNKNOWN OBJECT TYPE , set operation will be skipped. Type is" + str(var_type) + " value " + str(
                     value))
+        log.debug("Generated expression "+str(path_str))
+
         exec (path_str)
 
     # params have to have the same values as explained in ui_mapping part of msg class mapping
@@ -193,13 +203,17 @@ class MessageManager:
                 path = msg_class_map["ui_mapping"][k + "_path"]
             else :
                 path = msg_class_map["ui_mapping"][k + "_path"]
+            if "num_input" in k:
+                v = int(v)
 
             # converting to float if expected type is float
-            if msg_class_map["ui_mapping"]["ui_element"] == "input_num_field":
+            if msg_class_map["ui_mapping"]["ui_element"] == "input_num_field" :
                 if msg_class_map["ui_mapping"]["num_type"] == "float":
                     v = float(v)
                 else:
                     v = int(v)
+
+
 
             self.set_value_to_msg(msg_template, path, v)
         return msg_template
@@ -265,14 +279,15 @@ class MessageManager:
 if __name__ == "__main__":
     m = MessageManager()
     # m.app_root_path = "C:\ALWorks\SG\BlackflyTestSuite"
-    print type({"test": 1})
-    flist = m.load_templates()
-    jobj = m.parse_file(os.path.join(m.commands_dir, "zw_ta.inclusion_mode.json"))
+    # flist = m.load_templates()
+    jobj = m.parse_file(os.path.join(m.commands_dir, "association.set.json"))
 
-    print m.get_value_from_msg(jobj, "$.command.@type")[0]
+    # print m.get_value_from_msg(jobj, "$.command.properties.devices.value[0]")[0]
+    m.set_value_to_msg(jobj,"$.command.properties.devices.value[0]",3)
+
     # m.set_value_to_msg(jobj, "$.command.name", "Test new path")
     # print jobj
-    print json.dumps(m.generate_linked_mapping(m.load_msg_class_mapping(),m.load_address_mapping()),indent=True)
+    # print json.dumps(m.generate_linked_mapping(m.load_msg_class_mapping(),m.load_address_mapping()),indent=True)
     # print  m.load_template_by_key("temperature@.zw.15.multilevel_sensor.1.events")
     # print m.get_msg_class_by_key("temperature@.zw.15.multilevel_sensor.1.events")
     # print json.dumps(m.generate_command_from_user_params("temperature@.zw.15.multilevel_sensor.1.events",{"value": "33", "unit": "F"}), indent=True)

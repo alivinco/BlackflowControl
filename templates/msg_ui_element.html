@@ -13,7 +13,7 @@
           {% if item.ui_mapping.ui_element=="sensor_value" %}
             <div id="{{ item.id }}"> <h3>  <small> </small></h3></div>
           {% endif %}
-           {% if item.ui_mapping.ui_element=="input_num_field" %}
+          {% if item.ui_mapping.ui_element=="input_num_field" %}
             <div id="{{ item.id }}">
                 <div class="input-group">
                   <input id="{{ item.id }}_input" type="text" class="form-control">
@@ -23,4 +23,7 @@
                 </div>
 
             </div>
+          {% endif %}
+          {% if item.ui_mapping.ui_element=="msg_class_ui" %}
+              {% include 'msg_class_ui/'+item.msg_class+'.html' %}
           {% endif %}
