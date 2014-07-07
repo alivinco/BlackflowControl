@@ -1,0 +1,21 @@
+{
+ "origin": {
+  "endp_id": 1, 
+  "@id": 2, 
+  "vendor": "010f", 
+  "@type": "sen_lumin", 
+  "location": "NotImplemented"
+ }, 
+ "uuid": "708ca88c-f746-11e3-8a30-b827eb704e93", 
+ "creation_time": 1403136765, 
+ "spid": "Svg", 
+ "@context": "http://blackfly/context", 
+ "event": {
+  "default": {
+   "value": 85, 
+   "unit": "lux"
+  }, 
+  "subtype": "luminance", 
+  "@type": "sensor"
+ }
+}

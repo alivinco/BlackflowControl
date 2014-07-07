@@ -44,8 +44,8 @@
   "msg_type": "command", 
   "msg_class": "binary.switch", 
   "override_value_path": "", 
-  "key": "binary.switch@.dev.zw.2.bin_switch.1.commands", 
-  "address": "/dev/zw/2/bin_switch/1/commands", 
+  "key": "binary.switch@.dev.zw.4.bin_switch.1.commands", 
+  "address": "/dev/zw/4/bin_switch/1/commands", 
   "override_properties": ""
  }, 
  {
@@ -63,5 +63,89 @@
     "value": 3
    }
   }
+ }, 
+ {
+  "name": "sensor.power", 
+  "msg_type": "event", 
+  "msg_class": "sensor.power", 
+  "group_name": "table1", 
+  "key": "sensor.power@.dev.zw.4.sen_power.1.events", 
+  "address": "/dev/zw/4/sen_power/1/events"
+ }, 
+ {
+  "name": "binary.generic", 
+  "msg_type": "event", 
+  "msg_class": "binary.generic", 
+  "group_name": "table1", 
+  "key": "binary.generic@.dev.zw.4.bin_generic.1.events", 
+  "address": "/dev/zw/4/bin_generic/1/events"
+ }, 
+ {
+  "name": "Relay 1", 
+  "msg_type": "command", 
+  "msg_class": "binary.switch", 
+  "override_value_path": "", 
+  "key": "binary.switch@.dev.zw.6.bin_switch.2.commands", 
+  "address": "/dev/zw/6/bin_switch/2/commands", 
+  "override_properties": ""
+ }, 
+ {
+  "name": "Relay 1 ", 
+  "msg_type": "command", 
+  "msg_class": "binary.switch", 
+  "override_value_path": "", 
+  "key": "binary.switch@.dev.zw.6.bin_switch.1.commands", 
+  "address": "/dev/zw/6/bin_switch/1/commands", 
+  "override_properties": ""
+ }, 
+ {
+  "name": "Pump", 
+  "msg_type": "command", 
+  "msg_class": "binary.switch", 
+  "override_value_path": "", 
+  "key": "binary.switch@.dev.zw.7.bin_switch.1.commands", 
+  "address": "/dev/zw/7/bin_switch/1/commands", 
+  "override_properties": ""
+ }, 
+ {
+  "name": "Relay 2 not connected", 
+  "msg_type": "command", 
+  "msg_class": "binary.switch", 
+  "override_value_path": "", 
+  "key": "binary.switch@.dev.zw.7.bin_switch.2.commands", 
+  "address": "/dev/zw/7/bin_switch/2/commands", 
+  "override_properties": ""
+ }, 
+ {
+  "name": "binary.generic", 
+  "msg_type": "event", 
+  "msg_class": "binary.generic", 
+  "group_name": "table1", 
+  "key": "binary.generic@.dev.zw.2.bin_generic.1.events", 
+  "address": "/dev/zw/2/bin_generic/1/events"
+ }, 
+ {
+  "name": "sensor.temperature", 
+  "msg_type": "event", 
+  "msg_class": "sensor.temperature", 
+  "group_name": "table1", 
+  "key": "sensor.temperature@.dev.zw.2.sen_temp.1.events", 
+  "address": "/dev/zw/2/sen_temp/1/events"
+ }, 
+ {
+  "name": "sensor.luminance", 
+  "msg_type": "event", 
+  "msg_class": "sensor.luminance", 
+  "group_name": "table1", 
+  "key": "sensor.luminance@.dev.zw.2.sen_lumin.1.events", 
+  "address": "/dev/zw/2/sen_lumin/1/events"
+ }, 
+ {
+  "name": "sensor.humidity", 
+  "msg_type": "event", 
+  "msg_class": "sensor.humidity", 
+  "group_name": "table1", 
+  "key": "sensor.humidity@.dev.zw.2.SENSOR_MULTILEVEL_REPORT_RELATIVE_HUMIDITY.1.events", 
+  "address": "/dev/zw/2/SENSOR_MULTILEVEL_REPORT_RELATIVE_HUMIDITY/1/events"
  }
 ]

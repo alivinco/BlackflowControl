@@ -51,13 +51,14 @@ class MqttAdapter:
         self.mqtt.connect(self._host, self._port, self._keepalive)
         log.info("The system reconnected to mqtt broker")
 
-    def initiate_listeners(self):
+    def initiate_listeners(self,enable_sys=True):
         topic = self.topic_prefix+self.sub_topic
         self.mqtt.subscribe(topic, 1)
         # mosquitto internal monitoring topic
-        self.mqtt.subscribe("$SYS/#",1)
+        if enable_sys :
+            self.mqtt.subscribe("$SYS/#",1)
+            log.info("mqtt adapter subscribed to $SYS/# mqtt internal monitoring topic.")
         log.info("mqtt adapter subscribed to topic "+topic)
-        log.info("mqtt adapter subscribed to $SYS/# mqtt internal monitoring topic.")
 
     def _on_connect(self, mosq, userdata, rc):
         if rc == 0 :
