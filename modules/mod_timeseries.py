@@ -25,7 +25,7 @@ class Timeseries():
         c = self.conn.cursor()
         result = []
         if dev_id:
-           c.execute("select dev_id timestamp,value from timeseries where dev_id = ? and timestamp > ? and timestamp < ? ",(dev_id,start,end))
+           c.execute("select dev_id,timestamp,value from timeseries where dev_id = ? and timestamp > ? and timestamp < ? ",(dev_id,start,end))
         else :
            c.execute("select dev_id,timestamp,value from timeseries where  timestamp > ? and timestamp < ? ",(start,end))
         return c.fetchall()

@@ -235,9 +235,12 @@ class MessageManager:
 
     def add_address_to_mapping(self, address, msg_class):
         # register new address
+        # calculating new id
+        # self.address_mapping
         log.info("Adding address to the mapping , address = " + str(address) + " msg_class=" + str(msg_class))
         addr_map = self.load_address_mapping()
-        addr_map.append({"msg_class": msg_class, "address": address, "name": msg_class, "msg_type": "event", "group_name": "table1","key": self.generate_key(msg_class, address)})
+        new_id = sorted(self.address_mapping,key = lambda item:item["id"])[-1]["id"]+1
+        addr_map.append({"id":new_id,"msg_class": msg_class, "address": address, "name": msg_class, "msg_type": "event", "group_name": "table1","key": self.generate_key(msg_class, address)})
         self.address_mapping = addr_map
         self.serialize_address_mapping()
 

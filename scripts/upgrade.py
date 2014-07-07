@@ -19,4 +19,14 @@ def update_address_mapping():
     f.close()
     print "saved"
 
-update_address_mapping()
+def get_address_mapping_id():
+    app_root_path = os.getcwd()
+    addr_path = os.path.join(app_root_path, "configs", "address_mapping.json")
+    jobj = json.load(file(addr_path))
+
+    r = sorted(jobj,key = lambda item:item["id"])[-1]["id"]
+
+    print r
+
+# update_address_mapping()
+get_address_mapping_id()

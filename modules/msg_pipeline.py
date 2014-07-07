@@ -201,13 +201,15 @@ class MsgPipeline():
         return {"ui_mapping":ui_mapping,"extracted_values":extracted_values}
 
     def __update_timeseries(self,exdt):
-       value = exdt["extracted_values"]["value"]
-       if isinstance(value,(int,float,bool)):
-          if isinstance(value,bool): value = int(value)
-          self.timeseries.insert(exdt["extracted_values"]["dev_id"],value)
-       else:
-          log.debug("Value is not a number , therefore will be skipped")
-
+       try:
+         value = exdt["extracted_values"]["value"]
+         if isinstance(value,(int,float,bool)):
+            if isinstance(value,bool): value = int(value)
+            self.timeseries.insert(exdt["extracted_values"]["dev_id"],value)
+         else:
+            log.debug("Value is not a number , therefore will be skipped")
+       except Exception as ex :
+           pass
 
 
 if __name__ == "__main__":

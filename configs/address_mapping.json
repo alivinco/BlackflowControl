@@ -151,11 +151,11 @@
   "id": 14
  }, 
  {
-  "name": "meter.radiation", 
+  "name": "meter.radon", 
   "msg_type": "event", 
-  "msg_class": "meter.radiation", 
+  "msg_class": "meter.radon", 
   "group_name": "table1", 
-  "key": "meter.radiation@.dev.zw.6.met_radon.1.events", 
+  "key": "meter.radon@.dev.zw.6.met_radon.1.events", 
   "address": "/dev/zw/6/met_radon/1/events", 
   "id": 15
  }, 
@@ -196,20 +196,20 @@
   "id": 19
  }, 
  {
-  "name": "meter.radiation", 
+  "name": "meter.radon", 
   "msg_type": "event", 
-  "msg_class": "meter.radiation", 
+  "msg_class": "meter.radon", 
   "group_name": "table1", 
-  "key": "meter.radiation@.dev.zw.6.met_radon.2.events", 
+  "key": "meter.radon@.dev.zw.6.met_radon.2.events", 
   "address": "/dev/zw/6/met_radon/2/events", 
   "id": 20
  }, 
  {
-  "name": "meter.radiation", 
+  "name": "meter.radon", 
   "msg_type": "event", 
-  "msg_class": "meter.radiation", 
+  "msg_class": "meter.radon", 
   "group_name": "table1", 
-  "key": "meter.radiation@.dev.zw.6.met_radon.3.events", 
+  "key": "meter.radon@.dev.zw.6.met_radon.3.events", 
   "address": "/dev/zw/6/met_radon/3/events", 
   "id": 21
  }, 
@@ -259,5 +259,23 @@
   "key": "error.status_code@.dev.zw.4.dev_sys.1.events", 
   "address": "/dev/zw/4/dev_sys/1/events", 
   "id": 24
+ }, 
+ {
+  "name": "level.battery", 
+  "msg_type": "event", 
+  "msg_class": "level.battery", 
+  "group_name": "table1", 
+  "key": "level.battery@.dev.zw.8.lvl_battery.1.events", 
+  "address": "/dev/zw/8/lvl_battery/1/events", 
+  "id": 26
+ }, 
+ {
+  "name": "binary.opening", 
+  "msg_type": "event", 
+  "msg_class": "binary.opening", 
+  "group_name": "table1", 
+  "key": "binary.opening@.dev.zw.8.bin_opening.1.events", 
+  "address": "/dev/zw/8/bin_opening/1/events", 
+  "id": 27
  }
 ]

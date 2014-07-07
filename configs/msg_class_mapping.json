@@ -152,7 +152,7 @@
    "value_path": "$.event.default.value"
   }, 
   "msg_type": "event", 
-  "msg_class": "meter.radiation"
+  "msg_class": "meter.radon"
  }, 
  {
   "ui_mapping": {
