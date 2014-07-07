@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source source="LOCAL" name="Data Source" product="SQLite" version="3.7.6.3" jdbc-version="2.1" driver-name="SQLiteJDBC" driver-version="native" uuid="ede144ab-ca47-40a7-8868-9cf71ae4dbee">
+    <synchronize>true</synchronize>
+    <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+    <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/timeseries.db</jdbc-url>
+    <libraries>
+      <library>
+        <url>jar://C:/SWTOOLS/sqlite-jdbc-3.7.6.3-20110609.081603-3.jar!/</url>
+      </library>
+      <library>
+        <url>file://C:/SWTOOLS/xerial-sqlite-license.txt</url>
+      </library>
+    </libraries>
+    <schema name="" catalog=""/>
+    <table name="sqlite_sequence" schema="" catalog="" type="TABLE">
+      <column name="name" sqlType="" length="2000000000" precision="10" nullable="true" jdbcType="12"/>
+      <column name="seq" sqlType="" length="2000000000" precision="10" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="timeseries" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="INTEGER" length="2000000000" precision="10" nullable="true" jdbcType="4"/>
+      <column name="timestamp" sqlType="INTEGER" length="2000000000" precision="10" nullable="true" jdbcType="4"/>
+      <column name="dev_id" sqlType="INTEGER" length="2000000000" precision="10" nullable="true" jdbcType="4"/>
+      <column name="value" sqlType="REAL" length="2000000000" precision="10" nullable="true" jdbcType="6"/>
+      <primary-key columns="id"/>
+    </table>
+  </data-source>
+</component>

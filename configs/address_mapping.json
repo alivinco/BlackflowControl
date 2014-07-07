@@ -5,7 +5,8 @@
   "msg_class": "zw_ta.inclusion_mode", 
   "group_name": "table1", 
   "key": "zw_ta.inclusion_mode@.ta.zw.commands", 
-  "address": "/ta/zw/commands"
+  "address": "/ta/zw/commands", 
+  "id": 1
  }, 
  {
   "name": "SG exclusion", 
@@ -13,7 +14,8 @@
   "msg_class": "zw_ta.exclusion_mode", 
   "group_name": "table1", 
   "key": "zw_ta.exclusion_mode@.ta.zw.commands", 
-  "address": "/ta/zw/commands"
+  "address": "/ta/zw/commands", 
+  "id": 2
  }, 
  {
   "name": "zw_ta.exclusion_report", 
@@ -21,7 +23,8 @@
   "msg_class": "zw_ta.exclusion_report", 
   "group_name": "table1", 
   "key": "zw_ta.exclusion_report@.ta.zw.events", 
-  "address": "/ta/zw/events"
+  "address": "/ta/zw/events", 
+  "id": 3
  }, 
  {
   "name": "zw_ta.inclusion_report", 
@@ -29,7 +32,8 @@
   "msg_class": "zw_ta.inclusion_report", 
   "group_name": "table1", 
   "key": "zw_ta.inclusion_report@.ta.zw.events", 
-  "address": "/ta/zw/events"
+  "address": "/ta/zw/events", 
+  "id": 4
  }, 
  {
   "name": "meter.power", 
@@ -37,7 +41,8 @@
   "msg_class": "meter.power", 
   "group_name": "table1", 
   "key": "meter.power@.dev.zw.2.met_power.1.events", 
-  "address": "/dev/zw/2/met_power/1/events"
+  "address": "/dev/zw/2/met_power/1/events", 
+  "id": 5
  }, 
  {
   "name": "Wall plug control", 
@@ -46,6 +51,7 @@
   "override_value_path": "", 
   "key": "binary.switch@.dev.zw.2.bin_switch.1.commands", 
   "address": "/dev/zw/2/bin_switch/1/commands", 
+  "id": 6, 
   "override_properties": ""
  }, 
  {
@@ -55,6 +61,7 @@
   "override_value_path": "$.command.properties.led_color.value", 
   "key": "config.set@.dev.zw.2.dev_sys.1.commands", 
   "address": "/dev/zw/2/dev_sys/1/commands", 
+  "id": 7, 
   "override_properties": {
    "prop_name": {
     "value": "led_color"
@@ -70,7 +77,8 @@
   "msg_class": "sensor.temperature", 
   "group_name": "table1", 
   "key": "sensor.temperature@.dev.zw.3.sen_temp.1.events", 
-  "address": "/dev/zw/3/sen_temp/1/events"
+  "address": "/dev/zw/3/sen_temp/1/events", 
+  "id": 8
  }, 
  {
   "name": "level.thermostat", 
@@ -78,7 +86,8 @@
   "msg_class": "level.thermostat", 
   "group_name": "table1", 
   "key": "level.thermostat@.dev.zw.3.lvl_thermostat.1.events", 
-  "address": "/dev/zw/3/lvl_thermostat/1/events"
+  "address": "/dev/zw/3/lvl_thermostat/1/events", 
+  "id": 9
  }, 
  {
   "name": "Temp report interval for wheel controller", 
@@ -87,6 +96,7 @@
   "override_value_path": "$.command.properties.setpoint_min.value", 
   "key": "config.set@.dev.zw.3.dev_sys.1.commands", 
   "address": "/dev/zw/3/dev_sys/1/commands", 
+  "id": 10, 
   "override_properties": {
    "prop_name": {
     "value": "setpoint_min"
@@ -109,6 +119,7 @@
   "override_value_path": "", 
   "key": "level.thermostat@.dev.zw.3.lvl_thermostat.1.commands", 
   "address": "/dev/zw/3/lvl_thermostat/1/commands", 
+  "id": 11, 
   "override_properties": ""
  }, 
  {
@@ -117,7 +128,8 @@
   "msg_class": "meter.power", 
   "group_name": "table1", 
   "key": "meter.power@.dev.zw.4.met_power.1.events", 
-  "address": "/dev/zw/4/met_power/1/events"
+  "address": "/dev/zw/4/met_power/1/events", 
+  "id": 12
  }, 
  {
   "name": "Wallplug 2 ", 
@@ -126,6 +138,7 @@
   "override_value_path": "", 
   "key": "binary.switch@.dev.zw.4.bin_switch.1.commands", 
   "address": "/dev/zw/4/bin_switch/1/commands", 
+  "id": 13, 
   "override_properties": ""
  }, 
  {
@@ -134,7 +147,8 @@
   "msg_class": "error.status_code", 
   "group_name": "table1", 
   "key": "error.status_code@.dev.zw.2.bin_switch.1.events", 
-  "address": "/dev/zw/2/bin_switch/1/events"
+  "address": "/dev/zw/2/bin_switch/1/events", 
+  "id": 14
  }, 
  {
   "name": "meter.radiation", 
@@ -142,7 +156,8 @@
   "msg_class": "meter.radiation", 
   "group_name": "table1", 
   "key": "meter.radiation@.dev.zw.6.met_radon.1.events", 
-  "address": "/dev/zw/6/met_radon/1/events"
+  "address": "/dev/zw/6/met_radon/1/events", 
+  "id": 15
  }, 
  {
   "name": "sensor.time", 
@@ -150,7 +165,8 @@
   "msg_class": "sensor.time", 
   "group_name": "table1", 
   "key": "sensor.time@.dev.zw.6.sen_time.1.events", 
-  "address": "/dev/zw/6/sen_time/1/events"
+  "address": "/dev/zw/6/sen_time/1/events", 
+  "id": 16
  }, 
  {
   "name": "sensor.humidity", 
@@ -158,7 +174,8 @@
   "msg_class": "sensor.humidity", 
   "group_name": "table1", 
   "key": "sensor.humidity@.dev.zw.6.sen_humidity.1.events", 
-  "address": "/dev/zw/6/sen_humidity/1/events"
+  "address": "/dev/zw/6/sen_humidity/1/events", 
+  "id": 17
  }, 
  {
   "name": "sensor.temperature", 
@@ -166,7 +183,8 @@
   "msg_class": "sensor.temperature", 
   "group_name": "table1", 
   "key": "sensor.temperature@.dev.zw.6.sen_temp.1.events", 
-  "address": "/dev/zw/6/sen_temp/1/events"
+  "address": "/dev/zw/6/sen_temp/1/events", 
+  "id": 18
  }, 
  {
   "name": "sensor.baro_pressure", 
@@ -174,7 +192,8 @@
   "msg_class": "sensor.baro_pressure", 
   "group_name": "table1", 
   "key": "sensor.baro_pressure@.dev.zw.6.sen_baropress.1.events", 
-  "address": "/dev/zw/6/sen_baropress/1/events"
+  "address": "/dev/zw/6/sen_baropress/1/events", 
+  "id": 19
  }, 
  {
   "name": "meter.radiation", 
@@ -182,7 +201,8 @@
   "msg_class": "meter.radiation", 
   "group_name": "table1", 
   "key": "meter.radiation@.dev.zw.6.met_radon.2.events", 
-  "address": "/dev/zw/6/met_radon/2/events"
+  "address": "/dev/zw/6/met_radon/2/events", 
+  "id": 20
  }, 
  {
   "name": "meter.radiation", 
@@ -190,7 +210,8 @@
   "msg_class": "meter.radiation", 
   "group_name": "table1", 
   "key": "meter.radiation@.dev.zw.6.met_radon.3.events", 
-  "address": "/dev/zw/6/met_radon/3/events"
+  "address": "/dev/zw/6/met_radon/3/events", 
+  "id": 21
  }, 
  {
   "name": "Set fibaro association", 
@@ -199,6 +220,7 @@
   "override_value_path": "", 
   "key": "association.set@.dev.zw.4.dev_sys.1.commands", 
   "address": "/dev/zw/4/dev_sys/1/commands", 
+  "id": 22, 
   "override_properties": {
    "group": {
     "value": 1
@@ -217,6 +239,7 @@
   "override_value_path": "", 
   "key": "association.delete@.dev.zw.4.dev_sys.1.commands", 
   "address": "/dev/zw/4/dev_sys/1/commands", 
+  "id": 23, 
   "override_properties": {
    "group": {
     "value": 1
@@ -234,6 +257,7 @@
   "msg_class": "error.status_code", 
   "group_name": "table1", 
   "key": "error.status_code@.dev.zw.4.dev_sys.1.events", 
-  "address": "/dev/zw/4/dev_sys/1/events"
+  "address": "/dev/zw/4/dev_sys/1/events", 
+  "id": 24
  }
 ]

@@ -21,6 +21,7 @@ from modules.msg_pipeline import MsgPipeline
 import configs.log
 import logging,logging.config
 from configs import mqtt_broker_status_mapping
+from modules.mod_timeseries import Timeseries
 
 global_context = {}
 logging.config.dictConfig(configs.log.config)
@@ -32,8 +33,12 @@ msg_man = MessageManager()
 
 global_context["version"] = msg_man.global_configs["system"]["version"]
 cache = MsgCache(msg_man)
+
+timeseries = Timeseries(msg_man.global_configs["db"]["db_path"])
+timeseries.init_db()
+
 # Mqtt initialization
-msg_pipeline = MsgPipeline(msg_man,cache)
+msg_pipeline = MsgPipeline(msg_man,cache,timeseries)
 dev_simulator = DeviceSimulator(msg_man)
 mqtt = MqttAdapter(msg_pipeline,msg_man.global_configs["mqtt"]["client_id"])
 mqtt.set_mqtt_params(msg_man.global_configs["mqtt"]["client_id"],msg_man.global_configs["mqtt"]["username"],msg_man.global_configs["mqtt"]["password"])
@@ -46,8 +51,6 @@ except Exception as ex :
   global_context['mqtt_conn_status'] = "offline"
   log.error("application can't connect to message broker.")
   log.error(ex)
-
-
 
 
 @app.route('/')
@@ -212,6 +215,12 @@ def cache_ui():
        result[k]=json.dumps(v,indent=True)
     return render_template('cache.html',cache=result,global_context=global_context)
 
+@app.route('/ui/timeseries/chart/<dev_id>')
+def timeseries_chart(dev_id):
+    # ch = json.dumps(cache.get_all(),indent=True)
+    result = {}
+    return render_template('timeseries_chart.html',cache=result,global_context=global_context)
+
 @app.route('/ui/msg_types_for_approval')
 def msg_types_for_approval_ui():
     # cache.put_msg_class_for_approval("test","test","switch_binary_new","Message class is unknown and has to be approved")
@@ -355,6 +364,13 @@ def get_last_raw_msg(key):
     except :
         dev = {"error":"The message not found.Perhaps it has never been captured by the system"}
     return Response(response=dev, mimetype='application/json')
+
+@app.route('/api/timeseries/get/<dev_id>/<start>/<end>')
+def get_timeseries(dev_id,start,end):
+    ts = timeseries.get(int(dev_id),int(start),int(end))
+    jobj = json.dumps(ts)
+    return Response(response=jobj, mimetype='application/json')
+
 
 @app.route('/ui/help/<page>')
 def help(page):
