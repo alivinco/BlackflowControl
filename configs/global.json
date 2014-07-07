@@ -3,14 +3,18 @@
   "username": "blackfly", 
   "root_topic": "/#", 
   "global_topic_prefix": "", 
-  "host": "192.168.80.18",
-  "client_id": "blackfly_test_suite_3", 
+  "host": "192.168.31.252", 
+  "client_id": "blackfly_test_suite_2",
   "password": "Lyse3124", 
   "port": "1883"
  }, 
  "system": {
   "version": "1.1"
- }, 
+ },
+ "db":{
+  "timeseries_enabled":true,
+  "db_path":"timeseries.db"
+ },
  "defaults": {
   "event_value_path_for_new_class": "$.event.default.value", 
   "cmd_value_path_for_new_class": "$.command.default.value"

@@ -1,3 +1,5 @@
+import uuid
+import time
 from modules.msg_cache import MsgCache
 from modules.msg_manager import MessageManager
 
@@ -11,9 +13,10 @@ log = logging.getLogger("bf_msg_pipeline")
 
 
 class MsgPipeline():
-    def __init__(self, msg_man,cache):
+    def __init__(self, msg_man,cache,timeseries=None):
         self.msg_man = msg_man
         self.cache = cache
+        self.timeseries = timeseries
         #[{"type":"single","event_path":"$.event.type","command_path":"$.event.type","priority":1}]
 
 
@@ -52,6 +55,7 @@ class MsgPipeline():
         if addr_is_registered and msg_class_is_registered:
             # message is known and registered in system
             exdt = self.__extract_data(address,msg_class,payload)
+            self.__update_timeseries(exdt)
             self.cache.put(cache_key,payload,exdt["ui_mapping"],exdt["extracted_values"])
             log.info("Message class = "+msg_class+" and address = "+address+" are known to the system")
             return {"success":True,"code":0}
@@ -62,6 +66,7 @@ class MsgPipeline():
             # let's add the address to the mapping
             self.msg_man.add_address_to_mapping(address,msg_class)
             exdt = self.__extract_data(address,msg_class,payload)
+            self.__update_timeseries(exdt)
             self.cache.put(cache_key,payload,exdt["ui_mapping"],exdt["extracted_values"])
             log.info("Address "+address+" or message class doesn't exist in mapping file .It will be added automatically ")
             return {"success":True,"code":1,"text":"New address has been registered :"+address}
@@ -91,7 +96,7 @@ class MsgPipeline():
         log.info("New command entered message pipeline")
         msg_class = self.__get_msg_class_from_msg(payload)
         log.info("Msg class = "+str(msg_class))
-        self.__update_static_part_of_message(payload)
+        self.__update_static_part_of_message(payload,address)
         mqtt.publish(address,json.dumps(payload),1)
 
         exdt = self.__extract_data(address,msg_class,payload)
@@ -129,11 +134,14 @@ class MsgPipeline():
 
         return None
 
-    def __update_static_part_of_message(self,payload):
+    def __update_static_part_of_message(self,payload,topic = "/dev/default"):
         payload["origin"]["@type"]="app"
         payload["origin"]["@id"]="blackfly"
         payload["origin"]["vendor"]="blackfly"
         payload["origin"]["location"]="lab"
+        if "command" in payload: payload["command"]["target"] = topic
+        payload["uuid"] = str(uuid.uuid4())
+        payload["creation_time"] = int(time.time()) * 1000
 
 
     def __check_address(self, address):
@@ -162,11 +170,11 @@ class MsgPipeline():
         """
         extracted_values = {}
         ui_mapping = {}
-        id = self.msg_man.generate_key(msg_class,address)
-        address_map = self.msg_man.get_address_by_key(id)
+        key = self.msg_man.generate_key(msg_class,address)
+        address_map = self.msg_man.get_address_by_key(key)
         # print id
         try:
-            ui_mapping = self.msg_man.get_msg_class_by_key(id)["ui_mapping"]
+            ui_mapping = self.msg_man.get_msg_class_by_key(key)["ui_mapping"]
             override_path = ""
             if "override_value_path" in address_map:
                override_path = address_map["override_value_path"]
@@ -183,7 +191,7 @@ class MsgPipeline():
                         ex_value = self.msg_man.get_value_from_msg(payload,value)[0]
                         log.debug("Extracted data is = "+str(ex_value))
                         extracted_values[key.replace("_path","")]=ex_value
-
+            extracted_values["dev_id"] = address_map["id"]
         except Exception as ex :
             #default value
             ui_mapping["ui_element"] = {"ui_element":"free_text","value_path":"$.event.value"}
@@ -191,6 +199,17 @@ class MsgPipeline():
             log.exception(ex)
 
         return {"ui_mapping":ui_mapping,"extracted_values":extracted_values}
+
+    def __update_timeseries(self,exdt):
+       try:
+         value = exdt["extracted_values"]["value"]
+         if isinstance(value,(int,float,bool)):
+            if isinstance(value,bool): value = int(value)
+            self.timeseries.insert(exdt["extracted_values"]["dev_id"],value)
+         else:
+            log.debug("Value is not a number , therefore will be skipped")
+       except Exception as ex :
+           pass
 
 
 if __name__ == "__main__":

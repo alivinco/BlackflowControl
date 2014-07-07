@@ -4,8 +4,6 @@
    "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value"
   }, 
-  "subclass": "inclusion_mode", 
-  "class": "zw_ta", 
   "msg_type": "command", 
   "msg_class": "zw_ta.inclusion_mode"
  }, 
@@ -14,8 +12,6 @@
    "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value"
   }, 
-  "subclass": "exclusion_mode", 
-  "class": "zw_ta", 
   "msg_type": "command", 
   "msg_class": "zw_ta.exclusion_mode"
  }, 
@@ -24,19 +20,15 @@
    "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value"
   }, 
-  "subclass": "switch", 
-  "class": "binary", 
   "msg_type": "command", 
   "msg_class": "binary.switch"
  }, 
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "float", 
-   "value_path": "$.command.default.value"
+   "value_path": "$.command.default.value", 
+   "num_type": "float"
   }, 
-  "subclass": "thermostat", 
-  "class": "level", 
   "msg_type": "command", 
   "msg_class": "level.thermostat"
  }, 
@@ -46,8 +38,6 @@
    "unit_path": "$.event.unit", 
    "value_path": "$.event.value"
   }, 
-  "subclass": "thermostat", 
-  "class": "level", 
   "msg_type": "event", 
   "msg_class": "level.thermostat"
  }, 
@@ -57,8 +47,6 @@
    "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
-  "subclass": "power", 
-  "class": "meter", 
   "msg_type": "event", 
   "msg_class": "meter.power"
  }, 
@@ -68,8 +56,6 @@
    "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
-  "subclass": "battery", 
-  "class": "level", 
   "msg_type": "event", 
   "msg_class": "level.battery"
  }, 
@@ -79,8 +65,6 @@
    "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
-  "subclass": "temperature", 
-  "class": "sensor", 
   "msg_type": "event", 
   "msg_class": "sensor.temperature"
  }, 
@@ -89,8 +73,6 @@
    "ui_element": "binary_light", 
    "value_path": "$.event.default.value"
   }, 
-  "subclass": "opening", 
-  "class": "binary", 
   "msg_type": "event", 
   "msg_class": "binary.opening"
  }, 
@@ -99,8 +81,6 @@
    "ui_element": "binary_light", 
    "value_path": "$.event.default.value"
   }, 
-  "subclass": "switch", 
-  "class": "binary", 
   "msg_type": "event", 
   "msg_class": "binary.switch"
  }, 
@@ -110,8 +90,6 @@
    "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
-  "subclass": "wakeup_interval", 
-  "class": "time", 
   "msg_type": "event", 
   "msg_class": "time.wakeup_interval"
  }, 
@@ -121,8 +99,6 @@
    "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
-  "subclass": "exclusion_report", 
-  "class": "zw_ta", 
   "msg_type": "event", 
   "msg_class": "zw_ta.exclusion_report"
  }, 
@@ -131,8 +107,6 @@
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
-  "subclass": "inclusion_report", 
-  "class": "zw_ta", 
   "msg_type": "event", 
   "msg_class": "zw_ta.inclusion_report"
  }, 
@@ -141,8 +115,6 @@
    "ui_element": "binary_light", 
    "value_path": "$.event.default.value"
   }, 
-  "subclass": "flood", 
-  "class": "binary", 
   "msg_type": "event", 
   "msg_class": "binary.flood"
  }, 
@@ -151,31 +123,25 @@
    "ui_element": "binary_light", 
    "value_path": "$.event.default.value"
   }, 
-  "subclass": "fire", 
-  "class": "binary", 
   "msg_type": "event", 
   "msg_class": "binary.fire"
  }, 
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "value_path": "$.command.default.value", 
-   "num_type": "int"
+   "num_type": "int", 
+   "value_path": "$.command.default.value"
   }, 
-  "subclass": "dimmer", 
-  "class": "level", 
   "msg_type": "command", 
   "msg_class": "level.dimmer"
  }, 
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "override_properties": true, 
+   "num_type": "int", 
    "value_path": "$.command.properties.step_size.value", 
-   "num_type": "int"
+   "override_properties": true
   }, 
-  "subclass": "set", 
-  "class": "config", 
   "msg_type": "command", 
   "msg_class": "config.set"
  }, 
@@ -185,10 +151,8 @@
    "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
-  "subclass": "radiation", 
-  "class": "meter", 
   "msg_type": "event", 
-  "msg_class": "meter.radiation"
+  "msg_class": "meter.radon"
  }, 
  {
   "ui_mapping": {
@@ -196,8 +160,6 @@
    "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
-  "subclass": "time", 
-  "class": "sensor", 
   "msg_type": "event", 
   "msg_class": "sensor.time"
  }, 
@@ -207,8 +169,6 @@
    "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
-  "subclass": "baro_pressure", 
-  "class": "sensor", 
   "msg_type": "event", 
   "msg_class": "sensor.baro_pressure"
  }, 
@@ -218,8 +178,6 @@
    "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
-  "subclass": "humidity", 
-  "class": "sensor", 
   "msg_type": "event", 
   "msg_class": "sensor.humidity"
  }, 
@@ -228,38 +186,29 @@
    "ui_element": "free_text", 
    "value_path": "$.event.properties"
   }, 
-  "subclass": "status_code", 
-  "class": "error", 
   "msg_type": "event", 
   "msg_class": "error.status_code"
  }, 
  {
   "ui_mapping": {
-   "ui_element": "sensor_value", 
-   "unit_path": "$.event.default.unit", 
-   "value_path": "$.event.default.value"
+   "ui_element": "msg_class_ui", 
+   "num_type": "int", 
+   "device_id_num_input_path": "$.command.properties.devices.value[0]",
+   "group_id_num_input_path":"$.command.properties.group.value",
+   "override_properties": true
   }, 
-  "subclass": "power", 
-  "class": "sensor", 
-  "msg_type": "event", 
-  "msg_class": "sensor.power"
+  "msg_type": "command", 
+  "msg_class": "association.set"
  }, 
  {
   "ui_mapping": {
-   "ui_element": "binary_light", 
-   "value_path": "$.event.default.value"
+   "ui_element": "msg_class_ui",
+   "num_type": "int", 
+   "device_id_num_input_path": "$.command.properties.devices.value[0]",
+   "group_id_num_input_path":"$.command.properties.group.value",
+   "override_properties": true
   }, 
-  "subclass": "generic", 
-  "class": "binary", 
-  "msg_type": "event", 
-  "msg_class": "binary.generic"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "free_text", 
-   "value_path": "$.event.default.value"
-  }, 
-  "msg_type": "event", 
-  "msg_class": "sensor.luminance"
+  "msg_type": "command", 
+  "msg_class": "association.delete"
  }
 ]

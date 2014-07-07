@@ -32,19 +32,33 @@ function load_data()
 
 function send_command(key,ui_type,value)
 {
-
+    obj = null
     if (ui_type=="input_num_field")
     {
         val = parseFloat($("#"+jq_elector(key+"_input")).val())
-        console.log(typeof val)
-        console.log("var:"+val)
+//        console.log(typeof val)
+//        console.log("var:"+val)
 
-    }else
+    }else if (ui_type=="msg_class_ui")
+    {
+       div_el = $("#"+jq_elector(key))
+       user_params = {}
+       div_el.find('input').each(function(index){
+//           console.log($(this)[0].value)
+           input_id = $(this)[0].id
+           input_value = $(this)[0].value
+           user_params[input_id]=input_value
+       })
+
+       obj = {"msg_key":key,"user_params":user_params,"mode":mode}
+       console.dir(obj)
+    }
+    else
     {
         val = value
     }
 
-    obj = {"msg_key":key,"user_params":{"value":val},"mode":mode}
+    if(!obj) obj = {"msg_key":key,"user_params":{"value":val},"mode":mode}
     $.ajax({
       url: "../api/send_command",
       type: 'POST',
