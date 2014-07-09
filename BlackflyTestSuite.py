@@ -374,7 +374,8 @@ def get_timeseries(dev_id,start,end):
 
 @app.route('/ui/help/<page>')
 def help(page):
-    return render_template('help_main.html',cfg=msg_man.global_configs,global_context=global_context)
+    return render_template('help_'+page+'.html',cfg=msg_man.global_configs,global_context=global_context)
+
 
 
 if __name__ == '__main__':
