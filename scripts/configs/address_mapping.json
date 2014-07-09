@@ -1,6 +1,7 @@
 [
  {
-  "name": "SG inclusion", 
+  "id":1,
+  "name": "SG inclusion",
   "msg_type": "command", 
   "msg_class": "zw_ta.inclusion_mode", 
   "group_name": "table1", 
@@ -8,6 +9,7 @@
   "address": "/ta/zw/commands"
  }, 
  {
+  "id":2,
   "name": "SG exclusion", 
   "msg_type": "command", 
   "msg_class": "zw_ta.exclusion_mode", 
@@ -16,6 +18,7 @@
   "address": "/ta/zw/commands"
  }, 
  {
+  "id":3,
   "name": "zw_ta.exclusion_report", 
   "msg_type": "event", 
   "msg_class": "zw_ta.exclusion_report", 
@@ -24,6 +27,7 @@
   "address": "/ta/zw/events"
  },
  {
+  "id":4,
   "name": "zw_ta.inclusion_report", 
   "msg_type": "event", 
   "msg_class": "zw_ta.inclusion_report", 

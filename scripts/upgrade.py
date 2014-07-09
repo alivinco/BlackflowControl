@@ -28,5 +28,5 @@ def get_address_mapping_id():
 
     print r
 
-# update_address_mapping()
-get_address_mapping_id()
+update_address_mapping()
+# get_address_mapping_id()

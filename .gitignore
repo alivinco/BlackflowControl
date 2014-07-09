@@ -4,3 +4,5 @@
 .idea/BlackflyTestSuite.iml
 .idea/misc.xml
 *.log
+timeseries.db
+configs/address_mapping.json

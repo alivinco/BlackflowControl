@@ -209,7 +209,7 @@ class MsgPipeline():
          else:
             log.debug("Value is not a number , therefore will be skipped")
        except Exception as ex :
-           pass
+           log.debug(ex)
 
 
 if __name__ == "__main__":
