@@ -1,0 +1,9 @@
+<div id="{{ item.id }}">
+   <div class="input-group">
+      <input id="key_id_num_input" type="number"  class="form-control" placeholder="Group id">
+      <input id="value_id_num_input" type="number"  class="form-control" placeholder="Device id">
+      <span class="input-group-btn">
+         <button class="btn btn-default"  onclick="send_command('{{ item.id }}','msg_class_ui',''); return false" type="button">Set</button>
+      </span>
+   </div>
+</div>

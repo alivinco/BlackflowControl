@@ -3,7 +3,7 @@
   "endp_id": 1, 
   "vendor": "010f", 
   "@id": 15, 
-  "@type": "bin_opening", 
+  "@type": "bin_open",
   "location": "NotImplemented"
  }, 
  "uuid": "587cf046-5ce1-490f-8833-08a1348cc105", 
@@ -14,7 +14,7 @@
   "default": {
    "value": true
   }, 
-  "subtype": "opening", 
+  "subtype": "open",
   "@type": "binary"
  }
 }

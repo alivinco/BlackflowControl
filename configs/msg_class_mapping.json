@@ -74,7 +74,7 @@
    "value_path": "$.event.default.value"
   }, 
   "msg_type": "event", 
-  "msg_class": "binary.opening"
+  "msg_class": "binary.open"
  }, 
  {
   "ui_mapping": {
@@ -125,7 +125,24 @@
   }, 
   "msg_type": "event", 
   "msg_class": "binary.fire"
- }, 
+ },
+
+ {
+  "ui_mapping": {
+   "ui_element": "binary_light",
+   "value_path": "$.event.default.value"
+  },
+  "msg_type": "event",
+  "msg_class": "binary.heat"
+ },
+ {
+  "ui_mapping": {
+   "ui_element": "binary_light",
+   "value_path": "$.event.default.value"
+  },
+  "msg_type": "event",
+  "msg_class": "binary.smoke"
+ },
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
