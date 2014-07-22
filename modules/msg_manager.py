@@ -132,14 +132,17 @@ class MessageManager:
 
     def generate_linked_mapping(self, msg_class_mapping, address_mapping):
         mapping = copy.copy(address_mapping)
+        result = []
         for item in mapping:
             mclass = filter(lambda msg_class: ( msg_class["msg_class"] == item["msg_class"] and msg_class["msg_type"] == item["msg_type"]),msg_class_mapping)
             if len(mclass)>0:
                item["ui_mapping"] = mclass[0]["ui_mapping"]
+               item["id"] = self.generate_key(item["msg_class"], item["address"])
+               result.append(item)
             else :
                log.error("Linked mapping can't be generated because class = "+item["msg_class"]+" does not exist in msg class mapping.")
-            item["id"] = self.generate_key(item["msg_class"], item["address"])
-        return mapping
+
+        return result
 
     def parse_file(self, file_path):
         json_object = json.load(file(file_path))

@@ -94,8 +94,17 @@ dev_sys
 service zwdaemon stop
 rm /media/app/zwave/zwcfg_*
 cd /media/app/zwave/zwaveFirmware/
-zwFlasher -E EEPROM.hex
-service zwdaemon start
+zwFlasher -E EEPROM.hex -H 0
+service zwtadaemon start
+</pre>
+
+<h4>Read and write zwave HomeId</h4>
+<pre>
+# Read HomeId
+echo 0 > /sys/class/gpio/gpio132/value
+zwFlasher -h
+# Write HomeId
+zwFLasher -H 0
 </pre>
 
 <a href="msg_class"> <h4>Message class configuration</h4> </a>
