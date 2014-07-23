@@ -232,7 +232,8 @@ class MessageManager:
             item["override_value_path"]=override_value_path
             log.info("Address mapping updated with " + str(item))
         else :
-            self.address_mapping.append({"msg_class": msg_class, "address": address, "name": name, "msg_type": msg_type, "override_properties":override_properties,"override_value_path":override_value_path,"key": self.generate_key(msg_class, address)})
+            new_id = self.get_new_addr_id()
+            self.address_mapping.append({"id":new_id,"msg_class": msg_class, "address": address, "name": name, "msg_type": msg_type, "override_properties":override_properties,"override_value_path":override_value_path,"key": self.generate_key(msg_class, address)})
 
         self.serialize_address_mapping()
 
@@ -242,10 +243,15 @@ class MessageManager:
         # self.address_mapping
         log.info("Adding address to the mapping , address = " + str(address) + " msg_class=" + str(msg_class))
         addr_map = self.load_address_mapping()
-        new_id = sorted(self.address_mapping,key = lambda item:item["id"])[-1]["id"]+1
+        new_id = self.get_new_addr_id()
         addr_map.append({"id":new_id,"msg_class": msg_class, "address": address, "name": msg_class, "msg_type": "event", "group_name": "table1","key": self.generate_key(msg_class, address)})
         self.address_mapping = addr_map
         self.serialize_address_mapping()
+
+    def get_new_addr_id(self):
+        new_id = sorted(self.address_mapping,key = lambda item:item["id"])[-1]["id"]+1
+        log.info("New address id is = "+str(new_id))
+        return new_id
 
     def get_address_by_key(self, key):
         try:

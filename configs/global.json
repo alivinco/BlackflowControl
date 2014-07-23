@@ -3,18 +3,18 @@
   "username": "blackfly", 
   "root_topic": "/#", 
   "global_topic_prefix": "", 
-  "host": "127.0.0.1",
-  "client_id": "blackfly_test_suite_2",
+  "host": "rpi.st", 
+  "client_id": "blackfly_test_suite_2", 
   "password": "Lyse3124", 
   "port": "1883"
  }, 
+ "db": {
+  "timeseries_enabled": true, 
+  "db_path": "timeseries.db"
+ }, 
  "system": {
   "version": "1.2"
- },
- "db":{
-  "timeseries_enabled":true,
-  "db_path":"timeseries.db"
- },
+ }, 
  "defaults": {
   "event_value_path_for_new_class": "$.event.default.value", 
   "cmd_value_path_for_new_class": "$.command.default.value"
