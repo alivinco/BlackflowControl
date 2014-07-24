@@ -1,15 +1,16 @@
 #!/bin/sh
 
-BF_ROOT=/media/app/BlackFlyTestSuite
+BF_ROOT=/media/app/BlackflyTestSuite
 mount - / -oremount,rw
 # Check existing installation
 if [ -d $BF_ROOT ]
 then
  echo "The script found current installation and is doing backup of config folder"
+ service blackfly stop
  cp $BF_ROOT/configs /tmp
  echo "The config folder copied to /tmp/config"
  echo "Removing blackfly isntallation"
- rm -r BF_ROOT
+ rm -r $BF_ROOT
  is_upgrade=1
 else
  is_upgrade=0
@@ -39,8 +40,9 @@ then
  echo "Copying address_mapping.json and global.json from previous installation"
  cp /tmp/configs/address_mapping.json configs/
  cp /tmp/configs/global.json configs/
+ cp /tmp/configs/msg_class_mapping.json
  echo "Running update script"
- python scripts/update.py
+ python scripts/upgrade.py
 else
  echo "Copying default address_mapping.json"
  cp  scripts/configs/address_mapping.json configs/
