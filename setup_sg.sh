@@ -7,8 +7,9 @@ if [ -d $BF_ROOT ]
 then
  echo "The script found current installation and is doing backup of config folder"
  service blackfly stop
- cp $BF_ROOT/configs /tmp
- echo "The config folder copied to /tmp/config"
+ cp -r $BF_ROOT/configs /tmp
+ cp -r $BF_ROOT/messages/events /tmp
+ echo "The config folder copied to /tmp/configs"
  echo "Removing blackfly isntallation"
  rm -r $BF_ROOT
  is_upgrade=1
@@ -40,7 +41,8 @@ then
  echo "Copying address_mapping.json and global.json from previous installation"
  cp /tmp/configs/address_mapping.json configs/
  cp /tmp/configs/global.json configs/
- cp /tmp/configs/msg_class_mapping.json
+ cp /tmp/configs/msg_class_mapping.json configs/
+ cp -r /tmp/events messages/
  echo "Running update script"
  python scripts/upgrade.py
 else
