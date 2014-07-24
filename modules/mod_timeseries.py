@@ -7,6 +7,11 @@ class Timeseries():
     def __init__(self,db_path):
         self.conn = sqlite3.connect(db_path,check_same_thread=False)
         self.cur = self.conn.cursor()
+        self.is_enabled = True
+
+    def enable(self,enable):
+        # the method enables or disables
+        self.is_enabled = enable
 
     def init_db(self):
         # check if tables exists , if not create one
@@ -17,9 +22,10 @@ class Timeseries():
         self.conn.close()
 
     def insert(self,dev_id,value):
-        timestamp = int(time.time())
-        self.cur.execute("INSERT into timeseries(timestamp,dev_id,value) values(?,?,?)",(timestamp,dev_id,value))
-        self.conn.commit()
+        if self.is_enabled:
+            timestamp = int(time.time())
+            self.cur.execute("INSERT into timeseries(timestamp,dev_id,value) values(?,?,?)",(timestamp,dev_id,value))
+            self.conn.commit()
 
     def get(self,dev_id,start,end):
         c = self.conn.cursor()

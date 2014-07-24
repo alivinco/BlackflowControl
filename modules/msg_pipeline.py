@@ -60,7 +60,8 @@ class MsgPipeline():
             log.info("Message class = "+msg_class+" and address = "+address+" are known to the system")
             return {"success":True,"code":0}
 
-        elif (not addr_is_registered and msg_class_is_registered) or (addr_is_registered and msg_class and not msg_class_is_registered) :
+        # elif (not addr_is_registered and msg_class_is_registered) or (addr_is_registered and msg_class and not msg_class_is_registered) :
+        elif (not addr_is_registered and msg_class_is_registered) :
             # the address is not known to the system but message class is known OR
             # the address is know but msg_class is not know to the system , for example when the same address can produce several events like error report and temperature readings
             # let's add the address to the mapping

@@ -3,7 +3,7 @@
   "username": "blackfly", 
   "root_topic": "/#", 
   "global_topic_prefix": "", 
-  "host": "rpi.st", 
+  "host": "127.0.0.1",
   "client_id": "blackfly_test_suite_2", 
   "password": "Lyse3124", 
   "port": "1883"

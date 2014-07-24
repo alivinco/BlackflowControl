@@ -36,7 +36,7 @@ cache = MsgCache(msg_man)
 
 timeseries = Timeseries(msg_man.global_configs["db"]["db_path"])
 timeseries.init_db()
-
+timeseries.enable(False)
 # Mqtt initialization
 msg_pipeline = MsgPipeline(msg_man,cache,timeseries)
 dev_simulator = DeviceSimulator(msg_man)
