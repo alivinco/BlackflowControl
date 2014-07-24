@@ -5,3 +5,5 @@ class type . For example it was reported error event first but then it was repor
   "ui_element": "free_text",
   "value_path": "$.event.value"
  },
+
+- global.json update during upgrade.

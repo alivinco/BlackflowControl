@@ -28,5 +28,20 @@ def get_address_mapping_id():
 
     print r
 
+def update_global_config():
+    print "updating global.json"
+    app_root_path = os.getcwd()
+    addr_path = os.path.join(app_root_path, "configs", "global.json")
+    jobj = json.load(file(addr_path))
+    if not "db" in jobj:
+        jobj["db"]={"timeseries_enabled": True,"db_path": "/tmp/timeseries.db"}
+        print "global.json updated"
+    else :
+        print "global.json is already up to date"
+    jobj["system"]["version"]="1.2"
+    f = open(addr_path, "w")
+    f.write(json.dumps(jobj, indent=True))
+    f.close()
 update_address_mapping()
+update_global_config()
 #get_address_mapping_id()
