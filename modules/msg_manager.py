@@ -188,37 +188,46 @@ class MessageManager:
         exec (path_str)
 
     # params have to have the same values as explained in ui_mapping part of msg class mapping
+    #
     def generate_command_from_user_params(self, msg_key, params):
         msg_template = self.load_template_by_key(msg_key)
         msg_class_map = self.get_msg_class_by_key(msg_key)
         address = self.get_address_by_key(msg_key)
         #parameters = {"value":"True"}
         for k, v in params.items():
-            if "override_properties" in address:
-              if address["override_properties"]:
-                log.debug("The system overriding properties from template by properties from address mapping.")
-                msg_template["command"]["properties"] = address["override_properties"]
+            if "properties_are_key_value" in msg_class_map["ui_mapping"] :
+                if k == "prop_key":
+                   if "prop_int_value" in params:
+                     value =int(params["prop_int_value"])
+                   elif k == "prop_float_value":
+                     value =int(params["prop_float_value"])
+                   else :
+                     value = params["prop_str_value"]
 
-              if address["override_value_path"]:
-                path = address["override_value_path"]
-                log.debug("The system overriding value path by "+str(path))
-              else :
-                path = msg_class_map["ui_mapping"][k + "_path"]
+                   msg_template["command"]["properties"][v] = {"value":value}
             else :
-                path = msg_class_map["ui_mapping"][k + "_path"]
-            if "num_input" in k:
-                v = int(v)
+                if "override_properties" in address:
+                  if address["override_properties"]:
+                    log.debug("The system overriding properties from template by properties from address mapping.")
+                    msg_template["command"]["properties"] = address["override_properties"]
 
-            # converting to float if expected type is float
-            if msg_class_map["ui_mapping"]["ui_element"] == "input_num_field" :
-                if msg_class_map["ui_mapping"]["num_type"] == "float":
-                    v = float(v)
-                else:
+                  if address["override_value_path"]:
+                    path = address["override_value_path"]
+                    log.debug("The system overriding value path by "+str(path))
+                  else :
+                    path = msg_class_map["ui_mapping"][k + "_path"]
+                else :
+                    path = msg_class_map["ui_mapping"][k + "_path"]
+                if "num_input" in k:
                     v = int(v)
 
-
-
-            self.set_value_to_msg(msg_template, path, v)
+                # converting to float if expected type is float
+                if msg_class_map["ui_mapping"]["ui_element"] == "input_num_field" :
+                    if msg_class_map["ui_mapping"]["num_type"] == "float":
+                        v = float(v)
+                    else:
+                        v = int(v)
+                self.set_value_to_msg(msg_template, path, v)
         return msg_template
 
     def update_address_mapping(self, key, name, msg_class, msg_type, address,override_properties="",override_value_path=""):

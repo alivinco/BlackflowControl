@@ -45,3 +45,19 @@ def update_global_config():
 update_address_mapping()
 update_global_config()
 #get_address_mapping_id()
+
+'''
+To add
+
+ {
+  "ui_mapping": {
+   "ui_element": "msg_class_ui",
+   "num_type": "int",
+   "properties_are_key_value":true,
+   "override_properties": false
+  },
+  "msg_type": "command",
+  "msg_class": "config.set"
+ }
+
+'''
