@@ -21,8 +21,8 @@ mkdir $BF_ROOT
 cp -r * $BF_ROOT
 cd $BF_ROOT
 # Flask installation
-check_flask=$(python -c "import flask")
-if [ "$check_flask" = "" ]
+check_flask=$(python -c "import flask;print 'ok'")
+if [ "$check_flask" = "ok" ]
 then
   echo "The script found flask module"
 else
