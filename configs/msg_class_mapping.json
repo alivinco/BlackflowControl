@@ -125,24 +125,23 @@
   }, 
   "msg_type": "event", 
   "msg_class": "binary.fire"
- },
-
+ }, 
  {
   "ui_mapping": {
-   "ui_element": "binary_light",
+   "ui_element": "binary_light", 
    "value_path": "$.event.default.value"
-  },
-  "msg_type": "event",
+  }, 
+  "msg_type": "event", 
   "msg_class": "binary.heat"
- },
+ }, 
  {
   "ui_mapping": {
-   "ui_element": "binary_light",
+   "ui_element": "binary_light", 
    "value_path": "$.event.default.value"
-  },
-  "msg_type": "event",
+  }, 
+  "msg_type": "event", 
   "msg_class": "binary.smoke"
- },
+ }, 
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
@@ -154,9 +153,9 @@
  }, 
  {
   "ui_mapping": {
-   "ui_element": "msg_class_ui",
-   "num_type": "int",
-   "properties_are_key_value":true,
+   "ui_element": "msg_class_ui", 
+   "properties_are_key_value": true, 
+   "num_type": "int", 
    "override_properties": false
   }, 
   "msg_type": "command", 
@@ -208,10 +207,10 @@
  }, 
  {
   "ui_mapping": {
+   "device_id_num_input_path": "$.command.properties.devices.value[0]", 
    "ui_element": "msg_class_ui", 
+   "group_id_num_input_path": "$.command.properties.group.value", 
    "num_type": "int", 
-   "device_id_num_input_path": "$.command.properties.devices.value[0]",
-   "group_id_num_input_path":"$.command.properties.group.value",
    "override_properties": true
   }, 
   "msg_type": "command", 
@@ -219,10 +218,10 @@
  }, 
  {
   "ui_mapping": {
-   "ui_element": "msg_class_ui",
+   "device_id_num_input_path": "$.command.properties.devices.value[0]", 
+   "ui_element": "msg_class_ui", 
+   "group_id_num_input_path": "$.command.properties.group.value", 
    "num_type": "int", 
-   "device_id_num_input_path": "$.command.properties.devices.value[0]",
-   "group_id_num_input_path":"$.command.properties.group.value",
    "override_properties": true
   }, 
   "msg_type": "command", 

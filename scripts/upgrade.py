@@ -42,8 +42,22 @@ def update_global_config():
     f = open(addr_path, "w")
     f.write(json.dumps(jobj, indent=True))
     f.close()
+
+def update_cmd_class_mapping ():
+    print "updating msg_class_mapping.json"
+    app_root_path = os.getcwd()
+    addr_path = os.path.join(app_root_path, "configs", "msg_class_mapping.json")
+    jobj = json.load(file(addr_path))
+    for item in jobj :
+        if item["msg_class"]=="config.set":
+           item["ui_mapping"]["properties_are_key_value"] = True
+           print "config.set command definition updated"
+    f = open(addr_path, "w")
+    f.write(json.dumps(jobj, indent=True))
+    f.close()
 update_address_mapping()
 update_global_config()
+update_cmd_class_mapping()
 #get_address_mapping_id()
 
 '''
