@@ -1,0 +1,25 @@
+{
+   "@context" : "http://smartly.no/context",
+   "origin" :
+      {
+         "@type" : "app",
+         "@id" : "installer"
+      },
+   "command" :
+      {
+         "@type" : "zw_ta",
+         "subtype" : "set_dev_id",
+         "default" : {
+               "value" : null
+            },
+         "properties" :
+            {
+             "node_id":{"value":2},
+             "new_dev_id":{"value":3}
+            },
+         "target" : "/ta/zw/commands"
+      },
+   "creation_time" : 1385815582,
+   "uuid" : "86f93c70-6c47-4cfc-91eb-30d3b069e417",
+   "spid" : "S-451-12"
+}
