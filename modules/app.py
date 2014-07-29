@@ -1,10 +1,11 @@
 import json
 from modules.mqtt_adapter import MqttAdapter
 from modules.msg_manager import MessageManager
+import threading
 
 __author__ = 'aleksandrsl'
 
-class App:
+class App(threading.Thread):
 
     global_app_context = {"app_counter":0}
 
@@ -20,7 +21,7 @@ class App:
         self.mqtt.connect(self.msg_man.global_configs["mqtt"]["host"],int(self.msg_man.global_configs["mqtt"]["port"]))
         self.mqtt.sub_topic = self.topic
         self.mqtt.on_message = self.do_magic
-        self.mqtt.start()
+
 
     def set_app_name(self,name):
         self.name = name
@@ -36,19 +37,21 @@ class App:
         """
         self.mqtt.publish(topic,json.dumps(json_msg))
 
-    def start(self):
-        """
-        method start application
-
-        """
+    def on_message(self,topic,msg):
+        '''
+        the method  should be overriten by an app
+        '''
         pass
+
+    def run(self):
+        self.mqtt.start()
 
     def stop(self):
         """
         method stops application
 
         """
-        pass
+        self.mqtt.stop()
 
     def get_state(self):
 
@@ -59,14 +62,14 @@ class App:
         pass
 
 
-    def control(self,name,value):
-        """
-        method controls application via setting control parameters
-        :param name:
-        :param value:
-        """
+    def set_to_cache(self,key,value):
+        '''
+        Cache can be used  used to exchange data between apps and UI
+        '''
+
         pass
 
-
+    def get_from_cache(self,key,value):
+        pass
 
 
