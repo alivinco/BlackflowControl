@@ -6,9 +6,9 @@
  * To change this template use File | Settings | File Templates.
  */
 
-function remove_address(address,msg_class)
+function remove_address(dev_id)
 {
-obj = {"cmd":"remove","address":address,"msg_class":msg_class}
+obj = {"cmd":"remove","id":dev_id}
     $.ajax({
       url: "../api/address_manager",
       type: 'PUT',

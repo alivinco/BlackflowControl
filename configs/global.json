@@ -4,7 +4,7 @@
   "root_topic": "/#", 
   "global_topic_prefix": "", 
   "host": "127.0.0.1",
-  "client_id": "blackfly_test_suite_2", 
+  "client_id": "blackfly_test_suite_3",
   "password": "Lyse3124", 
   "port": "1883"
  }, 
@@ -13,7 +13,7 @@
   "db_path": "timeseries.db"
  }, 
  "system": {
-  "version": "1.2"
+  "version": "1.3"
  }, 
  "defaults": {
   "event_value_path_for_new_class": "$.event.default.value", 

@@ -26,8 +26,8 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "value_path": "$.command.default.value", 
-   "num_type": "float"
+   "num_type": "float", 
+   "value_path": "$.command.default.value"
   }, 
   "msg_type": "command", 
   "msg_class": "level.thermostat"
@@ -145,8 +145,8 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "int", 
-   "value_path": "$.command.default.value"
+   "value_path": "$.command.default.value", 
+   "num_type": "int"
   }, 
   "msg_type": "command", 
   "msg_class": "level.dimmer"
@@ -155,8 +155,8 @@
   "ui_mapping": {
    "ui_element": "msg_class_ui", 
    "properties_are_key_value": true, 
-   "num_type": "int", 
-   "override_properties": false
+   "override_properties": false, 
+   "num_type": "int"
   }, 
   "msg_type": "command", 
   "msg_class": "config.set"
@@ -210,8 +210,8 @@
    "device_id_num_input_path": "$.command.properties.devices.value[0]", 
    "ui_element": "msg_class_ui", 
    "group_id_num_input_path": "$.command.properties.group.value", 
-   "num_type": "int", 
-   "override_properties": true
+   "override_properties": true, 
+   "num_type": "int"
   }, 
   "msg_type": "command", 
   "msg_class": "association.set"
@@ -221,10 +221,34 @@
    "device_id_num_input_path": "$.command.properties.devices.value[0]", 
    "ui_element": "msg_class_ui", 
    "group_id_num_input_path": "$.command.properties.group.value", 
-   "num_type": "int", 
-   "override_properties": true
+   "override_properties": true, 
+   "num_type": "int"
   }, 
   "msg_type": "command", 
   "msg_class": "association.delete"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "binary_light", 
+   "value_path": "$.event.default.value"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "binary.motion"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "binary_light", 
+   "value_path": "$.event.default.value"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "binary.tamper"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "free_text", 
+   "value_path": "$.event.default.value"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "binary.tamper"
  }
 ]

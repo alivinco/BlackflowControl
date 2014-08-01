@@ -33,6 +33,11 @@ class Timeseries():
             self.cur.execute("INSERT into timeseries(timestamp,dev_id,value) values(?,?,?)",(timestamp,dev_id,value))
             self.conn.commit()
 
+    def delete_all_for_dev(self,dev_id):
+        c = self.conn.cursor()
+        c.execute("DELETE FROM timeseries WHERE dev_id = ?",(str(dev_id)))
+        self.conn.commit()
+
     def get(self,dev_id,start,end):
         c = self.conn.cursor()
         result = []
@@ -51,6 +56,7 @@ class Timeseries():
 if __name__ == "__main__":
    t = Timeseries("timeseries.db")
    t.init_db()
-   t.insert(1,1.23442)
+   # t.insert(1,1.23442)
    print t.get(1,0,1504836694)
+   # t.delete_all_for_dev(1)
    t.cleanup()

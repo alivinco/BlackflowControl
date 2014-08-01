@@ -271,13 +271,13 @@ class MessageManager:
           r = None
         return r
 
-    def remove_address_from_mapping(self, address, msg_class):
-        log.info("Removing address from mapping , address = " + str(address) + " msg_class=" + str(msg_class))
+    def remove_address_from_mapping(self, id):
+        log.info("Removing address from mapping , id ="+str(id))
         # addr = filter(lambda addr_map: (addr_map["msg_class"] == msg_class and addr_map["address"]==address),self.address_mapping)
         i = 0
         item_to_delete = -1
         for addr_map in self.address_mapping:
-            if addr_map["msg_class"] == msg_class and addr_map["address"] == address:
+            if addr_map["id"] == id :
                 item_to_delete = i
             i = i + 1
         if item_to_delete > -1:

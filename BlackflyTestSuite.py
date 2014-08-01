@@ -346,7 +346,10 @@ def address_manager():
             req = request.get_json()
             log.info("UI call for address manager . Command = "+req['cmd'])
             if req["cmd"] == "remove":
-                msg_man.remove_address_from_mapping(req["address"],req["msg_class"])
+                addr_id = int(req["id"])
+                msg_man.remove_address_from_mapping(addr_id)
+                timeseries.delete_all_for_dev(addr_id)
+
             dev = json.dumps({"success":True})
             return Response(response=dev, mimetype='application/json' )
         elif request.method == "POST":
@@ -394,4 +397,4 @@ def help(page):
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",use_debugger=True,use_reloader=False)
+    app.run(host="0.0.0.0",use_debugger=False,threaded=True,use_reloader=False)

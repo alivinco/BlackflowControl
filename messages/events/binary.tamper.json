@@ -1,0 +1,20 @@
+{
+ "origin": {
+  "endp_id": 1, 
+  "vendor": "018e", 
+  "@id": 4, 
+  "@type": "bin_tamper", 
+  "location": "NotImplemented"
+ }, 
+ "uuid": "18a3a0b2-9108-4ace-9e3c-733c18705348", 
+ "creation_time": 1406894010, 
+ "spid": "SPID_NOT_SET", 
+ "@context": "http://smartly.no/context", 
+ "event": {
+  "default": {
+   "value": true
+  }, 
+  "subtype": "tamper", 
+  "@type": "binary"
+ }
+}

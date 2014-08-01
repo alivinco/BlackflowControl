@@ -38,7 +38,7 @@ def update_global_config():
         print "global.json updated"
     else :
         print "global.json is already up to date"
-    jobj["system"]["version"]="1.2"
+    jobj["system"]["version"]="1.3"
     f = open(addr_path, "w")
     f.write(json.dumps(jobj, indent=True))
     f.close()
