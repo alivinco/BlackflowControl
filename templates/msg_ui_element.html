@@ -1,24 +1,24 @@
           {% if item.ui_mapping.ui_element=="toggle_switch" %}
-               <div id="{{ item.id }}">
-                <a id="{{ item.id+"_on" }}"  href="#" onclick="send_command('{{ item.id }}','toggle_switch',true); return false" class="btn btn-default btn" >On</a>
-                <a id="{{ item.id+"_off" }}"  href="#" onclick="send_command('{{ item.id }}','toggle_switch',false); return false" class="btn btn-default btn" >Off</a>
+               <div id="{{ item.key }}">
+                <a id="{{ item.key+"_on" }}"  href="#" onclick="send_command('{{ item.key }}','toggle_switch',true); return false" class="btn btn-default btn" >On</a>
+                <a id="{{ item.key+"_off" }}"  href="#" onclick="send_command('{{ item.key }}','toggle_switch',false); return false" class="btn btn-default btn" >Off</a>
                </div>
           {% endif %}
           {% if item.ui_mapping.ui_element=="binary_light" %}
-             <div id="{{ item.id }}" class="alert alert-success"></div>
+             <div id="{{ item.key }}" class="alert alert-success"></div>
           {% endif %}
           {% if item.ui_mapping.ui_element=="free_text" %}
-             <div id="{{ item.id }}"> <a class="btn btn-default btn" onclick="open_free_text('{{ item.id }}')" data-toggle="modal" data-target=".bs-example-modal-lg">Show value</a> </div>
+             <div id="{{ item.key }}"> <a class="btn btn-default btn" onclick="open_free_text('{{ item.key }}')" data-toggle="modal" data-target=".bs-example-modal-lg">Show value</a> </div>
           {% endif %}
           {% if item.ui_mapping.ui_element=="sensor_value" %}
-            <div id="{{ item.id }}"> <h3>  <small> </small></h3></div>
+            <div id="{{ item.key }}"> <h3>  <small> </small></h3></div>
           {% endif %}
           {% if item.ui_mapping.ui_element=="input_num_field" %}
-            <div id="{{ item.id }}">
+            <div id="{{ item.key }}">
                 <div class="input-group">
-                  <input id="{{ item.id }}_input" type="text" class="form-control">
+                  <input id="{{ item.key }}_input" type="text" class="form-control">
                   <span class="input-group-btn">
-                    <button class="btn btn-default"  onclick="send_command('{{ item.id }}','input_num_field',''); return false" type="button">Set</button>
+                    <button class="btn btn-default"  onclick="send_command('{{ item.key }}','input_num_field',''); return false" type="button">Set</button>
                   </span>
                 </div>
 

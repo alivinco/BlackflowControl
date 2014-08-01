@@ -1,0 +1,33 @@
+{% extends "base_layout.html" %}
+{% block li_inter_console %}class="active"{% endblock %}
+{% block body %}
+
+<div class="container-fluid">
+
+<div class="table-responsive">
+
+
+     {% for item in mapping %}
+     <div class="row">
+     <div class="col-md-5">
+     {% set cache_item = cache.get_by_key(item.id) %}
+       {{ item.name }}
+       <div id="{{ item.id }}_msg_time"> {{ cache_item.timestamp_iso }} </div>
+       {% include 'msg_ui_element.html' %}
+     </div>
+     </div>
+      {% endfor %}
+
+</div>
+</div>
+{#Modal dialog #}
+
+{% endblock %}
+{% block js_scripts %}
+    <script>
+      var mode = "{{ mode }}"
+    </script>
+    <script src="/static/js/stupidtable.min.js"></script>
+    <script src="/static/js/inter_console.js"></script>
+
+{% endblock %}

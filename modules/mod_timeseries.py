@@ -1,3 +1,5 @@
+import datetime
+
 __author__ = 'aleksandrsl'
 import sqlite3
 import time
@@ -21,9 +23,13 @@ class Timeseries():
     def cleanup(self):
         self.conn.close()
 
-    def insert(self,dev_id,value):
+    def insert(self,dev_id,value,precision=None):
         if self.is_enabled:
             timestamp = int(time.time())
+
+            if type(value)is float and precision:
+               value = round(value,precision)
+
             self.cur.execute("INSERT into timeseries(timestamp,dev_id,value) values(?,?,?)",(timestamp,dev_id,value))
             self.conn.commit()
 
@@ -31,16 +37,20 @@ class Timeseries():
         c = self.conn.cursor()
         result = []
         if dev_id:
-           c.execute("select dev_id,timestamp,value from timeseries where dev_id = ? and timestamp > ? and timestamp < ? ",(dev_id,start,end))
+           c.execute("select id,dev_id,timestamp,value from timeseries where dev_id = ? and timestamp > ? and timestamp < ? ",(dev_id,start,end))
         else :
-           c.execute("select dev_id,timestamp,value from timeseries where  timestamp > ? and timestamp < ? ",(start,end))
-        return c.fetchall()
+           c.execute("select id,dev_id,timestamp,value from timeseries where  timestamp > ? and timestamp < ? ",(start,end))
+        result = []
+        for item in c.fetchall():
+           t_iso =  datetime.datetime.fromtimestamp(item[2]).isoformat(" ")
+           result.append({"id":item[0],"dev_id":item[1],"time":item[2],"time_iso":t_iso,"value":item[3]})
+        return result
 
 
 
 if __name__ == "__main__":
    t = Timeseries("timeseries.db")
    t.init_db()
-   #t.insert(1,22.4)
-   print t.get(5,1404736694,1404836694)
+   t.insert(1,1.23442)
+   print t.get(1,0,1504836694)
    t.cleanup()

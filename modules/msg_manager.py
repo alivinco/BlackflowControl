@@ -137,7 +137,8 @@ class MessageManager:
             mclass = filter(lambda msg_class: ( msg_class["msg_class"] == item["msg_class"] and msg_class["msg_type"] == item["msg_type"]),msg_class_mapping)
             if len(mclass)>0:
                item["ui_mapping"] = mclass[0]["ui_mapping"]
-               item["id"] = self.generate_key(item["msg_class"], item["address"])
+               # item["id"] = self.generate_key(item["msg_class"], item["address"])
+
                result.append(item)
             else :
                log.error("Linked mapping can't be generated because class = "+item["msg_class"]+" does not exist in msg class mapping.")

@@ -24,21 +24,25 @@
                       <th data-sort="string">msg class (↑↓)</th>
                       <th data-sort="string">type (↑↓)</th>
                       <th data-sort="string">address (↑↓)</th>
-                    {% if mode == "normal" %}  <th  data-sort="date" data-sort-value="">last msg (↑↓)</th>{% endif %}
+                    {% if mode == "normal" %}  <th  data-sort="date" data-sort-value="">last msg</th>{% endif %}
                       <th style="width:120px">action</th>
 
                     </tr>
      </thead>
      <tbody>
      {% for item in mapping |sort(attribute="address",reverse=True) %}
-     {% set cache_item = cache.get_by_key(item.id) %}
+     {% set cache_item = cache.get_by_key(item.key) %}
       <tr>
        <td> {{ item.name }}  </td>
        <td><a onclick="location.href ='/ui/msg_class/{{ item.msg_type }}/{{ item.msg_class }}'">{{ item.msg_class }}</a> </td>
        <td> {{ item.msg_type }} </td>
        <td> <a href="/ui/address_map/{{ item.key }}">{{ item.address }}</a> </td>
-       {% if mode == "normal" %} <td id="{{ item.id }}_msg_time"> {{ cache_item.timestamp_iso }} </td>{% endif %}
-       <td> <a href="../api/get_last_raw_msg/{{item.id}}" target="_blank">Open last msg</a></td>
+       {% if mode == "normal" %} <td > <div id="{{ item.key }}_msg_time" style="width: 65px">{{ cache_item.timestamp_iso }}</div> </td>{% endif %}
+       <td><div style="width: 60px">
+           <a href="../api/get_last_raw_msg/{{item.key}}" target="_blank">Last msg</a>
+           <div> <a href="../ui/timeseries/table/{{item.id}}/0/2004836694" target="_self">Log</a> </div>
+           </div>
+       </td>
        <td style="width: 200px">
           {% include 'msg_ui_element.html' %}
        </td>

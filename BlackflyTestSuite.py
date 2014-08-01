@@ -36,7 +36,7 @@ cache = MsgCache(msg_man)
 
 timeseries = Timeseries(msg_man.global_configs["db"]["db_path"])
 timeseries.init_db()
-timeseries.enable(False)
+timeseries.enable(True)
 # Mqtt initialization
 msg_pipeline = MsgPipeline(msg_man,cache,timeseries)
 dev_simulator = DeviceSimulator(msg_man)
@@ -98,6 +98,15 @@ def inter_console_ui():
     except Exception as ex :
         log.exception(ex)
     return render_template('inter_console.html', mapping=mapping,cache=cache,global_context=global_context,mode=mode)
+
+@app.route('/ui/dashboard')
+def dashboard_ui():
+    log.info("Dashboard UI")
+    try :
+         mapping = msg_man.generate_linked_mapping(msg_man.load_msg_class_mapping(), msg_man.load_address_mapping())
+    except Exception as ex :
+        log.exception(ex)
+    return render_template('dashboard.html', mapping=mapping,cache=cache,global_context=global_context)
 
 @app.route('/ui/mqtt_broker_monitor')
 def mqtt_broker_monitor_ui():
@@ -220,6 +229,12 @@ def timeseries_chart(dev_id):
     # ch = json.dumps(cache.get_all(),indent=True)
     result = {}
     return render_template('timeseries_chart.html',cache=result,global_context=global_context)
+
+@app.route('/ui/timeseries/table/<dev_id>/<start_time>/<end_time>')
+def timeseries_table(dev_id,start_time,end_time):
+    # ch = json.dumps(cache.get_all(),indent=True)
+    result = timeseries.get(dev_id,start_time,end_time)
+    return render_template('timeseries_table.html',ts=result,global_context=global_context)
 
 @app.route('/ui/msg_types_for_approval')
 def msg_types_for_approval_ui():
