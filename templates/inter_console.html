@@ -37,7 +37,7 @@
        <td><a onclick="location.href ='/ui/msg_class/{{ item.msg_type }}/{{ item.msg_class }}'">{{ item.msg_class }}</a> </td>
        <td> {{ item.msg_type }} </td>
        <td> <a href="/ui/address_map/{{ item.key }}">{{ item.address }}</a> </td>
-       {% if mode == "normal" %} <td > <div id="{{ item.key }}_msg_time" style="width: 65px">{{ cache_item.timestamp_iso }}</div> </td>{% endif %}
+       {% if mode == "normal" %} <td > <div id="{{ item.key }}_msg_time" style="width: 70px">{{ cache_item.timestamp_iso }}</div> </td>{% endif %}
        <td><div style="width: 60px">
            <a href="../api/get_last_raw_msg/{{item.key}}" target="_blank">Last msg</a>
            <div> <a href="../ui/timeseries/table/{{item.id}}/0/2004836694" target="_self">Log</a> </div>

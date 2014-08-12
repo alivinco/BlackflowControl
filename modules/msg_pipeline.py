@@ -140,9 +140,18 @@ class MsgPipeline():
         payload["origin"]["@id"]="blackfly"
         payload["origin"]["vendor"]="blackfly"
         payload["origin"]["location"]="lab"
-        if "command" in payload: payload["command"]["target"] = topic
         payload["uuid"] = str(uuid.uuid4())
         payload["creation_time"] = int(time.time()) * 1000
+        if "command" in payload:
+            payload["command"]["target"] = topic
+        if "event" in payload:
+            # /dev/zw/5/sen_temp/1/events
+            t = topic.split("/")
+            if t[1]=="dev":
+                payload["origin"]["@id"]=t[3]
+                payload["origin"]["@type"]=t[4]
+                payload["origin"]["endp_id"]=t[5]
+
 
 
     def __check_address(self, address):

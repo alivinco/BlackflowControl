@@ -35,7 +35,8 @@ class Timeseries():
 
     def delete_all_for_dev(self,dev_id):
         c = self.conn.cursor()
-        c.execute("DELETE FROM timeseries WHERE dev_id = ?",(str(dev_id)))
+        dev_id = str(dev_id)
+        c.execute("DELETE FROM timeseries WHERE dev_id = ?",(dev_id,))
         self.conn.commit()
 
     def get(self,dev_id,start,end):

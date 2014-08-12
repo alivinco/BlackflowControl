@@ -1,8 +1,6 @@
 {
  "origin": {
-  "endp_id": 1, 
-  "@id": "1", 
-  "@type": "zw_ta"
+   "@type": "zw_ta"
  }, 
  "@context": "http://smartly.no/context",
  "event": {

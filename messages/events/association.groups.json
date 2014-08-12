@@ -1,0 +1,46 @@
+{
+ "origin": {
+  "endp_id": 1, 
+  "vendor": "0174", 
+  "@id": 13, 
+  "@type": "dev_sys", 
+  "location": "NotImplemented"
+ }, 
+ "uuid": "f200bc40-5abc-4759-a1c5-b97d81aa0dbf", 
+ "creation_time": 1407759391, 
+ "spid": "SPID_NOT_SET", 
+ "@context": "http://smartly.no/context", 
+ "event": {
+  "default": {
+   "value": [
+    1, 
+    2, 
+    3, 
+    4, 
+    5, 
+    6, 
+    7, 
+    8
+   ]
+  }, 
+  "subtype": "groups", 
+  "@type": "association", 
+  "properties": {
+   "number_of_groups": {
+    "value": 8
+   }, 
+   "groups": {
+    "value": [
+     1, 
+     2, 
+     3, 
+     4, 
+     5, 
+     6, 
+     7, 
+     8
+    ]
+   }
+  }
+ }
+}

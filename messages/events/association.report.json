@@ -1,0 +1,32 @@
+{
+ "origin": {
+  "endp_id": 1, 
+  "vendor": "0174", 
+  "@id": 13, 
+  "@type": "dev_sys", 
+  "location": "NotImplemented"
+ }, 
+ "uuid": "c88c7ae7-a10a-4dc1-b4b7-8b5b23ecbe0d", 
+ "creation_time": 1407759404, 
+ "spid": "SPID_NOT_SET", 
+ "@context": "http://smartly.no/context", 
+ "event": {
+  "default": {
+   "value": [
+    1
+   ]
+  }, 
+  "subtype": "report", 
+  "@type": "association", 
+  "properties": {
+   "group": {
+    "value": 1
+   }, 
+   "devices": {
+    "value": [
+     1
+    ]
+   }
+  }
+ }
+}

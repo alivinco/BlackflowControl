@@ -1,0 +1,18 @@
+{"origin": {
+    "endp_id": 1,
+    "vendor": "0002",
+    "@id": 10,
+    "@type": "lvl_thermostat",
+    "location": "NotImplemented"
+}, "uuid": "3e287aa0-a7b8-4365-9856-59c55a5ae500",
+   "creation_time": 1407420406,
+   "spid": "SPID_NOT_SET",
+   "@context": "http://smartly.no/context",
+   "event": {
+    "default": {
+        "value": 4,
+        "unit": "C"
+    },
+    "subtype": "thermostat",
+    "@type": "level"
+}}
