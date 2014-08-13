@@ -2,7 +2,15 @@
 {% block li_address_mapping %}class="active"{% endblock %}
 {% block body %}
 </h1>
-<h3>Address to message class bindings ( <a href="/ui/address_map/0">add</a>)</h3>
+<h3>Address to message class bindings </h3>
+<div class="btn-group">
+  <button type="button" onclick="window.location.href='/ui/address_map/0'" class="btn btn-default">Add new binding</button>
+  <button type="button" class="btn btn-default" onclick="open_bulk_address_update()">Bulk address update</button>
+  <button type="button" class="btn btn-default">Bulk delete</button>
+</div>
+<br/>
+<br/>
+
 <div class="container-fluid">
 
 <div class="table-responsive">
@@ -35,18 +43,36 @@
 </div>
 </div>
 {#Modal dialog #}
-<div class="modal fade" id="free_text_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="bulk_address_update_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Extracted data</h4>
+        <h4 class="modal-title" id="myModalLabel">Bulk address update</h4>
       </div>
-      <div id = "free_text_placeholder" class="modal-body">
-        <pre>...</pre>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <br/>
+      <div >
+            <form class="form-horizontal" role="form" action="/api/address_manager" method="POST">
+              <input type="hidden" name="action" value="bulk_address_update" />
+              <div class="form-group">
+                <label for="inputName" class="col-sm-3 control-label">Find</label>
+                <div class="col-sm-6">
+                  <input type="text" name="find" class="form-control" id="inputName" placeholder="" value="">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="inputAddress" class="col-sm-3 control-label">Replace to</label>
+                <div class="col-sm-6">
+                  <input type="text" name="replace_to" class="form-control" id="inputAddress"  value="">
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-default">Update</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </form>
       </div>
     </div>
   </div>

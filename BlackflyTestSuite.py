@@ -353,20 +353,26 @@ def address_manager():
             dev = json.dumps({"success":True})
             return Response(response=dev, mimetype='application/json' )
         elif request.method == "POST":
-            key = request.form["key"]
-            override_props = ""
-            override_value_path = ""
-            try:
-              if request.form["override_properties"] != "None" and request.form["override_properties"]!= "":
-               override_props = json.loads(request.form["override_properties"])
-              override_value_path = request.form["override_value_path"]
-            except:
-              error_msg = "Override properties is not a json object,therefore it will be skipped"
-              log.error(error_msg)
+            action = request.form["action"]
+
+            if action == "update_address_mapping":
+                key = request.form["key"]
+                override_props = ""
+                override_value_path = ""
+                try:
+                  if request.form["override_properties"] != "None" and request.form["override_properties"]!= "":
+                   override_props = json.loads(request.form["override_properties"])
+                  override_value_path = request.form["override_value_path"]
+                except:
+                  error_msg = "Override properties is not a json object,therefore it will be skipped"
+                  log.error(error_msg)
 
 
-            msg_man.update_address_mapping(key,request.form["name"],request.form["msg_class"],request.form["type"],request.form["address"],override_props,override_value_path)
-            log.info("Address mapping successfully updated")
+                msg_man.update_address_mapping(key,request.form["name"],request.form["msg_class"],request.form["type"],request.form["address"],override_props,override_value_path)
+                log.info("Address mapping successfully updated")
+            elif action =="bulk_address_update":
+                msg_man.find_replace_address(request.form["find"],request.form["replace_to"])
+                log.info("Address mapping successfully updated by find_replace_address")
             return redirect(url_for("address_mapping_ui"))
     except Exception as ex :
         log.exception(ex)

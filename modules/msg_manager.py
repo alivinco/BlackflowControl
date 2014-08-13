@@ -285,6 +285,26 @@ class MessageManager:
             del self.address_mapping[item_to_delete]
         self.serialize_address_mapping()
 
+    def find_replace_address(self,find,replace_to):
+        """
+         The method loops over all adresses and replaces "find" part with "replace" part
+         "key": "binary.switch@.dev.zw.2.bin_switch.1.commands",
+         "address": "/dev/zw/2/bin_switch/1/commands",
+        """
+
+        for item in self.address_mapping:
+
+            if find in item["address"]:
+                log.info("Updating "+item["address"]+" ."+find+" will be replaced by "+replace_to)
+                item["address"] = item["address"].replace(find,replace_to)
+                d_key = self.decode_key(item["key"])
+                d_key["msg_class"]= d_key["msg_class"].replace(find,replace_to)
+                item["key"] = self.generate_key(d_key["msg_class"],d_key["address"])
+                log.debug("New key "+item["key"])
+
+        self.serialize_address_mapping()
+
+
     def serialize_address_mapping(self):
         log.info("Serializing address mapping to file " + self.address_mapping_file_path)
         f = open(self.address_mapping_file_path, "w")
