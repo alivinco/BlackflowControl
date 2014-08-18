@@ -145,7 +145,7 @@
  }, 
  {
   "ui_mapping": {
-   "ui_element": "input_num_field", 
+   "ui_element": "slider", 
    "num_type": "int", 
    "value_path": "$.command.default.value"
   }, 

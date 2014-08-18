@@ -51,11 +51,11 @@ function send_command(key,ui_type,value)
        })
 
        obj = {"msg_key":key,"user_params":user_params,"mode":mode}
-       console.dir(obj)
-    }
-    else
+//       console.dir(obj)
+    } else
     {
         val = value
+//        console.log(value)
     }
 
     if(!obj) obj = {"msg_key":key,"user_params":{"value":val},"mode":mode}
@@ -173,4 +173,13 @@ $(function() {
     console.log(mode)
 
     $("#inter_console_table").stupidtable();
+//    $("#"+jq_elector("level.dimmer@.dev.zw.16.lvl_dimmer.1.commands_input")).slider({min:0,max:100});
+    $("input[ui_ext_type='slider']").slider({min:0,max:100,tooltip: 'always'});
+    $("input[ui_ext_type='slider']").on('slideStop', function(slideEvt) {
+	    id = slideEvt.target.id.replace("_input","")
+        console.dir(slideEvt)
+        value = slideEvt.value
+        console.log(value)
+        send_command(id,'slider',value); return false
+    });
 });

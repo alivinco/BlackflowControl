@@ -1,4 +1,7 @@
 {% extends "base_layout.html" %}
+{% block css_scripts %}
+    <link href="/static/css/bootstrap-slider.min.css" rel="stylesheet">
+{% endblock %}
 {% block li_inter_console %}class="active"{% endblock %}
 {% block body %}
 </h1>
@@ -78,6 +81,7 @@
       var mode = "{{ mode }}"
     </script>
     <script src="/static/js/stupidtable.min.js"></script>
+    <script src="/static/js/bootstrap-slider.min.js"></script>
     <script src="/static/js/inter_console.js"></script>
 
 {% endblock %}

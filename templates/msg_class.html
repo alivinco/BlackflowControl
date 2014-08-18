@@ -29,6 +29,7 @@
           <option {% if msg_class.ui_mapping.ui_element=="free_text" %}selected="selected"{% endif %}>free_text</option>
           <option {% if msg_class.ui_mapping.ui_element=="toggle_switch" %}selected="selected"{% endif %}>toggle_switch</option>
           <option {% if msg_class.ui_mapping.ui_element=="input_num_field" %}selected="selected"{% endif %}>input_num_field</option>
+          <option {% if msg_class.ui_mapping.ui_element=="slider" %}selected="selected"{% endif %}>slider</option>
           <option {% if msg_class.ui_mapping.ui_element=="msg_class_ui" %}selected="selected"{% endif %}>msg_class_ui</option>
       </select>
     </div>
@@ -61,13 +62,26 @@
   {% endif %}
  {% if msg_class.ui_mapping.ui_element=="input_num_field" %}
   <div class="form-group">
-    <label for="inputUiNumType" class="col-sm-2 control-label">num type</label>
+    <label for="inputUiNumType" class="col-sm-2 control-label">numeric type</label>
     <div class="col-sm-10">
-      <input type="text" name="ui_num_type" class="form-control" id="inputUiNumType"  value="{{ msg_class.ui_mapping.num_type }}">
+      <select name ="ui_num_type" class="form-control" id="inputUiNumType">
+          <option {% if msg_class.ui_mapping.num_type=="float" %}selected="selected"{% endif %} >float</option>
+          <option {% if msg_class.ui_mapping.num_type=="int" %}selected="selected"{% endif %}>int</option>
+      </select>
     </div>
   </div>
   {% endif %}
-
+ {% if msg_class.ui_mapping.ui_element=="slider" %}
+  <div class="form-group">
+    <label for="inputUiNumType" class="col-sm-2 control-label">numeric type</label>
+    <div class="col-sm-10">
+      <select name ="ui_num_type" class="form-control" id="inputUiNumType">
+          <option {% if msg_class.ui_mapping.num_type=="float" %}selected="selected"{% endif %} >float</option>
+          <option {% if msg_class.ui_mapping.num_type=="int" %}selected="selected"{% endif %}>int</option>
+      </select>
+    </div>
+  </div>
+  {% endif %}
 
   <div class="form-group">
 

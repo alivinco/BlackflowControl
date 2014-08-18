@@ -223,7 +223,7 @@ class MessageManager:
                     v = int(v)
 
                 # converting to float if expected type is float
-                if msg_class_map["ui_mapping"]["ui_element"] == "input_num_field" :
+                if msg_class_map["ui_mapping"]["ui_element"] == "input_num_field" or msg_class_map["ui_mapping"]["ui_element"] == "slider" :
                     if msg_class_map["ui_mapping"]["num_type"] == "float":
                         v = float(v)
                     else:
@@ -298,7 +298,7 @@ class MessageManager:
                 log.info("Updating "+item["address"]+" ."+find+" will be replaced by "+replace_to)
                 item["address"] = item["address"].replace(find,replace_to)
                 d_key = self.decode_key(item["key"])
-                d_key["msg_class"]= d_key["msg_class"].replace(find,replace_to)
+                d_key["address"]= d_key["address"].replace(find,replace_to)
                 item["key"] = self.generate_key(d_key["msg_class"],d_key["address"])
                 log.debug("New key "+item["key"])
 

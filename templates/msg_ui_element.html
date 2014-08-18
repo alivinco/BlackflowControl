@@ -24,6 +24,13 @@
 
             </div>
           {% endif %}
+          {% if item.ui_mapping.ui_element=="slider" %}
+            <div id="{{ item.key }}">
+                <div class="input-group">
+                  <input id="{{ item.key }}_input" type="text" ui_ext_type='slider' class="form-control"  />
+                </div>
+             </div>
+          {% endif %}
           {% if item.ui_mapping.ui_element=="msg_class_ui" %}
               {% include 'msg_class_ui/'+item.msg_class+'.html' %}
           {% endif %}
