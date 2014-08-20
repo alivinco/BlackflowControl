@@ -228,7 +228,8 @@ def cache_ui():
 def timeseries_chart(dev_id):
     # ch = json.dumps(cache.get_all(),indent=True)
     result = {}
-    return render_template('timeseries_chart.html',cache=result,global_context=global_context)
+    device_info = {"device_id":dev_id}
+    return render_template('timeseries_chart.html',cache=result,global_context=global_context,device_info=device_info)
 
 @app.route('/ui/timeseries/table/<dev_id>/<start_time>/<end_time>')
 def timeseries_table(dev_id,start_time,end_time):
@@ -389,9 +390,9 @@ def get_last_raw_msg(key):
         dev = {"error":"The message not found.Perhaps it has never been captured by the system"}
     return Response(response=dev, mimetype='application/json')
 
-@app.route('/api/timeseries/get/<dev_id>/<start>/<end>')
-def get_timeseries(dev_id,start,end):
-    ts = timeseries.get(int(dev_id),int(start),int(end))
+@app.route('/api/timeseries/get/<dev_id>/<start>/<end>/<result_type>')
+def get_timeseries(dev_id,start,end,result_type):
+    ts = timeseries.get(int(dev_id),int(start),int(end),result_type)
     jobj = json.dumps(ts)
     return Response(response=jobj, mimetype='application/json')
 

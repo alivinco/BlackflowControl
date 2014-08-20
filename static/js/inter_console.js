@@ -166,14 +166,8 @@ function open_free_text(key)
     }
 }
 
-$(function() {
-//    console.log( "ready!" );
-    load_data()
-    if (mode == "normal") start_pooling_cache()
-    console.log(mode)
-
-    $("#inter_console_table").stupidtable();
-//    $("#"+jq_elector("level.dimmer@.dev.zw.16.lvl_dimmer.1.commands_input")).slider({min:0,max:100});
+function initi_slider()
+{
     $("input[ui_ext_type='slider']").slider({min:0,max:100,tooltip: 'always'});
     $("input[ui_ext_type='slider']").on('slideStop', function(slideEvt) {
 	    id = slideEvt.target.id.replace("_input","")
@@ -182,4 +176,15 @@ $(function() {
         console.log(value)
         send_command(id,'slider',value); return false
     });
+}
+
+$(function() {
+//    console.log( "ready!" );
+    load_data()
+    if (mode == "normal") start_pooling_cache()
+    console.log(mode)
+
+    $("#inter_console_table").stupidtable();
+//    $("#"+jq_elector("level.dimmer@.dev.zw.16.lvl_dimmer.1.commands_input")).slider({min:0,max:100});
+    initi_slider()
 });
