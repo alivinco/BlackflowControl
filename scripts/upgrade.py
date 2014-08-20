@@ -37,7 +37,7 @@ def update_global_config():
         jobj["db"]={"timeseries_enabled": True,"db_path": "/tmp/timeseries.db"}
         print "global.json updated"
     else :
-        jobj["db"]={"timeseries_enabled": True,"db_path": "/tmp/timeseries.db"}
+        jobj["db"]["db_path"] = "/tmp/timeseries.db"
         print "global.json is already up to date"
     jobj["system"]["version"]="1.4"
     f = open(addr_path, "w")

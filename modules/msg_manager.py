@@ -254,7 +254,11 @@ class MessageManager:
         log.info("Adding address to the mapping , address = " + str(address) + " msg_class=" + str(msg_class))
         addr_map = self.load_address_mapping()
         new_id = self.get_new_addr_id()
-        addr_map.append({"id":new_id,"msg_class": msg_class, "address": address, "name": msg_class, "msg_type": "event", "group_name": "table1","key": self.generate_key(msg_class, address)})
+        if "event" in address :
+            addr_map.append({"id":new_id,"msg_class": msg_class, "address": address, "name": msg_class, "msg_type": "event", "group_name": "","key": self.generate_key(msg_class, address)})
+        elif "command" in address :
+            addr_map.append({"id":new_id,"msg_class": msg_class, "address": address, "name": msg_class, "msg_type": "command", "group_name": "","key": self.generate_key(msg_class, address)})
+
         self.address_mapping = addr_map
         self.serialize_address_mapping()
 
