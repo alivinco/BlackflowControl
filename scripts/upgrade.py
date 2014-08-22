@@ -40,6 +40,7 @@ def update_global_config():
         jobj["db"]["db_path"] = "/tmp/timeseries.db"
         print "global.json is already up to date"
     jobj["system"]["version"]="1.4"
+    jobj["mqtt"]["enable_sys"]=False
     f = open(addr_path, "w")
     f.write(json.dumps(jobj, indent=True))
     f.close()

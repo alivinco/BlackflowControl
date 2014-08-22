@@ -26,10 +26,12 @@ class MqttAdapter:
         self.global_context = {}
         self.mqtt = mosquitto.Mosquitto(client_id, clean_session=True)
         self.msg_pipeline = msg_pipeline
+        self.enable_sys = False
 
-    def set_mqtt_params(self,client_id,username="",password="",topic_prefix=""):
+    def set_mqtt_params(self,client_id,username="",password="",topic_prefix="",enable_sys=False):
         self.mqtt._client_id = client_id
         self.topic_prefix = topic_prefix
+        self.enable_sys = enable_sys
         if username:
             self.mqtt.username_pw_set(username,password)
 
@@ -51,11 +53,11 @@ class MqttAdapter:
         self.mqtt.connect(self._host, self._port, self._keepalive)
         log.info("The system reconnected to mqtt broker")
 
-    def initiate_listeners(self,enable_sys=True):
+    def initiate_listeners(self):
         topic = self.topic_prefix+self.sub_topic
         self.mqtt.subscribe(topic, 1)
         # mosquitto internal monitoring topic
-        if enable_sys :
+        if self.enable_sys :
             self.mqtt.subscribe("$SYS/#",1)
             log.info("mqtt adapter subscribed to $SYS/# mqtt internal monitoring topic.")
         log.info("mqtt adapter subscribed to topic "+topic)

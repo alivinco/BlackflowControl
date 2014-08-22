@@ -13,7 +13,12 @@ $(function () {
 
 //
 
-
+    Highcharts.setOptions({
+	global: {
+		useUTC: false
+//        timezoneOffset:2
+        }
+    });
     $.getJSON('/api/timeseries/get/'+device_id+'/0/2004836694/array', function (data) {
         // Create the chart
         $('#chart_container').highcharts('StockChart', {
@@ -27,14 +32,20 @@ $(function () {
             title : {
                 text : 'Sensor values'
             },
-
+            exporting:{enabled:true},
             series : [{
                 name : 'Value',
                 data : data,
                 tooltip: {
                     valueDecimals: 2
                 }
-            }]
+            }],
+            navigation: {
+            buttonOptions: {
+                enabled: true
+
+            }
+        }
         });
     });
 

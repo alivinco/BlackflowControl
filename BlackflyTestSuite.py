@@ -41,7 +41,7 @@ timeseries.enable(True)
 msg_pipeline = MsgPipeline(msg_man,cache,timeseries)
 dev_simulator = DeviceSimulator(msg_man)
 mqtt = MqttAdapter(msg_pipeline,msg_man.global_configs["mqtt"]["client_id"])
-mqtt.set_mqtt_params(msg_man.global_configs["mqtt"]["client_id"],msg_man.global_configs["mqtt"]["username"],msg_man.global_configs["mqtt"]["password"])
+mqtt.set_mqtt_params(msg_man.global_configs["mqtt"]["client_id"],msg_man.global_configs["mqtt"]["username"],msg_man.global_configs["mqtt"]["password"],msg_man.global_configs["mqtt"]["global_topic_prefix"],msg_man.global_configs["mqtt"]["enable_sys"])
 mqtt.sub_topic = msg_man.global_configs["mqtt"]["root_topic"]
 mqtt.set_global_context(global_context)
 try:
@@ -254,7 +254,13 @@ def settings_ui():
          msg_man.global_configs["mqtt"]["username"] = request.form["mqtt_username"]
          msg_man.global_configs["mqtt"]["password"] = request.form["mqtt_password"]
          msg_man.global_configs["mqtt"]["global_topic_prefix"] = request.form["mqtt_global_topic_prefix"]
-         mqtt.set_mqtt_params(request.form["mqtt_client_id"],request.form["mqtt_username"],request.form["mqtt_password"],request.form["mqtt_global_topic_prefix"])
+         if request.form["enable_sys"] == "True":
+            msg_man.global_configs["mqtt"]["enable_sys"] = True
+         else :
+            msg_man.global_configs["mqtt"]["enable_sys"] = False
+
+         msg_man.global_configs["db"]["db_path"] = request.form["db_path"]
+         mqtt.set_mqtt_params(request.form["mqtt_client_id"],request.form["mqtt_username"],request.form["mqtt_password"],request.form["mqtt_global_topic_prefix"],msg_man.global_configs["mqtt"]["enable_sys"])
 
          f = open(msg_man.global_configs_path,"w")
          f.write(json.dumps(msg_man.global_configs,indent=True))
