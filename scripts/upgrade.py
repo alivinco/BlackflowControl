@@ -1,4 +1,6 @@
 import os , json
+import sqlite3
+
 __author__ = 'aleksandrsl'
 
 
@@ -37,7 +39,7 @@ def update_global_config():
         jobj["db"]={"timeseries_enabled": True,"db_path": "/tmp/timeseries.db"}
         print "global.json updated"
     else :
-        jobj["db"]["db_path"] = "/tmp/timeseries.db"
+        # jobj["db"]["db_path"] = "/tmp/timeseries.db"
         print "global.json is already up to date"
     jobj["system"]["version"]="1.4"
     jobj["mqtt"]["enable_sys"]=False
@@ -57,9 +59,38 @@ def update_cmd_class_mapping ():
     f = open(addr_path, "w")
     f.write(json.dumps(jobj, indent=True))
     f.close()
+
+def update_db():
+    app_root_path = os.getcwd()
+    addr_path = os.path.join(app_root_path, "configs", "global.json")
+    jobj = json.load(file(addr_path))
+    db_path = jobj["db"]["db_path"]
+    conn =  sqlite3.connect(db_path)
+    # check if script needs to run upda
+    cur = conn.cursor()
+    need_for_update = False
+    try :
+        cur.execute("select id from timeseries limit 1")
+        need_for_update = True
+    except:
+        print "DB is up to date"
+    cur.close()
+
+    if need_for_update:
+        update_timeseries_sql = "CREATE TEMPORARY TABLE timeseries_backup(timestamp integer , dev_id integer , value real );" \
+                      "INSERT INTO timeseries_backup SELECT timestamp,dev_id,value FROM timeseries;" \
+                      "DROP TABLE timeseries;" \
+                      "create table timeseries (timestamp integer , dev_id integer , value real );" \
+                      "INSERT INTO timeseries SELECT timestamp,dev_id,value FROM timeseries_backup;" \
+                      "DROP TABLE timeseries_backup;"
+        conn.executescript(update_timeseries_sql)
+        conn.close()
+        print "timeseries table updated"
+
 update_address_mapping()
 update_global_config()
 update_cmd_class_mapping()
+update_db()
 #get_address_mapping_id()
 
 '''

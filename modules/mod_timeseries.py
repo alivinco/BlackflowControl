@@ -22,8 +22,8 @@ class Timeseries():
 
     def init_db(self):
         # check if tables exists , if not create one
-        timeseries_table = "create table if not exists timeseries (id INTEGER PRIMARY KEY AUTOINCREMENT, timestamp integer , dev_id integer , value real )"
-        self.cur.execute(timeseries_table)
+        timeseries_table = "create table if not exists timeseries (timestamp integer , dev_id integer , value real )"
+        self.conn.execute(timeseries_table)
 
     def cleanup(self):
         self.conn.close()
@@ -36,7 +36,7 @@ class Timeseries():
                 if type(value) is float and precision:
                     value = round(value, precision)
 
-                self.cur.execute("INSERT into timeseries(timestamp,dev_id,value) values(?,?,?)", (timestamp, dev_id, value))
+                self.conn.execute("INSERT into timeseries(timestamp,dev_id,value) values(?,?,?)", (timestamp, dev_id, value))
                 self.conn.commit()
                 self.insert_counter += 1
                 if self.insert_counter > self.do_rotation_after :
@@ -46,21 +46,21 @@ class Timeseries():
             print "error during timeseries insert"
 
     def delete_all_for_dev(self, dev_id):
-        c = self.conn.cursor()
+        # c = self.conn.cursor()
         dev_id = str(dev_id)
-        c.execute("DELETE FROM timeseries WHERE dev_id = ?", (dev_id,))
-        self.conn.commit()
+        self.conn.execute("DELETE FROM timeseries WHERE dev_id = ?", (dev_id,))
+        # self.conn.commit()
 
     def do_rotation(self):
         print "Doing rotation after "+str(self.insert_counter)+" inserts"
-        c = self.conn.cursor()
+        # c = self.conn.cursor()
         count_result =  "select dev_id , count(dev_id) as count from timeseries group by dev_id "
-        c.execute(count_result)
+        self.conn.execute(count_result)
         for item in c.fetchall():
            if item[1] > self.max_messages_per_device:
               print "Device with Id = "+str(item[0])+" needs to be cleaned. Doing cleanup"
               dev_id_to_clean = item[0]
-              c.execute("delete from timeseries where id in (select id from timeseries where dev_id = ? order by timestamp asc LIMIT ?);",(item[0],self.rows_to_delete_per_cleanup))
+              self.conn.execute("delete from timeseries where id in (select id from timeseries where dev_id = ? order by timestamp asc LIMIT ?);",(item[0],self.rows_to_delete_per_cleanup))
               self.conn.commit()
 
 
@@ -69,19 +69,19 @@ class Timeseries():
         result = []
         if dev_id:
             c.execute(
-                "select id,dev_id,timestamp,value from timeseries where dev_id = ? and timestamp > ? and timestamp < ? ",
+                "select dev_id,timestamp,value from timeseries where dev_id = ? and timestamp > ? and timestamp < ? ",
                 (dev_id, start, end))
         else:
-            c.execute("select id,dev_id,timestamp,value from timeseries where  timestamp > ? and timestamp < ? ",
+            c.execute("select dev_id,timestamp,value from timeseries where  timestamp > ? and timestamp < ? ",
                       (start, end))
         result = []
         for item in c.fetchall():
-            t_iso = datetime.datetime.fromtimestamp(item[2]).isoformat(" ")
+            t_iso = datetime.datetime.fromtimestamp(item[1]).isoformat(" ")
             if result_type == "dict":
-                result.append({"id": item[0], "dev_id": item[1], "time": item[2], "time_iso": t_iso, "value": item[3]})
+                result.append({"dev_id": item[0], "time": item[1], "time_iso": t_iso, "value": item[2]})
             elif result_type == "array":
-                result.append([item[2]*1000, item[3]])
-
+                result.append([item[1]*1000, item[2]])
+        c.close()
         return result
 
 

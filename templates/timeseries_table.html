@@ -9,7 +9,6 @@
  <table id="addr_map_table" class="table table-striped">
      <thead>
         <tr>
-            <th>Id </th>
             <th>Timestamp</th>
             <th>Value </th>
         </tr>
@@ -17,7 +16,6 @@
      <tbody>
      {% for item in ts |sort(attribute="time",reverse=True) %}
       <tr>
-       <td> {{ item.id }}  </td>
        <td> {{ item.time_iso }} </td>
        <td> {{ item.value }}</td>
       </tr>
