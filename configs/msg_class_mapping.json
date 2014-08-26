@@ -270,15 +270,7 @@
   }, 
   "msg_type": "event", 
   "msg_class": "binary.tamper"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "free_text", 
-   "value_path": "$.event.default.value"
-  }, 
-  "msg_type": "event", 
-  "msg_class": "binary.tamper"
- }, 
+ },
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 

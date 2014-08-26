@@ -19,8 +19,8 @@ config = {
             "level": "DEBUG",
             "formatter": "standard",
             "filename": "/var/log/blackfly_info.log",
-            "maxBytes": "10485760",
-            "backupCount": "20",
+            "maxBytes": 3000000,
+            "backupCount": 2,
             "encoding": "utf8"
         },
 
@@ -29,8 +29,8 @@ config = {
             "level": "ERROR",
             "formatter": "standard",
             "filename": "/var/log/blackfly_errors.log",
-            "maxBytes": "10485760",
-            "backupCount": "20",
+            "maxBytes": 3000000,
+            "backupCount": 2,
             "encoding": "utf8"
         }
     },
