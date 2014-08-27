@@ -11,7 +11,7 @@
  }, 
  "db": {
   "timeseries_enabled": true, 
-  "db_path": "timeseries.db"
+  "db_path": "/tmp/timeseries.db"
  }, 
  "system": {
   "version": "1.4"

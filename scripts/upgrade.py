@@ -72,6 +72,7 @@ def update_db():
     try :
         cur.execute("select id from timeseries limit 1")
         need_for_update = True
+        print "DB teble will be updated "
     except:
         print "DB is up to date"
     cur.close()
