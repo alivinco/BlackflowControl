@@ -6,15 +6,15 @@
   }, 
   "msg_type": "command", 
   "msg_class": "zw_ta.inclusion_mode"
- },
+ }, 
  {
   "ui_mapping": {
-   "ui_element": "toggle_switch",
+   "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value"
-  },
-  "msg_type": "command",
+  }, 
+  "msg_type": "command", 
   "msg_class": "zw_ta.query_mode"
- },
+ }, 
  {
   "ui_mapping": {
    "ui_element": "toggle_switch", 
@@ -270,7 +270,7 @@
   }, 
   "msg_type": "event", 
   "msg_class": "binary.tamper"
- },
+ }, 
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
@@ -302,5 +302,22 @@
   }, 
   "msg_type": "event", 
   "msg_class": "association.report"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "toggle_switch", 
+   "value_path": "$.command.default.value", 
+   "num_type": "int"
+  }, 
+  "msg_type": "command", 
+  "msg_class": "dr.list_all_devices"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "free_text", 
+   "value_path": "$.event.default.properties.device_registry"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "dr.device_list"
  }
 ]

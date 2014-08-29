@@ -47,9 +47,17 @@ class Timeseries():
 
     def delete_all_for_dev(self, dev_id):
         # c = self.conn.cursor()
-        dev_id = str(dev_id)
-        self.conn.execute("DELETE FROM timeseries WHERE dev_id = ?", (dev_id,))
-        # self.conn.commit()
+        if type(dev_id) == int:
+            dev_id = str(dev_id)
+            self.conn.execute("DELETE FROM timeseries WHERE dev_id = ?", (dev_id,))
+            self.conn.commit()
+        if type(dev_id) == list:
+            if len(dev_id)==1:
+               self.conn.execute("DELETE FROM timeseries WHERE dev_id = ?", (dev_id[0],))
+            else :
+               dev_list = str(tuple(dev_id))
+               self.conn.execute("DELETE FROM timeseries WHERE dev_id in "+dev_list)
+            self.conn.commit()
 
     def do_rotation(self):
         print "Doing rotation after "+str(self.insert_counter)+" inserts"
@@ -91,5 +99,6 @@ if __name__ == "__main__":
     # t.insert(1,1.23442)
     #print t.get(1, 0, 1504836694)
     # t.delete_all_for_dev(1)
-    t.do_rotation()
+    #t.do_rotation()
+    t.delete_all_for_dev([2,3])
     t.cleanup()

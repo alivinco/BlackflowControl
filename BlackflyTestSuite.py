@@ -110,11 +110,15 @@ def dashboard_ui():
 
 @app.route('/ui/mqtt_broker_monitor')
 def mqtt_broker_monitor_ui():
-    try :
-        ch = cache.get_all_generic()
-    except Exception as ex :
-        log.exception(ex)
-    return render_template('mqtt_broker_monitor.html',cache=ch,status_mapping = mqtt_broker_status_mapping,global_context=global_context)
+    if msg_man.global_configs["mqtt"]["enable_sys"] == True :
+        try :
+            ch = cache.get_all_generic()
+        except Exception as ex :
+            log.exception(ex)
+        return render_template('mqtt_broker_monitor.html',cache=ch,status_mapping = mqtt_broker_status_mapping,global_context=global_context)
+    else :
+        status = "Mqtt broker monitoring  is turned off . You can enable it via settings page. "
+        return render_template('mqtt_status.html', status=status,global_context=global_context)
 
 @app.route('/ui/address_mapping')
 def address_mapping_ui():
@@ -380,6 +384,10 @@ def address_manager():
             elif action =="bulk_address_update":
                 msg_man.find_replace_address(request.form["find"],request.form["replace_to"])
                 log.info("Address mapping successfully updated by find_replace_address")
+            elif action =="bulk_address_delete":
+                ids_list = msg_man.bulk_address_removal(request.form["find"])
+                timeseries.delete_all_for_dev(ids_list)
+                log.info("Bulk delete was completed.")
             return redirect(url_for("address_mapping_ui"))
     except Exception as ex :
         log.exception(ex)

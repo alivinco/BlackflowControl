@@ -25,6 +25,11 @@ function open_bulk_address_update()
 {
     $("#bulk_address_update_modal").modal('show')
 }
+function open_bulk_address_delete()
+{
+    $("#bulk_address_delete_modal").modal('show')
+}
+
 
 $(function() {
 //    console.log( "ready!" );

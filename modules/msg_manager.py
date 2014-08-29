@@ -289,6 +289,21 @@ class MessageManager:
             del self.address_mapping[item_to_delete]
         self.serialize_address_mapping()
 
+    def bulk_address_removal(self,search_str):
+        removed_ids = []
+        r_address_mapping = []
+        log.info("Bulk address removal . All devices which contains "+search_str+" in it's address will be removed from the system")
+        for item in self.address_mapping:
+            if not(search_str in item["address"]):
+                r_address_mapping.append(item)
+            else :
+                removed_ids.append(item["id"])
+                log.info("Removing device with address = "+item["address"]+" id = "+str(item["id"]))
+
+        self.address_mapping = copy.deepcopy(r_address_mapping)
+        self.serialize_address_mapping()
+        return removed_ids
+
     def find_replace_address(self,find,replace_to):
         """
          The method loops over all adresses and replaces "find" part with "replace" part
@@ -329,8 +344,8 @@ if __name__ == "__main__":
     jobj = m.parse_file(os.path.join(m.commands_dir, "association.set.json"))
 
     # print m.get_value_from_msg(jobj, "$.command.properties.devices.value[0]")[0]
-    m.set_value_to_msg(jobj,"$.command.properties.devices.value[0]",3)
-
+    # m.set_value_to_msg(jobj,"$.command.properties.devices.value[0]",3)
+    print m.bulk_address_removal("s-455/dev/zw/26")
     # m.set_value_to_msg(jobj, "$.command.name", "Test new path")
     # print jobj
     # print json.dumps(m.generate_linked_mapping(m.load_msg_class_mapping(),m.load_address_mapping()),indent=True)

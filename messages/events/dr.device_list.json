@@ -1,0 +1,88 @@
+{
+    "corid": "86f93c70-6c47-4cfc-91eb-30d3b069e417",
+    "creation_time": 1406709356,
+    "event": {
+        "@type": "dr",
+        "default": {
+            "@type": "single",
+            "value": ""
+        },
+        "properties": {
+            "device_registry": [
+                {
+                    "device_info": {
+                        "address": 16,
+                        "alias": "",
+                        "comm_technology": "zw",
+                        "first_use_date": "2014-07-30 10:35:53.718016",
+                        "hw_version": "1.0",
+                        "id": 1,
+                        "last_error_msg": "",
+                        "last_update": "",
+                        "manufacturer": "0002",
+                        "name": "",
+                        "product_id": "will_be_implemented",
+                        "product_type_id": "",
+                        "protocol_version": "",
+                        "security_level": "",
+                        "serial_number": null,
+                        "status": "",
+                        "sw_version": ""
+                    },
+                    "endpoints": [
+                        {
+                            "alias": "",
+                            "capabilities": [
+                                "command_class_1",
+                                "command_class_2"
+                            ],
+                            "description": "",
+                            "id": 1,
+                            "parent_endpoint_id": "",
+                            "type": "sen_temp",
+                            "uri": "/dev/zw/16/sen_temp/1"
+                        },
+                        {
+                            "alias": "",
+                            "capabilities": [
+                                "command_class_1",
+                                "command_class_2"
+                            ],
+                            "description": "",
+                            "id": 1,
+                            "parent_endpoint_id": "",
+                            "type": "lvl_thermostat",
+                            "uri": "/dev/zw/16/lvl_thermostat/1"
+                        }
+                    ],
+                    "location": {
+                        "floor": "",
+                        "name": "",
+                        "room": "",
+                        "zone": ""
+                    },
+                    "network": {
+                        "id": "",
+                        "neighbors": "",
+                        "paired": ""
+                    },
+                    "power_descriptor": {
+                        "available_power_source": "",
+                        "current_power_source": "",
+                        "current_power_source_level": ""
+                    },
+                    "properties": []
+                }
+            ]
+        },
+        "subtype": "device_list"
+    },
+    "origin": {
+        "@id": "1234",
+        "@type": "app",
+        "location": "server",
+        "vendor": "Lyse"
+    },
+    "spid": "S-451-12",
+    "uuid": "daf5375b-b034-4003-b709-6f2fab336efc"
+}
