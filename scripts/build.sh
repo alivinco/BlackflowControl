@@ -4,6 +4,7 @@ cd ../
 rm -r $build_root
 mkdir $build_root
 cp -r * $build_root
+# removed for Jenkins build
 #cd ../bf_build
 cd /tmp
 pwd=$(pwd)
