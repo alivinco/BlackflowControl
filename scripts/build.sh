@@ -12,3 +12,4 @@ tar -zcvf $pwd/blackfly.tar.gz BlackflyTestSuite/
 # tar -zcvf --exclude=.git --exclude=.gitignore --exclude=.idea /tmp/blackfly.tar.gz BlackflyTestSuite/
 cp $pwd/blackfly.tar.gz /var/www/blackfly/
 cp $build_root/scripts/install.sh /var/www/blackfly
+cp $build_root/scripts/install_debian.sh /var/www/blackfly
