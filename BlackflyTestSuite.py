@@ -7,6 +7,7 @@
 # The software provided as is without any support .
 # Package dependencies : Flask framework , jsonpath
 
+import json
 from flask import Flask, Response, redirect, url_for
 from flask import render_template
 from flask import request
@@ -14,7 +15,7 @@ from modules.mqtt_adapter import MqttAdapter
 from modules.msg_cache import MsgCache
 from modules.msg_manager import MessageManager
 from modules.dev_simulator import DeviceSimulator
-import json
+
 # Flask initialization
 from modules.msg_pipeline import MsgPipeline
 
@@ -414,6 +415,12 @@ def get_timeseries(dev_id,start,end,result_type):
 @app.route('/ui/help/<page>')
 def help(page):
     return render_template('help_'+page+'.html',cfg=msg_man.global_configs,global_context=global_context)
+
+@app.route('/ui/dr_browser')
+def dr_browser():
+
+    return render_template('dr_device_browser.html',global_context=global_context)
+
 
 
 

@@ -5,11 +5,9 @@ from libs import mosquitto
 import json
 import logging
 import time,socket
-from configs import app
 
 import configs.log
-import logging,logging.config
-logging.config.dictConfig(configs.log.config)
+# logging.config.dictConfig(configs.log.config)
 log = logging.getLogger("bf_mqtt")
 
 class MqttAdapter:

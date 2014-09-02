@@ -1,0 +1,27 @@
+{% extends "base_layout.html" %}
+{% block li_inter_console %}class="active"{% endblock %}
+{% block body %}
+</h1>
+<h3>Device registry browser</h3>
+<div class="container-fluid">
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+        <th>Id</th>
+        <th>Address</th>
+        <th>SerialNumber</th>
+        <th>Name</th>
+    </tr>
+  </thead>
+</table>
+
+</div>
+
+
+{% endblock %}
+{% block js_scripts %}
+    <script src="/static/js/stupidtable.min.js"></script>
+
+
+{% endblock %}

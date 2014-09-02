@@ -1,13 +1,14 @@
 __author__ = 'aleksandrsl'
 import os
 import json
-from libs import jsonpath
 import copy
-
+import logging
+# import logging.config
+from libs import jsonpath
 import configs.log
-import logging, logging.config
 
-logging.config.dictConfig(configs.log.config)
+
+# logging.config.dictConfig(configs.log.config)
 log = logging.getLogger("bf_msg_manager")
 
 # msg_list = {"events": ["file_name"], "commands": ["file_name"]}

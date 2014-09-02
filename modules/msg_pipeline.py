@@ -7,8 +7,8 @@ from modules.msg_manager import MessageManager
 __author__ = 'alivinco'
 import json, os
 import configs.log
-import logging,logging.config
-logging.config.dictConfig(configs.log.config)
+import logging
+#logging.config.dictConfig(configs.log.config)
 log = logging.getLogger("bf_msg_pipeline")
 
 
