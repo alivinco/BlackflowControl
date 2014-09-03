@@ -5,7 +5,7 @@ import copy
 import logging
 # import logging.config
 from libs import jsonpath
-import configs.log
+# import configs.log
 
 
 # logging.config.dictConfig(configs.log.config)

@@ -6,7 +6,7 @@ import json
 import logging
 import time,socket
 
-import configs.log
+# import configs.log
 # logging.config.dictConfig(configs.log.config)
 log = logging.getLogger("bf_mqtt")
 

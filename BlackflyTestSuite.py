@@ -11,6 +11,8 @@ import json
 from flask import Flask, Response, redirect, url_for
 from flask import render_template
 from flask import request
+from modules.mod_tools import Tools
+
 from modules.mqtt_adapter import MqttAdapter
 from modules.msg_cache import MsgCache
 from modules.msg_manager import MessageManager
@@ -421,6 +423,34 @@ def dr_browser():
 
     return render_template('dr_device_browser.html',global_context=global_context)
 
+@app.route('/ui/tools',methods=["POST","GET"])
+def tools():
+    tools = Tools()
+    output = ""
+    try:
+        if request.method == "POST":
+            action = request.form["action"]
+            if action == "start_service":
+                service_name = request.form["service_name"]
+                output = tools.start_service(service_name)
+            elif action == "stop_service":
+                service_name = request.form["service_name"]
+                output = tools.stop_service(service_name)
+            elif action == "query_status":
+                service_name = request.form["service_name"]
+                output = tools.process_status(service_name)
+            elif action == "tail_log":
+                log_file = request.form["log_file"]
+                tail_size = request.form["tail_size"]
+                output = tools.tail_log(log_file,int(tail_size))
+
+        else :
+            pass
+    except Exception as ex :
+        output = str(ex)
+
+
+    return render_template('tools.html',output=output ,global_context=global_context)
 
 
 

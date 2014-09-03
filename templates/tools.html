@@ -1,0 +1,102 @@
+{% extends "base_layout.html" %}
+{% block li_msg_types %}{% endblock %}
+{% block body %}
+</h1>
+<h3 xmlns="http://www.w3.org/1999/html">System tools</h3>
+<div class="container-fluid">
+
+<form class="form-horizontal" role="form" action="" method="post">
+  <input type="hidden" name="action" value="start_service">
+  <div class="form-group">
+    <label for="service_name_id" class="col-sm-2 control-label">Start service</label>
+    <div class="col-sm-3">
+      <select name ="service_name" class="form-control" id="service_name_id">
+          <option selected="selected" >zwtadaemon</option>
+      </select>
+    </div>
+    <div class="col-sm-2">
+        <button type="submit" class="btn btn-default">Start</button>
+    </div>
+  </div>
+</form>
+
+<form class="form-horizontal" role="form" action="" method="post">
+  <input type="hidden" name="action" value="stop_service">
+  <div class="form-group">
+    <label for="service_name_id" class="col-sm-2 control-label">Stop service</label>
+    <div class="col-sm-3">
+      <select name ="service_name" class="form-control" id="service_name_id">
+          <option selected="selected" >zwtadaemon</option>
+      </select>
+    </div>
+    <div class="col-sm-2">
+        <button type="submit" class="btn btn-default">Stop</button>
+    </div>
+  </div>
+</form>
+
+<form class="form-horizontal" role="form" action="" method="post">
+  <input type="hidden" name="action" value="query_status">
+  <div class="form-group">
+    <label for="service_name_id" class="col-sm-2 control-label">Query process status</label>
+    <div class="col-sm-3">
+      <select name ="service_name" class="form-control" id="service_name_id">
+          <option selected="selected" value="zw_ta" >zwtadaemon</option>
+      </select>
+    </div>
+    <div class="col-sm-2">
+        <button type="submit" class="btn btn-default">Query</button>
+    </div>
+  </div>
+</form>
+
+<form class="form-horizontal" role="form" action="" method="post">
+  <input type="hidden" name="action" value="query_status">
+  <div class="form-group">
+    <label for="service_name_id" class="col-sm-2 control-label">Kill process</label>
+    <div class="col-sm-3">
+      <select name ="service_name" class="form-control" id="service_name_id">
+          <option selected="selected" value="zw_ta" >zwtadaemon</option>
+      </select>
+    </div>
+    <div class="col-sm-2">
+        <button type="submit" class="btn btn-default">Kill</button>
+    </div>
+  </div>
+</form>
+
+<form class="form-horizontal" role="form" action="" method="post">
+  <input type="hidden" name="action" value="tail_log">
+  <div class="form-group">
+    <label for="service_name_id" class="col-sm-2 control-label">Tail log</label>
+    <div class="col-sm-3">
+      <select name ="log_file" class="form-control" id="service_name_id">
+          <option selected="selected" value="/var/log/z-wave-dr.log" >/var/log/z-wave-dr.log</option>
+          <option selected="selected" value="/var/log/system.log" >/var/log/system.log</option>
+      </select>
+    </div>
+    <div class="col-sm-1">
+    <label for="service_name_id" class=" control-label">lines</label>
+    </div>
+    <div class="col-sm-1">
+
+      <input name ="tail_size" class="form-control" type="number" value="1000" />
+    </div>
+    <div class="col-sm-2">
+        <button type="submit" class="btn btn-default">View</button>
+    </div>
+  </div>
+</form>
+<h5>Output</h5>
+<pre>
+    {{ output }}
+</pre>
+
+
+</div>
+
+
+{% endblock %}
+{% block js_scripts %}
+
+{% endblock %}
