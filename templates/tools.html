@@ -65,38 +65,44 @@
   </div>
 </form>
 
-<form class="form-horizontal" role="form" action="" method="post">
+<form id="log_viewer_form" class="form-horizontal" role="form" action="/ui/logviewer" method="post">
   <input type="hidden" name="action" value="tail_log">
   <div class="form-group">
     <label for="service_name_id" class="col-sm-2 control-label">Tail log</label>
     <div class="col-sm-3">
       <select name ="log_file" class="form-control" id="service_name_id">
           <option selected="selected" value="/var/log/z-wave-dr.log" >/var/log/z-wave-dr.log</option>
-          <option selected="selected" value="/var/log/system.log" >/var/log/system.log</option>
+          <option  value="/var/log/system.log" >/var/log/system.log</option>
       </select>
     </div>
-    <div class="col-sm-1">
-    <label for="service_name_id" class=" control-label">lines</label>
-    </div>
-    <div class="col-sm-1">
-
-      <input name ="tail_size" class="form-control" type="number" value="1000" />
-    </div>
-    <div class="col-sm-2">
-        <button type="submit" class="btn btn-default">View</button>
-    </div>
   </div>
+    <div class="form-group">
+
+        <label for="service_name_id" class="col-sm-3 control-label">search</label>
+        <div class="col-sm-2">
+          <input name ="search" class="form-control" type="text" value="" />
+        </div>
+
+        <label for="service_name_id" class=" col-sm-1  control-label">limit</label>
+        <div class="col-sm-1">
+          <input name ="tail_size" class="form-control" type="number" value="1000" />
+        </div>
+
+        <div class="col-sm-2">
+            <button type="button" class="btn btn-default" onclick="load_logs()" >View</button>
+        </div>
+
+    </div>
+
 </form>
 <h5>Output</h5>
-<pre>
-    {{ output }}
-</pre>
-
+<pre>{{ output }}</pre>
+<div id="log_output">
 
 </div>
 
 
 {% endblock %}
 {% block js_scripts %}
-
+<script src="/static/js/tools.js"></script>
 {% endblock %}

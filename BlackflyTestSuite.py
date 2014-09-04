@@ -427,9 +427,11 @@ def dr_browser():
 def tools():
     tools = Tools()
     output = ""
+
     try:
         if request.method == "POST":
             action = request.form["action"]
+            log.info("Tools request.action="+action)
             if action == "start_service":
                 service_name = request.form["service_name"]
                 output = tools.start_service(service_name)
@@ -439,18 +441,26 @@ def tools():
             elif action == "query_status":
                 service_name = request.form["service_name"]
                 output = tools.process_status(service_name)
-            elif action == "tail_log":
-                log_file = request.form["log_file"]
-                tail_size = request.form["tail_size"]
-                output = tools.tail_log(log_file,int(tail_size))
 
-        else :
-            pass
+
     except Exception as ex :
         output = str(ex)
 
+    return render_template('tools.html',output=output ,global_context=global_context,autoescape=False)
 
-    return render_template('tools.html',output=output ,global_context=global_context)
+
+@app.route('/ui/logviewer',methods=["POST","GET"])
+def log_viewer():
+    tools = Tools()
+    log_file = request.form["log_file"]
+    tail_size = request.form["tail_size"]
+    search = request.form["search"]
+
+    output = tools.tail_log(log_file,int(tail_size),search)
+    output = "<pre>"+output+"</pre>"
+    return output
+
+
 
 
 

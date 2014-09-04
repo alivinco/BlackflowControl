@@ -46,13 +46,19 @@ class Tools():
 
         return ps
 
-    def tail_log(self, log_file,n_lines):
-        return subprocess.check_output("tail -"+str(n_lines)+" "+log_file, shell=True)
+    def tail_log(self, log_file,n_lines,search_str):
+        if search_str:
+            cmd_str = "tail -"+str(n_lines)+" "+log_file+"|grep "+search_str
+        else :
+            cmd_str = "tail -"+str(n_lines)+" "+log_file
+
+
+        return subprocess.check_output(cmd_str, shell=True)
 
 
 
 if __name__ == "__main__":
     t = Tools()
-    q = t.process_status("python")
-    for i in q:
-        print i
+    # q = t.process_status("python")
+    r = t.tail_log("/var/log/system.log",100,"")
+    print r
