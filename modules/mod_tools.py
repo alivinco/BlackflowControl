@@ -5,7 +5,7 @@ import subprocess
 
 class Tools():
     def start_service(self, service_name):
-        sp = subprocess.check_output("service " + service_name + " start", shell=True)
+        sp = subprocess.check_output("nohup service " + service_name + " start > /tmp/"+service_name+".log 2>&1 &", shell=True)
         return sp
 
     def stop_service(self, service_name):
