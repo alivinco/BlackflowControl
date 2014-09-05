@@ -25,6 +25,7 @@ import configs.log
 import logging,logging.config
 from configs import mqtt_broker_status_mapping
 from modules.mod_timeseries import Timeseries
+import re
 
 global_context = {}
 logging.config.dictConfig(configs.log.config)
@@ -90,6 +91,7 @@ def inter_console_ui():
     mode = request.args.get("mode","normal")
     filter_type = request.args.get("filter_type","address")
     log.info(filter_value)
+
     try :
         #msg_man.reload_all_mappings()
         if mode == "sim" :
@@ -97,10 +99,12 @@ def inter_console_ui():
         else :
             mapping = msg_man.generate_linked_mapping(msg_man.load_msg_class_mapping(), msg_man.load_address_mapping())
         if filter_value:
-           mapping = filter(lambda item: (filter_value in item["address"]),mapping)
+           p = re.compile(filter_value,re.IGNORECASE)
+           mapping = filter(lambda item: (p.search(item["address"])),mapping)
+
     except Exception as ex :
         log.exception(ex)
-    return render_template('inter_console.html', mapping=mapping,cache=cache,global_context=global_context,mode=mode)
+    return render_template('inter_console.html', mapping=mapping,cache=cache,global_context=global_context,mode=mode,filter_value=filter_value)
 
 @app.route('/ui/dashboard')
 def dashboard_ui():
@@ -441,6 +445,9 @@ def tools():
             elif action == "query_status":
                 service_name = request.form["service_name"]
                 output = tools.process_status(service_name)
+            elif action == "kill_process":
+                service_name = request.form["service_name"]
+                output = tools.kill_process(service_name)
 
 
     except Exception as ex :

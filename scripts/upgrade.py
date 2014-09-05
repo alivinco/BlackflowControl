@@ -41,8 +41,11 @@ def update_global_config():
     else :
         # jobj["db"]["db_path"] = "/tmp/timeseries.db"
         print "global.json is already up to date"
-    jobj["system"]["version"]="1.4"
-    jobj["mqtt"]["enable_sys"]=False
+    if "system" in jobj:
+        jobj["system"]["version"]="1.4.1"
+        jobj["mqtt"]["enable_sys"]=False
+    else :
+        print "******************* YOUR EXISTING BLACKFLY INSTALLATION IS TOO OLD.PLEASE DELETE EXISTING INSTALLATION AND RUN INSTALLATION AGAIN ******************"
     f = open(addr_path, "w")
     f.write(json.dumps(jobj, indent=True))
     f.close()

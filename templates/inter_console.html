@@ -12,10 +12,11 @@
 
 <form class="form-inline" role="form" method="get" action="inter_console" enctype="text/plain" >
   <div class="form-group">
-    <input type="text" class="form-control" size="30" id="filter_field" name="filter" placeholder="address"/>
+    <input type="text" class="form-control" size="50" id="filter_field" name="filter" value="{{ filter_value }}" placeholder="address"/>
     <input type="hidden" name="mode" value="{{ mode }}"/>
   </div>
    <button type="submit" class="btn btn-default">Filter</button>
+   <button class="btn btn-default" type="button" data-toggle="modal" data-target="#filter_help_modal">Help me</button>
 </form>
 
 
@@ -68,6 +69,31 @@
       </div>
       <div id = "free_text_placeholder" class="modal-body">
         <pre>...</pre>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{# Filterin help modal window  #}
+
+<div class="modal fade" id="filter_help_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Filtering help</h4>
+      </div>
+      <div class="modal-body">
+         Filtering field supports regular expression syntax .Here are some examples:
+         <p>/dev/zw/6/ - returns all sensors for device numeber 6</p>
+         <p> (sen_temp|sen_humidity) - returns all devices which are either sen_temp or sen_humidity </p>
+         <p> zw/\d*/(sen_temp|sen_humidity) - returns any zwave devices which has sen_temp or sen_humidity sensors  </p>
+         <p> /dev/zw/(35|40|3) - returns all entries for devices nr 35,40,3</p>
+         <p> \s*/zw/\d\d/bin_open - returns all zwave devices which has bin_open sensor. \s - any character , \d - any number</p>
+         <p><a href="http://www.regular-expressions.info/tutorial.html" target="_blank">More regexp tutorial you can find here. </a></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
