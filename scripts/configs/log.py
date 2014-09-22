@@ -64,6 +64,11 @@ config = {
             "handlers": ["default", "info_file_handler", "error_file_handler"],
             'level':'INFO',
             'propagate': True
+        },
+        'bf_timeseries':{
+            "handlers": ["default", "info_file_handler", "error_file_handler"],
+            'level':'DEBUG',
+            'propagate': True
         }
     }
 }
