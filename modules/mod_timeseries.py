@@ -61,9 +61,9 @@ class Timeseries():
 
     def do_rotation(self):
         print "Doing rotation after "+str(self.insert_counter)+" inserts"
-        # c = self.conn.cursor()
+        c = self.conn.cursor()
         count_result =  "select dev_id , count(dev_id) as count from timeseries group by dev_id "
-        self.conn.execute(count_result)
+        c.execute(count_result)
         for item in c.fetchall():
            if item[1] > self.max_messages_per_device:
               print "Device with Id = "+str(item[0])+" needs to be cleaned. Doing cleanup"
@@ -97,8 +97,8 @@ if __name__ == "__main__":
     t = Timeseries("timeseries.db")
     t.init_db()
     # t.insert(1,1.23442)
-    #print t.get(1, 0, 1504836694)
+    print t.get(46, 0, 2504836694,"dict",2)
     # t.delete_all_for_dev(1)
-    #t.do_rotation()
-    t.delete_all_for_dev([2,3])
+    # t.do_rotation()
+    #t.delete_all_for_dev([2,3])
     t.cleanup()
