@@ -5,102 +5,171 @@
 <h3 xmlns="http://www.w3.org/1999/html">System tools</h3>
 <div class="container-fluid">
 
-<form class="form-horizontal" role="form" action="" method="post">
-  <input type="hidden" name="action" value="start_service">
-  <div class="form-group">
-    <label for="service_name_id" class="col-sm-2 control-label">Start service</label>
-    <div class="col-sm-3">
-      <select name ="service_name" class="form-control" id="service_name_id">
-          <option selected="selected" >zwtadaemon</option>
-      </select>
-    </div>
-    <div class="col-sm-2">
-        <button type="submit" class="btn btn-default">Start</button>
-    </div>
-  </div>
-</form>
+<ul class="nav nav-tabs" role="tablist">
+    <li class="active"><a href="#services_tab" role="tab" data-toggle="tab">Services</a></li>
+    <li ><a href="#logs_tab" role="tab" data-toggle="tab">Logs</a></li>
+    <li ><a href="#updates_tab" role="tab" data-toggle="tab">Updates</a></li>
+</ul>
 
-<form class="form-horizontal" role="form" action="" method="post">
-  <input type="hidden" name="action" value="stop_service">
-  <div class="form-group">
-    <label for="service_name_id" class="col-sm-2 control-label">Stop service</label>
-    <div class="col-sm-3">
-      <select name ="service_name" class="form-control" id="service_name_id">
-          <option selected="selected" >zwtadaemon</option>
-      </select>
-    </div>
-    <div class="col-sm-2">
-        <button type="submit" class="btn btn-default">Stop</button>
-    </div>
-  </div>
-</form>
+<div class="tab-content">
 
-<form class="form-horizontal" role="form" action="" method="post">
-  <input type="hidden" name="action" value="query_status">
-  <div class="form-group">
-    <label for="service_name_id" class="col-sm-2 control-label">Query process status</label>
-    <div class="col-sm-3">
-      <select name ="service_name" class="form-control" id="service_name_id">
-          <option selected="selected" value="zw_ta" >zwtadaemon</option>
-      </select>
-    </div>
-    <div class="col-sm-2">
-        <button type="submit" class="btn btn-default">Query</button>
-    </div>
-  </div>
-</form>
+<div class="tab-pane active" id="services_tab">
+<br/>
 
-<form class="form-horizontal" role="form" action="" method="post">
-  <input type="hidden" name="action" value="kill_process">
-  <div class="form-group">
-    <label for="service_name_id" class="col-sm-2 control-label">Kill process</label>
-    <div class="col-sm-3">
-      <select name ="service_name" class="form-control" id="service_name_id">
-          <option selected="selected" value="zw_ta" >zwtadaemon</option>
-      </select>
-    </div>
-    <div class="col-sm-2">
-        <button type="submit" class="btn btn-default">Kill</button>
-    </div>
-  </div>
-</form>
-
-<form id="log_viewer_form" class="form-horizontal" role="form" action="/ui/logviewer" method="post">
-  <input type="hidden" name="action" value="tail_log">
-  <div class="form-group">
-    <label for="service_name_id" class="col-sm-2 control-label">Tail log</label>
-    <div class="col-sm-3">
-      <select name ="log_file" class="form-control" id="service_name_id">
-          <option selected="selected" value="/var/log/z-wave-drv.log" >/var/log/z-wave-drv.log</option>
-          <option  value="/var/log/system.log" >/var/log/system.log</option>
-      </select>
-    </div>
-  </div>
-    <div class="form-group">
-
-        <label for="service_name_id" class="col-sm-2 control-label">search</label>
+    <form class="form-horizontal" role="form" action="" method="post">
+      <input type="hidden" name="action" value="start_service">
+      <div class="form-group">
+        <label for="service_name_id" class="col-sm-2 control-label">Start service</label>
         <div class="col-sm-3">
-          <input name ="search" class="form-control" type="text" value="" />
+          <select name ="service_name" class="form-control" id="service_name_id">
+              <option selected="selected" >zwtadaemon</option>
+          </select>
         </div>
-
-        <label for="service_name_id" class=" col-sm-1  control-label">limit</label>
-        <div class="col-sm-1">
-          <input name ="tail_size" class="form-control" type="number" value="1000" />
-        </div>
-
         <div class="col-sm-2">
-            <button type="button" class="btn btn-default" onclick="load_logs()" >View</button>
+            <button type="submit" class="btn btn-default">Start</button>
         </div>
+      </div>
+    </form>
 
-    </div>
+    <form class="form-horizontal" role="form" action="" method="post">
+      <input type="hidden" name="action" value="stop_service">
+      <div class="form-group">
+        <label for="service_name_id" class="col-sm-2 control-label">Stop service</label>
+        <div class="col-sm-3">
+          <select name ="service_name" class="form-control" id="service_name_id">
+              <option selected="selected" >zwtadaemon</option>
+          </select>
+        </div>
+        <div class="col-sm-2">
+            <button type="submit" class="btn btn-default">Stop</button>
+        </div>
+      </div>
+    </form>
 
-</form>
-<h5>Output</h5>
-<pre>{{ output }}</pre>
-<div id="log_output">
+    <form class="form-horizontal" role="form" action="" method="post">
+      <input type="hidden" name="action" value="query_status">
+      <div class="form-group">
+        <label for="service_name_id" class="col-sm-2 control-label">Query process status</label>
+        <div class="col-sm-3">
+          <select name ="service_name" class="form-control" id="service_name_id">
+              <option selected="selected" value="zw_ta" >zwtadaemon</option>
+          </select>
+        </div>
+        <div class="col-sm-2">
+            <button type="submit" class="btn btn-default">Query</button>
+        </div>
+      </div>
+    </form>
+
+    <form class="form-horizontal" role="form" action="" method="post">
+      <input type="hidden" name="action" value="kill_process">
+      <div class="form-group">
+        <label for="service_name_id" class="col-sm-2 control-label">Kill process</label>
+        <div class="col-sm-3">
+          <select name ="service_name" class="form-control" id="service_name_id">
+              <option selected="selected" value="zw_ta" >zwtadaemon</option>
+          </select>
+        </div>
+        <div class="col-sm-2">
+            <button type="submit" class="btn btn-default">Kill</button>
+        </div>
+      </div>
+    </form>
+
+    <h5>Output</h5>
+    <pre>{{ output }}</pre>
 
 </div>
 
+<div class="tab-pane" id="logs_tab">
+    <br/>
+    <form id="log_viewer_form" class="form-horizontal" role="form" action="/ui/logviewer" method="post">
+      <input type="hidden" name="action" value="tail_log">
+      <div class="form-group">
+        <label for="service_name_id" class="col-sm-2 control-label">Tail log</label>
+        <div class="col-sm-3">
+          <select name ="log_file" class="form-control" id="service_name_id">
+              <option selected="selected" value="/var/log/z-wave-drv.log" >/var/log/z-wave-drv.log</option>
+              <option  value="/var/log/system.log" >/var/log/system.log</option>
+          </select>
+        </div>
+      </div>
+        <div class="form-group">
+
+            <label for="service_name_id" class="col-sm-2 control-label">search</label>
+            <div class="col-sm-3">
+              <input name ="search" class="form-control" type="text" value="" />
+            </div>
+
+            <label for="service_name_id" class=" col-sm-1  control-label">limit</label>
+            <div class="col-sm-1">
+              <input name ="tail_size" class="form-control" type="number" value="1000" />
+            </div>
+
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-default" onclick="load_logs()" >View</button>
+            </div>
+
+        </div>
+
+    </form>
+
+    <div id="log_output">
+
+    </div>
+</div>
+<div class="tab-pane" id="updates_tab">
+  <br/>
+  <h4>Currently installed version</h4>
+  <div class="row">
+    <div class="col-sm-2">Blackfly version:</div>
+    <div class="col-sm-2">1.4</div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">Branch:</div>
+    <div class="col-sm-2">develop</div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">Commit:</div>
+    <div class="col-sm-2">agfsfsagasfg</div>
+  </div>
+  <br/>
+  <h4>Versions available for update</h4>
+  <div class="row">
+    <div class="col-sm-2">Available stable commit:</div>
+    <div class="col-sm-2">321313</div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">Available develop commit:</div>
+    <div class="col-sm-2">agfsfsagasfg</div>
+  </div>
+
+
+
+  <br/>
+  <form class="form-horizontal" role="form" action="" method="post">
+      <input type="hidden" name="action" value="query_status">
+      <div class="form-group">
+        <label for="service_name_id" class="col-sm-2 control-label">Update blackfly to latest stable version</label>
+        <div class="col-sm-2">
+            <button type="submit" class="btn btn-default">Update</button>
+        </div>
+      </div>
+    </form>
+    <form class="form-horizontal" role="form" action="" method="post">
+      <input type="hidden" name="action" value="query_status">
+      <div class="form-group">
+        <label for="service_name_id" class="col-sm-2 control-label">Update blackfly to latest and greatest develop version</label>
+        <div class="col-sm-2">
+            <button type="submit" class="btn btn-default">Update</button>
+        </div>
+      </div>
+    </form>
+</div>
+
+</div>
+
+</div>
 
 {% endblock %}
 {% block js_scripts %}

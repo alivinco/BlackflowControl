@@ -44,6 +44,7 @@ def update_global_config():
     if "system" in jobj:
         jobj["system"]["version"]="1.4.1"
         jobj["mqtt"]["enable_sys"]=False
+        jobj["system"]["http_server_port"]=5000
     else :
         print "******************* YOUR EXISTING BLACKFLY INSTALLATION IS TOO OLD.PLEASE DELETE EXISTING INSTALLATION AND RUN INSTALLATION AGAIN ******************"
     f = open(addr_path, "w")

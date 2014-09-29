@@ -77,7 +77,13 @@ class Timeseries():
         finally:
             self.lock.release()
 
+
     def do_rotation(self):
+        """
+        The method performs database analysis and if number of datapoints for certain device is bigger then
+        max_messages_per_device then everything that exceeds max_messages_per_device is deleted .
+
+        """
         self.log.info("Performing db rotation after " + str(self.insert_counter) + " inserts")
         c = self.conn.cursor()
         count_result = "select dev_id , count(dev_id) as count from timeseries group by dev_id "
@@ -88,7 +94,7 @@ class Timeseries():
                 dev_id_to_clean = item[0]
                 self.conn.execute(
                     "delete from timeseries where rowid in (select rowid from timeseries where dev_id = ? order by timestamp asc LIMIT ?);",
-                    (item[0], self.rows_to_delete_per_cleanup))
+                    (dev_id_to_clean, self.rows_to_delete_per_cleanup))
                 self.conn.commit()
 
 

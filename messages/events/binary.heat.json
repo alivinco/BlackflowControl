@@ -3,10 +3,12 @@
     "creation_time": 1398600125,
     "event": {
         "@type": "binary",
+        "subtype": "heat",
         "default": {
             "value": true
         },
-        "subtype": "heat"
+        "properties": {"zw_event": 1}
+
     },
     "origin": {
         "@id": 7,

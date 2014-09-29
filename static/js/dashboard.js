@@ -20,7 +20,7 @@
 
 
 (function () {
-    var boxes_ = document.querySelectorAll('.panel');
+    var boxes_ = document.querySelectorAll('.movable');
     var dragSrcEl_ = null;
     this.handleDragStart = function (e) {
         e.dataTransfer.effectAllowed = 'move';

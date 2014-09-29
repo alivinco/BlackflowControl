@@ -335,6 +335,7 @@ class MessageManager:
         log.info("Serializing class mapping to file " + self.msg_class_mapping_file_path)
         f = open(self.msg_class_mapping_file_path, "w")
         f.write(json.dumps(self.msg_class_mapping, indent=True))
+
         f.close()
 
 

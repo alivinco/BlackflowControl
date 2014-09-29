@@ -11,6 +11,7 @@ import json
 from flask import Flask, Response, redirect, url_for
 from flask import render_template
 from flask import request
+from modules.mod_dashboards import DashboardManager
 from modules.mod_tools import Tools
 
 from modules.mqtt_adapter import MqttAdapter
@@ -36,6 +37,7 @@ app = Flask(__name__)
 msg_man = MessageManager()
 
 global_context["version"] = msg_man.global_configs["system"]["version"]
+http_server_port = msg_man.global_configs["system"]["http_server_port"]
 cache = MsgCache(msg_man)
 
 timeseries = Timeseries(msg_man.global_configs["db"]["db_path"])
@@ -56,6 +58,8 @@ except Exception as ex :
   log.error("application can't connect to message broker.")
   log.error(ex)
 
+
+dash_man = DashboardManager()
 
 @app.route('/')
 def red():
@@ -106,14 +110,18 @@ def inter_console_ui():
         log.exception(ex)
     return render_template('inter_console.html', mapping=mapping,cache=cache,global_context=global_context,mode=mode,filter_value=filter_value)
 
-@app.route('/ui/dashboard')
-def dashboard_ui():
+@app.route('/ui/dashboard/<dash_name>')
+def dashboard_ui(dash_name):
     log.info("Dashboard UI")
     try :
-         mapping = msg_man.generate_linked_mapping(msg_man.load_msg_class_mapping(), msg_man.load_address_mapping())
+         dash_man.load_dashboard_map()
+         mapping = msg_man.generate_linked_mapping(msg_man.msg_class_mapping, msg_man.address_mapping)
+         ext_mapping = dash_man.get_extended_dashboard_map(dash_name,mapping)
+         dash_map = dash_man.get_dashboard_map(dash_name)
+         grid_size = dash_man.get_dashboard_grid_size(dash_name)
     except Exception as ex :
         log.exception(ex)
-    return render_template('dashboard.html', mapping=mapping,cache=cache,global_context=global_context)
+    return render_template('dashboard.html', mapping=ext_mapping,dash_map=dash_map,grid_size=grid_size,cache=cache,global_context=global_context)
 
 @app.route('/ui/mqtt_broker_monitor')
 def mqtt_broker_monitor_ui():
@@ -472,4 +480,4 @@ def log_viewer():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",use_debugger=False,threaded=True,use_reloader=False)
+    app.run(host="0.0.0.0",port = http_server_port, use_debugger=False,threaded=True,use_reloader=False)

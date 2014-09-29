@@ -1,0 +1,16 @@
+{
+    "dash1":{
+       "name":"Dashboard1",
+       "layout_type":"grid",
+       "grid_map":{
+           "37":{"row":1,"col":1,"group":"default"},
+           "35":{"row":1,"col":2,"group":"default"},
+           "36":{"row":1,"col":3,"group":"default"},
+           "21":{"row":2,"col":1,"group":"default"},
+           "18":{"row":2,"col":2,"group":"default"}
+       },
+       "groups":{
+           "1_floor":{"name":"kitchen on 1 floor","description":"kitchen"}
+       }
+    }
+}

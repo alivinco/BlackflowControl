@@ -76,7 +76,16 @@
   }, 
   "msg_type": "event", 
   "msg_class": "sensor.temperature"
- }, 
+ },
+ {
+  "ui_mapping": {
+   "ui_element": "sensor_value",
+   "unit_path": "$.event.default.unit",
+   "value_path": "$.event.default.value"
+  },
+  "msg_type": "event",
+  "msg_class": "sensor.power"
+ },
  {
   "ui_mapping": {
    "ui_element": "binary_light", 
@@ -224,7 +233,16 @@
   }, 
   "msg_type": "event", 
   "msg_class": "sensor.humidity"
- }, 
+ },
+ {
+  "ui_mapping": {
+   "ui_element": "sensor_value",
+   "unit_path": "$.event.default.unit",
+   "value_path": "$.event.default.value"
+  },
+  "msg_type": "event",
+  "msg_class": "sensor.luminance"
+ },
  {
   "ui_mapping": {
    "ui_element": "free_text", 
@@ -270,7 +288,15 @@
   }, 
   "msg_type": "event", 
   "msg_class": "binary.tamper"
- }, 
+ },
+ {
+  "ui_mapping": {
+   "ui_element": "binary_light",
+   "value_path": "$.event.default.value"
+  },
+  "msg_type": "event",
+  "msg_class": "binary.generic"
+ },
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 

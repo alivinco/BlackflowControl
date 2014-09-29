@@ -39,7 +39,11 @@ echo "Copying init scripts"
 chmod a+x scripts/etc/init.d/blackfly
 chmod a+x BlackflyTestSuite.py
 cp  scripts/etc/init.d/blackfly_debian /etc/init.d/blackfly
-cp  scripts/configs/log.py configs/
+cp  scripts/configs/log_debian.py configs/log.py
+
+# Creating log dir
+mkdir /var/log/blackfly
+chown blackfly:blackfly /var/log/blackfly
 
 
 # address mapping replaced by fresh address mapping
