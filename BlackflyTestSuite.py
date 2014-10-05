@@ -425,6 +425,15 @@ def get_timeseries(dev_id,start,end,result_type):
     jobj = json.dumps(ts)
     return Response(response=jobj, mimetype='application/json')
 
+@app.route('/api/timeseries/timeline/<dev_id>/<start>/<end>/<limit>/<result_type>')
+def get_timeline(dev_id,start,end,result_type):
+    log.info("Inter console works")
+    filter_value = request.args.get("filter","")
+    limit = request.args.get("limit","")
+    ts = timeseries.get_timeline(msg_man.address_mapping,filter_value,limit,int(dev_id),int(start),int(end),result_type)
+    jobj = json.dumps(ts)
+    return Response(response=jobj, mimetype='application/json')
+
 
 @app.route('/ui/help/<page>')
 def help(page):

@@ -19,7 +19,9 @@
 //  });
 
 
-(function () {
+function init_dnd_handler()
+{
+
     var boxes_ = document.querySelectorAll('.movable');
     var dragSrcEl_ = null;
     this.handleDragStart = function (e) {
@@ -79,4 +81,14 @@
         box.addEventListener('drop', this.handleDrop, false);
         box.addEventListener('dragend', this.handleDragEnd, false);
     });
-})();
+
+}
+
+
+$(function() {
+  init_dnd_handler()
+
+  load_data()
+  start_pooling_cache()
+  initi_slider()
+});

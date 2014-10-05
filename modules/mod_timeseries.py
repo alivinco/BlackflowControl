@@ -1,5 +1,6 @@
 import datetime
 import logging
+import re
 
 __author__ = 'aleksandrsl'
 import sqlite3
@@ -121,30 +122,66 @@ class Timeseries():
         self.lock.release()
         return result
 
+    def get_timeline(self,address_mapping,filter_str,start,end,limit=2000,result_type="dict"):
+        result = []
+        if filter_str :
+            p = re.compile(filter_str,re.IGNORECASE)
+            mapping = filter(lambda item: (p.search(item["address"])),address_mapping)
+        else :
+            mapping = address_mapping
+        addr_id_list = []
+        for item in mapping : addr_id_list.append(str(item["id"]))
+
+        sql = "select dev_id,timestamp,value from timeseries where dev_id in ({seq}) and timestamp > ? and timestamp < ? order by timestamp desc LIMIT ?".format(seq=','.join(addr_id_list))
+        self.log.debug("Query sql = "+sql)
+
+        self.lock.acquire()
+        c = self.conn.cursor()
+        c.execute(sql,(start,end,limit))
+        fetch_result = c.fetchall()
+        c.close()
+        self.lock.release()
+
+        for item in fetch_result:
+            t_iso = datetime.datetime.fromtimestamp(item[1]).isoformat(" ")
+
+            if result_type == "dict":
+                map = filter(lambda m: (item[0]==m["id"]),mapping)[0]
+                result.append({"dev_id": item[0], "time": item[1], "time_iso": t_iso, "value": item[2],"name":map["name"],"address":map["address"]})
+
+        return result
+
+
 
 if __name__ == "__main__":
     import logging.config
     import configs.log
     logging.config.dictConfig(configs.log.config)
-    t = Timeseries("timeseries_seg_fault.db")
+    t = Timeseries("timeseries.db")
     # t.conn.execute("VACUUM")
     # t.conn.commit()
     t.init_db()
     # t.insert(1,1.23442)
+    from modules.msg_manager import MessageManager
+    msg_man = MessageManager()
 
-    print t.conn.execute("select count (*) from timeseries ").fetchone()
-    import threading
 
-    th = []
-    for i in range(1, 5):
-        t1 = threading.Thread(target=t.get, args=(21, 0, 2504836694, "array"))
-        t1.start()
-        th.append(t1)
-        print i
+    print t.get_timeline(msg_man.address_mapping,"/dev/zw/35/sen_temp/1/events", 0, 2504836694, 2000)
+    # print t.conn.execute("select count (*) from timeseries ").fetchone()
+    # import threading
+    #
+    # th = []
+    # for i in range(1, 5):
+    #     t1 = threading.Thread(target=t.get, args=(21, 0, 2504836694, "array"))
+    #     t1.start()
+    #     th.append(t1)
+    #     print i
+    #
+    # print "waiting"
+    # print t.get(21, 0, 2504836694, "array")
+    # print "Done"
 
-    print "waiting"
-    print t.get(21, 0, 2504836694, "array")
-    print "Done"
+
     # t.delete_all_for_dev(1)
     # t.do_rotation()
     #t.delete_all_for_dev([2,3])

@@ -7,9 +7,11 @@
            "35":{"row":1,"col":2,"group":"default"},
            "36":{"row":1,"col":3,"group":"default"},
            "21":{"row":2,"col":1,"group":"default"},
-           "18":{"row":2,"col":2,"group":"default"}
+           "18":{"row":2,"col":2,"group":"default"},
+           "40":{"row":3,"col":1,"group":"default"}
        },
        "groups":{
+           "default":{"name":"default","description":"default"},
            "1_floor":{"name":"kitchen on 1 floor","description":"kitchen"}
        }
     }

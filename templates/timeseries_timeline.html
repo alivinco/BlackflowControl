@@ -1,0 +1,39 @@
+{% extends "base_layout.html" %}
+{% block li_inter_console %}class="active"{% endblock %}
+{% block body %}
+</h1>
+<h3>Timeline</h3>
+<div class="container-fluid">
+
+<div class="table-responsive">
+ <table id="addr_map_table" class="table table-striped">
+     <thead>
+        <tr>
+            <th>Timestamp</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Value </th>
+        </tr>
+     </thead>
+     <tbody>
+     {% for item in ts |sort(attribute="time",reverse=True) %}
+      <tr>
+       <td> {{ item.time_iso }} </td>
+       <td> {{ item.name }}</td>
+       <td> {{ item.address }}</td>
+       <td> {{ item.value }}</td>
+      </tr>
+      {% endfor %}
+     </tbody>
+
+ </table>
+</div>
+</div>
+
+
+{% endblock %}
+{% block js_scripts %}
+    <script src="/static/js/stupidtable.min.js"></script>
+
+
+{% endblock %}

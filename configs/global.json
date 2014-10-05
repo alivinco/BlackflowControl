@@ -5,16 +5,17 @@
   "enable_sys": false, 
   "global_topic_prefix": "", 
   "host": "127.0.0.1",
-  "client_id": "blackfly_test_suite_3", 
+  "client_id": "blackfly_test_suite_3",
   "password": "Lyse3124", 
   "port": "1883"
  }, 
  "db": {
   "timeseries_enabled": true, 
-  "db_path": "/tmp/timeseries.db"
+  "db_path": "timeseries.db"
  }, 
  "system": {
-  "version": "1.4"
+  "version": "1.4.2",
+  "http_server_port":5000
  }, 
  "defaults": {
   "event_value_path_for_new_class": "$.event.default.value", 
