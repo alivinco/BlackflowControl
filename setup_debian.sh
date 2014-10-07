@@ -36,7 +36,7 @@ else
 fi
 
 echo "Copying init scripts"
-chmod a+x scripts/etc/init.d/blackfly
+chmod a+x scripts/etc/init.d/blackfly_debian
 chmod a+x BlackflyTestSuite.py
 cp  scripts/etc/init.d/blackfly_debian /etc/init.d/blackfly
 cp  scripts/configs/log_debian.py configs/log.py
