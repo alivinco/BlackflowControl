@@ -2,20 +2,15 @@
    "@context" : "http://smartly.no/context",
    "origin" :
       {
-         "@type" : "app",
-         "@id" : "installer"
+         "@type" : "dr",
+         "@id" : "dr"
       },
    "command" :
       {
          "@type" : "zw_ta",
-         "subtype" : "set_dev_id",
+         "subtype" : "get_dead_node_list",
          "default" : {
                "value" : null
-            },
-         "properties" :
-            {
-             "node_id":{"value":2},
-             "new_dev_id":{"value":3}
             },
          "target" : "/ta/zw/commands"
       },

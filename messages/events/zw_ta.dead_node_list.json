@@ -1,0 +1,18 @@
+{
+   "origin": {
+        "@id": "1234",
+        "@type": "app",
+        "location": "server",
+        "vendor": "Lyse"
+    },
+    "event": {
+        "@type": "zw_ta",
+        "subtype": "dead_node_list",
+        "default": {"value": ["2","3","4"]}
+        }
+    },
+    "spid": "S-451-12",
+    "corid": "86f93c70-6c47-4cfc-91eb-30d3b069e417",
+    "creation_time": 1406709356,
+    "uuid": "daf5375b-b034-4003-b709-6f2fab336efc"
+}
