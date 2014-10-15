@@ -58,8 +58,12 @@ function init_dnd_handler()
             dragSrcEl_.innerHTML = this.innerHTML;
             this.innerHTML = e.dataTransfer.getData('text/html');
         }
-        console.log(this.id)
-        console.log(dragSrcEl_.id)
+        target_element_id = this.id
+        source_element_id = dragSrcEl_.id
+
+        console.log("Moving element :"+source_element_id)
+        console.log("Moving moving to  :"+target_element_id)
+
         return false;
     };
     this.handleDragEnd = function (e) {

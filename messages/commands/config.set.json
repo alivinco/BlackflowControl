@@ -13,7 +13,7 @@
                             "default" : { 
                                 "value" : null
                             }, 
-                            "target" : "/dev/zw/14/lvl_dimmer/1/events",
+                            "target" : "/dev/zw/2/dev_sys/1/commands",
                             "properties" : {
                                         "your_param" : {"value" : 99 }
                                         }

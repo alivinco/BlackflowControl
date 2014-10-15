@@ -10,8 +10,11 @@
          "@type" : "zw_ta",
          "subtype" : "get_dead_node_list",
          "default" : {
-               "value" : null
+               "value" : true
             },
+          "properties":{
+              "probe_network":{"value":true}
+          },
          "target" : "/ta/zw/commands"
       },
    "creation_time" : 1385815582,
