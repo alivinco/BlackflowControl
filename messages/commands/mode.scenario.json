@@ -1,0 +1,21 @@
+{
+   "@context" : "http://smartly.no/context",
+   "origin" :
+      {
+         "@type" : "app",
+         "@id" : "door_connection",
+         "vendor" : "Smartly"
+      },
+   "command" :
+      {
+         "@type" : "mode",
+         "subtype" : "scenario",
+         "default" :
+            {
+               "value" : "normal"
+            }
+      },
+   "creation_time" : 1385815582,
+   "uuid" : "86f93c70-6c47-4cfc-91eb-30d3b069e417",
+   "spid" : "S-451-12"
+}

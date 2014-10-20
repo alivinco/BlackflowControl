@@ -12,12 +12,11 @@
         "subtype" : "list_all_devices",
         "default" :
         {
-            "@type" : "single",
             "value" : true
         },
         "properties" :
         {
-            "value" : "filter",
+            "value" : "filter1",
             "search" :
             {
                 "device_info" :

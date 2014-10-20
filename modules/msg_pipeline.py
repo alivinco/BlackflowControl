@@ -17,25 +17,40 @@ class MsgPipeline():
         self.msg_man = msg_man
         self.cache = cache
         self.timeseries = timeseries
+        self.sync_async_client = None
         #[{"type":"single","event_path":"$.event.type","command_path":"$.event.type","priority":1}]
-
+    def set_sync_async_client(self,sync_async_client):
+        self.sync_async_client = sync_async_client
 
     def process_event(self, address, payload):
-        # validate message if that belongs to any of known msg_classes and address mapping
-        # if belongs then put to cache .
-        # if message fail to validate :
-        # if message belongs to known class but not found in address mapping
-        # then add to mapping  and notify user
-        # if message doesn't belong to any know class then :
-        # than try to look up known path
-        #      try to check message elements against message class list
-        # notify user
-        # if known pass exist , then ask user if the message class is correct then
-        # add class and address into mapping
-        # user can enter path manually and retry validation
-        # if everything fails then add message to error_cache
+        """
+        validate message if that belongs to any of known msg_classes and address mapping
+        if belongs then put to cache .
+        if message fail to validate :
+        if message belongs to known class but not found in address mapping
+         then add to mapping  and notify user
+        if message doesn't belong to any know class then :
+         than try to look up known path
+              try to check message elements against message class list
+         notify user
+        if known pass exist , then ask user if the message class is correct then
+         add class and address into mapping
+         user can enter path manually and retry validation
+         if everything fails then add message to error_cache
+         payload can be event or command
 
-        # mqtt broker system message
+        :param address: mqtt topic
+        :param payload: mqtt payload converted into json object
+        :return:
+        """
+        try :
+            # checking is message is response to request
+            self.sync_async_client.on_message(address,payload)
+        except Exception as ex :
+            log.error("SyncToAsyncMsgConverter error")
+            log.error(ex)
+
+         # mqtt broker system message
         if "$SYS" in address :
             self.cache.put_generic(address,payload)
             return {"success":True,"code":0}
@@ -97,7 +112,7 @@ class MsgPipeline():
         log.info("New command entered message pipeline")
         msg_class = self.__get_msg_class_from_msg(payload)
         log.info("Msg class = "+str(msg_class))
-        self.__update_static_part_of_message(payload,address)
+        self.update_static_part_of_message(payload,address)
         mqtt.publish(address,json.dumps(payload),1)
 
         exdt = self.__extract_data(address,msg_class,payload)
@@ -135,7 +150,7 @@ class MsgPipeline():
 
         return None
 
-    def __update_static_part_of_message(self,payload,topic = "/dev/default"):
+    def update_static_part_of_message(self,payload,topic = "/dev/default"):
         payload["origin"]["@type"]="app"
         payload["origin"]["@id"]="blackfly"
         payload["origin"]["vendor"]="blackfly"

@@ -7,12 +7,16 @@
 
 <table class="table table-bordered">
   <thead>
-    <tr>
-        <th>Id</th>
-        <th>Address</th>
-        <th>SerialNumber</th>
-        <th>Name</th>
+    {% for key,value in dr_response.iteritems() %}
+    {% if loop.first %}
+     <tr>
+        <th>{{ key }}</th>
     </tr>
+    {% endif %}
+    <tr>
+        <td>{{ value }}</td>
+    </tr>
+    {% endfor %}
   </thead>
 </table>
 

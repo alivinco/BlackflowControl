@@ -43,12 +43,14 @@ class SenderClient(threading.Thread):
 
     def run(self):
         msg = {"payload": "test" + self.name, "corid": self.name}
-        print "Waiting for response . Test id = "+self.name
-
-        resp = self.conv.send_sync_msg(msg, REQUEST_TOPIC, RESPONSE_TOPIC, 10)
+        print "Waiting for response .Correlation id is provided Test id = "+self.name
+        resp = self.conv.send_sync_msg(msg, REQUEST_TOPIC, RESPONSE_TOPIC, 10 ,generate_corrid=True)
         print "Response : test id = " + self.name + " response msg = " + str(resp)
 
-
+        msg = {"payload": "test" + self.name }
+        print "Waiting for response .Correlation id is generated Test id = "+self.name
+        resp = self.conv.send_sync_msg(msg, REQUEST_TOPIC, RESPONSE_TOPIC, 10 ,generate_corrid=True)
+        print "Response : test id = " + self.name + " response msg = " + str(resp)
 
 class TestSyncToAsyncMsgConverter(TestCase):
     def setUp(self):

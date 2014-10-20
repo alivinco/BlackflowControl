@@ -24,6 +24,17 @@
 
             </div>
           {% endif %}
+          {% if item.ui_mapping.ui_element=="input_text_field" %}
+            <div id="{{ item.key }}">
+                <div class="input-group">
+                  <input id="{{ item.key }}_input" type="text" class="form-control">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default"  onclick="send_command('{{ item.key }}','input_text_field',''); return false" type="button">Set</button>
+                  </span>
+                </div>
+
+            </div>
+          {% endif %}
           {% if item.ui_mapping.ui_element=="slider" %}
             <div id="{{ item.key }}">
                 <div class="input-group">

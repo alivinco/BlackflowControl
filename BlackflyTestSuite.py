@@ -28,6 +28,8 @@ from configs import mqtt_broker_status_mapping
 from modules.mod_timeseries import Timeseries
 import re
 
+from libs.sync_to_async_msg_converter import SyncToAsyncMsgConverter
+
 global_context = {}
 logging.config.dictConfig(configs.log.config)
 log = logging.getLogger("bf_web")
@@ -58,6 +60,8 @@ except Exception as ex :
   log.error("application can't connect to message broker.")
   log.error(ex)
 
+sync_async_client = SyncToAsyncMsgConverter(mqtt)
+msg_pipeline.set_sync_async_client(sync_async_client)
 
 dash_man = DashboardManager()
 
@@ -441,8 +445,13 @@ def help(page):
 
 @app.route('/ui/dr_browser')
 def dr_browser():
-
-    return render_template('dr_device_browser.html',global_context=global_context)
+    log.info("Device registry browser")
+    msg = msg_man.load_template_by_key("dr.list_all_devices@command")
+    log.info(msg)
+    msg_pipeline.update_static_part_of_message(msg,"/app/devicereg/handler/1/commands@")
+    response = sync_async_client.send_sync_msg(msg,"/app/devicereg/handler/1/commands","/app/devicereg/handler/1/events")
+    log.info("response :"+str(response))
+    return render_template('dr_device_browser.html',dr_response=response,global_context=global_context)
 
 @app.route('/ui/tools',methods=["POST","GET"])
 def tools():
@@ -483,9 +492,6 @@ def log_viewer():
     output = tools.tail_log(log_file,int(tail_size),search)
     output = "<pre>"+output+"</pre>"
     return output
-
-
-
 
 
 if __name__ == '__main__':

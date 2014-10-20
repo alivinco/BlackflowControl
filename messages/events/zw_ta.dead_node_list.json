@@ -1,4 +1,5 @@
 {
+   "@context": "http://smartly.no/context",
    "origin": {
         "@id": "1",
         "@type": "zw_ta"

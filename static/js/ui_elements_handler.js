@@ -39,7 +39,12 @@ function send_command(key,ui_type,value)
 //        console.log(typeof val)
 //        console.log("var:"+val)
 
-    }else if (ui_type=="msg_class_ui")
+    }else if (ui_type=="input_text_field")
+    {
+        val = $("#"+jq_elector(key+"_input")).val()
+    }
+
+    else if (ui_type=="msg_class_ui")
     {
        div_el = $("#"+jq_elector(key))
        user_params = {}
