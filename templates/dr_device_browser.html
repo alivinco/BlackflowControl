@@ -5,19 +5,94 @@
 <h3>Device registry browser</h3>
 <div class="container-fluid">
 
-<table class="table table-bordered">
-  <thead>
-    {% for key,value in dr_response.iteritems() %}
-    {% if loop.first %}
-     <tr>
-        <th>{{ key }}</th>
-    </tr>
-    {% endif %}
-    <tr>
-        <td>{{ value }}</td>
-    </tr>
-    {% endfor %}
-  </thead>
+<table class="table table-bordered table-striped table-hover">
+   <thead>
+      <tr>
+        <th>Id</th>
+        <th>IntegrationId</th>
+        <th>Address</th>
+        <th>SerialNumber</th>
+        <th>Name</th>
+        <th>Alias</th>
+        <th>Endpoints</th>
+        <th>Comm Tech</th>
+        <th>Manufacturer</th>
+        <th>HardwareVersion</th>
+        <th>SoftwareVersion</th>
+        <th>ProtocolVersion</th>
+        <th>ProductId</th>
+        <th>ProductTypeID</th>
+        <th>Status</th>
+        <th>LastErrorMsg</th>
+        <th>FirstUseDate</th>
+        <th>LastUpdate</th>
+        <th>SecurityLevel</th>
+
+
+      </tr>
+   </thead>
+   <tbody>
+   {%  for device in dr_response.event.properties.device_list.value %}
+      <tr>
+        <td rowspan="2" >{{ device.Id }}</td>
+        <td>{{ device.IntegrationId }}</td>
+        <td>{{ device.Address }}</td>
+        <td>{{ device.SerialNumber }}</td>
+        <td>{{ device.Name }}</td>
+        <td>{{ device.Alias }}</td>
+        <td><a data-toggle="collapse" href="#endpoints_{{ device.Id }}">Show</a></td>
+        <td>{{ device.CommunicationTechnology }}</td>
+        <td>{{ device.Manufacturer }}</td>
+        <td>{{ device.HardwareVersion }}</td>
+        <td>{{ device.SoftwareVersion }}</td>
+        <td>{{ device.ProtocolVersion }}</td>
+        <td>{{ device.ProductId }}</td>
+        <td>{{ device.ProductTypeID }}</td>
+        <td>{{ device.Status }}</td>
+        <td>{{ device.LastErrorMsg }}</td>
+        <td>{{ device.FirstUseDate }}</td>
+        <td>{{ device.LastUpdate }}</td>
+        <td>{{ device.SecurityLevel }}</td>
+
+      </tr>
+     <tr><td colspan="18" >
+
+        <div id="endpoints_{{ device.Id }}" class="panel-collapse collapse ">
+          <div class="panel-heading">
+            <h5>List of Endpoints</h5>
+          </div>
+          <div class="panel-body">
+              <table class="table table-condensed table-bordered">
+                  <thead>
+                  <tr><th>Id</th>
+                      <th>Type</th>
+                      <th>Uri</th>
+                      <th>Capabilities</th>
+
+                      <th>Property</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                   {% for endp in device.EndPoint %}
+                    <tr><td>{{ endp.Id }}</td>
+                        <td>{{ endp.Type }}</td>
+                        <td>{{ endp.Uri }}</td>
+                        <td>{{ endp.Capabilities }}</td>
+
+                        <td>{{ endp.Property }}</td></tr>
+                   {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+        </div>
+        <div id="collapseLocation" class="panel-collapse collapse">
+          <div class="panel-body">
+              Location
+          </div>
+        </div>
+     </td> </tr>
+   {% endfor %}
+  <tbody>
 </table>
 
 </div>

@@ -448,7 +448,7 @@ def dr_browser():
     log.info("Device registry browser")
     msg = msg_man.load_template_by_key("dr.list_all_devices@command")
     log.info(msg)
-    msg_pipeline.update_static_part_of_message(msg,"/app/devicereg/commands@")
+    msg_pipeline.update_static_part_of_message(msg,"/app/devicereg/commands")
     response = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events")
     log.info("response :"+str(response))
     return render_template('dr_device_browser.html',dr_response=response,global_context=global_context)
