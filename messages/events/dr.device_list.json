@@ -1,88 +1,46 @@
-{
-    "corid": "86f93c70-6c47-4cfc-91eb-30d3b069e417",
-    "creation_time": 1406709356,
-    "event": {
-        "@type": "dr",
-        "default": {
-            "@type": "single",
-            "value": ""
-        },
-        "properties": {
-            "device_registry": [
+{"origin": {
+    "vendor": "Lyse",
+    "@id": 1234,
+    "@type": "app",
+    "location": "server"
+    },
+    "uuid": "4afe7ed1-3ff4-4e8e-9713-e29de44eb901", "creation_time": 1413967506, "spid": "UNDEFINED", "@context": "http://smartly.no/context", "corid": "a078ecff-b684-4f3e-9112-eba9bac13c34", "event": {
+    "default": "",
+    "subtype": "device_list",
+    "@type": "dr",
+    "properties": {
+        "device_list": {
+            "value": [
                 {
-                    "device_info": {
-                        "address": 16,
-                        "alias": "",
-                        "comm_technology": "zw",
-                        "first_use_date": "2014-07-30 10:35:53.718016",
-                        "hw_version": "1.0",
-                        "id": 1,
-                        "last_error_msg": "",
-                        "last_update": "",
-                        "manufacturer": "0002",
-                        "name": "",
-                        "product_id": "will_be_implemented",
-                        "product_type_id": "",
-                        "protocol_version": "",
-                        "security_level": "",
-                        "serial_number": null,
-                        "status": "",
-                        "sw_version": ""
+                    "LastUpdate": "2014-10-22T10:42:41",
+                    "PowerDescriptor": {},
+                    "Network": {},
+                    "Property": [],
+                    "Id": 1,
+                    "Manufacturer": "9999",
+                    "ProductTypeId": "type_test",
+                    "HardwareVersion": "2.1",
+                    "Location": {
+                        "Room": "Living room",
+                        "Floor": "1st floor"
                     },
-                    "endpoints": [
+                    "Address": "32",
+                    "IntegrationId": "ABAB123456",
+                    "FirstUseDate": "2014-10-22T10:42:41",
+                    "EndPoint": [
                         {
-                            "alias": "",
-                            "capabilities": [
-                                "command_class_1",
-                                "command_class_2"
-                            ],
-                            "description": "",
-                            "id": 1,
-                            "parent_endpoint_id": "",
-                            "type": "sen_temp",
-                            "uri": "/dev/zw/16/sen_temp/1"
-                        },
-                        {
-                            "alias": "",
-                            "capabilities": [
-                                "command_class_1",
-                                "command_class_2"
-                            ],
-                            "description": "",
-                            "id": 1,
-                            "parent_endpoint_id": "",
-                            "type": "lvl_thermostat",
-                            "uri": "/dev/zw/16/lvl_thermostat/1"
+                            "Uri": "/dev/zw/23/sen_temp/1",
+                            "Capabilities": ["COMMAND_CLASS_MANUFACTURER_SPECIFIC", "command1"],
+                            "Alias": "test_thermostat",
+                            "Property": [],
+                            "Type": "lvl_thermostat",
+                            "Id": "23"
                         }
                     ],
-                    "location": {
-                        "floor": "",
-                        "name": "",
-                        "room": "",
-                        "zone": ""
-                    },
-                    "network": {
-                        "id": "",
-                        "neighbors": "",
-                        "paired": ""
-                    },
-                    "power_descriptor": {
-                        "available_power_source": "",
-                        "current_power_source": "",
-                        "current_power_source_level": ""
-                    },
-                    "properties": []
+                    "ProductId": "alarm_test",
+                    "CommunicationTechnology": "zw"
                 }
             ]
-        },
-        "subtype": "device_list"
-    },
-    "origin": {
-        "@id": "1234",
-        "@type": "app",
-        "location": "server",
-        "vendor": "Lyse"
-    },
-    "spid": "S-451-12",
-    "uuid": "daf5375b-b034-4003-b709-6f2fab336efc"
-}
+        }
+    }
+}}

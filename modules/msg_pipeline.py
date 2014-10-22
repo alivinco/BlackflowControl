@@ -13,11 +13,14 @@ log = logging.getLogger("bf_msg_pipeline")
 
 
 class MsgPipeline():
+    address_check = {"not_registered":0,"registered":1,"registered_with_class":2}
+
     def __init__(self, msg_man,cache,timeseries=None):
         self.msg_man = msg_man
         self.cache = cache
         self.timeseries = timeseries
         self.sync_async_client = None
+
         #[{"type":"single","event_path":"$.event.type","command_path":"$.event.type","priority":1}]
     def set_sync_async_client(self,sync_async_client):
         self.sync_async_client = sync_async_client
@@ -58,17 +61,19 @@ class MsgPipeline():
         log.info("New event is entering message processing pipeline")
         msg_class_is_registered = False
         cache_key = ""
-        addr_is_registered = self.__check_address(address)
+        addr_is_registered = False
         msg_class = self.__get_msg_class_from_msg(payload)
         if msg_class :
            msg_class_is_registered = self.__check_msg_class(msg_class)
            cache_key = self.msg_man.generate_key(msg_class,address)
+           if msg_class_is_registered:
+                addr_is_registered = self.__check_address(address,msg_class)
         else :
            log.error("The system can't identify message class . Therefore message processing stoped and the message will be skipped.")
            log.debug( json.dumps(payload,indent=True))
 
-        if addr_is_registered and msg_class_is_registered:
-            # message is known and registered in system
+        if addr_is_registered :
+            # combination of message class and address is registered within the system system
             exdt = self.__extract_data(address,msg_class,payload)
             self.__update_timeseries(exdt)
             self.cache.put(cache_key,payload,exdt["ui_mapping"],exdt["extracted_values"])
@@ -169,8 +174,8 @@ class MsgPipeline():
 
 
 
-    def __check_address(self, address):
-        r = filter(lambda map_item: (map_item["address"] == address ), self.msg_man.address_mapping)
+    def __check_address(self, address,msg_class):
+        r = filter(lambda map_item: (map_item["address"] == address and map_item["msg_class"]==msg_class ), self.msg_man.address_mapping)
         if len(r) > 0:
             return True
         else:
