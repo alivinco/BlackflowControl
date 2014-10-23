@@ -22,6 +22,7 @@
                       <th  data-sort="string">msg class (↑↓)</th>
                       <th  data-sort="string">type (↑↓)</th>
                       <th  data-sort="string">address (↑↓)</th>
+                      <th  >record history</th>
                       <th>action</th>
                     </tr>
      </thead>
@@ -33,6 +34,7 @@
        <td> {{ item.msg_class }} </td>
        <td> {{ item.msg_type }} </td>
        <td > {{ item.address }} </td>
+       <td > {{ item.record_history }} </td>
        <td> <a onclick="location.href='/ui/address_map/{{ item.key }}'">edit</a>   |   <a href="#" onclick="remove_address('{{ item.id }}')" >delete</a>   </td>
 
       </tr>

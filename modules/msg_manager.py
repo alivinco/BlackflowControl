@@ -232,7 +232,7 @@ class MessageManager:
                 self.set_value_to_msg(msg_template, path, v)
         return msg_template
 
-    def update_address_mapping(self, key, name, msg_class, msg_type, address,override_properties="",override_value_path=""):
+    def update_address_mapping(self, key, name, msg_class, msg_type, address,override_properties="",override_value_path="",record_history=False):
         if key:
             item = filter(lambda addr: (addr["key"] == key ), self.address_mapping)[0]
             item["msg_class"] = msg_class
@@ -241,10 +241,11 @@ class MessageManager:
             item["msg_type"] = msg_type
             item["override_properties"]=override_properties
             item["override_value_path"]=override_value_path
+            item["record_history"] = record_history
             log.info("Address mapping updated with " + str(item))
         else :
             new_id = self.get_new_addr_id()
-            self.address_mapping.append({"id":new_id,"msg_class": msg_class, "address": address, "name": name, "msg_type": msg_type, "override_properties":override_properties,"override_value_path":override_value_path,"key": self.generate_key(msg_class, address)})
+            self.address_mapping.append({"id":new_id,"msg_class": msg_class, "address": address, "name": name, "msg_type": msg_type,"record_history":record_history, "override_properties":override_properties,"override_value_path":override_value_path,"key": self.generate_key(msg_class, address)})
 
         self.serialize_address_mapping()
 
@@ -256,9 +257,9 @@ class MessageManager:
         addr_map = self.load_address_mapping()
         new_id = self.get_new_addr_id()
         if "event" in address :
-            addr_map.append({"id":new_id,"msg_class": msg_class, "address": address, "name": msg_class, "msg_type": "event", "group_name": "","key": self.generate_key(msg_class, address)})
+            addr_map.append({"id":new_id,"msg_class": msg_class, "address": address, "name": msg_class, "msg_type": "event","record_history":False, "group_name": "","key": self.generate_key(msg_class, address)})
         elif "command" in address :
-            addr_map.append({"id":new_id,"msg_class": msg_class, "address": address, "name": msg_class, "msg_type": "command", "group_name": "","key": self.generate_key(msg_class, address)})
+            addr_map.append({"id":new_id,"msg_class": msg_class, "address": address, "name": msg_class, "msg_type": "command", "group_name": "","record_history":False,"key": self.generate_key(msg_class, address)})
 
         self.address_mapping = addr_map
         self.serialize_address_mapping()

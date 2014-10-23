@@ -1,4 +1,5 @@
 import datetime
+import json
 import logging
 import re
 
@@ -29,10 +30,13 @@ class Timeseries():
     def init_db(self):
         # check if tables exists , if not create one
         timeseries_table = "create table if not exists timeseries (timestamp integer , dev_id integer , value real )"
+        msg_history_table = "create table if not exists msg_history (timestamp integer , dev_id,msg_class text,address text , msg blob )"
         self.conn.execute(timeseries_table)
+        self.conn.execute(msg_history_table)
 
     def cleanup(self):
         self.conn.close()
+
 
     def insert(self, dev_id, value, precision=None):
         try:
@@ -53,6 +57,22 @@ class Timeseries():
                     self.insert_counter = 0
         except Exception as ex:
             self.log.error("Timeseries can't be inserted because of error:")
+            self.log.error(ex)
+        finally:
+            self.lock.release()
+
+    def insert_msg_history(self, dev_id,msg_class,address, msg):
+        try:
+            msg = json.dumps(msg)
+            self.lock.acquire()
+            if self.is_enabled:
+                timestamp = int(time.time())
+
+                self.conn.execute("INSERT into msg_history(timestamp,dev_id,msg_class,address,msg) values(?,?,?,?,?)",
+                                  (timestamp, dev_id, msg_class , address , msg))
+                self.conn.commit()
+        except Exception as ex:
+            self.log.error("Msg history can't be inserted because of error:")
             self.log.error(ex)
         finally:
             self.lock.release()
@@ -99,7 +119,7 @@ class Timeseries():
                 self.conn.commit()
 
 
-    def get(self, dev_id, start, end, result_type="dict", ):
+    def get(self, dev_id, start, end, result_type="dict" ):
         self.lock.acquire()
         c = self.conn.cursor()
 
@@ -150,6 +170,34 @@ class Timeseries():
                 result.append({"dev_id": item[0], "time": item[1], "time_iso": t_iso, "value": item[2],"name":map["name"],"address":map["address"]})
 
         return result
+
+    def get_msg_history(self, dev_id, start, end, result_type="dict"):
+        self.lock.acquire()
+        c = self.conn.cursor()
+
+        result = []
+        if dev_id:
+            iter = c.execute(
+                "select dev_id,timestamp,msg_class,address,msg from msg_history where dev_id = ? and timestamp > ? and timestamp < ? ",
+                (dev_id, start, end))
+        else:
+            iter = c.execute("select dev_id,timestamp,msg_class,address,msg from msg_history where  timestamp > ? and timestamp < ? ",
+                             (start, end))
+        result = []
+        for item in iter:
+            t_iso = datetime.datetime.fromtimestamp(item[1]).isoformat(" ")
+            try:
+                msg = json.loads(item[4])
+            except :
+                msg = ""
+            if result_type == "dict":
+                result.append({"dev_id": item[0], "time": item[1], "time_iso": t_iso, "msg_class": item[2],"address": item[3],"msg": msg})
+            elif result_type == "array":
+                result.append([item[1] * 1000, msg])
+        c.close()
+        self.lock.release()
+        return result
+
 
 
 

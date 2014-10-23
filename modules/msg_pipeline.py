@@ -75,6 +75,7 @@ class MsgPipeline():
         if addr_is_registered :
             # combination of message class and address is registered within the system system
             exdt = self.__extract_data(address,msg_class,payload)
+            self.__record_history(exdt,address,msg_class,payload)
             self.__update_timeseries(exdt)
             self.cache.put(cache_key,payload,exdt["ui_mapping"],exdt["extracted_values"])
             log.info("Message class = "+msg_class+" and address = "+address+" are known to the system")
@@ -222,6 +223,7 @@ class MsgPipeline():
                         log.debug("Extracted data is = "+str(ex_value))
                         extracted_values[key.replace("_path","")]=ex_value
             extracted_values["dev_id"] = address_map["id"]
+            extracted_values["record_history"] = address_map["record_history"]
         except Exception as ex :
             #default value
             ui_mapping["ui_element"] = {"ui_element":"free_text","value_path":"$.event.value"}
@@ -229,6 +231,12 @@ class MsgPipeline():
             log.exception(ex)
 
         return {"ui_mapping":ui_mapping,"extracted_values":extracted_values}
+
+    def __record_history(self,exdt,address,msg_class,payload):
+
+       if exdt["extracted_values"]["record_history"]:
+            self.timeseries.insert_msg_history(exdt["extracted_values"]["dev_id"],msg_class,address, payload)
+
 
     def __update_timeseries(self,exdt):
        try:

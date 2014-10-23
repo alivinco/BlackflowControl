@@ -397,8 +397,12 @@ def address_manager():
                   error_msg = "Override properties is not a json object,therefore it will be skipped"
                   log.error(error_msg)
 
-
-                msg_man.update_address_mapping(key,request.form["name"],request.form["msg_class"],request.form["type"],request.form["address"],override_props,override_value_path)
+                msg_class_split = request.form["msg_class"].split("->")
+                msg_type = msg_class_split[0]
+                msg_class = msg_class_split[1]
+                str_to_bool = {"True":True,"False":False}
+                record_history = str_to_bool[request.form["record_history"]]
+                msg_man.update_address_mapping(key,request.form["name"],msg_class,msg_type,request.form["address"],override_props,override_value_path,record_history)
                 log.info("Address mapping successfully updated")
             elif action =="bulk_address_update":
                 msg_man.find_replace_address(request.form["find"],request.form["replace_to"])
@@ -452,6 +456,20 @@ def dr_browser():
     response = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events")
     log.info("response :"+str(response))
     return render_template('dr_device_browser.html',dr_response=response,global_context=global_context)
+
+@app.route('/ui/msg_history',methods=["GET","POST"])
+def msg_history():
+    log.info("Msg history")
+
+    dev_id = request.args.get("dev_id",None)
+    # 0
+    start = int(request.args.get("start",0))
+    # 2504836694
+    end = int(request.args.get("stop",3504836694))
+
+    history = timeseries.get_msg_history(dev_id,start,end)
+    # history = json.dumps(ts)
+    return render_template('msg_history.html',history=history,global_context=global_context)
 
 @app.route('/ui/tools',methods=["POST","GET"])
 def tools():

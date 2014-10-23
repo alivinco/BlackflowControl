@@ -1,0 +1,12 @@
+{% extends "base_layout.html" %}
+{% block li_msg_history %}class="active"{% endblock %}
+{% block body %}
+
+    <div>
+    {% for msg in history %}
+     <b>Time : {{ msg.time_iso }} ; msg class:{{ msg.msg_class }} ; address:{{ msg.address }}</b>
+     <pre>{{msg.msg}}</pre>
+    {% endfor %}
+    </div>
+
+{% endblock %}

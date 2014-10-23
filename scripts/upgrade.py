@@ -14,6 +14,8 @@ def update_address_mapping():
             item["id"] = counter
             counter += 1
             print "updated"
+        if not("record_history" in item):
+            item["record_history"]=False
 
 
     f = open(addr_path, "w")
@@ -96,6 +98,9 @@ update_address_mapping()
 update_global_config()
 update_cmd_class_mapping()
 update_db()
+
+
+
 #get_address_mapping_id()
 
 '''
