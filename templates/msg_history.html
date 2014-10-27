@@ -5,7 +5,7 @@
     <div>
     {% for msg in history %}
      <b>Time : {{ msg.time_iso }} ; msg class:{{ msg.msg_class }} ; address:{{ msg.address }}</b>
-     <pre>{{msg.msg}}</pre>
+     <pre>{{msg.msg|pprint}}</pre>
     {% endfor %}
     </div>
 

@@ -30,8 +30,8 @@
            {% set not_empty = [] %}
            {% for item in mapping %}
                 {%  if item.dash_grid_map.row == row and item.dash_grid_map.col == col %}
-                <div class="col-sm-2">
-                    <div id = "panel_{{ item.id }}_{{ row }}_{{ col }}" draggable="true" class="panel panel-default movable">
+                <div class="col-sm-4 col-md-4 col-lg-2">
+                    <div id = "panel_{{ item.id }}_{{ row }}_{{ col }}" draggable="true" class="panel panel-default movable ">
                       <div class="panel-heading">
                         <h3 class="panel-title">{{ item.name }}</h3>
                       </div>
@@ -46,7 +46,7 @@
 
            {% endfor %}
                 {% if not_empty|length==0 %}
-                 <div class="col-sm-2">
+                 <div class="col-sm-4 col-md-4 col-lg-2">
                     <div id = "panel_null_{{ row }}_{{ col }}" draggable="true" class="panel panel-default movable">
                       <div class="panel-body">
 

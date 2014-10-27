@@ -12,6 +12,7 @@ from flask import Flask, Response, redirect, url_for
 from flask import render_template
 from flask import request
 from modules.mod_dashboards import DashboardManager
+from modules.mod_filters import FiltersManager
 from modules.mod_tools import Tools
 
 from modules.mqtt_adapter import MqttAdapter
@@ -64,6 +65,7 @@ sync_async_client = SyncToAsyncMsgConverter(mqtt)
 msg_pipeline.set_sync_async_client(sync_async_client)
 
 dash_man = DashboardManager()
+filter_man = FiltersManager()
 
 @app.route('/')
 def red():
@@ -110,9 +112,11 @@ def inter_console_ui():
            p = re.compile(filter_value,re.IGNORECASE)
            mapping = filter(lambda item: (p.search(item["address"])),mapping)
 
+        saved_filters = filter_man.get_filters("inter_console")
+
     except Exception as ex :
         log.exception(ex)
-    return render_template('inter_console.html', mapping=mapping,cache=cache,global_context=global_context,mode=mode,filter_value=filter_value)
+    return render_template('inter_console.html', mapping=mapping,cache=cache,global_context=global_context,mode=mode,filter_value=filter_value,saved_filters=saved_filters)
 
 @app.route('/ui/dashboard/<dash_name>')
 def dashboard_ui(dash_name):
@@ -416,7 +420,26 @@ def address_manager():
         log.exception(ex)
         return redirect(url_for("address_mapping_ui"))
 
+@app.route('/api/filters',methods=["POST","GET"])
+def filters_api():
 
+    if request.method == "POST":
+       action = request.form["action"]
+    elif request.method == "GET":
+       action = request.args.get("action","")
+    else :
+       action = ""
+
+    if action =="upsert":
+       name = request.form["name"]
+       filter = request.form["filter"]
+       filter_man.upsert_filter("inter_console",None,name,filter)
+    elif action =="delete":
+       id = int(request.args.get("id",""))
+
+       filter_man.delete_filter("inter_console",id)
+
+    return redirect(url_for("inter_console_ui"))
 
 @app.route('/api/get_last_raw_msg/<key>')
 def get_last_raw_msg(key):
