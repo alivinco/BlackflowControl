@@ -41,6 +41,7 @@ then
  echo "Copying address_mapping.json and global.json from previous installation"
  cp /tmp/configs/address_mapping.json configs/
  cp /tmp/configs/global.json configs/
+ cp /tmp/configs/filters.json configs/
 #cp /tmp/configs/msg_class_mapping.json configs/
  cp -r /tmp/events messages/
  echo "Running update script"
@@ -48,6 +49,7 @@ then
 else
  echo "Copying default address_mapping.json"
  cp  scripts/configs/address_mapping.json configs/
+ cp  scripts/configs/filters.json configs/
 fi
 update-rc.d blackfly defaults 90
 mount - / -oremount,ro
