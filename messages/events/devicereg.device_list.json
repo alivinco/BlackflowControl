@@ -1,0 +1,58 @@
+{
+ "origin": {
+  "vendor": "Lyse", 
+  "@id": 1234, 
+  "@type": "app", 
+  "location": "server"
+ }, 
+ "uuid": "d4e64dfb-593f-418b-8924-dac0d3b2ac02", 
+ "creation_time": 1414509226, 
+ "spid": "UNDEFINED", 
+ "@context": "http://smartly.no/context", 
+ "corid": "a0563879-9893-45cd-aa5e-f1554ae3cb37", 
+ "event": {
+  "default": {
+   "value": null
+  }, 
+  "subtype": "device_list", 
+  "@type": "devicereg", 
+  "properties": {
+   "device_list": {
+    "value": [
+     {
+      "LastUpdate": "2014-10-28T16:05:30", 
+      "PowerDescriptor": {}, 
+      "Network": {}, 
+      "Property": [], 
+      "Id": 1, 
+      "Manufacturer": "9999", 
+      "ProductTypeId": "type_test", 
+      "HardwareVersion": "2.1", 
+      "Location": {
+       "Room": "Living room", 
+       "Floor": "1st floor"
+      }, 
+      "Address": "32", 
+      "IntegrationId": "ABAB123456", 
+      "FirstUseDate": "2014-10-28T16:05:30", 
+      "EndPoint": [
+       {
+        "Uri": "/dev/zw/23/sen_temp/1", 
+        "Capabilities": [
+         "COMMAND_CLASS_MANUFACTURER_SPECIFIC", 
+         "command1"
+        ], 
+        "Alias": "test_thermostat", 
+        "Property": [], 
+        "Type": "lvl_thermostat", 
+        "Id": "23"
+       }
+      ], 
+      "ProductId": "alarm_test", 
+      "CommunicationTechnology": "zw"
+     }
+    ]
+   }
+  }
+ }
+}

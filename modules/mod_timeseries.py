@@ -78,25 +78,27 @@ class Timeseries():
             self.lock.release()
 
 
-    def delete_all_for_dev(self, dev_id):
-        try:
-            self.lock.acquire()
-            if type(dev_id) == int:
-                dev_id = str(dev_id)
-                self.conn.execute("DELETE FROM timeseries WHERE dev_id = ?", (dev_id,))
-                self.conn.commit()
-            if type(dev_id) == list:
-                if len(dev_id) == 1:
-                    self.conn.execute("DELETE FROM timeseries WHERE dev_id = ?", (dev_id[0],))
-                else:
-                    dev_list = str(tuple(dev_id))
-                    self.conn.execute("DELETE FROM timeseries WHERE dev_id in " + dev_list)
-                self.conn.commit()
-        except Exception as ex:
-            self.log.error("Entries can't be deleted because of error")
-            self.log.error(ex)
-        finally:
-            self.lock.release()
+    def delete_msg_history(self,del_type=None, row_id=None ,dev_id=None):
+
+        if del_type:
+            try:
+                self.lock.acquire()
+                if type(row_id) == int:
+                    row_id = str(row_id)
+                    self.conn.execute("DELETE FROM msg_history WHERE rowid = ?", (row_id,))
+                    self.conn.commit()
+                if type(row_id) == list:
+                    if len(row_id) == 1:
+                        self.conn.execute("DELETE FROM msg_history WHERE rowid = ?", (row_id[0],))
+                    else:
+                        dev_list = str(tuple(row_id))
+                        self.conn.execute("DELETE FROM msg_history WHERE rowid in " + dev_list)
+                    self.conn.commit()
+            except Exception as ex:
+                self.log.error("Entries can't be deleted because of error")
+                self.log.error(ex)
+            finally:
+                self.lock.release()
 
 
     def do_rotation(self):
@@ -171,27 +173,32 @@ class Timeseries():
 
         return result
 
-    def get_msg_history(self, dev_id, start, end, result_type="dict"):
+    def get_msg_history(self, dev_id=None, start=0, end=0, result_type="dict",rowid=None):
         self.lock.acquire()
         c = self.conn.cursor()
 
-        result = []
-        if dev_id:
+        if rowid :
             iter = c.execute(
-                "select dev_id,timestamp,msg_class,address,msg from msg_history where dev_id = ? and timestamp > ? and timestamp < ? ",
+                "select dev_id,timestamp,msg_class,address,msg ,rowid from msg_history where rowid=? order by timestamp desc ",
+                (rowid,))
+        elif dev_id:
+            iter = c.execute(
+                "select dev_id,timestamp,msg_class,address,msg ,rowid from msg_history where dev_id = ? and timestamp > ? and timestamp < ? order by timestamp desc",
                 (dev_id, start, end))
         else:
-            iter = c.execute("select dev_id,timestamp,msg_class,address,msg from msg_history where  timestamp > ? and timestamp < ? ",
+            iter = c.execute("select dev_id,timestamp,msg_class,address,msg,rowid from msg_history where  timestamp > ? and timestamp < ? order by timestamp desc",
                              (start, end))
+
         result = []
         for item in iter:
             t_iso = datetime.datetime.fromtimestamp(item[1]).isoformat(" ")
             try:
                 msg = json.loads(item[4])
+                msg = json.dumps(msg,indent=True)
             except :
-                msg = ""
+                msg = item[4]
             if result_type == "dict":
-                result.append({"dev_id": item[0], "time": item[1], "time_iso": t_iso, "msg_class": item[2],"address": item[3],"msg": msg})
+                result.append({ "dev_id": item[0], "time": item[1], "time_iso": t_iso, "msg_class": item[2],"address": item[3],"msg": msg,"id":item[5]})
             elif result_type == "array":
                 result.append([item[1] * 1000, msg])
         c.close()
@@ -213,8 +220,8 @@ if __name__ == "__main__":
     from modules.msg_manager import MessageManager
     msg_man = MessageManager()
 
-
-    print t.get_timeline(msg_man.address_mapping,"/dev/zw/35/sen_temp/1/events", 0, 2504836694, 2000)
+    print t.get_msg_history(rowid=4)
+    #print t.get_timeline(msg_man.address_mapping,"/dev/zw/35/sen_temp/1/events", 0, 2504836694, 2000)
     # print t.conn.execute("select count (*) from timeseries ").fetchone()
     # import threading
     #

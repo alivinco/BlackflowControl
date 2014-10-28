@@ -4,8 +4,24 @@
 
     <div>
     {% for msg in history %}
-     <b>Time : {{ msg.time_iso }} ; msg class:{{ msg.msg_class }} ; address:{{ msg.address }}</b>
-     <pre>{{msg.msg|pprint}}</pre>
+     <div>
+         <b>Time : {{ msg.time_iso }} ; msg class:{{ msg.msg_class }} ; address:{{ msg.address }}</b>
+         <pre>{{msg.msg}}</pre>
+         <div  >
+
+            <form action="/api/msg_history"   method="POST" style="display:inline">
+                <input type="hidden" name="id" value="{{ msg.id }}"/>
+                <input type="hidden" name="action" value="resend"/>
+                <button type="submit"  class="btn btn-default">Resend</button>
+            </form>
+            <form action="/api/msg_history"  method="POST" style="display:inline">
+                <input type="hidden" name="id" value="{{ msg.id }}"/>
+                <input type="hidden" name="action" value="delete"/>
+                <button type="submit" class="btn btn-default">Delete</button>
+            </form>
+         </div>
+     </div>
+     </br>
     {% endfor %}
     </div>
 

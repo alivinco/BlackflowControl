@@ -441,6 +441,25 @@ def filters_api():
 
     return redirect(url_for("inter_console_ui"))
 
+@app.route('/api/msg_history',methods=["POST"])
+def msg_history_api():
+    log.info("Msg history API")
+    try:
+        if request.method == "POST":
+           action = request.form["action"]
+           id = int(request.form["id"])
+
+        if action =="resend":
+            msg = timeseries.get_msg_history(rowid=id)[0]
+            log.info(msg)
+            mqtt.publish(msg["address"],msg["msg"],1)
+        elif action =="delete":
+            timeseries.delete_msg_history("rowid",id)
+    except Exception as ex:
+        log.error(ex)
+
+    return redirect(url_for("msg_history"))
+
 @app.route('/api/get_last_raw_msg/<key>')
 def get_last_raw_msg(key):
     try:
@@ -473,7 +492,7 @@ def help(page):
 @app.route('/ui/dr_browser')
 def dr_browser():
     log.info("Device registry browser")
-    msg = msg_man.load_template_by_key("dr.list_all_devices@command")
+    msg = msg_man.load_template_by_key("devicereg.get_device_list@command")
     log.info(msg)
     msg_pipeline.update_static_part_of_message(msg,"/app/devicereg/commands")
     response = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events")

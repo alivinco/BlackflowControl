@@ -337,7 +337,7 @@
    "num_type": "int"
   }, 
   "msg_type": "command", 
-  "msg_class": "dr.list_all_devices"
+  "msg_class": "devicereg.get_device_list"
  }, 
  {
   "ui_mapping": {
@@ -386,5 +386,13 @@
   }, 
   "msg_type": "event", 
   "msg_class": "mode.doorphone"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "free_text", 
+   "value_path": "$.event.default.value"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "devicereg.device_list"
  }
 ]
