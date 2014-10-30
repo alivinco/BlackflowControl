@@ -331,7 +331,7 @@ def get_msg_from_cache(key="all"):
     #get events from cache
     result = {}
     if key =="all":
-        result = cache.get_all()
+        result = cache.get_all(exclude_raw_msg=True)
     else :
         result = cache.get_by_key(key)
 

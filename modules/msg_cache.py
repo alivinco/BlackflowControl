@@ -47,8 +47,14 @@ class MsgCache():
         timestamp_iso = datetime.now().isoformat()
         self.generic_cache[key] = {"raw_msg":value,"timestamp_iso":timestamp_iso}
 
-    def get_all(self):
-        return self.cache
+    def get_all(self,exclude_raw_msg=False):
+        result = {}
+        if exclude_raw_msg:
+           for key,item in self.cache.iteritems() :
+              result[key]={"ui_element":item["ui_element"],"extracted_values":item["extracted_values"],"timestamp_iso":item["timestamp_iso"]}
+           return result
+        else :
+           return self.cache
 
     def get_all_generic(self):
         return self.generic_cache

@@ -32,6 +32,7 @@ $(function () {
             title : {
                 text : 'Sensor values'
             },
+            xAxis:{ordinal:false},
             exporting:{enabled:true},
             series : [{
                 name : 'Value',
@@ -45,6 +46,7 @@ $(function () {
                 enabled: true
 
             }
+
         }
         });
     });
