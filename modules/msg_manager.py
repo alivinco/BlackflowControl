@@ -249,6 +249,7 @@ class MessageManager:
 
         self.serialize_address_mapping()
 
+
     def add_address_to_mapping(self, address, msg_class):
         # register new address
         # calculating new id

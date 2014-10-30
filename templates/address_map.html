@@ -19,7 +19,7 @@
     <label for="inputMsgClass" class="col-sm-2 control-label">Msg class</label>
     <div class="col-sm-10">
        <select name="msg_class" id="inputMsgClass" class="form-control">
-         {% for item in msg_class_list %}
+         {% for item in msg_class_list|sort(attribute='msg_class') %}
             <option {% if item.msg_class == mapping.msg_class and item.msg_type == mapping.msg_type %}selected="selected" {% endif %} value="{{ item.msg_type }}->{{ item.msg_class }}" >{{ item.msg_type }} -> {{ item.msg_class }}</option>
          {% endfor %}
       </select>

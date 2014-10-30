@@ -394,5 +394,22 @@
   }, 
   "msg_type": "event", 
   "msg_class": "devicereg.device_list"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "free_text", 
+   "value_path": "$.event.properties"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "config.report"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "input_text_field", 
+   "override_properties": false, 
+   "value_path": "$.command.default.value[0]"
+  }, 
+  "msg_type": "command", 
+  "msg_class": "config.get"
  }
 ]

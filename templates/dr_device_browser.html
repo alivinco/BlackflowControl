@@ -27,6 +27,7 @@
         <th>First Use Date</th>
         <th>Last Update</th>
         <th>Security Level</th>
+        <th>Action</th>
       </tr>
    </thead>
    <tbody>
@@ -51,6 +52,7 @@
         <td>{{ device.FirstUseDate }}</td>
         <td>{{ device.LastUpdate }}</td>
         <td>{{ device.SecurityLevel }}</td>
+        <td><a href="/ui/inter_console?filter=/dev/{{ device.CommunicationTechnology }}/{{ device.Address }}&mode=normal">Interact</a> </td>
       </tr>
      <tr><td colspan="18" >
 
@@ -71,7 +73,7 @@
                    {% for endp in device.EndPoint %}
                     <tr><td>{{ endp.Id }}</td>
                         <td>{{ endp.Type }}</td>
-                        <td>{{ endp.Uri }}</td>
+                        <td><a href="/ui/inter_console?filter={{ endp.Uri }}&mode=normal">{{ endp.Uri }}</a></td>
                         <td>{{ endp.Capabilities }}</td>
                         <td>{{ endp.Property }}</td></tr>
                    {% endfor %}

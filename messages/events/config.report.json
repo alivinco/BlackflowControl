@@ -1,0 +1,23 @@
+{
+ "@context": "http://smartly.no/context",
+ "origin": {
+  "endp_id": 1, 
+  "vendor": "7401", 
+  "@id": 52, 
+  "@type": "dev_sys",
+  "location": "NotImplemented"
+ }, 
+"event": {
+      "@type": "config",
+      "subtype": "report",
+      "default": {"value": null},
+      "properties":{
+          "1":{"value":6000},
+          "2":{"value":3}
+      }
+ },
+"uuid": "6226d418-f869-40a3-9150-71934f550ebb",
+"corid": "_uuid_of_request",
+"creation_time": 1399290667,
+"spid": "NotImplemented"
+}
