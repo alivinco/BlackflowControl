@@ -55,13 +55,30 @@ function init_dnd_handler()
         }
         // Don't do anything if we're dropping on the same box we're dragging.
         if (dragSrcEl_ != this) {
+
             dragSrcEl_.innerHTML = this.innerHTML;
             this.innerHTML = e.dataTransfer.getData('text/html');
         }
-        target_element_id = this.id
-        source_element_id = dragSrcEl_.id
+//        console.dir($(this).children('.movable_div'))
+//        console.dir(dragSrcEl_)
+        source_element_id = $(this).children('.movable_div')[0].id;
+        target_element_id = $(dragSrcEl_).children('.movable_div')[0].id;
 
-        console.log("Moving element :"+source_element_id)
+        source_div_id_parsed = source_element_id.split("_")
+        source_dev_id = source_div_id_parsed[1]
+        source_location = source_div_id_parsed[2]+"_"+source_div_id_parsed[3]
+
+        target_div_id_parsed = target_element_id.split("_")
+        target_dev_id = target_div_id_parsed[1]
+        target_location = target_div_id_parsed[2]+"_"+target_div_id_parsed[3]
+
+        // Swaping div Id's location parts , location part should be always the same
+        $(this).children('.movable_div')[0].id = "panel_"+source_dev_id+"_"+target_location
+        $(dragSrcEl_).children('.movable_div')[0].id = "panel_"+target_dev_id+"_"+source_location
+
+        console.log("Moving panel from "+source_location+" to "+target_location)
+
+        console.log("Moving moving from  :"+source_element_id)
         console.log("Moving moving to  :"+target_element_id)
 
         return false;

@@ -125,11 +125,12 @@ def dashboard_ui(dash_name):
          dash_man.load_dashboard_map()
          mapping = msg_man.generate_linked_mapping(msg_man.msg_class_mapping, msg_man.address_mapping)
          ext_mapping = dash_man.get_extended_dashboard_map(dash_name,mapping)
-         dash_map = dash_man.get_dashboard_map(dash_name)
+         # dash_map = dash_man.get_dashboard_map(dash_name)
+         address_list = mapping = msg_man.address_mapping
          grid_size = dash_man.get_dashboard_grid_size(dash_name)
     except Exception as ex :
         log.exception(ex)
-    return render_template('dashboard.html', mapping=ext_mapping,dash_map=dash_map,grid_size=grid_size,cache=cache,global_context=global_context)
+    return render_template('dashboard.html', mapping=ext_mapping,address_list=address_list,grid_size=grid_size,cache=cache,global_context=global_context)
 
 @app.route('/ui/mqtt_broker_monitor')
 def mqtt_broker_monitor_ui():
@@ -376,6 +377,13 @@ def address_manager():
     # command should be {"cmd":"remove","address":"/dev/zw/1","msg_class":"thermostat"}
     error_msg = ""
     try:
+        if request.method == "GET":
+            # adding address based on dev_type and capability
+            action = request.args.get("action","")
+            dev_type = request.args.get("dev_type","")
+            capability = request.args.get("capability","")
+            address = request.args.get("address","")
+
         if request.method == "PUT":
             req = request.get_json()
             log.info("UI call for address manager . Command = "+req['cmd'])
@@ -441,6 +449,19 @@ def filters_api():
 
     return redirect(url_for("inter_console_ui"))
 
+@app.route('/api/dashboard',methods=["POST","GET"])
+def filters_api():
+
+    if request.method == "POST":
+       action = request.form["action"]
+       device_id = request.form["device_id"]
+       position_row = request.form["position_row"]
+       position_col = request.form["position_col"]
+        
+
+    return redirect(url_for("dashboard_ui"))
+
+
 @app.route('/api/msg_history',methods=["POST"])
 def msg_history_api():
     log.info("Msg history API")
@@ -498,6 +519,8 @@ def dr_browser():
     response = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events")
     log.info("response :"+str(response))
     return render_template('dr_device_browser.html',dr_response=response,global_context=global_context)
+
+
 
 @app.route('/ui/msg_history',methods=["GET","POST"])
 def msg_history():

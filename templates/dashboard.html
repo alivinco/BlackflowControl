@@ -1,17 +1,17 @@
-{% extends "base_layout.html" %}
+{% extends "base_layout_wide.html" %}
 {% block css_scripts %}
  <link href="/static/css/bootstrap-slider.min.css" rel="stylesheet">
 <style >
-.movable { min-height: 120px}
+.movable { min-height: 120px;min-width: 220px}
+.movable_div { min-height: 120px}
 </style>
 {% endblock %}
 {% block li_inter_console %}class="active"{% endblock %}
 {% block body %}
 
 <div class="btn-group">
-  <button type="button" onclick="window.location.href='/ui/address_map/0'" class="btn btn-default">Add</button>
-  <button type="button" class="btn btn-default" onclick="open_bulk_address_update()">Delete</button>
-  <button type="button" class="btn btn-default"onclick="open_bulk_address_delete()" >Rearrange</button>
+  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add_endpoint_modal">Add</button>
+  <button type="button" class="btn btn-default" onclick="open_bulk_address_update()">Add group</button>
 </div>
 <br/>
 <br/>
@@ -30,10 +30,11 @@
            {% set not_empty = [] %}
            {% for item in mapping %}
                 {%  if item.dash_grid_map.row == row and item.dash_grid_map.col == col %}
-                <div class="col-sm-4 col-md-4 col-lg-2">
-                    <div id = "panel_{{ item.id }}_{{ row }}_{{ col }}" draggable="true" class="panel panel-default movable ">
+                <div class="col-sm-4 col-md-4 col-lg-3 movable" draggable="true">
+                    <div id = "panel_{{ item.id }}_{{ row }}_{{ col }}"  class="panel panel-default movable_div">
                       <div class="panel-heading">
-                        <h3 class="panel-title">{{ item.name }}</h3>
+                         <a href="#"> <span class="pull-right glyphicon glyphicon-trash"></span></a>
+                         <h3 class="panel-title">{{ item.name }}</h3>
                       </div>
                       <div class="panel-body">
                         {% include 'msg_ui_element.html' %}
@@ -46,8 +47,8 @@
 
            {% endfor %}
                 {% if not_empty|length==0 %}
-                 <div class="col-sm-4 col-md-4 col-lg-2">
-                    <div id = "panel_null_{{ row }}_{{ col }}" draggable="true" class="panel panel-default movable">
+                 <div class="col-sm-4 col-md-4 col-lg-3 movable" draggable="true">
+                    <div id = "panel_null_{{ row }}_{{ col }}"  class="panel panel-default movable_div">
                       <div class="panel-body">
 
                       </div>
@@ -66,6 +67,52 @@
 </div>
 </div>
 {#Modal dialog #}
+
+{#Modal dialog #}
+<div class="modal fade" id="add_endpoint_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Add endpoint</h4>
+      </div>
+      <br/>
+      <div >
+            <form class="form-horizontal" role="form" action="/api/address_manager" method="POST">
+              <input type="hidden" name="action" value="add_endpoint" />
+              <div class="form-group">
+                <label for="inputName" class="col-sm-3 control-label">Endpoint</label>
+                <div class="col-sm-6">
+                   <select name="device_id" id="inputMsgClass" class="form-control">
+                     {% for item in address_list|sort(attribute='name') %}
+                        <option value="{{ item.id }}" >{{ item.name }} -> {{ item.address }}</option>
+                     {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputName" class="col-sm-3 control-label">Position column (X)</label>
+                <div class="col-sm-6">
+                  <input type="text" name="position_col" class="form-control" id="inputName" placeholder="" value="auto">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputName" class="col-sm-3 control-label">Position column (Y)</label>
+                <div class="col-sm-6">
+                  <input type="text" name="position_row" class="form-control" id="inputName" placeholder="" value="auto">
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-default">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 {% endblock %}
 {% block js_scripts %}

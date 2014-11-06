@@ -6,7 +6,8 @@
   "msg_class": "zw_ta.inclusion_mode", 
   "group_name": "table1", 
   "key": "zw_ta.inclusion_mode@.ta.zw.commands", 
-  "address": "/ta/zw/commands"
+  "address": "/ta/zw/commands",
+  "record_history": false
  }, 
  {
   "id":2,
@@ -15,7 +16,8 @@
   "msg_class": "zw_ta.exclusion_mode", 
   "group_name": "table1", 
   "key": "zw_ta.exclusion_mode@.ta.zw.commands", 
-  "address": "/ta/zw/commands"
+  "address": "/ta/zw/commands",
+     "record_history": false
  }, 
  {
   "id":3,
@@ -24,7 +26,8 @@
   "msg_class": "zw_ta.exclusion_report", 
   "group_name": "table1", 
   "key": "zw_ta.exclusion_report@.ta.zw.events", 
-  "address": "/ta/zw/events"
+  "address": "/ta/zw/events",
+     "record_history": false
  },
  {
   "id":4,
@@ -33,6 +36,7 @@
   "msg_class": "zw_ta.inclusion_report", 
   "group_name": "table1", 
   "key": "zw_ta.inclusion_report@.ta.zw.events", 
-  "address": "/ta/zw/events"
+  "address": "/ta/zw/events",
+     "record_history": false
  }
 ]
