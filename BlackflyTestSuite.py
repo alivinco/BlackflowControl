@@ -450,14 +450,14 @@ def filters_api():
     return redirect(url_for("inter_console_ui"))
 
 @app.route('/api/dashboard',methods=["POST","GET"])
-def filters_api():
+def dashboard_api():
 
     if request.method == "POST":
        action = request.form["action"]
        device_id = request.form["device_id"]
        position_row = request.form["position_row"]
        position_col = request.form["position_col"]
-        
+
 
     return redirect(url_for("dashboard_ui"))
 
