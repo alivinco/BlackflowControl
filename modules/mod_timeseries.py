@@ -172,6 +172,25 @@ class Timeseries():
                 result.append({"dev_id": item[0], "time": item[1], "time_iso": t_iso, "value": item[2],"name":map["name"],"address":map["address"]})
 
         return result
+    def delete_all_for_dev(self, dev_id):
+        try:
+            self.lock.acquire()
+            if type(dev_id) == int:
+                dev_id = str(dev_id)
+                self.conn.execute("DELETE FROM timeseries WHERE dev_id = ?", (dev_id,))
+                self.conn.commit()
+            if type(dev_id) == list:
+                if len(dev_id) == 1:
+                    self.conn.execute("DELETE FROM timeseries WHERE dev_id = ?", (dev_id[0],))
+                else:
+                    dev_list = str(tuple(dev_id))
+                    self.conn.execute("DELETE FROM timeseries WHERE dev_id in " + dev_list)
+                self.conn.commit()
+        except Exception as ex:
+            self.log.error("Entries can't be deleted because of error")
+            self.log.error(ex)
+        finally:
+            self.lock.release()
 
     def get_msg_history(self, dev_id=None, start=0, end=0, result_type="dict",rowid=None):
         self.lock.acquire()

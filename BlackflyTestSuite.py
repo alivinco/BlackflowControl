@@ -11,6 +11,7 @@ import json
 from flask import Flask, Response, redirect, url_for
 from flask import render_template
 from flask import request
+from mappings.msg_class_to_zw import get_msg_class_by_capabilities
 from modules.mod_dashboards import DashboardManager
 from modules.mod_filters import FiltersManager
 from modules.mod_tools import Tools
@@ -380,9 +381,16 @@ def address_manager():
         if request.method == "GET":
             # adding address based on dev_type and capability
             action = request.args.get("action","")
-            dev_type = request.args.get("dev_type","")
-            capability = request.args.get("capability","")
-            address = request.args.get("address","")
+            if action == "add_address_using_dev_type":
+                dev_type = request.args.get("dev_type","")
+                capability = request.args.get("capability","")
+                address = request.args.get("address","")
+                msg_classes_list = get_msg_class_by_capabilities(dev_type,capability)
+                for item in msg_classes_list:
+
+                    log.info("Msg class is recognized as :"+str(item.msg_class))
+                    msg_man.add_address_to_mapping(address,item.msg_class)
+                return redirect(url_for("inter_console_ui",filter=address,mode="normal"))
 
         if request.method == "PUT":
             req = request.get_json()
@@ -452,12 +460,29 @@ def filters_api():
 @app.route('/api/dashboard',methods=["POST","GET"])
 def dashboard_api():
 
+    """
+    REST api for creating and managing dashboards.
+
+    :return:
+    """
     if request.method == "POST":
        action = request.form["action"]
-       device_id = request.form["device_id"]
+       log.info("Dashboard api action = "+action)
+       dashboard_id = request.form["dashboard_id"]
+       service_id = request.form["service_id"]
+       group_id = request.form["group_id"]
        position_row = request.form["position_row"]
        position_col = request.form["position_col"]
 
+    if action :
+         if action == "add_service_to_dashboard":
+             dash_man.add_service_to_dashboard(dashboard_id,group_id,service_id,position_col,position_row)
+         elif action == "delete_service_from_dashboard":
+             dash_man.delete_service_from_dashboard(dashboard_id,service_id)
+         elif action == "add_group":
+             log.info("Add group to be implemented")
+         elif action == "delete_group":
+             log.info("Delete group to be implemented")
 
     return redirect(url_for("dashboard_ui"))
 

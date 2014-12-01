@@ -21,18 +21,19 @@
         <th>Sw Ver.</th>
         <th>Protocol Ver</th>
         <th>Product Id</th>
-        <th>Product Type ID</th>
+        <th>Product Type Id</th>
         <th>Status</th>
         <th>Last Error Msg</th>
         <th>First Use Date</th>
         <th>Last Update</th>
         <th>Security Level</th>
-        <th>Action</th>
+        <th  >Action</th>
       </tr>
    </thead>
    <tbody>
+   {% if dr_response.event.properties.device_list.value %}
    {%  for device in dr_response.event.properties.device_list.value %}
-      <tr>
+       <tr>
         <td rowspan="2" >{{ device.Id }}</td>
         <td>{{ device.IntegrationId }}</td>
         <td>{{ device.Address }}</td>
@@ -46,13 +47,16 @@
         <td>{{ device.SoftwareVersion }}</td>
         <td>{{ device.ProtocolVersion }}</td>
         <td>{{ device.ProductId }}</td>
-        <td>{{ device.ProductTypeID }}</td>
+        <td>{{ device.ProductTypeId }}</td>
         <td>{{ device.Status }}</td>
         <td>{{ device.LastErrorMsg }}</td>
         <td>{{ device.FirstUseDate }}</td>
         <td>{{ device.LastUpdate }}</td>
         <td>{{ device.SecurityLevel }}</td>
-        <td><a href="/ui/inter_console?filter=/dev/{{ device.CommunicationTechnology }}/{{ device.Address }}&mode=normal">Interact</a> </td>
+        <td style="min-width: 100px">
+            <a href="/ui/inter_console?filter=/dev/{{ device.CommunicationTechnology }}/{{ device.Address }}&mode=normal">Interact</a>
+            <p><a href="/ui/inter_console?filter=/dev/{{ device.CommunicationTechnology }}/{{ device.Address }}&mode=normal">SDC lookup</a></p>
+        </td>
       </tr>
      <tr><td colspan="18" >
 
@@ -92,7 +96,9 @@
           </div>
         </div>
      </td> </tr>
+
    {% endfor %}
+{% endif %}
   <tbody>
 </table>
 

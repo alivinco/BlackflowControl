@@ -19,7 +19,8 @@
                "timeout" :
                   {
                      "value" : 30
-                  }
+                  },
+               "high_power":true
             },
          "target" : "/ta/zw/commands"
       },

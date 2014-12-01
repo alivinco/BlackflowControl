@@ -1,0 +1,21 @@
+{
+ "origin": {
+  "@id": "devicereg",
+  "@type": "app"
+ },
+  "@context": "http://smartly.no/context",
+  "event": {
+      "@type": "alarm",
+      "subtype": "monitor",
+      "default": {
+        "value": "lost"
+      },
+      "properties":
+      {
+          "device":"3"
+      }
+ },
+ "uuid": "24035720-5b3f-4f69-9976-61e46a5b84bb",
+ "creation_time": 1416838255,
+ "spid": "s-455",
+}

@@ -10,7 +10,7 @@
 {% block body %}
 
 <div class="btn-group">
-  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add_endpoint_modal">Add</button>
+  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add_service_modal">Add</button>
   <button type="button" class="btn btn-default" onclick="open_bulk_address_update()">Add group</button>
 </div>
 <br/>
@@ -34,7 +34,8 @@
                     <div id = "panel_{{ item.id }}_{{ row }}_{{ col }}"  class="panel panel-default movable_div">
                       <div class="panel-heading">
                          <a href="#"> <span class="pull-right glyphicon glyphicon-trash"></span></a>
-                         <h3 class="panel-title">{{ item.name }}</h3>
+                         <a href="#"> <span class="pull-right glyphicon glyphicon-stats"></span></a>
+                         <h3 class="panel-title">  {{ item.name }}</h3>
                       </div>
                       <div class="panel-body">
                         {% include 'msg_ui_element.html' %}
@@ -69,21 +70,22 @@
 {#Modal dialog #}
 
 {#Modal dialog #}
-<div class="modal fade" id="add_endpoint_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="add_service_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Add endpoint</h4>
+        <h4 class="modal-title" id="myModalLabel">Add service</h4>
       </div>
       <br/>
       <div >
-            <form class="form-horizontal" role="form" action="/api/address_manager" method="POST">
-              <input type="hidden" name="action" value="add_endpoint" />
+            <form class="form-horizontal" role="form" action="/api/dashboard" method="POST">
+              <input type="hidden" name="action" value="add_service_to_dashboard" />
+              <input type="hidden" name="group_id" value="default" />
               <div class="form-group">
-                <label for="inputName" class="col-sm-3 control-label">Endpoint</label>
+                <label for="inputName" class="col-sm-4 control-label">Service</label>
                 <div class="col-sm-6">
-                   <select name="device_id" id="inputMsgClass" class="form-control">
+                   <select name="service_id" id="inputMsgClass" class="form-control">
                      {% for item in address_list|sort(attribute='name') %}
                         <option value="{{ item.id }}" >{{ item.name }} -> {{ item.address }}</option>
                      {% endfor %}
@@ -91,13 +93,13 @@
                 </div>
               </div>
               <div class="form-group">
-                <label for="inputName" class="col-sm-3 control-label">Position column (X)</label>
+                <label for="inputName" class="col-sm-4 control-label">X Position</label>
                 <div class="col-sm-6">
                   <input type="text" name="position_col" class="form-control" id="inputName" placeholder="" value="auto">
                 </div>
               </div>
               <div class="form-group">
-                <label for="inputName" class="col-sm-3 control-label">Position column (Y)</label>
+                <label for="inputName" class="col-sm-4 control-label">Y Position</label>
                 <div class="col-sm-6">
                   <input type="text" name="position_row" class="form-control" id="inputName" placeholder="" value="auto">
                 </div>

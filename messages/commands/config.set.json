@@ -15,7 +15,6 @@
                             }, 
                             "target" : "/dev/zw/2/dev_sys/1/commands",
                             "properties" : {
-                                        "your_param" : {"value" : 99 }
                                         }
                         },
                     "creation_time" : 1385815582,

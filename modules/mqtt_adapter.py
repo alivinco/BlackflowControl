@@ -22,7 +22,8 @@ class MqttAdapter:
         self.sub_topic = "/#"
         self.topic_prefix = ""
         self.global_context = {}
-        self.mqtt = mosquitto.Mosquitto(client_id, clean_session=True)
+        self.client_id = client_id
+        self.mqtt = None
         self.msg_pipeline = msg_pipeline
         self.enable_sys = False
 
@@ -37,6 +38,7 @@ class MqttAdapter:
         self.global_context = context
 
     def connect(self, host="localhost", port=1883, keepalive=60):
+        self.mqtt = mosquitto.Mosquitto(self.client_id, clean_session=True)
         self._host = host
         self._port = port
         self._keepalive = keepalive
@@ -72,25 +74,30 @@ class MqttAdapter:
         :param obj:
         :param msg:
         """
-        if "$SYS" in msg.topic:
-           if self.msg_pipeline:
-               self.msg_pipeline.process_event(msg.topic,msg.payload)
+        try:
+            if "$SYS" in msg.topic:
+               if self.msg_pipeline:
+                   self.msg_pipeline.process_event(msg.topic,msg.payload)
 
-        # elif "command" in msg.topic:
-        #     log.debug("Command type of message is skipped")
+            # elif "command" in msg.topic:
+            #     log.debug("Command type of message is skipped")
 
-        else :
-            log.info("New message from topic = "+str(msg.topic))
-            log.debug(msg.payload)
-            msg_obj = None
-            if self.msg_pipeline:
-                try:
-                  msg_obj = json.loads(msg.payload)
-                except Exception as ex :
-                  log.error("The message can't be recognized as json object and therefore ignored.")
-                if msg_obj : self.msg_pipeline.process_event(msg.topic,msg_obj)
             else :
-                self.on_message(msg.topic,msg.payload)
+                log.info("New message from topic = "+str(msg.topic))
+                log.debug(msg.payload)
+                msg_obj = None
+                if self.msg_pipeline:
+                    try:
+                      msg_obj = json.loads(msg.payload)
+                    except Exception as ex :
+                      log.error("The message can't be recognized as json object and therefore ignored.")
+                    if msg_obj : self.msg_pipeline.process_event(msg.topic,msg_obj)
+                else :
+                    self.on_message(msg.topic,msg.payload)
+        except Exception as ex :
+            log.error("Exception during messages processing. The message from ropic "+msg.topic+" will be skipped")
+            log.error(ex)
+
     def publish(self,address,payload,qos):
         topic = self.topic_prefix+address
         log.debug("Publishing msg to topic "+str(address))
@@ -120,7 +127,7 @@ class MqttAdapter:
     def _thread_main(self):
         rc = 0
         while not self._thread_terminate:
-            while rc == 0:
+            while rc == 0 :
                 try:
                     rc = self.mqtt.loop()
                     if self._thread_terminate:

@@ -34,9 +34,9 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "override_properties": true, 
+   "num_type": "float", 
    "value_path": "$.command.default.value", 
-   "num_type": "float"
+   "override_properties": true
   }, 
   "msg_type": "command", 
   "msg_class": "level.thermostat"
@@ -162,8 +162,8 @@
  {
   "ui_mapping": {
    "ui_element": "slider", 
-   "value_path": "$.command.default.value", 
-   "num_type": "int"
+   "num_type": "int", 
+   "value_path": "$.command.default.value"
   }, 
   "msg_type": "command", 
   "msg_class": "level.dimmer"
@@ -172,8 +172,8 @@
   "ui_mapping": {
    "ui_element": "msg_class_ui", 
    "properties_are_key_value": true, 
-   "override_properties": false, 
-   "num_type": "int"
+   "num_type": "int", 
+   "override_properties": true
   }, 
   "msg_type": "command", 
   "msg_class": "config.set"
@@ -181,9 +181,9 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "override_properties": false, 
+   "num_type": "int", 
    "value_path": "$.command.properties.group.value", 
-   "num_type": "int"
+   "override_properties": false
   }, 
   "msg_type": "command", 
   "msg_class": "association.get"
@@ -191,9 +191,9 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "override_properties": false, 
+   "num_type": "int", 
    "value_path": "$.command.default.value", 
-   "num_type": "int"
+   "override_properties": false
   }, 
   "msg_type": "command", 
   "msg_class": "association.get_groups"
@@ -256,8 +256,8 @@
    "device_id_num_input_path": "$.command.properties.devices.value[0]", 
    "ui_element": "msg_class_ui", 
    "group_id_num_input_path": "$.command.properties.group.value", 
-   "override_properties": true, 
-   "num_type": "int"
+   "num_type": "int", 
+   "override_properties": true
   }, 
   "msg_type": "command", 
   "msg_class": "association.set"
@@ -267,8 +267,8 @@
    "device_id_num_input_path": "$.command.properties.devices.value[0]", 
    "ui_element": "msg_class_ui", 
    "group_id_num_input_path": "$.command.properties.group.value", 
-   "override_properties": true, 
-   "num_type": "int"
+   "num_type": "int", 
+   "override_properties": true
   }, 
   "msg_type": "command", 
   "msg_class": "association.delete"
@@ -332,9 +332,9 @@
  {
   "ui_mapping": {
    "ui_element": "toggle_switch", 
-   "override_properties": true, 
+   "num_type": "int", 
    "value_path": "$.command.default.value", 
-   "num_type": "int"
+   "override_properties": true
   }, 
   "msg_type": "command", 
   "msg_class": "devicereg.get_device_list"
@@ -405,11 +405,20 @@
  }, 
  {
   "ui_mapping": {
-   "ui_element": "input_text_field", 
-   "override_properties": false, 
-   "value_path": "$.command.default.value[0]"
+   "ui_element": "input_num_field", 
+   "num_type": "int", 
+   "value_path": "$.command.default.value[0]", 
+   "override_properties": false
   }, 
   "msg_type": "command", 
   "msg_class": "config.get"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "binary_light", 
+   "value_path": "$.event.default.value"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "binary.wakeup"
  }
 ]
