@@ -4,8 +4,8 @@
   "root_topic": "/#", 
   "enable_sys": false, 
   "global_topic_prefix": "", 
-  "host": "127.0.0.1",
-  "client_id": "blackfly_test_suite_3",
+  "host": "alivinco.sg",
+  "client_id": "blackfly_test_suite_4", 
   "password": "Lyse3124", 
   "port": "1883"
  }, 
@@ -15,7 +15,7 @@
  }, 
  "system": {
   "http_server_port": 5000, 
-  "version": "1.4.2"
+  "version": "1.4.3"
  }, 
  "defaults": {
   "event_value_path_for_new_class": "$.event.default.value", 
