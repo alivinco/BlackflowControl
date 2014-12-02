@@ -24,14 +24,14 @@
       <h3 class="panel-title">Default</h3>
   </div>
   <div class="panel-body">
-{% for row in range(1,(grid_size.row + 1)) %}
+{% for y in range(1,(grid_size.y + 1)) %}
      <div class="row">
-    {% for col in range(1,(grid_size.col + 1)) %}
+    {% for x in range(1,(grid_size.x + 1)) %}
            {% set not_empty = [] %}
            {% for item in mapping %}
-                {%  if item.dash_grid_map.row == row and item.dash_grid_map.col == col %}
+                {%  if item.dash_grid_map.y == y and item.dash_grid_map.x == x %}
                 <div class="col-sm-4 col-md-4 col-lg-3 movable" draggable="true">
-                    <div id = "panel_{{ item.id }}_{{ row }}_{{ col }}"  class="panel panel-default movable_div">
+                    <div id = "panel_{{ item.id }}_{{ y }}_{{ x }}"  class="panel panel-default movable_div">
                       <div class="panel-heading">
                          <a href="#"> <span class="pull-right glyphicon glyphicon-trash"></span></a>
                          <a href="#"> <span class="pull-right glyphicon glyphicon-stats"></span></a>
@@ -48,8 +48,8 @@
 
            {% endfor %}
                 {% if not_empty|length==0 %}
-                 <div class="col-sm-4 col-md-4 col-lg-3 movable" draggable="true">
-                    <div id = "panel_null_{{ row }}_{{ col }}"  class="panel panel-default movable_div">
+                 <div class="x-sm-4 col-md-4 col-lg-3 movable" draggable="true">
+                    <div id = "panel_null_{{ y }}_{{ x }}"  class="panel panel-default movable_div">
                       <div class="panel-body">
 
                       </div>

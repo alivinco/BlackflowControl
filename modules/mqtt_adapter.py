@@ -23,7 +23,7 @@ class MqttAdapter:
         self.topic_prefix = ""
         self.global_context = {}
         self.client_id = client_id
-        self.mqtt = None
+        self.mqtt = mosquitto.Mosquitto(self.client_id, clean_session=True)
         self.msg_pipeline = msg_pipeline
         self.enable_sys = False
 
