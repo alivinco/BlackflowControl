@@ -27,7 +27,8 @@
         <th>First Use Date</th>
         <th>Last Update</th>
         <th>Security Level</th>
-        <th  >Action</th>
+        <th>Properties</th>
+        <th>Action</th>
       </tr>
    </thead>
    <tbody>
@@ -40,7 +41,7 @@
         <td>{{ device.SerialNumber }}</td>
         <td>{{ device.Name }}</td>
         <td>{{ device.Alias }}</td>
-        <td><a data-toggle="collapse" href="#endpoints_{{ device.Id }}">Show</a></td>
+        <td><a data-toggle="collapse" href="#endpoints_{{ device.Id }}">Endpoints</a></td>
         <td>{{ device.CommunicationTechnology }}</td>
         <td>{{ device.Manufacturer }}</td>
         <td>{{ device.HardwareVersion }}</td>
@@ -53,12 +54,15 @@
         <td>{{ device.FirstUseDate }}</td>
         <td>{{ device.LastUpdate }}</td>
         <td>{{ device.SecurityLevel }}</td>
+        <td><a data-toggle="collapse" href="#properties_{{ device.Id }}">Properties</a></td>
+
         <td style="min-width: 100px">
             <a href="/ui/inter_console?filter=/dev/{{ device.CommunicationTechnology }}/{{ device.Address }}&mode=normal">Interact</a>
             <p><a href="/ui/inter_console?filter=/dev/{{ device.CommunicationTechnology }}/{{ device.Address }}&mode=normal">SDC lookup</a></p>
         </td>
       </tr>
-     <tr><td colspan="18" >
+     <tr>
+         <td colspan="18" >
 
         <div id="endpoints_{{ device.Id }}" class="panel-collapse collapse ">
           <h5>List of Endpoints</h5>
@@ -82,6 +86,32 @@
                         <td>{{ endp.Property }}</td></tr>
                    {% endfor %}
                   </tbody>
+
+              </table>
+          </div>
+        </div>
+        <div id="properties_{{ device.Id }}" class="panel-collapse collapse ">
+          <h5>List of Properties</h5>
+          <div class="panel-body">
+              <table class="table table-condensed table-bordered">
+                  <thead>
+                  <tr><th>Id</th>
+                      <th>Type</th>
+                      <th>Key</th>
+                      <th>Value</th>
+                      <th>Configurable</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                   {% for prop in device.Property %}
+                    <tr><td>{{ prop.Id }}</td>
+                        <td>{{ prop.Type }}</td>
+                        <td>{{ prop.Key }}</td>
+                        <td>{{ prop.Value }}</td>
+                        <td>{{ prop.IsUserConfigurable }}</td>
+                   {% endfor %}
+                  </tbody>
+
               </table>
           </div>
         </div>

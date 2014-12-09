@@ -8,14 +8,9 @@
    "command" :
       {
          "@type" : "zw_ta",
-         "subtype" : "set_dev_id",
+         "subtype" : "get_routing_info",
          "default" : {
-               "value" : null
-            },
-         "properties" :
-            {
-             "node_id":{"value":2},
-             "new_dev_id":{"value":3}
+               "value" : true
             },
          "target" : "/ta/zw/commands"
       },

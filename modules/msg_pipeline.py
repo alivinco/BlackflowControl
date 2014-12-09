@@ -217,7 +217,7 @@ class MsgPipeline():
 
             if not override_path :
                 for key,value in ui_mapping.items():
-                    if "path" in key:
+                    if ("path" in key) and value :
                         log.debug("Extracting data from = "+str(value))
                         ex_value = self.msg_man.get_value_from_msg(payload,value)[0]
                         log.debug("Extracted data is = "+str(ex_value))

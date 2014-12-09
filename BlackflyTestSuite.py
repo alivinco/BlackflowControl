@@ -131,7 +131,7 @@ def dashboard_ui(dash_name):
          grid_size = dash_man.get_dashboard_grid_size(dash_name)
     except Exception as ex :
         log.exception(ex)
-    return render_template('dashboard.html', mapping=ext_mapping,address_list=address_list,grid_size=grid_size,cache=cache,global_context=global_context)
+    return render_template('dashboard.html',dashboard_id = dash_name, mapping=ext_mapping,address_list=address_list,grid_size=grid_size,cache=cache,global_context=global_context)
 
 @app.route('/ui/mqtt_broker_monitor')
 def mqtt_broker_monitor_ui():
@@ -469,22 +469,34 @@ def dashboard_api():
        action = request.form["action"]
        log.info("Dashboard api action = "+action)
        dashboard_id = request.form["dashboard_id"]
-       service_id = request.form["service_id"]
-       group_id = request.form["group_id"]
-       position_row = request.form["position_row"]
-       position_col = request.form["position_col"]
 
     if action :
          if action == "add_service_to_dashboard":
-             dash_man.add_service_to_dashboard(dashboard_id,group_id,service_id,position_col,position_row)
+             service_id = request.form["service_id"]
+             group_id = request.form["group_id"]
+             position_y = int(request.form["position_y"])
+             position_x = int(request.form["position_x"])
+             dash_man.add_service_to_dashboard(dashboard_id,group_id,service_id,position_x,position_y)
          elif action == "delete_service_from_dashboard":
+             service_id = request.form["service_id"]
              dash_man.delete_service_from_dashboard(dashboard_id,service_id)
          elif action == "add_group":
              log.info("Add group to be implemented")
          elif action == "delete_group":
              log.info("Delete group to be implemented")
+         elif action == "change_service_position":
+             log.info("Changing service position...")
+             dash_man.change_service_position(dashboard_id,
+                                              movable_service_id=request.form["movable_service_id"],
+                                              drop_service_id=request.form["drop_service_id"],
+                                              start_x_position=int(request.form["start_x_position"]),
+                                              start_y_position=int(request.form["start_y_position"]),
+                                              dest_x_position=int(request.form["dest_x_position"]),
+                                              dest_y_position=int(request.form["dest_y_position"]),
+                                              start_group_id=request.form["start_group_id"],
+                                              dest_group_id=request.form["dest_group_id"])
 
-    return redirect(url_for("dashboard_ui"))
+    return redirect(url_for("dashboard_ui",dash_name=dashboard_id))
 
 
 @app.route('/api/msg_history',methods=["POST"])

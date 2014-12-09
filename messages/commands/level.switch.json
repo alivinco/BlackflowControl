@@ -9,7 +9,7 @@
                     "command" : 
                         { 
                             "@type" : "level",
-                            "subtype" : "dimmer",
+                            "subtype" : "switch",
                             "default" : { 
                                 "value" : 99  
                             }, 

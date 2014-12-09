@@ -1,16 +1,18 @@
 {
-   "@context": "http://smartly.no/context",
-   "origin": {
-        "@id": "1",
-        "@type": "zw_ta"
-    },
-    "event": {
-        "@type": "zw_ta",
-        "subtype": "dead_node_list",
-        "default": {"value": ["2","3","4"]}
-    },
-    "spid": "S-451-12",
-    "corid": "86f93c70-6c47-4cfc-91eb-30d3b069e417",
-    "creation_time": 1406709356,
-    "uuid": "daf5375b-b034-4003-b709-6f2fab336efc"
+ "origin": {
+  "@id": 1, 
+  "@type": "zw_ta"
+ }, 
+ "uuid": "b9d1664a-9620-4b78-acf7-f49c2f11022d", 
+ "creation_time": 1417537952, 
+ "spid": "SPID_NOT_SET", 
+ "@context": "http://smartly.no/context", 
+ "corid": "3d806837-0144-49dd-9740-6248f5e86f10", 
+ "event": {
+  "default": {
+   "value": []
+  }, 
+  "subtype": "dead_node_list", 
+  "@type": "zw_ta"
+ }
 }

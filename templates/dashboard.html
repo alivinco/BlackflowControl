@@ -24,6 +24,7 @@
       <h3 class="panel-title">Default</h3>
   </div>
   <div class="panel-body">
+{% set group = "default"  %}
 {% for y in range(1,(grid_size.y + 1)) %}
      <div class="row">
     {% for x in range(1,(grid_size.x + 1)) %}
@@ -31,7 +32,7 @@
            {% for item in mapping %}
                 {%  if item.dash_grid_map.y == y and item.dash_grid_map.x == x %}
                 <div class="col-sm-4 col-md-4 col-lg-3 movable" draggable="true">
-                    <div id = "panel_{{ item.id }}_{{ y }}_{{ x }}"  class="panel panel-default movable_div">
+                    <div id = "panel_{{ group }}_{{ item.id }}_{{ x }}_{{ y }}"  class="panel panel-default movable_div">
                       <div class="panel-heading">
                          <a href="#"> <span class="pull-right glyphicon glyphicon-trash"></span></a>
                          <a href="#"> <span class="pull-right glyphicon glyphicon-stats"></span></a>
@@ -49,7 +50,7 @@
            {% endfor %}
                 {% if not_empty|length==0 %}
                  <div class="x-sm-4 col-md-4 col-lg-3 movable" draggable="true">
-                    <div id = "panel_null_{{ y }}_{{ x }}"  class="panel panel-default movable_div">
+                    <div id = "panel_{{ group }}_null_{{ x }}_{{ y }}"  class="panel panel-default movable_div">
                       <div class="panel-body">
 
                       </div>
@@ -82,6 +83,7 @@
             <form class="form-horizontal" role="form" action="/api/dashboard" method="POST">
               <input type="hidden" name="action" value="add_service_to_dashboard" />
               <input type="hidden" name="group_id" value="default" />
+              <input type="hidden" name="dashboard_id" value="{{ dashboard_id }}" />
               <div class="form-group">
                 <label for="inputName" class="col-sm-4 control-label">Service</label>
                 <div class="col-sm-6">
@@ -95,13 +97,13 @@
               <div class="form-group">
                 <label for="inputName" class="col-sm-4 control-label">X Position</label>
                 <div class="col-sm-6">
-                  <input type="text" name="position_col" class="form-control" id="inputName" placeholder="" value="auto">
+                  <input type="text" name="position_x" class="form-control" id="inputName" placeholder="" value="auto">
                 </div>
               </div>
               <div class="form-group">
                 <label for="inputName" class="col-sm-4 control-label">Y Position</label>
                 <div class="col-sm-6">
-                  <input type="text" name="position_row" class="form-control" id="inputName" placeholder="" value="auto">
+                  <input type="text" name="position_y" class="form-control" id="inputName" placeholder="" value="auto">
                 </div>
               </div>
 
@@ -120,6 +122,7 @@
 {% block js_scripts %}
     <script>
       var mode = "normal"
+      var dashboard_id = "{{ dashboard_id }}"
     </script>
     <script src="/static/js/bootstrap-slider.min.js"></script>
     <script src="/static/js/ui_elements_handler.js"></script>

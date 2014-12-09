@@ -2,43 +2,28 @@
  "dash1": {
   "layout_type": "grid", 
   "grid_map": {
-   "21": {
+   "122": {
     "y": 2, 
-    "x": 1, 
-    "group": "default"
-   }, 
-   "18": {
-    "y": 2, 
-    "x": 2, 
-    "group": "default"
-   }, 
-   "62": {
-    "y": 1, 
-    "x": 4, 
-    "group": "default"
-   }, 
-   "37": {
-    "y": 1, 
-    "x": 1, 
-    "group": "default"
-   }, 
-   "36": {
-    "y": 1, 
     "x": 3, 
     "group": "default"
    }, 
-   "35": {
-    "y": 1, 
+   "116": {
+    "y": 2, 
     "x": 2, 
     "group": "default"
    }, 
-   "122": {
-    "y": 4, 
+   "166": {
+    "y": 2, 
     "x": 1, 
     "group": "default"
    }, 
-   "40": {
+   "202": {
     "y": 3, 
+    "x": 1, 
+    "group": "default"
+   }, 
+   "190": {
+    "y": 1, 
     "x": 1, 
     "group": "default"
    }

@@ -10,7 +10,7 @@
          "@type" : "zw_ta",
          "subtype" : "make_nodes_alive",
          "default" : {
-               "value" : [2,3]
+               "value" : [2]
             },
          "target" : "/ta/zw/commands"
       },

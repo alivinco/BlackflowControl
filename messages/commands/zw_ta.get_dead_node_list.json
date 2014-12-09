@@ -13,7 +13,7 @@
                "value" : true
             },
           "properties":{
-              "probe_network":{"value":true}
+              "probe_network":{"value":false}
           },
          "target" : "/ta/zw/commands"
       },

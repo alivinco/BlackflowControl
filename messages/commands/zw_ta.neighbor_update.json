@@ -8,13 +8,10 @@
    "command" :
       {
          "@type" : "zw_ta",
-         "subtype" : "get_dev_mapping",
-         "default" :
-            {
-               "value" : null
+         "subtype" : "neighbor_update",
+         "default" : {
+               "value" : [2]
             },
-         "properties" :
-            {},
          "target" : "/ta/zw/commands"
       },
    "creation_time" : 1385815582,

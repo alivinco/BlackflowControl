@@ -1,0 +1,20 @@
+{
+ "origin": {
+  "endp_id": 1, 
+  "vendor": "0174", 
+  "@id": 115, 
+  "@type": "lvl_dimmer", 
+  "location": "NotImplemented"
+ }, 
+ "uuid": "2a2d8786-d104-42e1-96e5-aff37ad17901", 
+ "creation_time": 1418043072, 
+ "spid": "SPID_NOT_SET", 
+ "@context": "http://smartly.no/context", 
+ "event": {
+  "default": {
+   "value": 15
+  }, 
+  "subtype": "switch", 
+  "@type": "level"
+ }
+}

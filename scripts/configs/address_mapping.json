@@ -38,5 +38,28 @@
   "key": "zw_ta.inclusion_report@.ta.zw.events", 
   "address": "/ta/zw/events",
      "record_history": false
+ },
+ {
+  "name": "Get zw dead node list",
+  "msg_type": "event",
+  "msg_class": "zw_ta.dead_node_list",
+  "group_name": "",
+  "override_value_path": "",
+  "key": "zw_ta.dead_node_list@.ta.zw.events",
+  "address": "/ta/zw/events",
+  "record_history": true,
+  "id": 5,
+  "override_properties": ""
+ },
+ {
+  "key": "zw_ta.make_nodes_alive@.ta.zw.commands",
+  "override_value_path": "",
+  "name": "Make zw nodes alive",
+  "msg_type": "command",
+  "msg_class": "zw_ta.make_nodes_alive",
+  "address": "/ta/zw/commands",
+  "record_history": false,
+  "id": 6,
+  "override_properties": ""
  }
 ]

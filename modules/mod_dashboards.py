@@ -53,7 +53,7 @@ class DashboardManager:
         del self.dash_map[dash_id]["grid_map"][service_id]
         self.serialize_dashboard()
 
-    def move_service(self, dash_id, movable_service_id, drop_service_id, start_x_position, start_y_position, dest_x_position,
+    def change_service_position(self, dash_id, movable_service_id, drop_service_id, start_x_position, start_y_position, dest_x_position,
                      dest_y_position, start_group_id, dest_group_id):
         """
         The method moves one service from position A to position B , if position is already occupied by another service ,
@@ -74,10 +74,11 @@ class DashboardManager:
         movable_service["y"] = dest_y_position
         movable_service["group"] = dest_group_id
 
-        drop_service = self.dash_map[dash_id]["grid_map"][drop_service_id]
-        drop_service["x"] = start_x_position
-        drop_service["y"] = start_y_position
-        drop_service["group"] = start_group_id
+        if drop_service_id:
+            drop_service = self.dash_map[dash_id]["grid_map"][drop_service_id]
+            drop_service["x"] = start_x_position
+            drop_service["y"] = start_y_position
+            drop_service["group"] = start_group_id
         self.serialize_dashboard()
 
 
