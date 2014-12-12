@@ -2,37 +2,19 @@
     "origin" :
     {
         "@type" : "app",
-        "@id" : "1085866",
-        "vendor" : "Canary",
-        "location" : "living room"
+        "@id" : "Blackfly",
+        "vendor" : "Blackfly",
+        "location" : "room"
     },
     "command" :
     {
         "@type" : "devicereg",
-        "subtype" : "get_device_list",
+        "subtype" : "delete",
         "default" :
         {
-            "value" : true
-        },
-        "properties" :
-        {
-            "value" : "filter1",
-            "search" :
-            {
-                "device_info" :
-                {
-                    "address" : "*"
-                }
-            },
-            "sort" :
-            {
-                "device_info" :
-                {
-                    "id" : "asc"
-                }
-            },
-            "limit" : 0
+            "value" : 0
         }
+
     },
     "creation_time" : 1385815582,
     "uuid" : "86f93c70-6c47-4cfc-91eb-30d3b069e417",
