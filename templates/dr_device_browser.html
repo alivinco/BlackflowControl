@@ -22,10 +22,11 @@
         <th>Protocol Ver</th>
         <th>Product Id</th>
         <th>Product Type Id</th>
+        <th>Hash code</th>
         <th>Status</th>
         <th>Last Error Msg</th>
-        <th>First Use Date</th>
-        <th>Last Update</th>
+        <th style="min-width: 80px">First Use Date</th>
+        <th style="min-width: 80px">Last Update</th>
         <th>Security Level</th>
         <th>Properties</th>
         <th>Action</th>
@@ -49,10 +50,11 @@
         <td>{{ device.ProtocolVersion }}</td>
         <td>{{ device.ProductId }}</td>
         <td>{{ device.ProductTypeId }}</td>
+        <td><small>{{ device.HashCode }}</small></td>
         <td>{{ device.Status }}</td>
         <td>{{ device.LastErrorMsg }}</td>
-        <td>{{ device.FirstUseDate }}</td>
-        <td>{{ device.LastUpdate }}</td>
+        <td><small>{{ device.FirstUseDate|replace("T"," ") }}</small></td>
+        <td><small>{{ device.LastUpdate|replace("T"," ") }}</small></td>
         <td>{{ device.SecurityLevel }}</td>
         <td><a data-toggle="collapse" href="#properties_{{ device.Id }}">Properties</a></td>
 

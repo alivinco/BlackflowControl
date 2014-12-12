@@ -366,23 +366,7 @@
   }, 
   "msg_type": "command", 
   "msg_class": "devicereg.delete"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "free_text", 
-   "value_path": "$.event.properties"
-  }, 
-  "msg_type": "event", 
-  "msg_class": "dr.device_list"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "free_text", 
-   "value_path": "$.event.default"
-  }, 
-  "msg_type": "event", 
-  "msg_class": "device_info.connection"
- }, 
+ },
  {
   "ui_mapping": {
    "ui_element": "input_text_field", 
