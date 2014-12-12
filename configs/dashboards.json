@@ -3,12 +3,12 @@
   "layout_type": "grid", 
   "grid_map": {
    "122": {
-    "y": 2, 
+    "y": 1, 
     "x": 3, 
     "group": "default"
    }, 
    "116": {
-    "y": 2, 
+    "y": 1, 
     "x": 2, 
     "group": "default"
    }, 
@@ -18,8 +18,8 @@
     "group": "default"
    }, 
    "202": {
-    "y": 3, 
-    "x": 1, 
+    "y": 2, 
+    "x": 2, 
     "group": "default"
    }, 
    "190": {
@@ -32,11 +32,15 @@
   "groups": {
    "default": {
     "name": "default", 
-    "description": "default"
+    "description": "default",
+    "x_size":3,
+    "y_size":3
    }, 
    "1_floor": {
     "name": "kitchen on 1 floor", 
-    "description": "kitchen"
+    "description": "kitchen",
+    "x_size":"auto",
+    "y_size":"auto"
    }
   }
  }

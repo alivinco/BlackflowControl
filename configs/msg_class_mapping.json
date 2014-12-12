@@ -359,6 +359,16 @@
  }, 
  {
   "ui_mapping": {
+   "ui_element": "input_num_field", 
+   "override_properties": false, 
+   "value_path": "$.command.default.value", 
+   "num_type": "int"
+  }, 
+  "msg_type": "command", 
+  "msg_class": "devicereg.delete"
+ }, 
+ {
+  "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.properties"
   }, 

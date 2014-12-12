@@ -21,7 +21,9 @@
 
 <div class="panel panel-success">
   <div class="panel-heading">
-      <h3 class="panel-title">Default</h3>
+
+      <a href="#"> <span class="pull-right glyphicon glyphicon-cog"></span></a>
+       <h3 class="panel-title">Default</h3>
   </div>
   <div class="panel-body">
 {% set group = "default"  %}
@@ -34,8 +36,10 @@
                 <div class="col-sm-4 col-md-4 col-lg-3 movable" draggable="true">
                     <div id = "panel_{{ group }}_{{ item.id }}_{{ x }}_{{ y }}"  class="panel panel-default movable_div">
                       <div class="panel-heading">
-                         <a href="#"> <span class="pull-right glyphicon glyphicon-trash"></span></a>
-                         <a href="#"> <span class="pull-right glyphicon glyphicon-stats"></span></a>
+{#                         <a href="#"> <span class="pull-right glyphicon glyphicon-trash"></span></a>#}
+                         <a href="#"> <span class="pull-right glyphicon glyphicon-cog"></span></a>
+                          <a href="#"> <span class="pull-right glyphicon glyphicon-stats">&nbsp;</span></a>
+
                          <h3 class="panel-title">  {{ item.name }}</h3>
                       </div>
                       <div class="panel-body">
