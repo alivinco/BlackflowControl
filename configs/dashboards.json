@@ -2,46 +2,59 @@
  "dash1": {
   "layout_type": "grid", 
   "grid_map": {
-   "122": {
+   "202": {
     "y": 1, 
     "x": 3, 
-    "group": "default"
-   }, 
-   "116": {
-    "y": 1, 
-    "x": 2, 
-    "group": "default"
-   }, 
-   "166": {
-    "y": 2, 
-    "x": 1, 
-    "group": "default"
-   }, 
-   "202": {
-    "y": 2, 
-    "x": 2, 
-    "group": "default"
+    "group": 1, 
+    "service_name": ""
    }, 
    "190": {
     "y": 1, 
     "x": 1, 
-    "group": "default"
+    "group": 0, 
+    "service_name": ""
+   }, 
+   "122": {
+    "y": 1, 
+    "x": 3, 
+    "group": 0, 
+    "service_name": "door temper"
+   }, 
+   "116": {
+    "y": 1, 
+    "x": 2, 
+    "group": 0, 
+    "service_name": ""
+   }, 
+   "166": {
+    "y": 1, 
+    "x": 1, 
+    "group": 1, 
+    "service_name": ""
+   }, 
+   "221": {
+    "y": 2, 
+    "x": 3, 
+    "group": 0, 
+    "service_name": "Superswitch"
    }
   }, 
-  "name": "Dashboard1", 
-  "groups": {
-   "default": {
-    "name": "default", 
-    "description": "default",
-    "x_size":3,
-    "y_size":3
+  "name": "Dashboard", 
+  "groups": [
+   {
+    "id": 0, 
+    "y_size": 3, 
+    "x_size": 3, 
+    "description": "Default", 
+    "name": "Default"
    }, 
-   "1_floor": {
-    "name": "kitchen on 1 floor", 
-    "description": "kitchen",
-    "x_size":"auto",
-    "y_size":"auto"
+   {
+    "id": 1, 
+    "y_size": 3, 
+    "x_size": 3, 
+    "description": "kitchen", 
+    "name": "kitchen on 1 floor"
    }
-  }
+  ]
  }
 }

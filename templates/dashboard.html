@@ -18,58 +18,59 @@
 <div class="container-fluid">
 
 <div class="table-responsive">
+{% for group in groups|sort(attribute="id") %}
 
 <div class="panel panel-success">
   <div class="panel-heading">
 
       <a href="#"> <span class="pull-right glyphicon glyphicon-cog"></span></a>
-       <h3 class="panel-title">Default</h3>
+       <h3 class="panel-title">{{ group.name }}</h3>
   </div>
   <div class="panel-body">
-{% set group = "default"  %}
-{% for y in range(1,(grid_size.y + 1)) %}
-     <div class="row">
-    {% for x in range(1,(grid_size.x + 1)) %}
-           {% set not_empty = [] %}
-           {% for item in mapping %}
-                {%  if item.dash_grid_map.y == y and item.dash_grid_map.x == x %}
-                <div class="col-sm-4 col-md-4 col-lg-3 movable" draggable="true">
-                    <div id = "panel_{{ group }}_{{ item.id }}_{{ x }}_{{ y }}"  class="panel panel-default movable_div">
-                      <div class="panel-heading">
-{#                         <a href="#"> <span class="pull-right glyphicon glyphicon-trash"></span></a>#}
-                         <a href="#"> <span class="pull-right glyphicon glyphicon-cog"></span></a>
-                          <a href="#"> <span class="pull-right glyphicon glyphicon-stats">&nbsp;</span></a>
+    {% for y in range(1,(group.y_size + 1)) %}
+         <div class="row">
+        {% for x in range(1,(group.x_size + 1)) %}
+               {% set not_empty = [] %}
+               {% for item in mapping %}
+                    {%  if item.dash_grid_map.y == y and item.dash_grid_map.x == x and item.dash_grid_map.group==group.id %}
+                    <div class="col-sm-4 col-md-4 col-lg-3 movable" draggable="true">
+                        <div id = "panel_{{ group.id}}_{{ item.id }}_{{ x }}_{{ y }}"  class="panel panel-default movable_div">
+                          <div class="panel-heading">
+    {#                         <a href="#"> <span class="pull-right glyphicon glyphicon-trash"></span></a>#}
+                             <a href="#"> <span class="pull-right glyphicon glyphicon-cog"></span></a>
+                              <a href="#"> <span class="pull-right glyphicon glyphicon-stats">&nbsp;</span></a>
 
-                         <h3 class="panel-title">  {{ item.name }}</h3>
-                      </div>
-                      <div class="panel-body">
-                        {% include 'msg_ui_element.html' %}
-                      </div>
+                             <h3 class="panel-title"> {% if item.dash_grid_map.service_name %} {{ item.dash_grid_map.service_name }}  {% else %} {{ item.name }} {% endif %} </h3>
+                          </div>
+                          <div class="panel-body">
+                            {% include 'msg_ui_element.html' %}
+                          </div>
+                        </div>
                     </div>
-                </div>
-                {% if not_empty.append(True) %}{% endif %}
+                    {% if not_empty.append(True) %}{% endif %}
 
-                {% endif %}
+                    {% endif %}
 
-           {% endfor %}
-                {% if not_empty|length==0 %}
-                 <div class="x-sm-4 col-md-4 col-lg-3 movable" draggable="true">
-                    <div id = "panel_{{ group }}_null_{{ x }}_{{ y }}"  class="panel panel-default movable_div">
-                      <div class="panel-body">
+               {% endfor %}
+                    {% if not_empty|length==0 %}
+                     <div class="x-sm-4 col-md-4 col-lg-3 movable" draggable="true">
+                        <div id = "panel_{{ group.id }}_null_{{ x }}_{{ y }}"  class="panel panel-default movable_div">
+                          <div class="panel-body">
 
-                      </div>
+                          </div>
+                        </div>
                     </div>
-                </div>
-                {% endif %}
+                    {% endif %}
 
 
-     {% endfor %}
-     </div>
-{% endfor %}
+         {% endfor %}
+         </div>
+    {% endfor %}
 
   </div>
 </div>
 
+{% endfor %}
 </div>
 </div>
 {#Modal dialog #}
@@ -86,7 +87,7 @@
       <div >
             <form class="form-horizontal" role="form" action="/api/dashboard" method="POST">
               <input type="hidden" name="action" value="add_service_to_dashboard" />
-              <input type="hidden" name="group_id" value="default" />
+              <input type="hidden" name="group_id" value="0" />
               <input type="hidden" name="dashboard_id" value="{{ dashboard_id }}" />
               <div class="form-group">
                 <label for="inputName" class="col-sm-4 control-label">Service</label>
@@ -96,6 +97,12 @@
                         <option value="{{ item.id }}" >{{ item.name }} -> {{ item.address }}</option>
                      {% endfor %}
                   </select>
+                </div>
+              </div>
+             <div class="form-group">
+                <label for="inputName" class="col-sm-4 control-label">Service name</label>
+                <div class="col-sm-6">
+                  <input type="text" name="service_name" class="form-control" id="inputName" placeholder="" value="">
                 </div>
               </div>
               <div class="form-group">

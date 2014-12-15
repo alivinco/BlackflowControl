@@ -44,6 +44,12 @@ then
  cp /tmp/configs/filters.json configs/
 #cp /tmp/configs/msg_class_mapping.json configs/
  cp -r /tmp/events messages/
+ if [ -e "/tmp/configs/filters.json" ];
+    then
+        cp /tmp/configs/filters.json configs/
+    else
+        cp  scripts/configs/filters.json configs/
+ fi
  echo "Running update script"
  python scripts/upgrade.py
 else

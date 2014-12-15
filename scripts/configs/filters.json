@@ -1,4 +1,14 @@
 {
  "inter_console": [
+  {
+   "filter": "/ta/zw/",
+   "id": 1,
+   "name": "zw_ta"
+  },
+  {
+   "filter": "/app/devicereg",
+   "id": 2,
+   "name": "Devicereg"
+  }
  ]
 }

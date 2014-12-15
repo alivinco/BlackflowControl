@@ -127,11 +127,13 @@ def dashboard_ui(dash_name):
          mapping = msg_man.generate_linked_mapping(msg_man.msg_class_mapping, msg_man.address_mapping)
          ext_mapping = dash_man.get_extended_dashboard_map(dash_name,mapping)
          # dash_map = dash_man.get_dashboard_map(dash_name)
-         address_list = mapping = msg_man.address_mapping
-         grid_size = dash_man.get_dashboard_grid_size(dash_name)
+         address_list = msg_man.address_mapping
+         # grid_size = dash_man.get_dashboard_grid_size(dash_name)
+         groups = dash_man.get_dashboard_map(dash_name)["groups"]
+         log.info(groups)
     except Exception as ex :
         log.exception(ex)
-    return render_template('dashboard.html',dashboard_id = dash_name, mapping=ext_mapping,address_list=address_list,grid_size=grid_size,cache=cache,global_context=global_context)
+    return render_template('dashboard.html',dashboard_id = dash_name, mapping=ext_mapping,address_list=address_list,groups=groups,cache=cache,global_context=global_context)
 
 @app.route('/ui/mqtt_broker_monitor')
 def mqtt_broker_monitor_ui():
@@ -474,9 +476,10 @@ def dashboard_api():
          if action == "add_service_to_dashboard":
              service_id = request.form["service_id"]
              group_id = request.form["group_id"]
-             position_y = int(request.form["position_y"])
-             position_x = int(request.form["position_x"])
-             dash_man.add_service_to_dashboard(dashboard_id,group_id,service_id,position_x,position_y)
+             service_name = request.form["service_name"]
+             position_y = request.form["position_y"]
+             position_x = request.form["position_x"]
+             dash_man.add_service_to_dashboard(dashboard_id,group_id,service_id,position_x,position_y,service_name)
          elif action == "delete_service_from_dashboard":
              service_id = request.form["service_id"]
              dash_man.delete_service_from_dashboard(dashboard_id,service_id)
@@ -493,8 +496,8 @@ def dashboard_api():
                                               start_y_position=int(request.form["start_y_position"]),
                                               dest_x_position=int(request.form["dest_x_position"]),
                                               dest_y_position=int(request.form["dest_y_position"]),
-                                              start_group_id=request.form["start_group_id"],
-                                              dest_group_id=request.form["dest_group_id"])
+                                              start_group_id=int(request.form["start_group_id"]),
+                                              dest_group_id=int(request.form["dest_group_id"]))
 
     return redirect(url_for("dashboard_ui",dash_name=dashboard_id))
 
@@ -615,4 +618,4 @@ def log_viewer():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0",port = http_server_port, use_debugger=False,threaded=True,use_reloader=False)
+    app.run(host="0.0.0.0",port = http_server_port,debug=True, use_debugger=False,threaded=True,use_reloader=False)

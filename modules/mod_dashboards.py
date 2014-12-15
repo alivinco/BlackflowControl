@@ -15,8 +15,11 @@ class DashboardManager:
     def load_dashboard_map(self):
         self.dash_map = json.load(file(self.dash_map_path))
 
-    def get_dashboard_map(self,dash_id):
-        return self.dash_map
+    def get_dashboard_map(self,dash_id=None):
+        if dash_id:
+            return self.dash_map[dash_id]
+        else :
+            return self.dash_map
 
     def get_extended_dashboard_map(self,dash_id,linked_addr_mapping):
         ext_map = []
@@ -27,7 +30,7 @@ class DashboardManager:
                 ext_map.append(item)
         return ext_map
 
-    def get_dashboard_grid_size(self,dash_id,group="default"):
+    def get_dashboard_grid_size(self,dash_id,group=0):
         max_y = 0
         max_x = 0
         for item in self.dash_map[dash_id]["grid_map"].itervalues():
@@ -82,7 +85,7 @@ class DashboardManager:
         self.serialize_dashboard()
 
 
-    def add_service_to_dashboard(self,dash_id,group,addr_id,x_pos="auto",y_pos="auto",layout_type="grid"):
+    def add_service_to_dashboard(self,dash_id,group,addr_id,x_pos="auto",y_pos="auto",service_name="",layout_type="grid"):
         """
         The method adds a service (sensor value , button , binary representation) to the dashboard .
         :param dash_id: Dashboard Id
@@ -106,7 +109,13 @@ class DashboardManager:
             else:
                 y_pos = y_size
                 x_pos = x_size
-        position = {"y":y_pos,"x":x_pos,"group":group}
+        else :
+            x_pos = int(x_pos)
+            y_pos = int(y_pos)
+
+
+
+        position = {"y":y_pos,"x":x_pos,"group":group,"service_name":service_name}
         self.log.info("Adding new service to dashboard . Service address = "+str(addr_id)+" position = "+str(position))
         self.dash_map[dash_id]["grid_map"][addr_id]= position
         self.serialize_dashboard()
