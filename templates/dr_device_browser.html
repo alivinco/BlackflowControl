@@ -8,28 +8,28 @@
 <table class="table table-bordered table-striped table-hover">
    <thead>
       <tr>
-        <th>Id</th>
-        <th>Integration Id</th>
-        <th>Address</th>
-        <th>Serial Number</th>
-        <th>Name</th>
-        <th>Alias</th>
-        <th>Endpoints</th>
-        <th>Comm Tech</th>
-        <th>Manufacturer</th>
-        <th>Hw Ver.</th>
-        <th>Sw Ver.</th>
-        <th>Protocol Ver</th>
-        <th>Product Id</th>
-        <th>Product Type Id</th>
-        <th>Hash code</th>
-        <th>Status</th>
-        <th>Last Error Msg</th>
-        <th style="min-width: 80px">First Use Date</th>
-        <th style="min-width: 80px">Last Update</th>
-        <th>Security Level</th>
-        <th>Properties</th>
-        <th>Action</th>
+        <th><h6>Id</h6></th>
+        <th><h6>Integr. Id</h6></th>
+        <th><h6>Address</h6></th>
+        <th><h6>Serial Number</h6></th>
+        <th><h6>Name</h6></th>
+        <th><h6>Alias</h6></th>
+        <th><h6>Services</h6></th>
+        <th><h6>Comm Tech</h6></th>
+        <th><h6>Manufacturer</h6></th>
+        <th><h6>Hw Ver.</h6></th>
+        <th><h6>Sw Ver.</h6></th>
+        <th><h6>Protocol Ver</h6></th>
+        <th><h6>Product Id</h6></th>
+        <th><h6>Product Type Id</h6></th>
+        <th><h6>Hash code</h6></th>
+        <th><h6>Status</h6></th>
+        <th><h6>Last Error Msg</h6></th>
+        <th style="min-width: 80px"><h6>First Use Date</h6></th>
+        <th style="min-width: 80px"><h6>Last Update</h6></th>
+        <th><h6>Security Level</h6></th>
+        <th><h6>Properties</h6></th>
+        <th><h6>Action</h6></th>
       </tr>
    </thead>
    <tbody>
@@ -42,7 +42,7 @@
         <td>{{ device.SerialNumber }}</td>
         <td>{{ device.Name }}</td>
         <td>{{ device.Alias }}</td>
-        <td><a data-toggle="collapse" href="#endpoints_{{ device.Id }}">Endpoints</a></td>
+        <td><a data-toggle="collapse" href="#endpoints_{{ device.Id }}">Services</a></td>
         <td>{{ device.CommunicationTechnology }}</td>
         <td>{{ device.Manufacturer }}</td>
         <td>{{ device.HardwareVersion }}</td>
@@ -60,7 +60,7 @@
 
         <td style="min-width: 100px">
             <a href="/ui/inter_console?filter=/dev/{{ device.CommunicationTechnology }}/{{ device.Address }}&mode=normal">Interact</a>
-            <p><a href="/ui/inter_console?filter=/dev/{{ device.CommunicationTechnology }}/{{ device.Address }}&mode=normal">SDC lookup</a></p>
+            <p><a target="_blank" href="http://prov01.smartly.no/live/SDC/GetDeviceList?HashCode={{ device.HashCode }}">SDC lookup</a></p>
         </td>
       </tr>
      <tr>

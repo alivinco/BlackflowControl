@@ -1,2 +1,2 @@
 Send command :
-curl -X POST -H "Content-Type: application/json" -d '{"msg_key":"zw_ta.inclusionlo_mode@.ta.zw.commands","user_params":{"value":true},"mode":"normal"}' http://localhost:5000/api/send_command
+curl -X POST -H "Content-Type: application/json" -d '{"msg_key":"zw_ta.inclusion_mode@.ta.zw.commands","user_params":{"value":true},"mode":"normal"}' http://localhost:5000/api/send_command

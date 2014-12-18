@@ -18,7 +18,7 @@
 //
 //  });
 
-function dashboard_api(data)
+function dashboard_api(data,execute_on_success)
 {
     $.ajax({
       url: "/api/dashboard",
@@ -27,8 +27,28 @@ function dashboard_api(data)
       data: data,
       success: function( data ) {
        console.log("Dash api success")
+       execute_on_success(data)
       }
     });
+
+}
+
+var dialog_service_id = null
+
+function open_update_service_dialog(group_id,service_id,service_name)
+{
+    $('#service_name').val(service_name)
+    $('#update_service_modal').modal({"show":true})
+    dialog_service_id = service_id
+}
+
+function delete_service_from_dashboard()
+{
+    data = {"action":"delete_service_from_dashboard",
+            "dashboard_id":dashboard_id,
+            "service_id":dialog_service_id}
+
+    dashboard_api(data,function(){location.reload()})
 
 }
 

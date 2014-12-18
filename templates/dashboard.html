@@ -37,7 +37,7 @@
                         <div id = "panel_{{ group.id}}_{{ item.id }}_{{ x }}_{{ y }}"  class="panel panel-default movable_div">
                           <div class="panel-heading">
     {#                         <a href="#"> <span class="pull-right glyphicon glyphicon-trash"></span></a>#}
-                             <a href="#"> <span class="pull-right glyphicon glyphicon-cog"></span></a>
+                             <a href="javascript:open_update_service_dialog({{ group.id}},{{ item.id }},'{% if item.dash_grid_map.service_name %} {{ item.dash_grid_map.service_name }}  {% else %} {{ item.name }} {% endif %}')"> <span class="pull-right glyphicon glyphicon-cog"></span></a>
                               <a href="#"> <span class="pull-right glyphicon glyphicon-stats">&nbsp;</span></a>
 
                              <h3 class="panel-title"> {% if item.dash_grid_map.service_name %} {{ item.dash_grid_map.service_name }}  {% else %} {{ item.name }} {% endif %} </h3>
@@ -75,7 +75,7 @@
 </div>
 {#Modal dialog #}
 
-{#Modal dialog #}
+{#Add service modal dialog #}
 <div class="modal fade" id="add_service_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -121,6 +121,39 @@
               <div class="modal-footer">
                 <button type="submit" class="btn btn-default">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{#Add modify service modal #}
+<div class="modal fade" id="update_service_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Configure service</h4>
+      </div>
+      <br/>
+      <div >
+            <form class="form-horizontal" role="form" action="/api/dashboard" method="POST">
+              <input type="hidden" name="action" value="update_service" />
+              <input type="hidden" name="group_id" value="0" />
+              <input type="hidden" name="dashboard_id" value="{{ dashboard_id }}" />
+
+              <div class="form-group">
+                <label for="serviceName" class="col-sm-4 control-label">Service name</label>
+                <div class="col-sm-6">
+                  <input type="text" name="service_name" class="form-control" id="service_name" placeholder="" value="">
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-default">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal" onclick="delete_service_from_dashboard(dashboard_id)" >Delete</button>
               </div>
             </form>
       </div>

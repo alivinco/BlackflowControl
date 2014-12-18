@@ -54,6 +54,7 @@ class DashboardManager:
         :param service_id:
         """
         del self.dash_map[dash_id]["grid_map"][service_id]
+        self.log.info("Service with id = "+str(service_id)+" was deleted from dashboard "+dash_id)
         self.serialize_dashboard()
 
     def change_service_position(self, dash_id, movable_service_id, drop_service_id, start_x_position, start_y_position, dest_x_position,
@@ -85,19 +86,21 @@ class DashboardManager:
         self.serialize_dashboard()
 
 
-    def add_service_to_dashboard(self,dash_id,group,addr_id,x_pos="auto",y_pos="auto",service_name="",layout_type="grid"):
+    def add_service_to_dashboard(self,dash_id,group_id,addr_id,x_pos="auto",y_pos="auto",service_name="",layout_type="grid"):
         """
         The method adds a service (sensor value , button , binary representation) to the dashboard .
         :param dash_id: Dashboard Id
-        :param group: Groups id , groups is a way for grouping services within a dashboards
+        :param group_id: Groups id , groups is a way for grouping services within a dashboards
         :param addr_id: service address id , it comes from address_mapping.json
         :param x_pos: panel x position, in grid it is a xumn
         :param y_pos: panel y position, in grid it is a y
         :param layout_type: layout type , so far "grid" is the only supported layout
         """
-        grid_size = self.get_dashboard_grid_size(dash_id,group)
+        grid_size = self.get_dashboard_grid_size(dash_id,group_id)
         x_size = grid_size["x"]
         y_size = grid_size["y"]
+
+        group = filter(lambda gr : gr["id"]==group_id,self.dash_map[dash_id]["groups"])[0]
         # print self.dash_map[dash_id]["grid_map"][0]["y"]
         if x_pos == "auto" or y_pos=="auto":
             # let's check if last xumn of last y is not empty
@@ -106,6 +109,7 @@ class DashboardManager:
                 # last y is busy , let's add new service to first xumn of next y
                 y_pos = y_size+1
                 x_pos = 1
+                if y_pos > group["y_size"]:group["y_size"] = y_pos
             else:
                 y_pos = y_size
                 x_pos = x_size
@@ -115,7 +119,7 @@ class DashboardManager:
 
 
 
-        position = {"y":y_pos,"x":x_pos,"group":group,"service_name":service_name}
+        position = {"y":y_pos,"x":x_pos,"group":group_id,"service_name":service_name}
         self.log.info("Adding new service to dashboard . Service address = "+str(addr_id)+" position = "+str(position))
         self.dash_map[dash_id]["grid_map"][addr_id]= position
         self.serialize_dashboard()

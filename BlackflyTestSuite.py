@@ -108,7 +108,7 @@ def inter_console_ui():
         if mode == "sim" :
             mapping = dev_simulator.get_msg_mapping()
         else :
-            mapping = msg_man.generate_linked_mapping(msg_man.load_msg_class_mapping(), msg_man.load_address_mapping())
+            mapping = msg_man.generate_linked_mapping(msg_man.msg_class_mapping, msg_man.address_mapping)
         if filter_value:
            p = re.compile(filter_value,re.IGNORECASE)
            mapping = filter(lambda item: (p.search(item["address"])),mapping)
@@ -389,7 +389,6 @@ def address_manager():
                 address = request.args.get("address","")
                 msg_classes_list = get_msg_class_by_capabilities(dev_type,capability)
                 for item in msg_classes_list:
-
                     log.info("Msg class is recognized as :"+str(item.msg_class))
                     msg_man.add_address_to_mapping(address,item.msg_class)
                 return redirect(url_for("inter_console_ui",filter=address,mode="normal"))
@@ -475,7 +474,7 @@ def dashboard_api():
     if action :
          if action == "add_service_to_dashboard":
              service_id = request.form["service_id"]
-             group_id = request.form["group_id"]
+             group_id = int(request.form["group_id"])
              service_name = request.form["service_name"]
              position_y = request.form["position_y"]
              position_x = request.form["position_x"]
