@@ -553,10 +553,10 @@ def help(page):
 def dr_browser():
     log.info("Device registry browser")
     msg = msg_man.load_template_by_key("devicereg.get_device_list@command")
-    log.info(msg)
+    log.debug(msg)
     msg_pipeline.update_static_part_of_message(msg,"/app/devicereg/commands")
     response = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events")
-    log.info("response :"+str(response))
+    log.debug("response :"+str(response))
     return render_template('dr_device_browser.html',dr_response=response,global_context=global_context)
 
 

@@ -60,6 +60,7 @@
 
         <td style="min-width: 100px">
             <a href="/ui/inter_console?filter=/dev/{{ device.CommunicationTechnology }}/{{ device.Address }}&mode=normal">Interact</a>
+            <p><a href="javascript:send_command('devicereg.delete@.app.devicereg.commands','',{{ device.Id }} );setTimeout(function(){location.reload()},500) ;">Delete</a></p>
             <p><a target="_blank" href="http://prov01.smartly.no/live/SDC/GetDeviceList?HashCode={{ device.HashCode }}">SDC lookup</a></p>
         </td>
       </tr>
@@ -141,7 +142,11 @@
 
 {% endblock %}
 {% block js_scripts %}
+    <script>
+      var mode = "normal"
+    </script>
     <script src="/static/js/stupidtable.min.js"></script>
+    <script src="/static/js/ui_elements_handler.js"></script>
 
 
 {% endblock %}
