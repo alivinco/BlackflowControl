@@ -42,14 +42,43 @@ function open_update_service_dialog(group_id,service_id,service_name)
     dialog_service_id = service_id
 }
 
+function open_update_group_dialog(group_id ,group_name , x_size , y_size)
+{
+    // check if update or add
+    if ( group_id >= 0 )
+    {
+        console.log("updating values "+group_name)
+        $('#group_id').val(group_id)
+        $('#group_name').val(group_name)
+        $('#group_x_size').val(x_size)
+        $('#group_y_size').val(y_size)
+
+    }
+    $('#update_group_modal').modal({"show":true})
+
+}
+
 function delete_service_from_dashboard()
 {
     data = {"action":"delete_service_from_dashboard",
             "dashboard_id":dashboard_id,
             "service_id":dialog_service_id}
 
+    //call dashboard API and then reload the page
     dashboard_api(data,function(){location.reload()})
 
+}
+
+function update_service(service_name)
+{
+    service_name = $('#service_name').val()
+    data = {"action":"update_service",
+            "dashboard_id":dashboard_id,
+            "service_id":dialog_service_id,
+            "service_name":service_name}
+
+    //call dashboard API and then reload the page
+    dashboard_api(data,function(){location.reload()})
 }
 
 function init_dnd_handler()

@@ -46,6 +46,36 @@ class DashboardManager:
         f.write(json.dumps(self.dash_map, indent=True))
         f.close()
 
+    def update_service(self,dash_id,service_id,service_name):
+        """
+        Method updates service parameters within dashboard .
+        :param dash_id:
+        :param service_id: service_id from address_mapping
+        :param service_name: service human readable name
+        """
+        service = self.dash_map[dash_id]["grid_map"][service_id]
+        service["service_name"] = service_name
+        self.serialize_dashboard()
+
+    def update_group(self,dash_id,group_id,x_size=None,y_size=None,name=None):
+        if group_id == -1 :
+            new_id = 1
+            new_group = {"y_size": y_size,
+                         "x_size": x_size,
+                         "description": name,
+                         "name": name,
+                         "id": new_id
+                        }
+            self.dash_map[dash_id]["groups"].append(new_group)
+        else :
+            # update
+            group = filter(lambda gr : (gr.id==group_id),self.dash_map[dash_id]["groups"])[0]
+            if x_size: group.x_size = x_size
+            if y_size: group.y_size = y_size
+            if name :group.name = name
+        self.serialize_dashboard()
+
+
     def delete_service_from_dashboard(self, dash_id, service_id):
         """
         The method removes a service from a dashboard.

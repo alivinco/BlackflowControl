@@ -482,6 +482,17 @@ def dashboard_api():
          elif action == "delete_service_from_dashboard":
              service_id = request.form["service_id"]
              dash_man.delete_service_from_dashboard(dashboard_id,service_id)
+         elif action == "update_service":
+             service_id = request.form["service_id"]
+             service_name = request.form["service_name"]
+             dash_man.update_service(dashboard_id,service_id,service_name)
+         elif action == "update_group":
+             group_id = int(request.form["group_id"])
+             group_name = request.form["group_name"]
+             x_size = int(request.form["group_x_size"])
+             y_size = int(request.form["group_y_size"])
+             dash_man.update_group(dashboard_id,group_id,x_size,y_size,group_name)
+
          elif action == "add_group":
              log.info("Add group to be implemented")
          elif action == "delete_group":
