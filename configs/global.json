@@ -4,7 +4,7 @@
   "root_topic": "/#", 
   "enable_sys": false, 
   "global_topic_prefix": "", 
-  "host": "alivinco.sg",
+  "host": "localhost",
   "client_id": "blackfly_test_suite_4", 
   "password": "Lyse3124", 
   "port": "1883"
