@@ -15,7 +15,7 @@
  }, 
  "system": {
   "http_server_port": 5000, 
-  "version": "1.4.3"
+  "version": "1.4.4"
  }, 
  "defaults": {
   "event_value_path_for_new_class": "$.event.default.value", 

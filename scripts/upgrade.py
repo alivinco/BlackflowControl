@@ -44,7 +44,7 @@ def update_global_config():
         # jobj["db"]["db_path"] = "/tmp/timeseries.db"
         print "global.json is already up to date"
     if "system" in jobj:
-        jobj["system"]["version"]="1.4.3"
+        jobj["system"]["version"]="1.4.4"
         jobj["mqtt"]["enable_sys"]=False
         jobj["system"]["http_server_port"]=5000
     else :
