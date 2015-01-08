@@ -15,7 +15,7 @@ class FlowController():
     # Table contains all active flow instances
     instance_table = []
     # Table contains waiting "receives" and definition which can resume flow executions
-    receive_table =
+    receive_table = []
 
     def __init__(self):
         pass
@@ -23,4 +23,4 @@ class FlowController():
     def on_message(self,topic,payload):
         pass
 
-    # def   
+    # def

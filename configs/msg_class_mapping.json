@@ -18,17 +18,26 @@
  {
   "ui_mapping": {
    "ui_element": "toggle_switch", 
-   "value_path": "$.command.default.value", 
-   "override_properties": true
+   "override_properties": true, 
+   "value_path": "$.command.default.value"
   }, 
   "msg_type": "command", 
   "msg_class": "zw_ta.get_dead_node_list"
  }, 
  {
   "ui_mapping": {
+   "ui_element": "toggle_switch", 
+   "override_properties": true, 
+   "value_path": "$.command.default.value"
+  }, 
+  "msg_type": "command", 
+  "msg_class": "zw_ta.get_routing_info"
+ }, 
+ {
+  "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "int", 
-   "value_path": "$.command.default.value[0]"
+   "value_path": "$.command.default.value[0]", 
+   "num_type": "int"
   }, 
   "msg_type": "command", 
   "msg_class": "zw_ta.make_nodes_alive"
@@ -52,9 +61,9 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "override_properties": true, 
+   "num_type": "float", 
    "value_path": "$.command.default.value", 
-   "num_type": "float"
+   "override_properties": true
   }, 
   "msg_type": "command", 
   "msg_class": "level.thermostat"
@@ -180,8 +189,8 @@
  {
   "ui_mapping": {
    "ui_element": "slider", 
-   "value_path": "$.command.default.value", 
-   "num_type": "int"
+   "num_type": "int", 
+   "value_path": "$.command.default.value"
   }, 
   "msg_type": "command", 
   "msg_class": "level.switch"
@@ -190,8 +199,8 @@
   "ui_mapping": {
    "ui_element": "msg_class_ui", 
    "properties_are_key_value": true, 
-   "override_properties": true, 
-   "num_type": "int"
+   "num_type": "int", 
+   "override_properties": true
   }, 
   "msg_type": "command", 
   "msg_class": "config.set"
@@ -199,9 +208,9 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "override_properties": false, 
+   "num_type": "int", 
    "value_path": "$.command.properties.group.value", 
-   "num_type": "int"
+   "override_properties": false
   }, 
   "msg_type": "command", 
   "msg_class": "association.get"
@@ -209,9 +218,9 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "override_properties": false, 
+   "num_type": "int", 
    "value_path": "$.command.default.value", 
-   "num_type": "int"
+   "override_properties": false
   }, 
   "msg_type": "command", 
   "msg_class": "association.get_groups"
@@ -274,8 +283,8 @@
    "device_id_num_input_path": "$.command.properties.devices.value[0]", 
    "ui_element": "msg_class_ui", 
    "group_id_num_input_path": "$.command.properties.group.value", 
-   "override_properties": true, 
-   "num_type": "int"
+   "num_type": "int", 
+   "override_properties": true
   }, 
   "msg_type": "command", 
   "msg_class": "association.set"
@@ -285,8 +294,8 @@
    "device_id_num_input_path": "$.command.properties.devices.value[0]", 
    "ui_element": "msg_class_ui", 
    "group_id_num_input_path": "$.command.properties.group.value", 
-   "override_properties": true, 
-   "num_type": "int"
+   "num_type": "int", 
+   "override_properties": true
   }, 
   "msg_type": "command", 
   "msg_class": "association.delete"
@@ -350,9 +359,9 @@
  {
   "ui_mapping": {
    "ui_element": "toggle_switch", 
-   "override_properties": true, 
+   "num_type": "int", 
    "value_path": "$.command.default.value", 
-   "num_type": "int"
+   "override_properties": true
   }, 
   "msg_type": "command", 
   "msg_class": "devicereg.get_device_list"
@@ -360,13 +369,13 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "override_properties": false, 
+   "num_type": "int", 
    "value_path": "$.command.default.value", 
-   "num_type": "int"
+   "override_properties": false
   }, 
   "msg_type": "command", 
   "msg_class": "devicereg.delete"
- },
+ }, 
  {
   "ui_mapping": {
    "ui_element": "input_text_field", 
@@ -418,9 +427,9 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "override_properties": false, 
+   "num_type": "int", 
    "value_path": "$.command.default.value[0]", 
-   "num_type": "int"
+   "override_properties": false
   }, 
   "msg_type": "command", 
   "msg_class": "config.get"
@@ -449,5 +458,13 @@
   }, 
   "msg_type": "event", 
   "msg_class": "level.switch"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "free_text", 
+   "value_path": "$.event.default.value"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "zw_ta.routing_info"
  }
 ]
