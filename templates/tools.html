@@ -8,7 +8,7 @@
 <ul class="nav nav-tabs" role="tablist">
     <li class="active"><a href="#services_tab" role="tab" data-toggle="tab">Services</a></li>
     <li ><a href="#logs_tab" role="tab" data-toggle="tab">Logs</a></li>
-    <li ><a href="#updates_tab" role="tab" data-toggle="tab">Updates</a></li>
+    <li ><a href="/ui/updates" role="tab" >Updates</a></li>
 </ul>
 
 <div class="tab-content">
@@ -22,7 +22,9 @@
         <label for="service_name_id" class="col-sm-2 control-label">Start service</label>
         <div class="col-sm-3">
           <select name ="service_name" class="form-control" id="service_name_id">
-              <option selected="selected" >zwtadaemon</option>
+             {% for item in services %}
+              <option >{{ item }}</option>
+             {% endfor %}
           </select>
         </div>
         <div class="col-sm-2">
@@ -37,7 +39,9 @@
         <label for="service_name_id" class="col-sm-2 control-label">Stop service</label>
         <div class="col-sm-3">
           <select name ="service_name" class="form-control" id="service_name_id">
-              <option selected="selected" >zwtadaemon</option>
+              {% for item in services %}
+              <option >{{ item }}</option>
+             {% endfor %}
           </select>
         </div>
         <div class="col-sm-2">
@@ -52,7 +56,9 @@
         <label for="service_name_id" class="col-sm-2 control-label">Query process status</label>
         <div class="col-sm-3">
           <select name ="service_name" class="form-control" id="service_name_id">
-              <option selected="selected" value="zw_ta" >zwtadaemon</option>
+              {% for item in services %}
+              <option >{{ item }}</option>
+             {% endfor %}
           </select>
         </div>
         <div class="col-sm-2">
@@ -67,7 +73,9 @@
         <label for="service_name_id" class="col-sm-2 control-label">Kill process</label>
         <div class="col-sm-3">
           <select name ="service_name" class="form-control" id="service_name_id">
-              <option selected="selected" value="zw_ta" >zwtadaemon</option>
+              {% for item in services %}
+              <option  >{{ item }}</option>
+             {% endfor %}
           </select>
         </div>
         <div class="col-sm-2">
@@ -89,8 +97,9 @@
         <label for="service_name_id" class="col-sm-2 control-label">Tail log</label>
         <div class="col-sm-3">
           <select name ="log_file" class="form-control" id="service_name_id">
-              <option selected="selected" value="/var/log/z-wave-drv.log" >/var/log/z-wave-drv.log</option>
-              <option  value="/var/log/system.log" >/var/log/system.log</option>
+              {% for item in logs %}
+              <option selected="selected" >{{ item }}</option>
+             {% endfor %}
           </select>
         </div>
       </div>
@@ -118,54 +127,7 @@
 
     </div>
 </div>
-<div class="tab-pane" id="updates_tab">
-  <br/>
-  <h4>Currently installed version</h4>
-  <div class="row">
-    <div class="col-sm-2">Blackfly version:</div>
-    <div class="col-sm-2">1.4</div>
-  </div>
-  <div class="row">
-    <div class="col-sm-2">Branch:</div>
-    <div class="col-sm-2">develop</div>
-  </div>
-  <div class="row">
-    <div class="col-sm-2">Commit:</div>
-    <div class="col-sm-2">agfsfsagasfg</div>
-  </div>
-  <br/>
-  <h4>Versions available for update</h4>
-  <div class="row">
-    <div class="col-sm-2">Available stable commit:</div>
-    <div class="col-sm-2">321313</div>
-  </div>
-  <div class="row">
-    <div class="col-sm-2">Available develop commit:</div>
-    <div class="col-sm-2">agfsfsagasfg</div>
-  </div>
 
-
-
-  <br/>
-  <form class="form-horizontal" role="form" action="" method="post">
-      <input type="hidden" name="action" value="query_status">
-      <div class="form-group">
-        <label for="service_name_id" class="col-sm-2 control-label">Update blackfly to latest stable version</label>
-        <div class="col-sm-2">
-            <button type="submit" class="btn btn-default">Update</button>
-        </div>
-      </div>
-    </form>
-    <form class="form-horizontal" role="form" action="" method="post">
-      <input type="hidden" name="action" value="query_status">
-      <div class="form-group">
-        <label for="service_name_id" class="col-sm-2 control-label">Update blackfly to latest and greatest develop version</label>
-        <div class="col-sm-2">
-            <button type="submit" class="btn btn-default">Update</button>
-        </div>
-      </div>
-    </form>
-</div>
 
 </div>
 

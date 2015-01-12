@@ -15,12 +15,16 @@
  }, 
  "system": {
   "http_server_port": 5000, 
-  "version": "1.4.4"
+  "version": "1.4.4",
+  "distro_server_uri":"http://lego.fiicha.net/blackfly"
  }, 
  "defaults": {
   "event_value_path_for_new_class": "$.event.default.value", 
   "cmd_value_path_for_new_class": "$.command.default.value"
- }, 
+ },
+ "smartly": {
+  "sdc_uri":"https://prov-stg.service.smartly.no"
+ },
  "msg_class_lookup_path": [
   {
    "priority": 1, 

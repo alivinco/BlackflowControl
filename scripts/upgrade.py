@@ -47,8 +47,14 @@ def update_global_config():
         jobj["system"]["version"]="1.4.4"
         jobj["mqtt"]["enable_sys"]=False
         jobj["system"]["http_server_port"]=5000
+        jobj["system"]["distro_server_uri"]="http://lego.fiicha.net/blackfly"
+
     else :
         print "******************* YOUR EXISTING BLACKFLY INSTALLATION IS TOO OLD.PLEASE DELETE EXISTING INSTALLATION AND RUN INSTALLATION AGAIN ******************"
+
+    if not "smartly" in jobj:
+        jobj["smnartly"]={"sdc_uri":"https://prov-stg.service.smartly.no/"}
+
     f = open(addr_path, "w")
     f.write(json.dumps(jobj, indent=True))
     f.close()

@@ -1,5 +1,7 @@
 __author__ = 'alivinco'
 
+
+
 class FlowInstance():
     def __init__(self,id,name,trigger_topic,msg_type,correlation_func_ref):
         self.id = name

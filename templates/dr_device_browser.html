@@ -61,7 +61,7 @@
         <td style="min-width: 100px">
             <a href="/ui/inter_console?filter=/dev/{{ device.CommunicationTechnology }}/{{ device.Address }}&mode=normal">Interact</a>
             <p><a href="javascript:send_command('devicereg.delete@.app.devicereg.commands','',{{ device.Id }} );setTimeout(function(){location.reload()},500) ;">Delete</a></p>
-            <p><a target="_blank" href="http://prov01.smartly.no/live/SDC/GetDeviceList?HashCode={{ device.HashCode }}">SDC lookup</a></p>
+            <p><a target="_blank" href="{{ configs.smartly.sdc_uri }}/live/SDC/GetDeviceList?HashCode={{ device.HashCode }}">SDC lookup</a></p>
         </td>
       </tr>
      <tr>

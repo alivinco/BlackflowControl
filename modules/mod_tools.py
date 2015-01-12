@@ -1,7 +1,7 @@
 __author__ = 'alivinco'
 
 import subprocess
-
+import os
 
 class Tools():
     def start_service(self, service_name):
@@ -11,6 +11,11 @@ class Tools():
     def stop_service(self, service_name):
         sp = subprocess.check_output("nohup service " + service_name + " stop > /tmp/nohup_"+service_name+".log 2>&1 &", shell=True)
         return sp
+
+    def run_update_procedure(self,distro_server_uri):
+        sp = subprocess.check_output("nohup cd /tmp; curl -O "+distro_server_uri+"/install.sh;chmod a+x install.sh;sudo ./install.sh > /var/log/blackfly_upgrade.log 2>&1 &", shell=True)
+        return sp
+
     def process_status(self, process_name):
         """
 
@@ -55,10 +60,40 @@ class Tools():
 
         return subprocess.check_output(cmd_str, shell=True)
 
+    def get_logfiles(self):
+        """
+        The function return list of log files
+
+        :return:
+        """
+        log_dir = "/var/log/"
+        # paths = [os.path.join(path,fn) for fn in next(os.walk(path))[2]]
+        file_paths = []  # List which will store all of the full filepaths.
+
+        # Walk the tree.
+        for root, directories, files in os.walk(log_dir):
+            for filename in files:
+                # Join the two strings in order to form the full filepath.
+                filepath = os.path.join(root, filename)
+                file_paths.append(filepath)  # Add it to the list.
+
+        return file_paths
+
+    def get_services(self):
+        """
+        The function returns list of services
+
+        :return:
+        """
+        path = "/etc/init.d/"
+        paths = os.listdir(path)
+        return paths
 
 
 if __name__ == "__main__":
     t = Tools()
     # q = t.process_status("python")
-    r = t.tail_log("/var/log/system.log",100,"")
+    # r = t.tail_log("/var/log/system.log",100,"")
+    r = t.get_logfiles()
+    r = t.get_services()
     print r

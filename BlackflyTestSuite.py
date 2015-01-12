@@ -568,8 +568,7 @@ def dr_browser():
     msg_pipeline.update_static_part_of_message(msg,"/app/devicereg/commands")
     response = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events")
     log.debug("response :"+str(response))
-    return render_template('dr_device_browser.html',dr_response=response,global_context=global_context)
-
+    return render_template('dr_device_browser.html',dr_response=response,global_context=global_context,configs = msg_man.global_configs)
 
 
 @app.route('/ui/msg_history',methods=["GET","POST"])
@@ -590,7 +589,8 @@ def msg_history():
 def tools():
     tools = Tools()
     output = ""
-
+    services = []
+    logs = []
     try:
         if request.method == "POST":
             action = request.form["action"]
@@ -607,13 +607,36 @@ def tools():
             elif action == "kill_process":
                 service_name = request.form["service_name"]
                 output = tools.kill_process(service_name)
-
-
+        logs = tools.get_logfiles()
+        services = tools.get_services()
     except Exception as ex :
         output = str(ex)
 
-    return render_template('tools.html',output=output ,global_context=global_context,autoescape=False)
+    return render_template('tools.html',output=output ,global_context=global_context,logs=logs,services=services,autoescape=False)
 
+@app.route('/ui/updates',methods=["POST","GET"])
+def updates():
+    import urllib2
+    import os
+
+    distro_uri = msg_man.global_configs["system"]["distro_server_uri"]
+    build_info_path = os.path.join(os.getcwd(), "configs", "build_info.json")
+    current_info = json.load(file(build_info_path))
+    develop_info = json.load(urllib2.urlopen(distro_uri+"/develop/build_info.json",timeout=15))
+    master_info = json.load(urllib2.urlopen(distro_uri+"/build_info.json",timeout=15))
+    log.debug(develop_info)
+    log.debug(master_info)
+    status = ""
+    if request.method == "POST":
+        tools = Tools()
+        action = request.form["action"]
+        if action == "update_to_master":
+            tools.run_update_procedure(distro_uri)
+        if action == "update_to_develop":
+            tools.run_update_procedure(distro_uri+"/develop")
+        status = "Update procedure is in progres..... please check /var/log/blackfly_upgrade.log for details "
+
+    return render_template('updates.html',global_context=global_context,current_info=current_info,develop_info=develop_info,master_info=master_info,autoescape=False,status=status)
 
 @app.route('/ui/logviewer',methods=["POST","GET"])
 def log_viewer():
