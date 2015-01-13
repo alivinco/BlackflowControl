@@ -53,7 +53,7 @@ def update_global_config():
         print "******************* YOUR EXISTING BLACKFLY INSTALLATION IS TOO OLD.PLEASE DELETE EXISTING INSTALLATION AND RUN INSTALLATION AGAIN ******************"
 
     if not "smartly" in jobj:
-        jobj["smnartly"]={"sdc_uri":"https://prov-stg.service.smartly.no/"}
+        jobj["smartly"]={"sdc_uri":"https://prov-stg.service.smartly.no"}
 
     f = open(addr_path, "w")
     f.write(json.dumps(jobj, indent=True))
