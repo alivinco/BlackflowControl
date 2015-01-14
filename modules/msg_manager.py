@@ -107,6 +107,7 @@ class MessageManager:
             result = None
         return result
 
+
     def load_msg_class_mapping(self):
         jobj = json.load(file(self.msg_class_mapping_file_path))
         return jobj

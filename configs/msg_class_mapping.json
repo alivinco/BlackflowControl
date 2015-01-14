@@ -436,6 +436,18 @@
  }, 
  {
   "ui_mapping": {
+   "count_num_input_path": "$.command.properties.count", 
+   "target_num_input_path": "$.command.default.value", 
+   "power_level_input_path": "$.command.properties.power_level", 
+   "ui_element": "msg_class_ui", 
+   "num_type": "int", 
+   "override_properties": true
+  }, 
+  "msg_type": "command", 
+  "msg_class": "net.ping"
+ }, 
+ {
+  "ui_mapping": {
    "ui_element": "binary_light", 
    "value_path": "$.event.default.value"
   }, 
@@ -466,5 +478,22 @@
   }, 
   "msg_type": "event", 
   "msg_class": "zw_ta.routing_info"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "sensor_value", 
+   "unit_path": "", 
+   "value_path": "$.event.properties.rx_count"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "net.ping_report"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "free_text", 
+   "value_path": "$.event.default.value"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "alarm.monitor"
  }
 ]

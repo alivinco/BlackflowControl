@@ -15,6 +15,7 @@
         <th><h6>Name</h6></th>
         <th><h6>Alias</h6></th>
         <th><h6>Services</h6></th>
+        <th><h6>Properties</h6></th>
         <th><h6>Comm Tech</h6></th>
         <th><h6>Manufacturer</h6></th>
         <th><h6>Hw Ver.</h6></th>
@@ -28,7 +29,7 @@
         <th style="min-width: 80px"><h6>First Use Date</h6></th>
         <th style="min-width: 80px"><h6>Last Update</h6></th>
         <th><h6>Security Level</h6></th>
-        <th><h6>Properties</h6></th>
+        <th><h6>Power desc.</h6></th>
         <th><h6>Action</h6></th>
       </tr>
    </thead>
@@ -43,6 +44,7 @@
         <td>{{ device.Name }}</td>
         <td>{{ device.Alias }}</td>
         <td><a data-toggle="collapse" href="#endpoints_{{ device.Id }}">Services</a></td>
+        <td><a data-toggle="collapse" href="#properties_{{ device.Id }}">Properties</a></td>
         <td>{{ device.CommunicationTechnology }}</td>
         <td>{{ device.Manufacturer }}</td>
         <td>{{ device.HardwareVersion }}</td>
@@ -56,7 +58,7 @@
         <td><small>{{ device.FirstUseDate|replace("T"," ") }}</small></td>
         <td><small>{{ device.LastUpdate|replace("T"," ") }}</small></td>
         <td>{{ device.SecurityLevel }}</td>
-        <td><a data-toggle="collapse" href="#properties_{{ device.Id }}">Properties</a></td>
+        <td>{{ device.PowerDescriptor }}</td>
 
         <td style="min-width: 100px">
             <a href="/ui/inter_console?filter=/dev/{{ device.CommunicationTechnology }}/{{ device.Address }}&mode=normal">Interact</a>

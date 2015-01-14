@@ -1,23 +1,24 @@
 {
-   "@context" : "http://smartly.no/context",
-   "origin" :
-      {
-         "@type" : "zw_ta",
-         "@id" : "1"
-      },
-   "event" :
-      {
-         "@type" : "net",
-         "subtype" : "ping_report",
-         "default" : {
-               "value" : "2"
-            },
-         "properties" :{
-             "tx_count":4,
-             "rx_count":4
-         }
-      },
-   "creation_time" : 1385815582,
-   "uuid" : "86f93c70-6c47-4cfc-91eb-30d3b069e417",
-   "spid" : "S-451-12"
+ "origin": {
+  "endp_id": 1, 
+  "vendor": "018e", 
+  "@id": 119, 
+  "@type": "dev_sys", 
+  "location": "NotImplemented"
+ }, 
+ "uuid": "ce689663-af51-42f2-af1a-e4721a71b287", 
+ "creation_time": 1421159011, 
+ "spid": "SPID_NOT_SET", 
+ "@context": "http://smartly.no/context", 
+ "event": {
+  "default": {
+   "value": 1
+  }, 
+  "subtype": "ping_report", 
+  "@type": "net", 
+  "properties": {
+   "tx_count": 1, 
+   "rx_count": 1
+  }
+ }
 }

@@ -32,6 +32,9 @@ import re
 
 from libs.sync_to_async_msg_converter import SyncToAsyncMsgConverter
 
+from libs.dmapi import devicereg,zw_ta
+
+
 global_context = {}
 logging.config.dictConfig(configs.log.config)
 log = logging.getLogger("bf_web")
@@ -563,12 +566,21 @@ def help(page):
 @app.route('/ui/dr_browser')
 def dr_browser():
     log.info("Device registry browser")
-    msg = msg_man.load_template_by_key("devicereg.get_device_list@command")
+    msg = devicereg.Devicereg("app","blackfly","blackfly").get_device_list()
     log.debug(msg)
-    msg_pipeline.update_static_part_of_message(msg,"/app/devicereg/commands")
     response = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events")
     log.debug("response :"+str(response))
     return render_template('dr_device_browser.html',dr_response=response,global_context=global_context,configs = msg_man.global_configs)
+
+@app.route('/ui/zw_diagnostics')
+def zw_diagnostics():
+    log.info("Zw diagnostics")
+    msg = zw_ta.ZwTa("app","blackfly","blackfly").get_routing_info()
+
+    response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events")
+    routing_info = response["event"]["properties"]
+    log.debug("response :"+str(response))
+    return render_template('zw_diagnostics.html',routing_info=routing_info,global_context=global_context)
 
 
 @app.route('/ui/msg_history',methods=["GET","POST"])

@@ -1,0 +1,28 @@
+{% extends "base_layout.html" %}
+{% block li_dr_registry %}class="active"{% endblock %}
+{% block body %}
+</h1>
+<h3>Zwave diagnostics tool</h3>
+<div class="container-fluid">
+
+{%  for node , nb in routing_info.iteritems() %}
+<div class="row">
+    <div class="col-lg-10 "> <h3>Node id:{{ node }}</h3>
+      <h4>Neighbors : {{ nb }}</h4>
+    </div>
+</div>
+{% endfor %}
+
+</div>
+
+
+{% endblock %}
+{% block js_scripts %}
+    <script>
+      var mode = "normal"
+    </script>
+    <script src="/static/js/stupidtable.min.js"></script>
+    <script src="/static/js/ui_elements_handler.js"></script>
+
+
+{% endblock %}

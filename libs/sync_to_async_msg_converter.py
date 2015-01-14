@@ -44,7 +44,7 @@ class SyncToAsyncMsgConverter:
         The method sends message over async messaging subsystem and is waiting for response (blocking) .
         The method is executed in callers thread , which means it block the thread . Request and response
         correlated by corrid.
-        :param msg:
+        :param msg: msg as python object
         :param request_topic:
         :param response_topic:
         :param timeout:

@@ -10,13 +10,13 @@
          "@type" : "net",
          "subtype" : "ping",
          "default" : {
-               "value" : ["1","2","3"]
+               "value" : 49
             },
          "properties" :{
              "timeout":10,
              "count":1,
              "interval":1,
-             "power_level":"-1dBm"
+             "power_level":"-1dB"
          },
          "target" : "/ta/zw/commands"
       },
