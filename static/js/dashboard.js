@@ -34,6 +34,7 @@ function dashboard_api(data,execute_on_success)
 }
 
 var dialog_service_id = null
+var dialog_group_id = null
 
 function open_update_service_dialog(group_id,service_id,service_name)
 {
@@ -54,7 +55,19 @@ function open_update_group_dialog(group_id ,group_name , x_size , y_size)
         $('#group_y_size').val(y_size)
 
     }
+    dialog_group_id = group_id
     $('#update_group_modal').modal({"show":true})
+
+}
+
+function delete_group_from_dashboard()
+{
+    data = {"action":"delete_group_from_dashboard",
+            "dashboard_id":dashboard_id,
+            "group_id":dialog_group_id}
+
+    //call dashboard API and then reload the page
+    dashboard_api(data,function(){location.reload()})
 
 }
 

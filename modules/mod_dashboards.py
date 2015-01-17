@@ -1,7 +1,7 @@
 __author__ = 'alivinco'
 import os ,json
 import logging
-
+from libs import utils
 
 
 class DashboardManager:
@@ -59,7 +59,7 @@ class DashboardManager:
 
     def update_group(self,dash_id,group_id,x_size=None,y_size=None,name=None):
         if group_id == -1 :
-            new_id = 1
+            new_id = utils.get_next_id(self.dash_map[dash_id]["groups"])
             new_group = {"y_size": y_size,
                          "x_size": x_size,
                          "description": name,
@@ -69,12 +69,22 @@ class DashboardManager:
             self.dash_map[dash_id]["groups"].append(new_group)
         else :
             # update
-            group = filter(lambda gr : (gr.id==group_id),self.dash_map[dash_id]["groups"])[0]
-            if x_size: group.x_size = x_size
-            if y_size: group.y_size = y_size
-            if name :group.name = name
+            group = filter(lambda gr : (gr["id"]==group_id),self.dash_map[dash_id]["groups"])[0]
+            if x_size: group["x_size"] = x_size
+            if y_size: group["y_size"] = y_size
+            if name :group["name"] = name
         self.serialize_dashboard()
 
+    def delete_group(self,dash_id,group_id):
+        # deleting group
+        group = filter(lambda gr : (gr["id"]==group_id),self.dash_map[dash_id]["groups"])[0]
+        self.dash_map[dash_id]["groups"].remove(group)
+        # del group
+        # deleting related services
+        for s_id , service in self.dash_map[dash_id]["grid_map"].iteritems():
+            if service["group"]==group_id:
+                del service
+        self.serialize_dashboard()
 
     def delete_service_from_dashboard(self, dash_id, service_id):
         """

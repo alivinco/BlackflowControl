@@ -1,28 +1,78 @@
 {% extends "base_layout.html" %}
-{% block li_dr_registry %}class="active"{% endblock %}
+{% block li_zw_diganostics %}class="active"{% endblock %}
 {% block body %}
 </h1>
-<h3>Zwave diagnostics tool</h3>
+<h3>Zwave network managment</h3>
 <div class="container-fluid">
 
-{%  for node , nb in routing_info.iteritems() %}
+<h4>Add / remove a device </h4>
+<div class="btn-group">
+  <button type="button" class="btn btn-default" onclick="start_clusion_mode('inclusion',true)">Inclusion</button>
+  <button type="button" class="btn btn-default" onclick="start_clusion_mode('exclusion',true)" >Exclusion</button>
+</div>
+<br/>
+<h4>Zwave mesh routing information</h4>
+<a href="/ui/zw_diagnostics?action=refresh_routing_info" class="btn btn-default " role="button">Refresh routing info from zwave module</a>
+
+<div class="table-responsive">
+ <table id="addr_map_table" class="table table-striped">
+  <thead>
+    <tr>
+        <td>Node id</td>
+        <td>Neighbors</td>
+        <td>action</td>
+    </tr>
+  </thead>
+  <tbody>
+    {%  for node , nb in routing_info.iteritems() %}
+    <tr>
+        <td>{{ node }}</td>
+        <td>{{ nb }}</td>
+        <td><a href="#">Update Neighbors</a> | <a href="#">RF link check</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+ </table>
+</div>
+
+<br>
+<h4>Network graph</h4>
 <div class="row">
-    <div class="col-lg-10 "> <h3>Node id:{{ node }}</h3>
-      <h4>Neighbors : {{ nb }}</h4>
+   <div  style="height: 800px;width: 100%;border:1px solid black;"  id ="network_graph">
+   </div>
+ </div>
+</div>
+
+
+{#Modal dialog #}
+<div class="modal fade" id="start_mode_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Waiting for mode to complete</h4>
+      </div>
+
+      <br/>
+      <div id="clusion_mode_result" class="modal-body">
+
+      </div>
+      <div class="modal-footer">
+                <button type="submit" class="btn btn-default">Stop</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       </div>
     </div>
+  </div>
 </div>
-{% endfor %}
-
-</div>
-
 
 {% endblock %}
 {% block js_scripts %}
     <script>
       var mode = "normal"
     </script>
-    <script src="/static/js/stupidtable.min.js"></script>
-    <script src="/static/js/ui_elements_handler.js"></script>
+    <script src="/static/js/cytoscapelib/cola.v3.min.js"></script>
+    <script src="/static/js/cytoscape.min.js"></script>
+    <script src="/static/js/zw_diagnostics.js"></script>
 
 
 {% endblock %}

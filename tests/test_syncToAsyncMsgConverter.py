@@ -43,14 +43,24 @@ class SenderClient(threading.Thread):
 
     def run(self):
         msg = {"payload": "test" + self.name, "corid": self.name}
-        print "Waiting for response .Correlation id is provided Test id = "+self.name
+        print "Test 1 .Waiting for response .Correlation id is provided Test id = "+self.name
         resp = self.conv.send_sync_msg(msg, REQUEST_TOPIC, RESPONSE_TOPIC, 10 ,generate_corrid=True)
-        print "Response : test id = " + self.name + " response msg = " + str(resp)
+        print "Test 1 Response : test id = " + self.name + " response msg = " + str(resp)
 
         msg = {"payload": "test" + self.name }
-        print "Waiting for response .Correlation id is generated Test id = "+self.name
+        print "Test 2 .Waiting for response .Correlation id is generated Test id = "+self.name
         resp = self.conv.send_sync_msg(msg, REQUEST_TOPIC, RESPONSE_TOPIC, 10 ,generate_corrid=True)
-        print "Response : test id = " + self.name + " response msg = " + str(resp)
+        print "Test 2 .Response  test : test id = " + self.name + " response msg = " + str(resp)
+
+        msg = {"event": {"default": { "value": self.name },"subtype": "generic","@type": "binary"} }
+        print "Test 3 .Waiting for response .Correlation is msg type and topic "+self.name
+        resp = self.conv.send_sync_msg(msg, REQUEST_TOPIC, RESPONSE_TOPIC, 10 ,generate_corrid=False,correlation_type="MSG_TYPE",correlation_msg_type="binary.generic")
+        print "Test 3 .Response  test : test id = " + self.name + " response msg = " + str(resp)
+
+        msg = {"event": {"default": { "value": self.name },"subtype": "switch","@type": "binary"} }
+        print "Test 4 .Waiting for response .Correlation is msg type and topic "+self.name
+        resp = self.conv.send_sync_msg(msg, REQUEST_TOPIC, RESPONSE_TOPIC, 10 ,generate_corrid=False,correlation_type="MSG_TYPE",correlation_msg_type="binary.switch")
+        print "Test 4 .Response  test : test id = " + self.name + " response msg = " + str(resp)
 
 class TestSyncToAsyncMsgConverter(TestCase):
     def setUp(self):
@@ -67,7 +77,7 @@ class TestSyncToAsyncMsgConverter(TestCase):
     def test_send_sync_msg(self):
         # Running each request in it's own thread
 
-        for item in range(10):
+        for item in range(5):
             t1 = SenderClient(self.conv,str(item),"str_id_"+str(item))
             t1.start()
 

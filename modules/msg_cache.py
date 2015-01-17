@@ -61,7 +61,10 @@ class MsgCache():
 
     def get(self,msg_class,address):
         id = self.msg_man.generate_key(msg_class,address)
-        return self.cache[id]
+        if id in self.cache:
+            return self.cache[id]
+        else :
+            return None
 
     def get_generic(self,key):
         return self.generic_cache[key]

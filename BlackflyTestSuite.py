@@ -12,9 +12,11 @@ from flask import Flask, Response, redirect, url_for
 from flask import render_template
 from flask import request
 from mappings.msg_class_to_zw import get_msg_class_by_capabilities
+import modules
 from modules.mod_dashboards import DashboardManager
 from modules.mod_filters import FiltersManager
 from modules.mod_tools import Tools
+from modules.mod_zwave_tools import ZwaveTools
 
 from modules.mqtt_adapter import MqttAdapter
 from modules.msg_cache import MsgCache
@@ -70,6 +72,8 @@ msg_pipeline.set_sync_async_client(sync_async_client)
 
 dash_man = DashboardManager()
 filter_man = FiltersManager()
+
+zwapi = zw_ta.ZwTa("app","blackfly","blackfly")
 
 @app.route('/')
 def red():
@@ -366,8 +370,6 @@ def approve_msg_class():
 
            cache.remove_msg_clas_for_approval(approval_key)
 
-
-
         else :
            #TODO:remove the class from approval cache
             log.info("<NOT implemented> the "+req["msg_class"]+" class has to be removed from approval cache")
@@ -381,6 +383,11 @@ def approve_msg_class():
 @app.route('/api/address_manager',methods=["POST","PUT"])
 def address_manager():
     # command should be {"cmd":"remove","address":"/dev/zw/1","msg_class":"thermostat"}
+    """
+    Address manager . It exposes rest api for manipulating with service-address mappings .
+
+    :return:
+    """
     error_msg = ""
     try:
         if request.method == "GET":
@@ -443,6 +450,11 @@ def address_manager():
 @app.route('/api/filters',methods=["POST","GET"])
 def filters_api():
 
+    """
+    Ineteractive console filters api .
+
+    :return:
+    """
     if request.method == "POST":
        action = request.form["action"]
     elif request.method == "GET":
@@ -495,11 +507,10 @@ def dashboard_api():
              x_size = int(request.form["group_x_size"])
              y_size = int(request.form["group_y_size"])
              dash_man.update_group(dashboard_id,group_id,x_size,y_size,group_name)
-
-         elif action == "add_group":
-             log.info("Add group to be implemented")
-         elif action == "delete_group":
-             log.info("Delete group to be implemented")
+         elif action == "delete_group_from_dashboard":
+             log.info("Deleting group from dashboard")
+             group_id = int(request.form["group_id"])
+             dash_man.delete_group(dashboard_id,group_id)
          elif action == "change_service_position":
              log.info("Changing service position...")
              dash_man.change_service_position(dashboard_id,
@@ -568,19 +579,59 @@ def dr_browser():
     log.info("Device registry browser")
     msg = devicereg.Devicereg("app","blackfly","blackfly").get_device_list()
     log.debug(msg)
-    response = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events")
+
+    response = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events",timeout=10)
     log.debug("response :"+str(response))
     return render_template('dr_device_browser.html',dr_response=response,global_context=global_context,configs = msg_man.global_configs)
 
 @app.route('/ui/zw_diagnostics')
 def zw_diagnostics():
     log.info("Zw diagnostics")
-    msg = zw_ta.ZwTa("app","blackfly","blackfly").get_routing_info()
+    action = request.args.get("action","")
+    # get routing info may take some time to generate the response for zwave stack , therefore it may be usefull to show values from cache and add
+    # refresh on demand feature .
+    response = cache.get("zw_ta.routing_info","/ta/zw/events")
+    if action == "refresh_routing_info" or not response :
+        log.info("Doing zwave info refresh")
+        msg = zwapi.get_routing_info()
+        # That is propper request
+        # response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events")
+        # This is workaround while zwave ta is not available
+        response  = json.load(file("tests/poc/network_info.json"))
+        cache.put("zw_ta.routing_info@.ta.zw.events",response,{"ui_element":{}},{})
 
-    response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events")
+    else :
+        response = response["raw_msg"]
+
     routing_info = response["event"]["properties"]
     log.debug("response :"+str(response))
     return render_template('zw_diagnostics.html',routing_info=routing_info,global_context=global_context)
+
+@app.route('/api/zw_diagnostics/<action>')
+def zw_diagnostics_api(action):
+    if action == "get_network_graph":
+        # getting network infor from cache
+        response = cache.get("zw_ta.routing_info","/ta/zw/events")
+        routing_info = response["raw_msg"]["event"]["properties"]
+        graph = ZwaveTools().get_network_graph(routing_info)
+        jobj = json.dumps(graph)
+    else :
+        jobj = json.dumps({})
+    return Response(response=jobj, mimetype='application/json')
+
+@app.route('/api/zw_manager',methods=["POST"])
+def zw_manager_api():
+    action = request.form["action"]
+    if action == "zw_inclusion_mode":
+        log.info("Zw setting controller into inclusion mode")
+        start = request.form["start"]
+        msg = zwapi.inclusion_mode(start)
+        response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.inclusion_report")
+        log.info("Inclusion mode operation is completed")
+        jobj = json.dumps(response)
+    else :
+        jobj = json.dumps({})
+    return Response(response=jobj, mimetype='application/json')
 
 
 @app.route('/ui/msg_history',methods=["GET","POST"])
