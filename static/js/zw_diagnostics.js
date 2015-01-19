@@ -108,7 +108,9 @@ $('#network_graph').cytoscape({
         'target-arrow-color': '#F2B1BA',
         'width': 1,
         'target-arrow-shape': 'triangle',
-        'opacity': 0.8
+        'opacity': 0.8,
+        'content':'data(weight)',
+        'font-size':'6px'
       })
     .selector(':selected')
       .css({

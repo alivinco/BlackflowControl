@@ -433,7 +433,17 @@
   }, 
   "msg_type": "command", 
   "msg_class": "config.get"
- }, 
+ },
+ {
+  "ui_mapping": {
+   "ui_element": "input_num_field",
+   "num_type": "int",
+   "value_path": "$.command.default.value[0]",
+   "override_properties": false
+  },
+  "msg_type": "command",
+  "msg_class": "zw_ta.neighbor_update"
+ },
  {
   "ui_mapping": {
    "count_num_input_path": "$.command.properties.count", 
