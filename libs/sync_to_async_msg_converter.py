@@ -103,6 +103,7 @@ class SyncToAsyncMsgConverter:
                 if execution_time < timeout:
                     time.sleep(self.wait_loop_delay)
                 else :
+                    self.request_table.remove(req_row)
                     return None
 
 

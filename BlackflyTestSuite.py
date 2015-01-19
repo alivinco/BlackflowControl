@@ -11,6 +11,7 @@ import json
 from flask import Flask, Response, redirect, url_for
 from flask import render_template
 from flask import request
+import libs
 from mappings.msg_class_to_zw import get_msg_class_by_capabilities
 import modules
 from modules.mod_dashboards import DashboardManager
@@ -595,10 +596,10 @@ def zw_diagnostics():
         log.info("Doing zwave info refresh")
         msg = zwapi.get_routing_info()
         # That is propper request
-        # response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events")
-        # This is workaround while zwave ta is not available
-        response  = json.load(file("tests/poc/network_info.json"))
-        cache.put("zw_ta.routing_info@.ta.zw.events",response,{"ui_element":{}},{})
+        response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events")
+        # This 2 lines below are a workaround while zwave ta is not available
+        # response  = json.load(file("tests/poc/network_info.json"))
+        # cache.put("zw_ta.routing_info@.ta.zw.events",response,{"ui_element":{}},{})
 
     else :
         response = response["raw_msg"]
@@ -622,12 +623,20 @@ def zw_diagnostics_api(action):
 @app.route('/api/zw_manager',methods=["POST"])
 def zw_manager_api():
     action = request.form["action"]
+    log.debug("Action"+action)
     if action == "zw_inclusion_mode":
-        log.info("Zw setting controller into inclusion mode")
-        start = request.form["start"]
+        log.info("Setting zwave controller into inclusion mode")
+        start =  libs.utils.convert_bool(request.form["start"])
         msg = zwapi.inclusion_mode(start)
         response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.inclusion_report")
         log.info("Inclusion mode operation is completed")
+        jobj = json.dumps(response)
+    elif action == "zw_exclusion_mode":
+        log.info("Setting zwave controller into exclusion mode")
+        start =  libs.utils.convert_bool(request.form["start"])
+        msg = zwapi.exclusion_mode(start)
+        response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.exclusion_report")
+        log.info("Exclusion mode operation is completed")
         jobj = json.dumps(response)
     else :
         jobj = json.dumps({})

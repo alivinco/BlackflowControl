@@ -7,8 +7,8 @@
 
 <h4>Add / remove a device </h4>
 <div class="btn-group">
-  <button type="button" class="btn btn-default" onclick="start_clusion_mode('inclusion',true)">Inclusion</button>
-  <button type="button" class="btn btn-default" onclick="start_clusion_mode('exclusion',true)" >Exclusion</button>
+  <button type="button" class="btn btn-default" onclick="start_clusion_mode('zw_inclusion_mode',true)">Inclusion</button>
+  <button type="button" class="btn btn-default" onclick="start_clusion_mode('zw_exclusion_mode',true)" >Exclusion</button>
 </div>
 <br/>
 <h4>Zwave mesh routing information</h4>
@@ -50,7 +50,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Waiting for mode to complete</h4>
+        <h4 class="modal-title" id="mode_header"></h4>
       </div>
 
       <br/>
@@ -58,7 +58,7 @@
 
       </div>
       <div class="modal-footer">
-                <button type="submit" class="btn btn-default">Stop</button>
+                <button type="submit" class="btn btn-default" onclick="start_clusion_mode('',false)" >Stop</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
        </div>
     </div>

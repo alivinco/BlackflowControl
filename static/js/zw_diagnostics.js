@@ -7,29 +7,73 @@
  */
 
 var cy
-
+var current_controller_mode = ""
+var countdown_timer_obj = null
 function start_clusion_mode(mode,start)
 {
-    $('#clusion_mode_result').html("Please wait.....")
+    if (mode)current_controller_mode=mode
+    else{
+        //means inclusion or exclusion stop
+        mode = current_controller_mode
+    }
+
+
+
+    if (mode=="zw_inclusion_mode")
+        $("#mode_header").html("Inclusion mode")
+    else
+        $("#mode_header").html("Exclusion mode")
+
+//    $('#clusion_mode_result').html("Please wait.....")
+    if (countdown_timer_obj)clearTimeout(countdown_timer_obj)
+    countdown(30)
+
+    if (start==false){
+        clearTimeout(countdown_timer_obj)
+        $('#clusion_mode_result').html("<h4>Stopped</h4>")
+    }
+
     $('#start_mode_modal').modal({"show":true})
      $.ajax({
       url: "/api/zw_manager",
       method :"POST",
       data: {
-        action:"zw_inclusion_mode",
+        action:mode,
         start:start
       },
       success: function( data ) {
 //        console.dir(data)
         console.dir(data)
-        console.log(data.event.properties.inclusion_report.value.device.id)
-        $('#clusion_mode_result').html("<h4>Added new device with Node id ="+data.event.properties.inclusion_report.value.device.id+"</h4>")
+        clearTimeout(countdown_timer_obj)
+        if (data)
+        {
+            if(current_controller_mode == "zw_inclusion_mode")
+            {
+                new_dev = data.event.properties.inclusion_report.value.device
+                console.log(new_dev.id)
+                $('#clusion_mode_result').html("<h4>Device with node id ="+new_dev.id+" was added to the network</h4>")
+            }else {
+                removed_dev = data.event.default.value
+                $('#clusion_mode_result').html("<h4>Device with node id ="+removed_dev+" was removed from the network</h4>")
+            }
+        }
       }
     });
     //clusion_mode_result
 
-
 }
+function countdown(seconds) {
+
+    if (seconds == 1) {
+      $('#clusion_mode_result').html("Controller has timed out");
+      return;
+    }
+
+    seconds--;
+    $('#clusion_mode_result').html(seconds+" seconds left .");
+    countdown_timer_obj = setTimeout(countdown, 1000,seconds);
+}
+
 
 function load_network_graph_data()
 {
