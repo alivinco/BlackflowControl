@@ -36,6 +36,11 @@ function dashboard_api(data,execute_on_success)
 var dialog_service_id = null
 var dialog_group_id = null
 
+function open_add_service_dialog(group_id)
+{
+    $('#service_modal_group_id').val(group_id)
+    $('#add_service_modal').modal({"show":true})
+}
 function open_update_service_dialog(group_id,service_id,service_name)
 {
     $('#service_name').val(service_name)

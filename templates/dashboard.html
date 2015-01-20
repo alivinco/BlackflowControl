@@ -10,7 +10,6 @@
 {% block body %}
 
 <div class="btn-group">
-  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add_service_modal">Add</button>
   <button type="button" class="btn btn-default" onclick="open_update_group_dialog(-1)">Add group</button>
 </div>
 <br/>
@@ -24,7 +23,8 @@
   <div class="panel-heading">
 
       <a href="javascript:open_update_group_dialog({{ group.id }},'{{ group.name }}',{{ group.x_size }},{{ group.y_size }})"> <span class="pull-right glyphicon glyphicon-cog"></span></a>
-       <h3 class="panel-title">{{ group.name }}</h3>
+      <a href="javascript:open_add_service_dialog({{ group.id }})"> <span class="pull-right glyphicon glyphicon-plus">&nbsp;</span></a>
+      <h3 class="panel-title">{{ group.name }}</h3>
   </div>
   <div class="panel-body">
     {% for y in range(1,(group.y_size + 1)) %}
@@ -88,7 +88,7 @@
       <div >
             <form class="form-horizontal" role="form" action="/api/dashboard" method="POST">
               <input type="hidden" name="action" value="add_service_to_dashboard" />
-              <input type="hidden" name="group_id" value="0" />
+              <input type="hidden" name="group_id" value="0" id="service_modal_group_id" />
               <input type="hidden" name="dashboard_id" value="{{ dashboard_id }}" />
               <div class="form-group">
                 <label for="inputName" class="col-sm-4 control-label">Service</label>
@@ -183,13 +183,13 @@
               <div class="form-group">
                 <label for="inputName" class="col-sm-4 control-label">X size (elements)</label>
                 <div class="col-sm-6">
-                  <input type="text" name="group_x_size" class="form-control" id="group_x_size" placeholder="" value="0">
+                  <input type="text" name="group_x_size" class="form-control" id="group_x_size" placeholder="" value="2">
                 </div>
               </div>
               <div class="form-group">
                 <label for="inputName" class="col-sm-4 control-label">Y size (elements)</label>
                 <div class="col-sm-6">
-                  <input type="text" name="group_y_size" class="form-control" id="group_y_size" placeholder="" value="0">
+                  <input type="text" name="group_y_size" class="form-control" id="group_y_size" placeholder="" value="2">
                 </div>
               </div>
 

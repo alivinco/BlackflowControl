@@ -81,9 +81,12 @@ class DashboardManager:
         self.dash_map[dash_id]["groups"].remove(group)
         # del group
         # deleting related services
+        items_to_delete = []
         for s_id , service in self.dash_map[dash_id]["grid_map"].iteritems():
             if service["group"]==group_id:
-                del service
+                items_to_delete.append(s_id)
+        for i_del in items_to_delete:
+            del self.dash_map[dash_id]["grid_map"][i_del]
         self.serialize_dashboard()
 
     def delete_service_from_dashboard(self, dash_id, service_id):
@@ -151,8 +154,8 @@ class DashboardManager:
                 x_pos = 1
                 if y_pos > group["y_size"]:group["y_size"] = y_pos
             else:
-                y_pos = y_size
-                x_pos = x_size
+                y_pos = y_size+1
+                x_pos = x_size+1
         else :
             x_pos = int(x_pos)
             y_pos = int(y_pos)
