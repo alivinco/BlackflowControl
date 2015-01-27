@@ -1,13 +1,6 @@
 {
- "mqtt": {
-  "username": "blackfly", 
-  "root_topic": "/#", 
-  "enable_sys": false, 
-  "global_topic_prefix": "", 
-  "host": "localhost",
-  "client_id": "blackfly_test_suite_4", 
-  "password": "Lyse3124", 
-  "port": "1883"
+ "smartly": {
+  "sdc_uri": "https://prov-stg.service.smartly.no"
  }, 
  "db": {
   "timeseries_enabled": true, 
@@ -15,16 +8,9 @@
  }, 
  "system": {
   "http_server_port": 5000, 
-  "version": "1.4.4",
-  "distro_server_uri":"http://lego.fiicha.net/blackfly"
+  "version": "1.4.5",
+  "distro_server_uri": "http://lego.fiicha.net/blackfly"
  }, 
- "defaults": {
-  "event_value_path_for_new_class": "$.event.default.value", 
-  "cmd_value_path_for_new_class": "$.command.default.value"
- },
- "smartly": {
-  "sdc_uri":"https://prov-stg.service.smartly.no"
- },
  "msg_class_lookup_path": [
   {
    "priority": 1, 
@@ -52,5 +38,19 @@
    ], 
    "type": "multiple"
   }
- ]
+ ], 
+ "mqtt": {
+  "username": "blackfly", 
+  "root_topic": "/#", 
+  "enable_sys": false, 
+  "global_topic_prefix": "", 
+  "host": "127.0.0.1",
+  "client_id": "blackfly_test_suite_4", 
+  "password": "Lyse3124", 
+  "port": "1883"
+ }, 
+ "defaults": {
+  "event_value_path_for_new_class": "$.event.default.value", 
+  "cmd_value_path_for_new_class": "$.command.default.value"
+ }
 }

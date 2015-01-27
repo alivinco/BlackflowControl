@@ -29,7 +29,8 @@
       "version": "1.0", 
       "protocol": "zw", 
       "id": 54, 
-      "product_id": "will_be_implemented"
+      "product_id": "will_be_implemented",
+      "wakeup_interval":300
      }, 
      "resource_list": [
       {
