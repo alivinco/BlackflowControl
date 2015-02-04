@@ -75,7 +75,7 @@ dash_man = DashboardManager()
 filter_man = FiltersManager()
 
 zwapi = zw_ta.ZwTa("app","blackfly","blackfly")
-
+deviceregapi = devicereg.Devicereg("app","blackfly","blackfly")
 @app.route('/')
 def red():
     return redirect("/ui/inter_console")
@@ -361,19 +361,26 @@ def approve_msg_class():
         log.info("Msg class for approval , msg class = "+req["msg_class"]+" from address = "+req["address"])
 
         if req["is_approved"]:
+
+           if "event" in req["address"]:
+             msg_type = "event"
+           else:
+             msg_type = "command"
+
            #adding class
-           msg_man.add_msg_class(req["msg_class"],"event")
+           msg_man.add_msg_class(req["msg_class"],msg_type)
            #adding address
            msg_man.add_address_to_mapping(req["address"],req["msg_class"])
            # removing the item from approval cache
            approval_key = msg_man.generate_key(req["msg_class"],req["address"])
-           msg_man.save_template("event",req["msg_class"],cache.approve_cache[approval_key]["payload"])
+           msg_man.save_template(msg_type,req["msg_class"],cache.approve_cache[approval_key]["payload"])
 
            cache.remove_msg_clas_for_approval(approval_key)
 
         else :
-           #TODO:remove the class from approval cache
-            log.info("<NOT implemented> the "+req["msg_class"]+" class has to be removed from approval cache")
+            log.info("Msg will be removed "+req["msg_class"]+" class has to be removed from approval cache")
+            approval_key = msg_man.generate_key(req["msg_class"],req["address"])
+            cache.remove_msg_clas_for_approval(approval_key)
 
         dev = json.dumps({"success":True})
     except Exception as ex:
@@ -575,10 +582,19 @@ def get_timeline(dev_id,start,end,result_type):
 def help(page):
     return render_template('help_'+page+'.html',cfg=msg_man.global_configs,global_context=global_context)
 
-@app.route('/ui/dr_browser')
+@app.route('/ui/dr_browser',methods=["GET","POST"])
 def dr_browser():
     log.info("Device registry browser")
-    msg = devicereg.Devicereg("app","blackfly","blackfly").get_device_list()
+    if request.method == "POST":
+        action = request.form["action"]
+        device_id = int(request.form["device_id"])
+        field_name = request.form["field_name"]
+        field_value = request.form["field_value"]
+        msg = deviceregapi.update({"Id":device_id},{field_name:field_value})
+        log.info(msg)
+        response = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events",timeout=10)
+
+    msg = deviceregapi.get_device_list()
     log.debug(msg)
 
     response = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events",timeout=10)
@@ -721,6 +737,21 @@ def log_viewer():
     output = "<pre>"+output+"</pre>"
     return output
 
+@app.route('/ui/mqtt_client',methods=["POST","GET"])
+def mqtt_client():
+    status = ""
+    if request.method == "POST":
+        address = request.form["address"]
+        payload = request.form["payload"]
+        log.info(type(payload))
+        log.info("Payload"+str(payload))
+        mqtt.publish(address,str(payload),1)
+        status = "The message was sent"
+
+    return render_template('mqtt_client.html',global_context=global_context,status=status)
+
 
 if __name__ == '__main__':
+    # import cProfile
+    # cProfile.run('app.run(host="0.0.0.0",port = http_server_port,debug=True, use_debugger=False,threaded=True,use_reloader=False)')
     app.run(host="0.0.0.0",port = http_server_port,debug=True, use_debugger=False,threaded=True,use_reloader=False)

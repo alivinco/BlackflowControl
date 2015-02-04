@@ -14,8 +14,7 @@
         <th><h6>Serial Number</h6></th>
         <th><h6>Name</h6></th>
         <th><h6>Alias</h6></th>
-        <th><h6>Services</h6></th>
-        <th><h6>Properties</h6></th>
+        <th><h6>Components</h6></th>
         <th><h6>Comm Tech</h6></th>
         <th><h6>Manufacturer</h6></th>
         <th><h6>Hw Ver.</h6></th>
@@ -42,9 +41,11 @@
         <td>{{ device.Address }}</td>
         <td>{{ device.SerialNumber }}</td>
         <td>{{ device.Name }}</td>
-        <td>{{ device.Alias }}</td>
-        <td><a data-toggle="collapse" href="#endpoints_{{ device.Id }}">Services</a></td>
-        <td><a data-toggle="collapse" href="#properties_{{ device.Id }}">Properties</a></td>
+        <td> {% if device.Alias %} <a href="javascript:open_update_dr_field_modal({{ device.Id }},'Alias','{{ device.Alias }}')">{{ device.Alias }}</a>
+        {% else %} <a href="javascript:open_update_dr_field_modal({{ device.Id }},'Alias','{{ device.Alias }}')"> <span class="pull-right glyphicon glyphicon-pencil">&nbsp;</span> </a> {% endif %}</td>
+        <td>
+            <a data-toggle="collapse" href="#endpoints_{{ device.Id }}">Services</a>
+            <a data-toggle="collapse" href="#properties_{{ device.Id }}">Properties</a></td>
         <td>{{ device.CommunicationTechnology }}</td>
         <td>{{ device.Manufacturer }}</td>
         <td>{{ device.HardwareVersion }}</td>
@@ -143,6 +144,37 @@
 {% endif %}
 </div>
 
+{#Modal dialog #}
+<div class="modal fade" id="dr_field_update_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Device registry field update</h4>
+      </div>
+      <br/>
+      <div >
+            <form class="form-horizontal" role="form" action="/ui/dr_browser" method="POST">
+              <input type="hidden" name="action" value="field_update" />
+              <input type="hidden" id = "field_name" name="field_name" value="" />
+              <input type="hidden" id = "device_id" name="device_id" value="" />
+              <div class="form-group">
+                <label id ="field_name_label" for="inputName" class="col-sm-3 control-label">Filed</label>
+                <div class="col-sm-6">
+                  <input type="text" name="field_value" class="form-control" id="field_value" placeholder="" value="">
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-default">Update</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 {% endblock %}
 {% block js_scripts %}
@@ -151,6 +183,6 @@
     </script>
     <script src="/static/js/stupidtable.min.js"></script>
     <script src="/static/js/ui_elements_handler.js"></script>
-
+    <script src="/static/js/dr_device_browser.js"></script>
 
 {% endblock %}

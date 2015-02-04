@@ -109,10 +109,12 @@ class MessageManager:
 
 
     def load_msg_class_mapping(self):
+        log.debug("Loading msg class mapping.")
         jobj = json.load(file(self.msg_class_mapping_file_path))
         return jobj
 
     def load_address_mapping(self):
+        log.debug("Loading address mapping.")
         jobj = json.load(file(self.address_mapping_file_path))
         # let's add a key
         for map in jobj:

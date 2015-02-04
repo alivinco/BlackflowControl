@@ -1,0 +1,26 @@
+{
+ "origin": {
+  "vendor": "Canary", 
+  "@id": "1085866", 
+  "@type": "app", 
+  "location": "living room"
+ }, 
+ "creation_time": 1385815582, 
+ "command": {
+  "default": {
+   "value": true
+  }, 
+  "subtype": "update", 
+  "@type": "devicereg", 
+  "properties": {
+   "search": {
+    "Id": 1
+   }, 
+   "update": {
+    "SerialNumber": "1234567"
+   }
+  }
+ }, 
+ "uuid": "86f93c70-6c47-4cfc-91eb-30d3b069e417", 
+ "spid": "S-451-12"
+}

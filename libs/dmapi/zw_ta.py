@@ -15,3 +15,4 @@ class ZwTa(Core):
         msg = self.get_message("command","zw_ta.exclusion_mode")
         msg["command"]["default"]["value"]=start
         return msg
+
