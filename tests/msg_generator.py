@@ -9,7 +9,7 @@ __author__ = 'aleksandrsl'
 def generate_messages(name,count):
    mqtt = mosquitto.Mosquitto("blackfly_msg_generator_"+str(name), clean_session=True)
    mqtt.max_inflight_messages_set(count+1)
-   mqtt.connect("lego.r", 1883)
+   mqtt.connect("sg.st", 1883)
    f = open(os.path.join("messages","events","meter.power.json"))
    fc = f.read()
    for i in range(0,count):
@@ -38,5 +38,5 @@ def msg_sender(msg_total,num_of_threads):
     print "Done"
 
 
-msg_sender(1000000,10)
+msg_sender(100,1)
 # generate_test_message()

@@ -1,3 +1,5 @@
+from libs.simple_jsonpath import SimpleJsonPath
+
 __author__ = 'aleksandrsl'
 import os
 import json
@@ -28,6 +30,7 @@ class MessageManager:
         self.global_configs = json.load(file(self.global_configs_path))
         self.ui_elements_command = ["input_num_field","toggle_switch"]
         self.ui_elements_event = ["binary_light","sensor_value","free_text"]
+        self.jsonpath = SimpleJsonPath()
 
 
     def load_templates(self):
@@ -155,7 +158,8 @@ class MessageManager:
 
     def get_value_from_msg(self, jobj, json_path):
         # returns list
-        return jsonpath.jsonpath(jobj, json_path, 'VALUE', False)
+        # return jsonpath.jsonpath(jobj, json_path, 'VALUE', False)
+        return self.jsonpath.get(jobj,json_path)
 
     def set_value_to_msg(self, jobj, json_path, value):
         log.debug("JsonPath to set the value :"+str(json_path))
