@@ -270,9 +270,15 @@ def timeseries_chart(dev_id):
     device_info = {"device_id":dev_id}
     return render_template('timeseries_chart.html',cache=result,global_context=global_context,device_info=device_info)
 
-@app.route('/ui/timeseries/table/<dev_id>/<start_time>/<end_time>')
+@app.route('/ui/timeseries/table/<dev_id>/<start_time>/<end_time>',methods=["POST","GET"])
 def timeseries_table(dev_id,start_time,end_time):
     # ch = json.dumps(cache.get_all(),indent=True)
+    if request.method == "POST":
+        action = request.form["action"]
+        if action == "delete_all":
+            timeseries.delete_all_for_dev(int(dev_id))
+            log.info("All lot items for device with id = %s were deleted"%dev_id)
+
     result = timeseries.get(dev_id,start_time,end_time)
     return render_template('timeseries_table.html',ts=result,global_context=global_context)
 

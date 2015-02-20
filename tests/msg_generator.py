@@ -8,20 +8,29 @@ __author__ = 'aleksandrsl'
 
 def generate_messages(name,count):
    mqtt = mosquitto.Mosquitto("blackfly_msg_generator_"+str(name), clean_session=True)
-   mqtt.max_inflight_messages_set(count+1)
-   mqtt.connect("sg.st", 1883)
+   mqtt.on_log = log
+   mqtt.max_inflight_messages_set(20)
+   mqtt.connect("alivinco.sg", 1883)
+   # this is mosqutto application loop .
+   mqtt.loop_start()
    f = open(os.path.join("messages","events","meter.power.json"))
    fc = f.read()
+
    for i in range(0,count):
         mqtt.publish("/dev/serial/test_id/met_power/1/events",fc,1)
+        print "message %s was published "%i
+        # time.sleep(0.5)
 
    while  mqtt._inflight_messages > 0:
-       print "Inflight messages :"+str(mqtt._inflight_messages)
-       time.sleep(1)
+        print "Inflight messages :"+str(mqtt._inflight_messages)
+        time.sleep(0.5)
 
    mqtt.disconnect()
 
    print "Thread "+str(name)+" copmleted."
+
+def log(mosq, userdata, level, buf):
+    pass
 
 def msg_sender(msg_total,num_of_threads):
     msg_per_thread = msg_total//num_of_threads
@@ -38,5 +47,5 @@ def msg_sender(msg_total,num_of_threads):
     print "Done"
 
 
-msg_sender(100,1)
+msg_sender(1000,1)
 # generate_test_message()
