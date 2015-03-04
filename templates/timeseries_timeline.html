@@ -1,39 +1,18 @@
 {% extends "base_layout.html" %}
-{% block li_inter_console %}class="active"{% endblock %}
+{% block css_scripts %}
+    <link href="/static/visjs/dist/vis.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
 {% block body %}
 </h1>
 <h3>Timeline</h3>
-<div class="container-fluid">
+<div id="timeline_container">
 
-<div class="table-responsive">
- <table id="addr_map_table" class="table table-striped">
-     <thead>
-        <tr>
-            <th>Timestamp</th>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Value </th>
-        </tr>
-     </thead>
-     <tbody>
-     {% for item in ts |sort(attribute="time",reverse=True) %}
-      <tr>
-       <td> {{ item.time_iso }} </td>
-       <td> {{ item.name }}</td>
-       <td> {{ item.address }}</td>
-       <td> {{ item.value }}</td>
-      </tr>
-      {% endfor %}
-     </tbody>
-
- </table>
 </div>
-</div>
-
+<input id="draw" type="button" value="draw">
 
 {% endblock %}
 {% block js_scripts %}
-    <script src="/static/js/stupidtable.min.js"></script>
-
-
+    <script src="/static/visjs/dist/vis.js"></script>
+    <script src="/static/js/timeline.js"></script>
 {% endblock %}

@@ -154,22 +154,52 @@ class Timeseries():
         addr_id_list = []
         for item in mapping : addr_id_list.append(str(item["id"]))
 
-        sql = "select dev_id,timestamp,value from timeseries where dev_id in ({seq}) and timestamp > ? and timestamp < ? order by timestamp desc LIMIT ?".format(seq=','.join(addr_id_list))
+        sql = "select dev_id,timestamp,value from timeseries where dev_id in ({seq}) and timestamp > ? and timestamp < ? order by timestamp asc LIMIT ?".format(seq=','.join(addr_id_list))
         self.log.debug("Query sql = "+sql)
 
         self.lock.acquire()
         c = self.conn.cursor()
         c.execute(sql,(start,end,limit))
         fetch_result = c.fetchall()
+        self.log.info("Row count %s"%c.rowcount)
         c.close()
         self.lock.release()
+        # binary event start-stop tracker
+        # let's put event start time into list , so when there is another stop event will generate
+        # 1) value = 1 - record start time and add it to binary_events dict
+        # 2) value = 0 - record stop time and add entry to result , remove event from binary_event_dict
+        # if very first value comes as 0 then just add the event to result list and don't add anything to binary event table
+        # binary_events = {"291":"2015-02-16 22:19:46"}
+
+        binary_events = {}
 
         for item in fetch_result:
-            t_iso = datetime.datetime.fromtimestamp(item[1]).isoformat(" ")
-
+            unix_time = item[1]
+            time_iso = datetime.datetime.fromtimestamp(unix_time).isoformat(" ")
             if result_type == "dict":
-                map = filter(lambda m: (item[0]==m["id"]),mapping)[0]
-                result.append({"dev_id": item[0], "time": item[1], "time_iso": t_iso, "value": item[2],"name":map["name"],"address":map["address"]})
+                dev_id = item[0]
+                value = item[2]
+                map = filter(lambda m: (dev_id==m["id"]),mapping)[0]
+
+                if "binary" in map["msg_class"]: # bool type event
+                    if dev_id in binary_events and value == 0: # this is a stop of the event
+                        start_time = binary_events[dev_id]
+                        binary_events.pop(dev_id)
+                        result.append({"dev_id": dev_id, "start": start_time,"end":time_iso, "value": value,"content":map["name"],"address":map["address"]})
+                    elif dev_id in binary_events and value == 1:
+                        # stopping and starting another event , that is needed just not too loose any events
+                        start_time = binary_events[dev_id]
+                        binary_events[dev_id] = time_iso
+                        result.append({"dev_id": dev_id, "start": start_time,"end":time_iso, "value": value,"content":map["name"],"address":map["address"]})
+                    elif not(dev_id in binary_events) and value == 1 :
+                        # staring new event , so need just to record the event
+                        binary_events[dev_id] = time_iso
+                    elif not(dev_id in binary_events) and value == 0 :
+                        # end of and event but we don't have start , so will create event without stop
+                        result.append({"dev_id": dev_id, "start": start_time, "value": value,"content":map["name"],"address":map["address"]})
+                else :
+                    result.append({"dev_id": dev_id, "start": time_iso, "value": value,"content":map["name"],"address":map["address"]})
+
 
         return result
     def delete_all_for_dev(self, dev_id):

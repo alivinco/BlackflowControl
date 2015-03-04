@@ -13,17 +13,20 @@ def generate_messages(name,count):
    mqtt.connect("alivinco.sg", 1883)
    # this is mosqutto application loop .
    mqtt.loop_start()
-   f = open(os.path.join("messages","events","meter.power.json"))
+   f = open(os.path.join("messages","events","sensor.temperature.json"))
    fc = f.read()
-
+   start_time = time.time()
    for i in range(0,count):
-        mqtt.publish("/dev/serial/test_id/met_power/1/events",fc,1)
+        mqtt.publish("/dev/test/1/sen_temp/1/events",fc,1)
         print "message %s was published "%i
-        # time.sleep(0.5)
+        time.sleep(0.1)
 
    while  mqtt._inflight_messages > 0:
         print "Inflight messages :"+str(mqtt._inflight_messages)
-        time.sleep(0.5)
+        time.sleep(0.1)
+   stop_time = time.time()
+
+   print "Publish took %s sec to complete "%(stop_time-start_time)
 
    mqtt.disconnect()
 

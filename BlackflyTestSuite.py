@@ -282,6 +282,18 @@ def timeseries_table(dev_id,start_time,end_time):
     result = timeseries.get(dev_id,start_time,end_time)
     return render_template('timeseries_table.html',ts=result,global_context=global_context)
 
+@app.route('/ui/timeseries/timeline/<start_time>/<end_time>',methods=["POST","GET"])
+def timeseries_timeline(start_time,end_time):
+    # ch = json.dumps(cache.get_all(),indent=True)
+    if request.method == "POST":
+        action = request.form["action"]
+        if action == "delete_all":
+            timeseries.delete_all_for_dev(int(dev_id))
+            log.info("All lot items for device with id = %s were deleted"%dev_id)
+
+    return render_template('timeseries_timeline.html',global_context=global_context)
+
+
 @app.route('/ui/msg_types_for_approval')
 def msg_types_for_approval_ui():
     # cache.put_msg_class_for_approval("test","test","switch_binary_new","Message class is unknown and has to be approved")
@@ -574,12 +586,12 @@ def get_timeseries(dev_id,start,end,result_type):
     jobj = json.dumps(ts)
     return Response(response=jobj, mimetype='application/json')
 
-@app.route('/api/timeseries/timeline/<dev_id>/<start>/<end>/<limit>/<result_type>')
-def get_timeline(dev_id,start,end,result_type):
+@app.route('/api/timeseries/timeline/<start>/<end>/<result_type>')
+def get_timeline(start,end,result_type):
     log.info("Inter console works")
     filter_value = request.args.get("filter","")
     limit = request.args.get("limit","")
-    ts = timeseries.get_timeline(msg_man.address_mapping,filter_value,limit,int(dev_id),int(start),int(end),result_type)
+    ts = timeseries.get_timeline(msg_man.address_mapping,filter_value,int(start),int(end),int(limit),result_type)
     jobj = json.dumps(ts)
     return Response(response=jobj, mimetype='application/json')
 
