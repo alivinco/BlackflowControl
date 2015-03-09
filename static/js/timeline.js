@@ -4,6 +4,10 @@
 
 var options = {editable: false}
 var items = new vis.DataSet()
+
+var groups = []
+
+
 data = [{content: "SG inclusion",
                 id: 1,
                 address: "/ta/zw/commands",
@@ -17,17 +21,40 @@ function loadTimelineData()
         items.clear()
         start_time = data[0].start
         end_time = data[data.length-1].start
+
+        temp_groups = []
         for (i in data) {
 
             if (data[i].content.indexOf("binary")>-1 ){
-                data[i]['type']='box'
+                data[i]['type']='range'
             }else
             {
-                data[i]['type']='point'
+                data[i]['type']='box'
             }
+
+            data[i]['title'] = data[i].start
+
+            if (temp_groups.indexOf(data[i].content) == -1 )
+            {
+
+                temp_groups.push(data[i].content)
+            }
+            data[i]['group']=data[i].content
+            data[i]['content'] = data[i].value
             items.add(data[i])
         }
-        console.dir(data)
+
+        for (gi in temp_groups)
+        {
+            groups.push({id:temp_groups[gi],content:temp_groups[gi]})
+        }
+
+        //items.add(events)
+
+        timeline.setGroups(groups)
+        timeline.setItems(items)
+        console.dir(groups)
+        console.dir(items)
         console.log(end_time)
         options["start"] = start_time
         options["end"] = end_time
@@ -47,9 +74,9 @@ function loadTimelineData()
 function init_timeline()
 {
     timeline_container = $("#timeline_container")[0];
-    console.dir(timeline_container)
-    console.dir(items)
-    timeline = new vis.Timeline(timeline_container,items,options);
+    //console.dir(timeline_container)
+    //console.dir(items)
+    timeline = new vis.Timeline(timeline_container);
 }
 
 $(function(){
