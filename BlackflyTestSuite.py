@@ -597,7 +597,7 @@ def get_timeline():
                 stop  = int(request.args.get("stop_dt",""))
             except:
                 stop  = int(time.time())
-                start = int(stop - 86400)
+                start = int(stop - 3600)
 
             filter  = request.args.get("filter","")
 
