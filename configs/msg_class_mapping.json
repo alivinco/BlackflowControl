@@ -22,8 +22,8 @@
  {
   "ui_mapping": {
    "ui_element": "toggle_switch", 
-   "override_properties": true, 
-   "value_path": "$.command.default.value"
+   "value_path": "$.command.default.value", 
+   "override_properties": true
   }, 
   "subclass": "get_dead_node_list", 
   "class": "zw_ta", 
@@ -33,8 +33,8 @@
  {
   "ui_mapping": {
    "ui_element": "toggle_switch", 
-   "override_properties": true, 
-   "value_path": "$.command.default.value"
+   "value_path": "$.command.default.value", 
+   "override_properties": true
   }, 
   "subclass": "get_routing_info", 
   "class": "zw_ta", 
@@ -44,8 +44,8 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "value_path": "$.command.default.value[0]", 
-   "num_type": "int"
+   "num_type": "int", 
+   "value_path": "$.command.default.value[0]"
   }, 
   "subclass": "make_nodes_alive", 
   "class": "zw_ta", 
@@ -75,9 +75,9 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "float", 
+   "override_properties": true, 
    "value_path": "$.command.default.value", 
-   "override_properties": true
+   "num_type": "float"
   }, 
   "subclass": "thermostat", 
   "class": "level", 
@@ -233,8 +233,8 @@
  {
   "ui_mapping": {
    "ui_element": "slider", 
-   "num_type": "int", 
-   "value_path": "$.command.default.value"
+   "value_path": "$.command.default.value", 
+   "num_type": "int"
   }, 
   "subclass": "switch", 
   "class": "level", 
@@ -245,8 +245,8 @@
   "ui_mapping": {
    "ui_element": "msg_class_ui", 
    "properties_are_key_value": true, 
-   "num_type": "int", 
-   "override_properties": true
+   "override_properties": true, 
+   "num_type": "int"
   }, 
   "subclass": "set", 
   "class": "config", 
@@ -256,9 +256,9 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "int", 
+   "override_properties": false, 
    "value_path": "$.command.properties.group.value", 
-   "override_properties": false
+   "num_type": "int"
   }, 
   "subclass": "get", 
   "class": "association", 
@@ -268,9 +268,9 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "int", 
+   "override_properties": false, 
    "value_path": "$.command.default.value", 
-   "override_properties": false
+   "num_type": "int"
   }, 
   "subclass": "get_groups", 
   "class": "association", 
@@ -347,8 +347,8 @@
    "device_id_num_input_path": "$.command.properties.devices.value[0]", 
    "ui_element": "msg_class_ui", 
    "group_id_num_input_path": "$.command.properties.group.value", 
-   "num_type": "int", 
-   "override_properties": true
+   "override_properties": true, 
+   "num_type": "int"
   }, 
   "subclass": "set", 
   "class": "association", 
@@ -360,8 +360,8 @@
    "device_id_num_input_path": "$.command.properties.devices.value[0]", 
    "ui_element": "msg_class_ui", 
    "group_id_num_input_path": "$.command.properties.group.value", 
-   "num_type": "int", 
-   "override_properties": true
+   "override_properties": true, 
+   "num_type": "int"
   }, 
   "subclass": "delete", 
   "class": "association", 
@@ -441,9 +441,9 @@
  {
   "ui_mapping": {
    "ui_element": "toggle_switch", 
-   "num_type": "int", 
+   "override_properties": true, 
    "value_path": "$.command.default.value", 
-   "override_properties": true
+   "num_type": "int"
   }, 
   "subclass": "get_device_list", 
   "class": "devicereg", 
@@ -453,9 +453,9 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "int", 
+   "override_properties": false, 
    "value_path": "$.command.default.value", 
-   "override_properties": false
+   "num_type": "int"
   }, 
   "subclass": "delete", 
   "class": "devicereg", 
@@ -525,9 +525,9 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "int", 
+   "override_properties": false, 
    "value_path": "$.command.default.value[0]", 
-   "override_properties": false
+   "num_type": "int"
   }, 
   "subclass": "get", 
   "class": "config", 
@@ -537,9 +537,9 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "int", 
+   "override_properties": false, 
    "value_path": "$.command.default.value[0]", 
-   "override_properties": false
+   "num_type": "int"
   }, 
   "subclass": "neighbor_update", 
   "class": "zw_ta", 
@@ -633,11 +633,32 @@
   "msg_class": "devicereg.update"
  }, 
  {
+  "msg_class": "binary.switch_get", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value"
   }, 
+  "class": "binary", 
   "msg_type": "command", 
-  "msg_class": "binary.switch_get"
+  "subclass": "switch_get"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "input_num_field", 
+   "value_path": "$.command.default.value", 
+   "num_type": "int"
+  }, 
+  "subclass": "get_node_info", 
+  "class": "zw_ta", 
+  "msg_type": "command", 
+  "msg_class": "zw_ta.get_node_info"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "free_text", 
+   "value_path": "$.event.default.value"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "zw_ta.inclusion_stage"
  }
 ]

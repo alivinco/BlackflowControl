@@ -1,11 +1,33 @@
 {% extends "base_layout.html" %}
 {% block css_scripts %}
     <link href="/static/visjs/dist/vis.css" rel="stylesheet" type="text/css">
-{% endblock %}
 
+{% endblock %}
+{% block li_msg_timeline %}class="active"{% endblock %}
 {% block body %}
+
 </h1>
-<h3>Timeline</h3>
+<h3>Event timeline</h3>
+<div class="container-fluid">
+<div class="row">
+ <div class="col-sm-10 col-md-10 col-lg-10">
+    <form class="form-inline" role="form" method="get" action="inter_console" enctype="text/plain" >
+      <div class="form-group">
+        <input type="text" class="form-control" size="30" id="filter_field" name="filter" value="{{ filter_value }}" placeholder="address"/>
+        <input id="start_time" class="form-control" name="start_time"   type="datetime-local">
+        -
+        <input id="stop_time" class="form-control" name="stop_time" type="datetime-local">
+        <input type="number" class="form-control" size="10" id="limit" name="filter" value="100" placeholder="limit"/>
+
+      </div>
+       <button type="button" onclick="loadTimelineData()" class="btn btn-default">Filter</button>
+       <button class="btn btn-default" type="button" data-toggle="modal" data-target="#filter_help_modal">Help me</button>
+    </form>
+ </div>
+</div>
+</div>
+<br>
+
 <div id="timeline_container">
 
 </div>

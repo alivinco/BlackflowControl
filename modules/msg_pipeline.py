@@ -261,7 +261,8 @@ class MsgPipeline():
                 if isinstance(value, bool): value = int(value)
                 self.timeseries.insert(exdt["extracted_values"]["dev_id"], value, 2)
             else:
-                log.debug("Value is not a number , therefore will be skipped")
+                self.timeseries.insert(exdt["extracted_values"]["dev_id"], 0, 2)
+                log.debug("Value is not a number , therefore value will be replaced by 0")
         except Exception as ex:
             log.debug(ex)
 

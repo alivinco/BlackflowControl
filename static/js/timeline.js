@@ -2,7 +2,7 @@
  * Created by alivinco on 01/03/15.
  */
 
-var options = {editable: false}
+var options = {editable: false,maxHeight:"700px"}
 var items = new vis.DataSet()
 
 var groups = []
@@ -16,59 +16,70 @@ data = [{content: "SG inclusion",
 //items.add(data)
 function loadTimelineData()
 {
-    $.getJSON('/api/timeseries/timeline/0/2004836694/dict?limit=1000&filter=/22/', function (data) {
+    data = get_filter()
+    $.getJSON('/api/timeseries/timeline',data, function (data) {
 
         items.clear()
-        start_time = data[0].start
-        end_time = data[data.length-1].start
+        groups = []
+        if(data.length > 0) {
+            start_time = data[0].start
+            end_time = data[data.length - 1].start
 
-        temp_groups = []
-        for (i in data) {
+            temp_groups = []
+            group_dev_id = []
+            for (i in data) {
 
-            if (data[i].content.indexOf("binary")>-1 ){
-                data[i]['type']='range'
-            }else
-            {
-                data[i]['type']='box'
+                if (data[i].content.indexOf("binary") > -1) {
+                    data[i]['type'] = 'range'
+                } else {
+                    data[i]['type'] = 'box'
+                }
+
+                data[i]['title'] = data[i].start
+                group_name = data[i].address + " " + data[i].content
+                dev_id = data[i].dev_id
+                if ($.inArray(dev_id,group_dev_id) == -1) {
+                    group_dev_id.push(dev_id)
+                    temp_groups.push({name:group_name,id:dev_id})
+                }
+                data[i]['group'] = dev_id
+                data[i]['content'] = data[i].value
+                items.add(data[i])
+            }
+            console.dir(temp_groups)
+            for (gi in temp_groups) {
+                groups.push({id: temp_groups[gi].id, content: temp_groups[gi].name})
             }
 
-            data[i]['title'] = data[i].start
+            //items.add(events)
+            options["start"] = start_time
+            options["end"] = end_time
+            //console.dir(options)
+            timeline.setOptions(options)
 
-            if (temp_groups.indexOf(data[i].content) == -1 )
-            {
-
-                temp_groups.push(data[i].content)
-            }
-            data[i]['group']=data[i].content
-            data[i]['content'] = data[i].value
-            items.add(data[i])
         }
+            timeline.setGroups(groups)
+            timeline.setItems(items)
+            //console.dir(groups)
+            //console.dir(items)
+            //console.log(end_time)
 
-        for (gi in temp_groups)
-        {
-            groups.push({id:temp_groups[gi],content:temp_groups[gi]})
-        }
-
-        //items.add(events)
-
-        timeline.setGroups(groups)
-        timeline.setItems(items)
-        console.dir(groups)
-        console.dir(items)
-        console.log(end_time)
-        options["start"] = start_time
-        options["end"] = end_time
-        timeline.setOptions(options)
-        //data = [{content: "SG inclusion",
-        //        id: 1,
-        //        address: "/ta/zw/commands",
-        //        value: 1,
-        //        start: "2014-08-01"}]
-        //items.add(data)
-        //timeline.redraw()
-        //init_timeline();
 
     })
+}
+
+function get_filter()
+{
+    start_time_str = $("#start_time").val();
+    stop_time_str =  $("#stop_time").val();
+    filter =  $("#filter_field").val();
+    limit =  $("#limit").val();
+    start_date = (new Date(start_time_str)).getTime()/1000
+    stop_date  = (new Date(stop_time_str)).getTime()/1000
+    data = {start_dt:start_date,stop_dt:stop_date,filter:filter,limit:limit}
+    console.dir(data)
+    return data
+
 }
 
 function init_timeline()

@@ -11,6 +11,7 @@ import json
 from flask import Flask, Response, redirect, url_for
 from flask import render_template
 from flask import request
+import time
 import libs
 from mappings.msg_class_to_zw import get_msg_class_by_capabilities
 import modules
@@ -586,12 +587,24 @@ def get_timeseries(dev_id,start,end,result_type):
     jobj = json.dumps(ts)
     return Response(response=jobj, mimetype='application/json')
 
-@app.route('/api/timeseries/timeline/<start>/<end>/<result_type>')
-def get_timeline(start,end,result_type):
-    log.info("Inter console works")
-    filter_value = request.args.get("filter","")
-    limit = request.args.get("limit","")
-    ts = timeseries.get_timeline(msg_man.address_mapping,filter_value,int(start),int(end),int(limit),result_type)
+@app.route('/api/timeseries/timeline')
+def get_timeline():
+    log.info("Timeline request")
+    if request.method == "GET":
+            # adding address based on dev_type and capability
+            try:
+                start = int(request.args.get("start_dt",""))
+                stop  = int(request.args.get("stop_dt",""))
+            except:
+                stop  = int(time.time())
+                start = int(stop - 86400)
+
+            filter  = request.args.get("filter","")
+
+            limit = request.args.get("limit","100")
+            result_type = "dict"
+
+            ts = timeseries.get_timeline(msg_man.address_mapping,filter,start,stop,int(limit),result_type)
     jobj = json.dumps(ts)
     return Response(response=jobj, mimetype='application/json')
 
@@ -633,12 +646,14 @@ def zw_diagnostics():
         response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events")
         # This 2 lines below are a workaround while zwave ta is not available
         # response  = json.load(file("tests/poc/network_info.json"))
-        # cache.put("zw_ta.routing_info@.ta.zw.events",response,{"ui_element":{}},{})
+        if not response : response  = {"event":{"properties":{}}}
+        cache.put("zw_ta.routing_info@.ta.zw.events",response,{"ui_element":{}},{})
 
     else :
         response = response["raw_msg"]
 
     routing_info = response["event"]["properties"]
+
     log.debug("response :"+str(response))
     return render_template('zw_diagnostics.html',routing_info=routing_info,global_context=global_context)
 
@@ -772,4 +787,4 @@ def mqtt_client():
 if __name__ == '__main__':
     # import cProfile
     # cProfile.run('app.run(host="0.0.0.0",port = http_server_port,debug=True, use_debugger=False,threaded=True,use_reloader=False)')
-    app.run(host="0.0.0.0",port = http_server_port,debug=True, use_debugger=False,threaded=True,use_reloader=False)
+    app.run(host="0.0.0.0",port = http_server_port,debug=True, use_debugger=True,threaded=True,use_reloader=False)
