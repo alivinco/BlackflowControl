@@ -42,6 +42,7 @@ then
  cp /tmp/configs/address_mapping.json configs/
  cp /tmp/configs/global.json configs/
  cp /tmp/configs/filters.json configs/
+ cp /tmp/configs/dashboards.json configs/
 #cp /tmp/configs/msg_class_mapping.json configs/
  cp -r /tmp/events messages/
  if [ -e "/tmp/configs/filters.json" ];

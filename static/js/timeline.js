@@ -29,7 +29,7 @@ function loadTimelineData()
             group_dev_id = []
             for (i in data) {
 
-                if (data[i].content.indexOf("binary") > -1) {
+                if ( (data[i].content.indexOf("binary") > -1) && data[i].end ) {
                     data[i]['type'] = 'range'
                 } else {
                     data[i]['type'] = 'box'
@@ -52,10 +52,10 @@ function loadTimelineData()
             }
 
             //items.add(events)
-            options["start"] = start_time
-            options["end"] = end_time
-            //console.dir(options)
-            timeline.setOptions(options)
+            //options["start"] = start_time
+            //options["end"] = end_time
+            ////console.dir(options)
+            //timeline.setOptions(options)
 
         }
             timeline.setGroups(groups)
@@ -72,6 +72,13 @@ function get_filter()
 {
     start_time_str = $("#start_time").val();
     stop_time_str =  $("#stop_time").val();
+
+    options["start"] = start_time_str
+    options["end"] = stop_time_str
+    options["max"] = stop_time_str
+    options["min"] = start_time_str
+    timeline.setOptions(options)
+
     filter =  $("#filter_field").val();
     limit =  $("#limit").val();
     start_date = (new Date(start_time_str)).getTime()/1000
@@ -88,11 +95,45 @@ function init_timeline()
     //console.dir(timeline_container)
     //console.dir(items)
     timeline = new vis.Timeline(timeline_container);
+    // set default dates
+
+
+}
+
+function set_default_values()
+{
+    $("#start_time").val(get_default_date(1));
+    $("#stop_time").val(get_default_date(0));
+
+    options["start"] = get_default_date(1)
+    options["end"] = get_default_date(0)
+    options["max"] = get_default_date(0)
+    options["min"] = get_default_date(1)
+            //console.dir(options)
+    timeline.setOptions(options)
+}
+
+
+function get_default_date(minus_hour)
+{
+    var now = new Date();
+    now_mili =  now - (minus_hour*3600000)
+    now = new Date(now_mili)
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    var hour = ("0" + (now.getHours())).slice(-2);
+    var minutes = ("0" + (now.getMinutes())).slice(-2);
+
+
+    var today = now.getFullYear()+"-"+(month)+"-"+(day)+"T"+hour+":"+minutes+":00" ;
+    return today
 }
 
 $(function(){
+
     init_timeline()
+    set_default_values()
     loadTimelineData();
 
-    document.getElementById('draw').onclick = loadTimelineData
+    //document.getElementById('draw').onclick = set_dates()
 })

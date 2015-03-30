@@ -53,6 +53,7 @@ then
  cp /tmp/configs/address_mapping.json configs/
  cp /tmp/configs/global.json configs/
  cp /tmp/configs/filters.json configs/
+ cp /tmp/configs/dashboards.json configs/
  cp -r /tmp/events messages/
  echo "Running update script"
  python scripts/upgrade.py
