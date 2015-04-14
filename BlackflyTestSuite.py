@@ -42,7 +42,8 @@ from libs.dmapi import devicereg,zw_ta
 global_context = {}
 logging.config.dictConfig(configs.log.config)
 log = logging.getLogger("bf_web")
-
+log.info("Checking firewall configuration")
+log.info(Tools.open_port_in_firewall())
 
 app = Flask(__name__)
 msg_man = MessageManager()
@@ -590,8 +591,10 @@ def get_timeseries(dev_id,start,end,result_type):
 @app.route('/api/timeseries/timeline')
 def get_timeline():
     log.info("Timeline request")
+
     if request.method == "GET":
             # adding address based on dev_type and capability
+            # TODO: something wrong with timezones , in db time is stored in GMT and request is in local time .
             try:
                 start = int(request.args.get("start_dt",""))
                 stop  = int(request.args.get("stop_dt",""))
@@ -599,6 +602,7 @@ def get_timeline():
                 stop  = int(time.time())
                 start = int(stop - 3600)
 
+            log.info("Start time = %s stopt time = %s"%(start,stop))
             filter  = request.args.get("filter","")
 
             limit = request.args.get("limit","100")
@@ -782,6 +786,7 @@ def mqtt_client():
         status = "The message was sent"
 
     return render_template('mqtt_client.html',global_context=global_context,status=status)
+
 
 
 if __name__ == '__main__':

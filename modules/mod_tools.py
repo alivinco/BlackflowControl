@@ -2,6 +2,7 @@ __author__ = 'alivinco'
 
 import subprocess
 import os
+import platform
 
 class Tools():
     def start_service(self, service_name):
@@ -15,6 +16,21 @@ class Tools():
     def run_update_procedure(self,distro_server_uri):
         sp = subprocess.check_output("nohup cd /tmp; curl -O "+distro_server_uri+"/install.sh;chmod a+x install.sh;sudo ./install.sh > /var/log/blackfly_upgrade.log 2>&1 &", shell=True)
         return sp
+
+    @staticmethod
+    def open_port_in_firewall():
+        if platform.system()=="Linux":
+            sp = subprocess.check_output("iptables -L INPUT",shell=True)
+            status = "iptables already has rule for port 5000"
+            if not("tcp dpt:5000" in sp) :
+                status = "Adding rule for port 5000"
+                sp = subprocess.check_output("iptables -I INPUT -p tcp --dport 5000 -j ACCEPT", shell=True)
+        else :
+            status = "Your platform doesn't have iptables"
+
+        return status
+
+        #iptables -I INPUT -p tcp --dport 5000 -j ACCEPT
 
     def process_status(self, process_name):
         """
