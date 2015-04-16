@@ -48,7 +48,7 @@ function loadTimelineData()
             }
             console.dir(temp_groups)
             for (gi in temp_groups) {
-                groups.push({id: temp_groups[gi].id, content: temp_groups[gi].name})
+                groups.push({id: temp_groups[gi].id, content: '<a href="/ui/timeseries/chart/'+temp_groups[gi].id+'" target="blank">'+temp_groups[gi].name+'</a>'})
             }
 
             //items.add(events)

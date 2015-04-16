@@ -282,7 +282,8 @@ def timeseries_table(dev_id,start_time,end_time):
             log.info("All lot items for device with id = %s were deleted"%dev_id)
 
     result = timeseries.get(dev_id,start_time,end_time)
-    return render_template('timeseries_table.html',ts=result,global_context=global_context)
+    device_info = {"device_id":dev_id}
+    return render_template('timeseries_table.html',ts=result,global_context=global_context,device_info=device_info)
 
 @app.route('/ui/timeseries/timeline/<start_time>/<end_time>',methods=["POST","GET"])
 def timeseries_timeline(start_time,end_time):

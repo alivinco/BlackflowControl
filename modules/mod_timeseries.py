@@ -202,6 +202,7 @@ class Timeseries():
 
 
         return result
+    
     def delete_all_for_dev(self, dev_id):
         try:
             self.lock.acquire()
