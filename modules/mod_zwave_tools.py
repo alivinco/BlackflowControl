@@ -3,7 +3,6 @@ import json
 __author__ = 'alivinco'
 
 class ZwaveTools:
-
     def get_network_graph(self,nb_table):
         node = {"data":{"id":None}}
         edge = {"data":{"id":None,"weight":0,"source":None,"target":None}}

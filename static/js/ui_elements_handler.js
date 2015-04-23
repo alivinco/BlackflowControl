@@ -48,7 +48,7 @@ function send_command(key,ui_type,value)
     {
        div_el = $("#"+jq_elector(key))
        user_params = {}
-       div_el.find('input').each(function(index){
+       div_el.find('input,select').each(function(index){
 //           console.log($(this)[0].value)
            input_id = $(this)[0].id
            input_value = $(this)[0].value

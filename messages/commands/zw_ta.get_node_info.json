@@ -9,7 +9,7 @@
  "creation_time": 1426092792000, 
  "command": {
   "default": {
-   "value": true
+   "value": 5
   }, 
   "subtype": "get_node_info", 
   "@type": "zw_ta"

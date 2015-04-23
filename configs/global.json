@@ -1,4 +1,5 @@
 {
+ "use_default_class_lookup": true, 
  "smartly": {
   "sdc_uri": "https://prov-stg.service.smartly.no"
  }, 
@@ -8,10 +9,9 @@
  }, 
  "system": {
   "http_server_port": 5000, 
-  "version": "1.4.7",
+  "version": "1.4.7", 
   "distro_server_uri": "http://lego.fiicha.net/blackfly"
- },
- "use_default_class_lookup":true,
+ }, 
  "msg_class_lookup_path": [
   {
    "priority": 1, 
@@ -42,10 +42,10 @@
  ], 
  "mqtt": {
   "username": "blackfly", 
-  "root_topic": "/#", 
+  "root_topic": "#", 
   "enable_sys": false, 
   "global_topic_prefix": "", 
-  "host": "localhost",
+  "host": "localhost", 
   "client_id": "blackfly_test_suite_5", 
   "password": "Lyse3124", 
   "port": "1883"

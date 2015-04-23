@@ -16,7 +16,8 @@
              "timeout":10,
              "count":1,
              "interval":1,
-             "power_level":"-1dB"
+             "power_level":"-1dB",
+             "route":"direct"
          },
          "target" : "/ta/zw/commands"
       },

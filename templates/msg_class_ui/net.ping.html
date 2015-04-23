@@ -3,6 +3,10 @@
       <input id="target_num_input" type="number"  class="form-control" placeholder="target">
       <input id="count_num_input" type="number"  class="form-control" placeholder="count" value="1">
       <input id="power_level_input" type="text"  class="form-control" placeholder="power level (-1dB)" value="-1dB">
+      <select id="route_input" class="form-control" >
+        <option value="direct">direct</option>
+        <option value="routed">routed</option>
+      </select>
       <span class="input-group-btn">
          <button class="btn btn-default"  onclick="send_command('{{ item.key }}','msg_class_ui',''); return false" type="button">Ping</button>
       </span>

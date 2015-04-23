@@ -551,7 +551,8 @@
    "count_num_input_path": "$.command.properties.count", 
    "target_num_input_path": "$.command.default.value", 
    "power_level_input_path": "$.command.properties.power_level", 
-   "ui_element": "msg_class_ui", 
+   "route_input_path": "$.command.properties.route",
+   "ui_element": "msg_class_ui",
    "num_type": "int", 
    "override_properties": true
   }, 

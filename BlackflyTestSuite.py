@@ -648,7 +648,7 @@ def zw_diagnostics():
         log.info("Doing zwave info refresh")
         msg = zwapi.get_routing_info()
         # That is propper request
-        response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events")
+        response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.routing_info")
         # This 2 lines below are a workaround while zwave ta is not available
         # response  = json.load(file("tests/poc/network_info.json"))
         if not response : response  = {"event":{"properties":{}}}
@@ -662,17 +662,19 @@ def zw_diagnostics():
     log.debug("response :"+str(response))
     return render_template('zw_diagnostics.html',routing_info=routing_info,global_context=global_context)
 
-@app.route('/api/zw_diagnostics/<action>')
-def zw_diagnostics_api(action):
-    if action == "get_network_graph":
-        # getting network infor from cache
-        response = cache.get("zw_ta.routing_info","/ta/zw/events")
-        routing_info = response["raw_msg"]["event"]["properties"]
-        graph = ZwaveTools().get_network_graph(routing_info)
-        jobj = json.dumps(graph)
-    else :
-        jobj = json.dumps({})
-    return Response(response=jobj, mimetype='application/json')
+
+#TODO: That part is depricated and have to be removed .
+# @app.route('/api/zw_diagnostics/<action>')
+# def zw_diagnostics_api(action):
+#     if action == "get_network_graph":
+#         # getting network infor from cache
+#         response = cache.get("zw_ta.routing_info","/ta/zw/events")
+#         routing_info = response["raw_msg"]["event"]["properties"]
+#         graph = ZwaveTools().get_network_graph(routing_info)
+#         jobj = json.dumps(graph)
+#     else :
+#         jobj = json.dumps({})
+#     return Response(response=jobj, mimetype='application/json')
 
 @app.route('/api/zw_manager',methods=["POST"])
 def zw_manager_api():
@@ -692,6 +694,41 @@ def zw_manager_api():
         response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.exclusion_report")
         log.info("Exclusion mode operation is completed")
         jobj = json.dumps(response)
+
+    elif action == "remove_failed_node":
+        node_id = int(request.form["node_id"])
+        msg = zwapi.remove_failed_node(node_id)
+        mqtt.publish("/ta/zw/commands",json.dumps(msg),1)
+        jobj = json.dumps({})
+
+    elif action == "replace_failed_node":
+        node_id = int(request.form["node_id"])
+        msg = zwapi.replace_failed_node(node_id)
+        mqtt.publish("/ta/zw/commands",json.dumps(msg),1)
+        jobj = json.dumps({})
+
+    elif action == "ping_node":
+        node_id = int(request.form["node_id"])
+        msg = zwapi.net_ping(node_id)
+        # mqtt.publish("/ta/zw/commands",json.dumps(msg),1)
+        response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="net.ping_report")
+        jobj = json.dumps(response)
+
+    elif action == "get_node_info":
+        log.info("Requesting node info")
+        node_id = int(request.form["node_id"])
+        msg = zwapi.get_node_info(node_id)
+        response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.inclusion_report")
+        log.info("Inclusion mode operation is completed")
+        jobj = json.dumps(response)
+
+    elif action == "get_network_graph":
+        # getting network infor from cache
+        response = cache.get("zw_ta.routing_info","/ta/zw/events")
+        routing_info = response["raw_msg"]["event"]["properties"]
+        graph = ZwaveTools().get_network_graph(routing_info)
+        jobj = json.dumps(graph)
+
     else :
         jobj = json.dumps({})
     return Response(response=jobj, mimetype='application/json')

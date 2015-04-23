@@ -31,9 +31,13 @@ function start_clusion_mode(mode,start)
     if (start==false){
         clearTimeout(countdown_timer_obj)
         $('#clusion_mode_result').html("<h4>Stopped</h4>")
+        $('#start_mode_modal').modal('hide')
+
+    }else{
+        $('#start_mode_modal').modal('show')
     }
 
-    $('#start_mode_modal').modal({"show":true})
+
      $.ajax({
       url: "/api/zw_manager",
       method :"POST",
@@ -74,15 +78,59 @@ function countdown(seconds) {
     countdown_timer_obj = setTimeout(countdown, 1000,seconds);
 }
 
+function do_action(action,node_id)
+{
+    $.ajax({
+      url: "/api/zw_manager",
+      method :"POST",
+      data: {action: action,node_id:node_id},
+      success: function( data ) {
+          setTimeout(function () { window.location="/ui/zw_diagnostics?action=refresh_routing_info"; }, 1000);
+      }
+    });
+}
+
+function get_node_info(node_id)
+{
+    $('#ping_node_modal').modal('show')
+    $('#ping_node_result').html("<h4> Operation in progress , please wait. </h4>")
+    $.ajax({
+      url: "/api/zw_manager",
+      method :"POST",
+      data: {action: "get_node_info",node_id:node_id},
+      success: function( data ) {
+            $('#ping_node_result').html("<pre>"+JSON.stringify(data.event.properties.inclusion_report.value,null,2)+"</pre>")
+      }
+    });
+}
+
+function ping_node(node_id)
+{
+    $('#ping_node_modal').modal('show')
+    $('#ping_node_result').html("<h4> Ping in progress , please wait. </h4>")
+    $.ajax({
+      url: "/api/zw_manager",
+      method :"POST",
+      data: {action: "ping_node",node_id:node_id},
+      success: function( data ) {
+            tx_count = data.event.properties.tx_count
+            rx_count = data.event.properties.rx_count
+            if (tx_count == rx_count) status = "Node is reachable "
+            else status = "Node is unreachable "
+            $('#ping_node_result').html("<h4>"+status+" (tx:"+tx_count+",rx:"+rx_count+") </h4>")
+      }
+    });
+}
 
 function load_network_graph_data()
 {
 
     $.ajax({
-      url: "/api/zw_diagnostics/get_network_graph",
-//      data: {
-//        zipcode: 97201
-//      },
+      url: "/api/zw_manager",
+      method :"POST",
+      data: {
+        action: "get_network_graph"
+      },
       success: function( data ) {
 //        console.dir(data)
         console.dir(data)
