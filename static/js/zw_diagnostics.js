@@ -78,14 +78,32 @@ function countdown(seconds) {
     countdown_timer_obj = setTimeout(countdown, 1000,seconds);
 }
 
-function do_action(action,node_id)
+function remove_node(action,node_id)
 {
+    $('#ping_node_modal').modal('show')
+    $('#ping_node_result').html("<h4> Operation in progress , please wait. </h4>")
     $.ajax({
       url: "/api/zw_manager",
       method :"POST",
-      data: {action: action,node_id:node_id},
+      data: {action: "remove_failed_node",node_id:node_id},
       success: function( data ) {
-          setTimeout(function () { window.location="/ui/zw_diagnostics?action=refresh_routing_info"; }, 1000);
+         $('#ping_node_result').html("<h4> Command was sent and will be completed in a few seconds. You need to reload page to reflect changes. </h4>")
+         setTimeout(function () { $('#ping_node_modal').modal('hide'); }, 5000);
+      }
+    });
+}
+
+function replace_node(action,node_id)
+{
+    $('#ping_node_modal').modal('show')
+    $('#ping_node_result').html("<h4> Operation in progress , please wait. </h4>")
+    $.ajax({
+      url: "/api/zw_manager",
+      method :"POST",
+      data: {action: "replace_failed_node",node_id:node_id},
+      success: function( data ) {
+         $('#ping_node_result').html("<h4>Now put new device into inclusion mode . </h4>")
+         setTimeout(function () { $('#ping_node_modal').modal('hide'); }, 5000);
       }
     });
 }
