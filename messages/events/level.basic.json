@@ -1,0 +1,18 @@
+{
+ "origin": {
+  "@id": "1", 
+  "@type": "zw_ta"
+ }, 
+ "uuid": "1df6497f-a163-43d2-8c45-41242e60ed30", 
+ "creation_time": 1430236761, 
+ "spid": "UNDEFINED", 
+ "@context": "http://context.smartly.no", 
+ "event": {
+  "default": {
+   "value": 0
+  }, 
+  "subtype": "basic", 
+  "@type": "level", 
+  "properties": {}
+ }
+}

@@ -78,7 +78,7 @@ function countdown(seconds) {
     countdown_timer_obj = setTimeout(countdown, 1000,seconds);
 }
 
-function remove_node(action,node_id)
+function remove_node(node_id)
 {
     $('#ping_node_modal').modal('show')
     $('#ping_node_result').html("<h4> Operation in progress , please wait. </h4>")
@@ -93,7 +93,7 @@ function remove_node(action,node_id)
     });
 }
 
-function replace_node(action,node_id)
+function replace_node(node_id)
 {
     $('#ping_node_modal').modal('show')
     $('#ping_node_result').html("<h4> Operation in progress , please wait. </h4>")

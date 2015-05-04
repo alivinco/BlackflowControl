@@ -1,236 +1,740 @@
-{"origin": {
-    "vendor": "Lyse",
-    "@id": 1234,
-    "@type": "app",
-    "location": "server"
-    },
-    "uuid": "3e149aa5-a131-4e32-ac45-37cef058d67d",
-    "creation_time": 1418398560, "spid": "UNDEFINED",
-    "@context": "http://context.smartly.no",
-    "corid": "a69924b7-575c-4b93-a8f7-0f40ec4b7d09",
-    "event": {
-    "default": {
-        "value": null
-    },
+{
+  "origin": {
+    "vendor": "Smartly",
+    "@id": "devicereg",
+    "@type": "app"
+  },
+  "uuid": "654dd975-76d3-4f81-9497-f3f58eadba03",
+  "creation_time": 1430480473,
+  "spid": "LyseTestSPID46",
+  "@context": "http://context.smartly.no",
+  "corid": "370b689f-ff72-40a6-80bd-d9e59717c455",
+  "event": {
+    "default": {"value": null},
     "subtype": "device_list",
     "@type": "devicereg",
     "properties": {
-        "device_list": {
-            "value": [
-                {
-                    "LastUpdate": "2014-12-12T15:23:31",
-                    "PowerDescriptor": null,
-                    "Network": null,
-                    "FirstUseDate": "2014-12-12T14:49:09",
-                    "HashCode": "zw_0174_0003_0001_1.0_",
-                    "Manufacturer": "0174",
-                    "ProductTypeId": "0003",
-                    "HardwareVersion": "1.0",
-                    "Location": null,
-                    "Address": 112,
-                    "EndPoint": [
-                        {
-                            "Property": [],
-                            "Type": "bin_switch",
-                            "Id": 1,
-                            "Capabilities": ["COMMAND_CLASS_SWITCH_BINARY"],
-                            "Uri": "/dev/zw/112/bin_switch/1"
-                        },
-                        {
-                            "Property": [],
-                            "Type": "lvl_dimmer",
-                            "Id": 1,
-                            "Capabilities": ["COMMAND_CLASS_SWITCH_MULTILEVEL"],
-                            "Uri": "/dev/zw/112/lvl_dimmer/1"
-                        },
-                        {
-                            "Property": [],
-                            "Type": "lvl_thermostat",
-                            "Id": 1,
-                            "Capabilities": ["COMMAND_CLASS_THERMOSTAT_SETPOINT"],
-                            "Uri": "/dev/zw/112/lvl_thermostat/1"
-                        },
-                        {
-                            "Property": [],
-                            "Type": "dev_sys",
-                            "Id": 1,
-                            "Capabilities": ["COMMAND_CLASS_POWERLEVEL"],
-                            "Uri": "/dev/zw/112/dev_sys/1"
-                        }
-                    ],
-                    "Property": [
-                        {
-                            "Value": [1],
-                            "IsUserConfigurable": true,
-                            "State": "confirmed",
-                            "Key": 1,
-                            "Type": "association",
-                            "Id": 1
-                        },
-                        {
-                            "Value": [1],
-                            "IsUserConfigurable": true,
-                            "State": "confirmed",
-                            "Key": 2,
-                            "Type": "association",
-                            "Id": 2
-                        },
-                        {
-                            "Value": [],
-                            "IsUserConfigurable": true,
-                            "State": "confirmed",
-                            "Key": 3,
-                            "Type": "association",
-                            "Id": 3
-                        },
-                        {
-                            "Value": [1],
-                            "IsUserConfigurable": true,
-                            "State": "sent",
-                            "Key": 5,
-                            "Type": "association",
-                            "Id": 4
-                        }
-                    ],
-                    "Id": 1,
-                    "ProductId": "0001",
-                    "CommunicationTechnology": "zw"
-                },
-                {
-                    "LastUpdate": "2014-12-12T14:55:26",
-                    "PowerDescriptor": null,
-                    "Network": null,
-                    "FirstUseDate": "2014-12-12T14:55:26",
-                    "HashCode": "zw_010f_0600_1000_1.0_",
-                    "Manufacturer": "010f",
-                    "ProductTypeId": "0600",
-                    "HardwareVersion": "1.0",
-                    "Location": null,
-                    "Address": 113,
-                    "EndPoint": [
-                        {
-                            "Property": [],
-                            "Type": "bin_switch",
-                            "Id": 1,
-                            "Capabilities": ["COMMAND_CLASS_SWITCH_BINARY"],
-                            "Uri": "/dev/zw/113/bin_switch/1"
-                        },
-                        {
-                            "Property": [],
-                            "Type": "met_power",
-                            "Id": 1,
-                            "Capabilities": ["COMMAND_CLASS_METER", "COMMAND_CLASS_SENSOR_MULTILEVEL"],
-                            "Uri": "/dev/zw/113/met_power/1"
-                        },
-                        {
-                            "Property": [],
-                            "Type": "dev_sys",
-                            "Id": 1,
-                            "Capabilities": ["COMMAND_CLASS_CONFIGURATION"],
-                            "Uri": "/dev/zw/113/dev_sys/1"
-                        }
-                    ],
-                    "Property": [],
-                    "Id": 2,
-                    "ProductId": "1000",
-                    "CommunicationTechnology": "zw"
-                },
-                {
-                    "LastUpdate": "2014-12-12T14:55:36",
-                    "PowerDescriptor": null,
-                    "Network": null,
-                    "FirstUseDate": "2014-12-12T14:55:36",
-                    "HashCode": "zw_0174_0002_0001_1.0_",
-                    "Manufacturer": "0174",
-                    "ProductTypeId": "0002",
-                    "HardwareVersion": "1.0",
-                    "Location": null,
-                    "Address": 116,
-                    "EndPoint": [
-                        {
-                            "Property": [],
-                            "Type": "bin_switch",
-                            "Id": 1,
-                            "Capabilities": ["COMMAND_CLASS_SWITCH_BINARY"],
-                            "Uri": "/dev/zw/116/bin_switch/1"
-                        },
-                        {
-                            "Property": [],
-                            "Type": "bin_switch",
-                            "Id": 2,
-                            "Capabilities": ["COMMAND_CLASS_SWITCH_BINARY"],
-                            "Uri": "/dev/zw/116/bin_switch/2"
-                        },
-                        {
-                            "Property": [],
-                            "Type": "bin_switch",
-                            "Id": 3,
-                            "Capabilities": ["COMMAND_CLASS_SWITCH_BINARY"],
-                            "Uri": "/dev/zw/116/bin_switch/3"
-                        },
-                        {
-                            "Property": [],
-                            "Type": "bin_switch",
-                            "Id": 4,
-                            "Capabilities": ["COMMAND_CLASS_SWITCH_BINARY"],
-                            "Uri": "/dev/zw/116/bin_switch/4"
-                        },
-                        {
-                            "Property": [],
-                            "Type": "lvl_dimmer",
-                            "Id": 1,
-                            "Capabilities": ["COMMAND_CLASS_SWITCH_MULTILEVEL"],
-                            "Uri": "/dev/zw/116/lvl_dimmer/1"
-                        },
-                        {
-                            "Property": [],
-                            "Type": "lvl_dimmer",
-                            "Id": 2,
-                            "Capabilities": ["COMMAND_CLASS_SWITCH_MULTILEVEL"],
-                            "Uri": "/dev/zw/116/lvl_dimmer/2"
-                        },
-                        {
-                            "Property": [],
-                            "Type": "lvl_dimmer",
-                            "Id": 3,
-                            "Capabilities": ["COMMAND_CLASS_SWITCH_MULTILEVEL"],
-                            "Uri": "/dev/zw/116/lvl_dimmer/3"
-                        },
-                        {
-                            "Property": [],
-                            "Type": "lvl_dimmer",
-                            "Id": 4,
-                            "Capabilities": ["COMMAND_CLASS_SWITCH_MULTILEVEL"],
-                            "Uri": "/dev/zw/116/lvl_dimmer/4"
-                        },
-                        {
-                            "Property": [],
-                            "Type": "sen_temp",
-                            "Id": 1,
-                            "Capabilities": ["COMMAND_CLASS_SENSOR_MULTILEVEL"],
-                            "Uri": "/dev/zw/116/sen_temp/1"
-                        },
-                        {
-                            "Property": [],
-                            "Type": "lvl_thermostat",
-                            "Id": 1,
-                            "Capabilities": ["COMMAND_CLASS_THERMOSTAT_SETPOINT"],
-                            "Uri": "/dev/zw/116/lvl_thermostat/1"
-                        },
-                        {
-                            "Property": [],
-                            "Type": "dev_sys",
-                            "Id": 1,
-                            "Capabilities": ["COMMAND_CLASS_POWERLEVEL"],
-                            "Uri": "/dev/zw/116/dev_sys/1"
-                        }
-                    ],
-                    "Property": [],
-                    "Id": 3,
-                    "ProductId": "0001",
-                    "CommunicationTechnology": "zw"
-                }
-            ]
-        }
+      "device_list": {
+        "value": [
+          {
+            "Status": "Down",
+            "LastUpdate": "2015-05-01T12:43:40",
+            "EndPoint": [
+              {
+                "Property": [],
+                "Type": "bin_smoke",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_ALARM"],
+                "Uri": "/dev/zw/13/bin_smoke/1"
+              },
+              {
+                "Property": [],
+                "Type": "bin_tamper",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_ALARM"],
+                "Uri": "/dev/zw/13/bin_tamper/1"
+              },
+              {
+                "Property": [],
+                "Type": "lvl_battery",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_BATTERY"],
+                "Uri": "/dev/zw/13/lvl_battery/1"
+              }
+            ],
+            "Network": {"Neighbors": []},
+            "Property": [],
+            "ProductTypeId": "0003",
+            "HashCode": "zw_018e_0003_0001_1.0_",
+            "Alias": "SMOKE_2",
+            "PowerDescriptor": {
+              "CurrentPowerSource": "Rechargeable",
+              "AvailablePowerSource": ["Rechargeable"]
+            },
+            "HardwareVersion": "1.0",
+            "Location": {
+              "Room": {"Name": null},
+              "Zone": {"Name": null}
+            },
+            "Address": "13",
+            "CommunicationTechnology": "zw",
+            "Manufacturer": "018e",
+            "FirstUseDate": "2015-03-29T14:02:19",
+            "Id": 8,
+            "AvgResponseTime": null,
+            "ProductId": "0001"
+          },
+          {
+            "Status": "Down",
+            "LastUpdate": "2015-05-01T13:28:40",
+            "EndPoint": [
+              {
+                "Property": [],
+                "Type": "bin_heat",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_ALARM"],
+                "Uri": "/dev/zw/14/bin_heat/1"
+              },
+              {
+                "Property": [],
+                "Type": "bin_tamper",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_ALARM"],
+                "Uri": "/dev/zw/14/bin_tamper/1"
+              },
+              {
+                "Property": [],
+                "Type": "lvl_battery",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_BATTERY"],
+                "Uri": "/dev/zw/14/lvl_battery/1"
+              }
+            ],
+            "Network": {"Neighbors": []},
+            "Property": [],
+            "ProductTypeId": "0003",
+            "HashCode": "zw_018e_0003_0002_1.0_",
+            "Alias": "HEAT_1",
+            "PowerDescriptor": {
+              "CurrentPowerSource": "Rechargeable",
+              "AvailablePowerSource": ["Rechargeable"]
+            },
+            "HardwareVersion": "1.0",
+            "Location": {
+              "Room": {"Name": null},
+              "Zone": {"Name": null}
+            },
+            "Address": "14",
+            "CommunicationTechnology": "zw",
+            "Manufacturer": "018e",
+            "FirstUseDate": "2015-03-29T14:29:44",
+            "Id": 9,
+            "AvgResponseTime": null,
+            "ProductId": "0002"
+          },
+          {
+            "Status": "Up",
+            "LastUpdate": "2015-03-08T23:07:35",
+            "EndPoint": [
+              {
+                "Property": [],
+                "Type": "bin_switch",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_SWITCH_BINARY"],
+                "Uri": "/dev/zw/2/bin_switch/1"
+              },
+              {
+                "Property": [],
+                "Type": "met_power",
+                "Id": 1,
+                "Capabilities": [
+                  "COMMAND_CLASS_METER",
+                  "COMMAND_CLASS_SENSOR_MULTILEVEL"
+                ],
+                "Uri": "/dev/zw/2/met_power/1"
+              },
+              {
+                "Property": [],
+                "Type": "dev_sys",
+                "Id": 1,
+                "Capabilities": [
+                  "COMMAND_CLASS_BASIC",
+                  "COMMAND_CLASS_POWERLEVEL"
+                ],
+                "Uri": "/dev/zw/2/dev_sys/1"
+              }
+            ],
+            "Network": {"Neighbors": []},
+            "Property": [],
+            "ProductTypeId": "0600",
+            "LastErrorMsg": "Connection Lost",
+            "HashCode": "zw_010f_0600_1000_1.0_",
+            "Alias": "Vss wallplug",
+            "PowerDescriptor": {},
+            "HardwareVersion": "1.0",
+            "Location": {
+              "Room": {"Name": null},
+              "Zone": {"Name": null}
+            },
+            "Address": "2",
+            "CommunicationTechnology": "zw",
+            "Manufacturer": "010f",
+            "FirstUseDate": "2015-01-07T12:25:51",
+            "Id": 1,
+            "AvgResponseTime": null,
+            "ProductId": "1000"
+          },
+          {
+            "Status": "Up",
+            "LastUpdate": "2015-05-01T12:07:00",
+            "EndPoint": [
+              {
+                "Property": [],
+                "Type": "bin_switch",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_SWITCH_BINARY"],
+                "Uri": "/dev/zw/7/bin_switch/1"
+              },
+              {
+                "Property": [],
+                "Type": "lvl_dimmer",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_SWITCH_MULTILEVEL"],
+                "Uri": "/dev/zw/7/lvl_dimmer/1"
+              },
+              {
+                "Property": [],
+                "Type": "lvl_thermostat",
+                "Id": 1,
+                "Capabilities": [
+                  "COMMAND_CLASS_THERMOSTAT_MODE",
+                  "COMMAND_CLASS_THERMOSTAT_SETPOINT"
+                ],
+                "Uri": "/dev/zw/7/lvl_thermostat/1"
+              },
+              {
+                "Property": [],
+                "Type": "sen_temp",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_SENSOR_MULTILEVEL"],
+                "Uri": "/dev/zw/7/sen_temp/1"
+              },
+              {
+                "Property": [],
+                "Type": "dev_sys",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_POWERLEVEL"],
+                "Uri": "/dev/zw/7/dev_sys/1"
+              }
+            ],
+            "Network": {"Neighbors": []},
+            "Property": [],
+            "ProductTypeId": "0003",
+            "LastErrorMsg": "Connection Lost",
+            "HashCode": "zw_0174_0003_0001_1.0_",
+            "Alias": "Wheel controller bathroom",
+            "PowerDescriptor": {
+              "CurrentPowerSource": "Constant",
+              "AvailablePowerSource": ["Constant"]
+            },
+            "HardwareVersion": "1.0",
+            "Location": {
+              "Room": {"Name": null},
+              "Zone": {"Name": null}
+            },
+            "Address": "7",
+            "CommunicationTechnology": "zw",
+            "Manufacturer": "0174",
+            "FirstUseDate": "2015-02-13T00:02:00",
+            "Id": 2,
+            "AvgResponseTime": null,
+            "ProductId": "0001"
+          },
+          {
+            "Status": "Up",
+            "LastUpdate": "2015-05-01T13:35:44",
+            "EndPoint": [
+              {
+                "Property": [],
+                "Type": "bin_switch",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_SWITCH_BINARY"],
+                "Uri": "/dev/zw/8/bin_switch/1"
+              },
+              {
+                "Property": [],
+                "Type": "bin_switch",
+                "Id": 2,
+                "Capabilities": ["COMMAND_CLASS_SWITCH_BINARY"],
+                "Uri": "/dev/zw/8/bin_switch/2"
+              },
+              {
+                "Property": [],
+                "Type": "bin_switch",
+                "Id": 3,
+                "Capabilities": ["COMMAND_CLASS_SWITCH_BINARY"],
+                "Uri": "/dev/zw/8/bin_switch/3"
+              },
+              {
+                "Property": [],
+                "Type": "bin_switch",
+                "Id": 4,
+                "Capabilities": ["COMMAND_CLASS_SWITCH_BINARY"],
+                "Uri": "/dev/zw/8/bin_switch/4"
+              },
+              {
+                "Property": [],
+                "Type": "lvl_dimmer",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_SWITCH_MULTILEVEL"],
+                "Uri": "/dev/zw/8/lvl_dimmer/1"
+              },
+              {
+                "Property": [],
+                "Type": "lvl_dimmer",
+                "Id": 2,
+                "Capabilities": ["COMMAND_CLASS_SWITCH_MULTILEVEL"],
+                "Uri": "/dev/zw/8/lvl_dimmer/2"
+              },
+              {
+                "Property": [],
+                "Type": "lvl_dimmer",
+                "Id": 3,
+                "Capabilities": ["COMMAND_CLASS_SWITCH_MULTILEVEL"],
+                "Uri": "/dev/zw/8/lvl_dimmer/3"
+              },
+              {
+                "Property": [],
+                "Type": "lvl_dimmer",
+                "Id": 4,
+                "Capabilities": ["COMMAND_CLASS_SWITCH_MULTILEVEL"],
+                "Uri": "/dev/zw/8/lvl_dimmer/4"
+              },
+              {
+                "Property": [],
+                "Type": "sen_temp",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_SENSOR_MULTILEVEL"],
+                "Uri": "/dev/zw/8/sen_temp/1"
+              },
+              {
+                "Property": [],
+                "Type": "lvl_thermostat",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_THERMOSTAT_SETPOINT"],
+                "Uri": "/dev/zw/8/lvl_thermostat/1"
+              },
+              {
+                "Property": [],
+                "Type": "dev_sys",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_POWERLEVEL"],
+                "Uri": "/dev/zw/8/dev_sys/1"
+              }
+            ],
+            "Network": {"Neighbors": []},
+            "Property": [],
+            "ProductTypeId": "0002",
+            "LastErrorMsg": "Connection Lost",
+            "HashCode": "zw_0174_0002_0001_1.0_",
+            "Alias": "MultiSwitch bathroom",
+            "PowerDescriptor": {
+              "CurrentPowerSource": "Constant",
+              "AvailablePowerSource": ["Constant"]
+            },
+            "HardwareVersion": "1.0",
+            "Location": {
+              "Room": {"Name": null},
+              "Zone": {"Name": null}
+            },
+            "Address": "8",
+            "CommunicationTechnology": "zw",
+            "Manufacturer": "0174",
+            "FirstUseDate": "2015-02-13T00:03:47",
+            "Id": 3,
+            "AvgResponseTime": null,
+            "ProductId": "0001"
+          },
+          {
+            "Status": "Up",
+            "LastUpdate": "2015-05-01T00:49:39",
+            "EndPoint": [
+              {
+                "Property": [],
+                "Type": "bin_switch",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_SWITCH_BINARY"],
+                "Uri": "/dev/zw/9/bin_switch/1"
+              },
+              {
+                "Property": [],
+                "Type": "bin_switch",
+                "Id": 2,
+                "Capabilities": ["COMMAND_CLASS_SWITCH_BINARY"],
+                "Uri": "/dev/zw/9/bin_switch/2"
+              },
+              {
+                "Property": [],
+                "Type": "bin_switch",
+                "Id": 3,
+                "Capabilities": ["COMMAND_CLASS_SWITCH_BINARY"],
+                "Uri": "/dev/zw/9/bin_switch/3"
+              },
+              {
+                "Property": [],
+                "Type": "bin_switch",
+                "Id": 4,
+                "Capabilities": ["COMMAND_CLASS_SWITCH_BINARY"],
+                "Uri": "/dev/zw/9/bin_switch/4"
+              },
+              {
+                "Property": [],
+                "Type": "lvl_dimmer",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_SWITCH_MULTILEVEL"],
+                "Uri": "/dev/zw/9/lvl_dimmer/1"
+              },
+              {
+                "Property": [],
+                "Type": "lvl_dimmer",
+                "Id": 2,
+                "Capabilities": ["COMMAND_CLASS_SWITCH_MULTILEVEL"],
+                "Uri": "/dev/zw/9/lvl_dimmer/2"
+              },
+              {
+                "Property": [],
+                "Type": "lvl_dimmer",
+                "Id": 3,
+                "Capabilities": ["COMMAND_CLASS_SWITCH_MULTILEVEL"],
+                "Uri": "/dev/zw/9/lvl_dimmer/3"
+              },
+              {
+                "Property": [],
+                "Type": "lvl_dimmer",
+                "Id": 4,
+                "Capabilities": ["COMMAND_CLASS_SWITCH_MULTILEVEL"],
+                "Uri": "/dev/zw/9/lvl_dimmer/4"
+              },
+              {
+                "Property": [],
+                "Type": "sen_temp",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_SENSOR_MULTILEVEL"],
+                "Uri": "/dev/zw/9/sen_temp/1"
+              },
+              {
+                "Property": [],
+                "Type": "lvl_thermostat",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_THERMOSTAT_SETPOINT"],
+                "Uri": "/dev/zw/9/lvl_thermostat/1"
+              },
+              {
+                "Property": [],
+                "Type": "dev_sys",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_POWERLEVEL"],
+                "Uri": "/dev/zw/9/dev_sys/1"
+              }
+            ],
+            "Network": {"Neighbors": []},
+            "Property": [],
+            "ProductTypeId": "0002",
+            "LastErrorMsg": "Connection Lost",
+            "HashCode": "zw_0174_0002_0001_1.0_",
+            "Alias": "MultSwich 1st floor",
+            "PowerDescriptor": {
+              "CurrentPowerSource": "Constant",
+              "AvailablePowerSource": ["Constant"]
+            },
+            "HardwareVersion": "1.0",
+            "Location": {
+              "Room": {"Name": null},
+              "Zone": {"Name": null}
+            },
+            "Address": "9",
+            "CommunicationTechnology": "zw",
+            "Manufacturer": "0174",
+            "FirstUseDate": "2015-02-13T00:06:42",
+            "Id": 4,
+            "AvgResponseTime": null,
+            "ProductId": "0001"
+          },
+          {
+            "Status": "Up",
+            "LastUpdate": "2015-04-22T00:12:47",
+            "EndPoint": [
+              {
+                "Property": [],
+                "Type": "bin_switch",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_SWITCH_BINARY"],
+                "Uri": "/dev/zw/10/bin_switch/1"
+              },
+              {
+                "Property": [],
+                "Type": "mod_siren",
+                "Id": 1,
+                "Capabilities": [],
+                "Uri": "/dev/zw/10/mod_siren/1"
+              },
+              {
+                "Property": [],
+                "Type": "dev_sys",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_POWERLEVEL"],
+                "Uri": "/dev/zw/10/dev_sys/1"
+              },
+              {
+                "Property": [],
+                "Type": "mod_power_source",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_ALARM"],
+                "Uri": "/dev/zw/10/mod_power_source/1"
+              }
+            ],
+            "Network": {"Neighbors": []},
+            "Property": [],
+            "ProductTypeId": "0002",
+            "HashCode": "zw_018e_0002_0001_1.0_",
+            "Alias": "SRAC_1",
+            "PowerDescriptor": {
+              "CurrentPowerSource": "Constant",
+              "AvailablePowerSource": ["Constant"]
+            },
+            "HardwareVersion": "1.0",
+            "Location": {
+              "Room": {"Name": null},
+              "Zone": {"Name": null}
+            },
+            "Address": "10",
+            "CommunicationTechnology": "zw",
+            "Manufacturer": "018e",
+            "FirstUseDate": "2015-03-08T23:55:17",
+            "Id": 5,
+            "AvgResponseTime": null,
+            "ProductId": "0001"
+          },
+          {
+            "Status": "Down",
+            "LastUpdate": "2015-05-01T13:18:40",
+            "EndPoint": [
+              {
+                "Property": [],
+                "Type": "bin_smoke",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_ALARM"],
+                "Uri": "/dev/zw/11/bin_smoke/1"
+              },
+              {
+                "Property": [],
+                "Type": "bin_tamper",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_ALARM"],
+                "Uri": "/dev/zw/11/bin_tamper/1"
+              },
+              {
+                "Property": [],
+                "Type": "lvl_battery",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_BATTERY"],
+                "Uri": "/dev/zw/11/lvl_battery/1"
+              }
+            ],
+            "Network": {"Neighbors": []},
+            "Property": [],
+            "ProductTypeId": "0003",
+            "HashCode": "zw_018e_0003_0001_1.0_",
+            "Alias": "SMOKE_1",
+            "PowerDescriptor": {
+              "CurrentPowerSource": "Rechargeable",
+              "AvailablePowerSource": ["Rechargeable"]
+            },
+            "HardwareVersion": "1.0",
+            "Location": {
+              "Room": {"Name": null},
+              "Zone": {"Name": null}
+            },
+            "Address": "11",
+            "CommunicationTechnology": "zw",
+            "Manufacturer": "018e",
+            "FirstUseDate": "2015-03-09T00:03:26",
+            "Id": 6,
+            "AvgResponseTime": null,
+            "ProductId": "0001"
+          },
+          {
+            "Status": "Up",
+            "LastUpdate": "2015-04-21T09:36:07",
+            "EndPoint": [
+              {
+                "Property": [],
+                "Type": "bin_switch",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_SWITCH_BINARY"],
+                "Uri": "/dev/zw/12/bin_switch/1"
+              },
+              {
+                "Property": [],
+                "Type": "mod_siren",
+                "Id": 1,
+                "Capabilities": [],
+                "Uri": "/dev/zw/12/mod_siren/1"
+              },
+              {
+                "Property": [],
+                "Type": "dev_sys",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_POWERLEVEL"],
+                "Uri": "/dev/zw/12/dev_sys/1"
+              },
+              {
+                "Property": [],
+                "Type": "mod_power_source",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_ALARM"],
+                "Uri": "/dev/zw/12/mod_power_source/1"
+              }
+            ],
+            "Network": {"Neighbors": []},
+            "Property": [],
+            "ProductTypeId": "0002",
+            "HashCode": "zw_018e_0002_0001_1.0_",
+            "Alias": "SRAC_2",
+            "PowerDescriptor": {
+              "CurrentPowerSource": "Constant",
+              "AvailablePowerSource": ["Constant"]
+            },
+            "HardwareVersion": "1.0",
+            "Location": {
+              "Room": {"Name": null},
+              "Zone": {"Name": null}
+            },
+            "Address": "12",
+            "CommunicationTechnology": "zw",
+            "Manufacturer": "018e",
+            "FirstUseDate": "2015-03-29T13:50:13",
+            "Id": 7,
+            "AvgResponseTime": null,
+            "ProductId": "0001"
+          },
+          {
+            "Status": "Up",
+            "LastUpdate": "2015-05-01T13:39:26",
+            "EndPoint": [
+              {
+                "Property": [],
+                "Type": "bin_switch",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_SWITCH_BINARY"],
+                "Uri": "/dev/zw/15/bin_switch/1"
+              },
+              {
+                "Property": [],
+                "Type": "met_power",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_METER"],
+                "Uri": "/dev/zw/15/met_power/1"
+              },
+              {
+                "Property": [],
+                "Type": "dev_sys",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_POWERLEVEL"],
+                "Uri": "/dev/zw/15/dev_sys/1"
+              }
+            ],
+            "Network": null,
+            "Property": [],
+            "ProductTypeId": "0004",
+            "HashCode": "zw_018e_0004_0002_1.0_",
+            "Alias": "WP flower watering",
+            "PowerDescriptor": {
+              "CurrentPowerSource": "Constant",
+              "AvailablePowerSource": ["Constant"]
+            },
+            "HardwareVersion": "1.0",
+            "Location": null,
+            "Address": "15",
+            "CommunicationTechnology": "zw",
+            "Manufacturer": "018e",
+            "FirstUseDate": "2015-04-02T23:50:35",
+            "Id": 10,
+            "AvgResponseTime": null,
+            "ProductId": "0002"
+          },
+          {
+            "Status": "Down",
+            "LastUpdate": "2015-05-01T13:03:40",
+            "EndPoint": [
+              {
+                "Property": [],
+                "Type": "bin_motion",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_ALARM"],
+                "Uri": "/dev/zw/16/bin_motion/1"
+              },
+              {
+                "Property": [],
+                "Type": "bin_tamper",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_ALARM"],
+                "Uri": "/dev/zw/16/bin_tamper/1"
+              },
+              {
+                "Property": [],
+                "Type": "lvl_battery",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_BATTERY"],
+                "Uri": "/dev/zw/16/lvl_battery/1"
+              }
+            ],
+            "Network": null,
+            "Property": [],
+            "ProductTypeId": "0001",
+            "HashCode": "zw_018e_0001_0002_1.0_",
+            "Alias": "Motion hallway BROKEN",
+            "PowerDescriptor": {
+              "CurrentPowerSource": "Rechargeable",
+              "AvailablePowerSource": ["Rechargeable"]
+            },
+            "HardwareVersion": "1.0",
+            "Location": null,
+            "Address": "16",
+            "CommunicationTechnology": "zw",
+            "Manufacturer": "018e",
+            "FirstUseDate": "2015-04-03T00:22:23",
+            "Id": 11,
+            "AvgResponseTime": null,
+            "ProductId": "0002"
+          },
+          {
+            "Status": "Down",
+            "LastUpdate": "2015-05-01T12:58:40",
+            "EndPoint": [
+              {
+                "Property": [],
+                "Type": "bin_motion",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_ALARM"],
+                "Uri": "/dev/zw/17/bin_motion/1"
+              },
+              {
+                "Property": [],
+                "Type": "bin_tamper",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_ALARM"],
+                "Uri": "/dev/zw/17/bin_tamper/1"
+              },
+              {
+                "Property": [],
+                "Type": "lvl_battery",
+                "Id": 1,
+                "Capabilities": ["COMMAND_CLASS_BATTERY"],
+                "Uri": "/dev/zw/17/lvl_battery/1"
+              }
+            ],
+            "Network": null,
+            "Property": [],
+            "ProductTypeId": "0001",
+            "HashCode": "zw_018e_0001_0002_1.0_",
+            "Alias": "Motion hallway",
+            "PowerDescriptor": {
+              "CurrentPowerSource": "Rechargeable",
+              "AvailablePowerSource": ["Rechargeable"]
+            },
+            "HardwareVersion": "1.0",
+            "Location": null,
+            "Address": "17",
+            "CommunicationTechnology": "zw",
+            "Manufacturer": "018e",
+            "FirstUseDate": "2015-04-04T11:20:38",
+            "Id": 12,
+            "AvgResponseTime": null,
+            "ProductId": "0002"
+          }
+        ]
+      }
     }
-}}
+  }
+}
