@@ -19,14 +19,17 @@ class Tools():
 
     @staticmethod
     def open_port_in_firewall():
-        if platform.system()=="Linux":
-            sp = subprocess.check_output("iptables -L INPUT",shell=True)
-            status = "iptables already has rule for port 5000"
-            if not("tcp dpt:5000" in sp) :
-                status = "Adding rule for port 5000"
-                sp = subprocess.check_output("iptables -I INPUT -p tcp --dport 5000 -j ACCEPT", shell=True)
-        else :
-            status = "Your platform doesn't have iptables"
+        try:
+            if platform.system()=="Linux":
+                sp = subprocess.check_output("iptables -L INPUT",shell=True)
+                status = "iptables already has rule for port 5000"
+                if not("tcp dpt:5000" in sp) :
+                    status = "Adding rule for port 5000"
+                    sp = subprocess.check_output("iptables -I INPUT -p tcp --dport 5000 -j ACCEPT", shell=True)
+            else :
+                status = "Your platform doesn't have iptables"
+        except :
+            status = "Firewall can be opened "
 
         return status
 

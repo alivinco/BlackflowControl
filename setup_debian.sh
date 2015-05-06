@@ -55,12 +55,25 @@ then
  cp /tmp/configs/filters.json configs/
  cp /tmp/configs/dashboards.json configs/
  cp -r /tmp/events messages/
+ if [ -e "/tmp/configs/filters.json" ];
+    then
+        cp /tmp/configs/filters.json configs/
+    else
+        cp  scripts/configs/filters.json configs/
+ fi
+ if [ -e "/tmp/configs/users.json" ];
+    then
+        cp /tmp/configs/users.json configs/
+    else
+        cp  scripts/configs/users.json configs/
+ fi
  echo "Running update script"
  python scripts/upgrade.py
 else
  echo "Copying default address_mapping.json"
  cp  scripts/configs/address_mapping.json configs/
  cp  scripts/configs/filters.json configs/
+ cp  scripts/configs/users.json configs/
 fi
 
 # Make sure blackfly user owns the directory

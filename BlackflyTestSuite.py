@@ -13,6 +13,8 @@ from flask import render_template
 from flask import request
 import time
 import libs
+from libs.dmapi.core import Core
+from libs.flask_login import LoginManager, login_required
 from mappings.msg_class_to_zw import get_msg_class_by_capabilities
 import modules
 from modules.mod_dashboards import DashboardManager
@@ -24,7 +26,6 @@ from modules.mqtt_adapter import MqttAdapter
 from modules.msg_cache import MsgCache
 from modules.msg_manager import MessageManager
 from modules.dev_simulator import DeviceSimulator
-
 # Flask initialization
 from modules.msg_pipeline import MsgPipeline
 
@@ -38,15 +39,29 @@ from libs.sync_to_async_msg_converter import SyncToAsyncMsgConverter
 
 from libs.dmapi import devicereg,zw_ta
 
+from modules.mod_auth import login_manager , mod_auth
+import modules.mod_auth
+
 
 global_context = {}
 logging.config.dictConfig(configs.log.config)
 log = logging.getLogger("bf_web")
 log.info("Checking firewall configuration")
 log.info(Tools.open_port_in_firewall())
-
-app = Flask(__name__)
 msg_man = MessageManager()
+# Flask init
+app = Flask(__name__)
+app.secret_key = '\x94&J\x8f\xe2+\x93Hr\xdd\xb8\x15./\xd0\x13\xf0\x88\x15f\x8f`\xec\xcd'
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_FILE_DIR'] = '/tmp/'
+app.config['LOGIN_DISABLED'] = msg_man.global_configs["system"]["ui_security_disabled"]
+app.register_blueprint(mod_auth)
+
+login_manager.init_app(app)
+
+modules.mod_auth.global_context = global_context
+
+
 
 global_context["version"] = msg_man.global_configs["system"]["version"]
 http_server_port = msg_man.global_configs["system"]["http_server_port"]
@@ -78,12 +93,14 @@ filter_man = FiltersManager()
 
 zwapi = zw_ta.ZwTa("app","blackfly","blackfly")
 deviceregapi = devicereg.Devicereg("app","blackfly","blackfly")
+
 @app.route('/')
 def red():
     return redirect("/ui/inter_console")
 
 
 @app.route('/sys/mqtt_ctrl/<command>')
+@login_required
 def mqtt_control(command):
     if command == "start":
 
@@ -106,6 +123,7 @@ def mqtt_control(command):
     return render_template('mqtt_status.html', status=status,global_context=global_context)
 
 @app.route('/ui/inter_console')
+@login_required
 def inter_console_ui():
     log.info("Inter console works")
     filter_value = request.args.get("filter","")
@@ -130,6 +148,7 @@ def inter_console_ui():
     return render_template('inter_console.html', mapping=mapping,cache=cache,global_context=global_context,mode=mode,filter_value=filter_value,saved_filters=saved_filters)
 
 @app.route('/ui/dashboard/<dash_name>')
+@login_required
 def dashboard_ui(dash_name):
     log.info("Dashboard UI")
     try :
@@ -146,6 +165,7 @@ def dashboard_ui(dash_name):
     return render_template('dashboard.html',dashboard_id = dash_name, mapping=ext_mapping,address_list=address_list,groups=groups,cache=cache,global_context=global_context)
 
 @app.route('/ui/mqtt_broker_monitor')
+@login_required
 def mqtt_broker_monitor_ui():
     if msg_man.global_configs["mqtt"]["enable_sys"] == True :
         try :
@@ -158,6 +178,7 @@ def mqtt_broker_monitor_ui():
         return render_template('mqtt_status.html', status=status,global_context=global_context)
 
 @app.route('/ui/address_mapping')
+@login_required
 def address_mapping_ui():
     msg_man.reload_all_mappings()
 
@@ -167,6 +188,7 @@ def address_mapping_ui():
     return render_template('address_mapping.html', mapping=mapping,global_context=global_context)
 
 @app.route('/ui/device_templates')
+@login_required
 def device_templates_ui():
 
     mapping = msg_man.address_mapping
@@ -176,6 +198,7 @@ def device_templates_ui():
 
 
 @app.route('/ui/address_map/<key>')
+@login_required
 def address_map_ui(key):
     msg_man.reload_all_mappings()
     mapping = msg_man.get_address_by_key(key)
@@ -189,6 +212,7 @@ def address_map_ui(key):
 
 
 @app.route('/ui/msg_class_mapping')
+@login_required
 def msg_class_mapping_ui():
     msg_man.reload_all_mappings()
 
@@ -206,6 +230,7 @@ def msg_class_mapping_ui():
     return render_template('msg_class_mapping.html', mapping=mapping,global_context=global_context)
 
 @app.route('/ui/msg_class/<msg_type>/<msg_class>',methods=["POST","GET"])
+@login_required
 def msg_class_ui(msg_type,msg_class):
     try:
         if request.method == 'POST':
@@ -258,6 +283,7 @@ def msg_class_ui(msg_type,msg_class):
 
 
 @app.route('/ui/cache')
+@login_required
 def cache_ui():
     # ch = json.dumps(cache.get_all(),indent=True)
     result = {}
@@ -266,6 +292,7 @@ def cache_ui():
     return render_template('cache.html',cache=result,global_context=global_context)
 
 @app.route('/ui/timeseries/chart/<dev_id>')
+@login_required
 def timeseries_chart(dev_id):
     # ch = json.dumps(cache.get_all(),indent=True)
     result = {}
@@ -273,6 +300,7 @@ def timeseries_chart(dev_id):
     return render_template('timeseries_chart.html',cache=result,global_context=global_context,device_info=device_info)
 
 @app.route('/ui/timeseries/table/<dev_id>/<start_time>/<end_time>',methods=["POST","GET"])
+@login_required
 def timeseries_table(dev_id,start_time,end_time):
     # ch = json.dumps(cache.get_all(),indent=True)
     if request.method == "POST":
@@ -286,6 +314,7 @@ def timeseries_table(dev_id,start_time,end_time):
     return render_template('timeseries_table.html',ts=result,global_context=global_context,device_info=device_info)
 
 @app.route('/ui/timeseries/timeline/<start_time>/<end_time>',methods=["POST","GET"])
+@login_required
 def timeseries_timeline(start_time,end_time):
     # ch = json.dumps(cache.get_all(),indent=True)
     if request.method == "POST":
@@ -298,6 +327,7 @@ def timeseries_timeline(start_time,end_time):
 
 
 @app.route('/ui/msg_types_for_approval')
+@login_required
 def msg_types_for_approval_ui():
     # cache.put_msg_class_for_approval("test","test","switch_binary_new","Message class is unknown and has to be approved")
     # ch = json.dumps(cache.get_all(),indent=True)
@@ -305,6 +335,7 @@ def msg_types_for_approval_ui():
     return render_template('msg_types_for_approval.html',cache=result,global_context=global_context)
 
 @app.route('/ui/settings',methods=["POST","GET"])
+@login_required
 def settings_ui():
     if request.method == 'POST':
          msg_man.global_configs["mqtt"]["host"] = request.form["mqtt_host"]
@@ -322,9 +353,8 @@ def settings_ui():
          msg_man.global_configs["db"]["db_path"] = request.form["db_path"]
          mqtt.set_mqtt_params(request.form["mqtt_client_id"],request.form["mqtt_username"],request.form["mqtt_password"],request.form["mqtt_global_topic_prefix"],msg_man.global_configs["mqtt"]["enable_sys"])
 
-         f = open(msg_man.global_configs_path,"w")
-         f.write(json.dumps(msg_man.global_configs,indent=True))
-         f.close()
+         msg_man.serialize_global_config()
+
          log.info("Global config was successfully updated")
          log.info("New values are mqtt host = "+request.form["mqtt_host"]+" port = "+request.form["mqtt_port"]+" root topic = "+request.form["mqtt_root_topic"]+" client id="+request.form["mqtt_client_id"])
 
@@ -332,6 +362,7 @@ def settings_ui():
 
 
 @app.route('/api/send_command',methods=["POST"])
+@login_required
 def send_command():
 
     #it has to contain key = switch_binary@.zw.7.binary_switch.2.commands and value
@@ -374,6 +405,7 @@ def get_msg_from_cache(key="all"):
 
 
 @app.route('/api/approve_msg_class',methods=["POST"])
+@login_required
 def approve_msg_class():
     # {"address":address,"msg_class":msg_class,"is_approved":is_approved}
 
@@ -410,6 +442,7 @@ def approve_msg_class():
     return Response(response=dev, mimetype='application/json' )
 
 @app.route('/api/address_manager',methods=["POST","PUT"])
+@login_required
 def address_manager():
     # command should be {"cmd":"remove","address":"/dev/zw/1","msg_class":"thermostat"}
     """
@@ -477,6 +510,7 @@ def address_manager():
         return redirect(url_for("address_mapping_ui"))
 
 @app.route('/api/filters',methods=["POST","GET"])
+@login_required
 def filters_api():
 
     """
@@ -503,6 +537,7 @@ def filters_api():
     return redirect(url_for("inter_console_ui"))
 
 @app.route('/api/dashboard',methods=["POST","GET"])
+@login_required
 def dashboard_api():
 
     """
@@ -556,6 +591,7 @@ def dashboard_api():
 
 
 @app.route('/api/msg_history',methods=["POST"])
+@login_required
 def msg_history_api():
     log.info("Msg history API")
     try:
@@ -575,6 +611,7 @@ def msg_history_api():
     return redirect(url_for("msg_history"))
 
 @app.route('/api/get_last_raw_msg/<key>')
+@login_required
 def get_last_raw_msg(key):
     try:
         result = cache.get_by_key(key)["raw_msg"]
@@ -584,12 +621,14 @@ def get_last_raw_msg(key):
     return Response(response=dev, mimetype='application/json')
 
 @app.route('/api/timeseries/get/<dev_id>/<start>/<end>/<result_type>')
+@login_required
 def get_timeseries(dev_id,start,end,result_type):
     ts = timeseries.get(int(dev_id),int(start),int(end),result_type)
     jobj = json.dumps(ts)
     return Response(response=jobj, mimetype='application/json')
 
 @app.route('/api/timeseries/timeline')
+@login_required
 def get_timeline():
     log.info("Timeline request")
 
@@ -615,10 +654,12 @@ def get_timeline():
 
 
 @app.route('/ui/help/<page>')
+@login_required
 def help(page):
     return render_template('help_'+page+'.html',cfg=msg_man.global_configs,global_context=global_context)
 
 @app.route('/ui/dr_browser',methods=["GET","POST"])
+@login_required
 def dr_browser():
     log.info("Device registry browser")
     if request.method == "POST":
@@ -631,13 +672,17 @@ def dr_browser():
         response = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events",timeout=10)
 
     msg = deviceregapi.get_device_list()
-    log.debug(msg)
-
-    response = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events",timeout=10)
+    # log.debug(msg)
+    response = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events",timeout=5)
     log.debug("response :"+str(response))
+    # response = None
+    if not response :
+            log.warn("Deviceregistry is not responding therefore loading STATIC message template")
+            response = Core().load_template("event","devicereg.device_list")
     return render_template('dr_device_browser.html',dr_response=response,global_context=global_context,configs = msg_man.global_configs)
 
 @app.route('/ui/zw_diagnostics')
+@login_required
 def zw_diagnostics():
     log.info("Zw diagnostics")
     action = request.args.get("action","")
@@ -677,6 +722,7 @@ def zw_diagnostics():
 #     return Response(response=jobj, mimetype='application/json')
 
 @app.route('/api/zw_manager',methods=["POST"])
+@login_required
 def zw_manager_api():
     action = request.form["action"]
     log.debug("Action"+action)
@@ -735,6 +781,7 @@ def zw_manager_api():
 
 
 @app.route('/ui/msg_history',methods=["GET","POST"])
+@login_required
 def msg_history():
     log.info("Msg history")
 
@@ -749,6 +796,7 @@ def msg_history():
     return render_template('msg_history.html',history=history,global_context=global_context)
 
 @app.route('/ui/tools',methods=["POST","GET"])
+@login_required
 def tools():
     tools = Tools()
     output = ""
@@ -778,6 +826,7 @@ def tools():
     return render_template('tools.html',output=output ,global_context=global_context,logs=logs,services=services,autoescape=False)
 
 @app.route('/ui/updates',methods=["POST","GET"])
+@login_required
 def updates():
     import urllib2
     import os
@@ -802,6 +851,7 @@ def updates():
     return render_template('updates.html',global_context=global_context,current_info=current_info,develop_info=develop_info,master_info=master_info,autoescape=False,status=status)
 
 @app.route('/ui/logviewer',methods=["POST","GET"])
+@login_required
 def log_viewer():
     tools = Tools()
     log_file = request.form["log_file"]
@@ -813,6 +863,7 @@ def log_viewer():
     return output
 
 @app.route('/ui/mqtt_client',methods=["POST","GET"])
+@login_required
 def mqtt_client():
     status = ""
     if request.method == "POST":
@@ -824,6 +875,37 @@ def mqtt_client():
         status = "The message was sent"
 
     return render_template('mqtt_client.html',global_context=global_context,status=status)
+
+@app.route('/ui/work_session',methods=["POST","GET"])
+@login_required
+def work_session():
+    status = ""
+
+    if request.method == "POST":
+        # 1) Reset address mapping
+        # 2) Reset timeseries DB
+        # 3) Update topic prefix in settings
+        # 4) Reconnect to broker
+        gateway_id = request.form["gateway_id"]
+        new_gateway_id = gateway_id
+        start_fresh = False
+        if "start_fresh" in request.form:
+            start_fresh = True
+        msg_man.global_configs["mqtt"]["global_topic_prefix"] = gateway_id
+        msg_man.serialize_global_config()
+        mqtt.set_mqtt_params(msg_man.global_configs["mqtt"]["client_id"],msg_man.global_configs["mqtt"]["username"],msg_man.global_configs["mqtt"]["password"],msg_man.global_configs["mqtt"]["global_topic_prefix"],msg_man.global_configs["mqtt"]["enable_sys"])
+        mqtt.stop()
+        mqtt.start()
+        if start_fresh:
+            msg_man.reset_address_mapping()
+            timeseries.delete_all_for_dev("all")
+            timeseries.delete_msg_history("all")
+
+    elif request.method == "GET":
+       new_gateway_id = request.args.get("new_gateway_id",msg_man.global_configs["mqtt"]["global_topic_prefix"] )
+
+    gateway_id = msg_man.global_configs["mqtt"]["global_topic_prefix"]
+    return render_template('work_session.html',global_context=global_context,gateway_id = gateway_id,new_gateway_id=new_gateway_id)
 
 
 

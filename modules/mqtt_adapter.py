@@ -74,6 +74,8 @@ class MqttAdapter:
         :param obj:
         :param msg:
         """
+        if self.topic_prefix:
+            msg.topic = msg.topic.replace(self.topic_prefix,"")
         try:
             if "$SYS" in msg.topic:
                if self.msg_pipeline:

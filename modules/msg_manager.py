@@ -1,3 +1,4 @@
+from shutil import copyfile
 from libs.simple_jsonpath import SimpleJsonPath
 
 __author__ = 'aleksandrsl'
@@ -353,8 +354,22 @@ class MessageManager:
         log.info("Serializing class mapping to file " + self.msg_class_mapping_file_path)
         f = open(self.msg_class_mapping_file_path, "w")
         f.write(json.dumps(self.msg_class_mapping, indent=True))
-
         f.close()
+
+    def serialize_global_config(self):
+        log.info("Serializing global config to " + self.global_configs_path)
+        f = open(self.global_configs_path,"w")
+        f.write(json.dumps(self.global_configs,indent=True))
+        f.close()
+
+    def reset_address_mapping(self):
+        """
+        The method does address_mapping reset by copying default file from scripts/config/address_mapping.json
+
+        """
+        default_mapping = os.path.join(self.app_root_path, "scripts","configs", "address_mapping.json")
+        copyfile(default_mapping,self.address_mapping_file_path)
+        self.reload_all_mappings()
 
 
 if __name__ == "__main__":

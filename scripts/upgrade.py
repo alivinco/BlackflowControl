@@ -46,10 +46,12 @@ def update_global_config():
     if not ("use_default_class_lookup" in jobj):
         jobj["use_default_class_lookup"]=True
     if "system" in jobj:
-        jobj["system"]["version"]="1.4.7"
+        jobj["system"]["version"]="1.4.8"
         jobj["mqtt"]["enable_sys"]=False
         jobj["system"]["http_server_port"]=5000
         jobj["system"]["distro_server_uri"]="http://lego.fiicha.net/blackfly"
+        jobj["system"]["ui_security_disabled"]=False
+
 
     else :
         print "******************* YOUR EXISTING BLACKFLY INSTALLATION IS TOO OLD.PLEASE DELETE EXISTING INSTALLATION AND RUN INSTALLATION AGAIN ******************"

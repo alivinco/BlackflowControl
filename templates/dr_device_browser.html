@@ -16,12 +16,8 @@
         <th><h6>Alias</h6></th>
         <th><h6>Components</h6></th>
         <th><h6>Comm Tech</h6></th>
-        <th><h6>Manufacturer</h6></th>
-        <th><h6>Hw Ver.</h6></th>
-        <th><h6>Sw Ver.</h6></th>
-        <th><h6>Protocol Ver</h6></th>
-        <th><h6>Product Id</h6></th>
-        <th><h6>Product Type Id</h6></th>
+        <th style="min-width: 100px"><h6>Product info</h6></th>
+        <th style="min-width: 110px" ><h6>Versions</h6></th>
         <th><h6>Hash code</h6></th>
         <th><h6>Status</h6></th>
         <th><h6>Last Error Msg</h6></th>
@@ -47,12 +43,14 @@
             <a data-toggle="collapse" href="#endpoints_{{ device.Id }}">Services</a>
             <a data-toggle="collapse" href="#properties_{{ device.Id }}">Properties</a></td>
         <td>{{ device.CommunicationTechnology }}</td>
-        <td>{{ device.Manufacturer }}</td>
-        <td>{{ device.HardwareVersion }}</td>
-        <td>{{ device.SoftwareVersion }}</td>
-        <td>{{ device.ProtocolVersion }}</td>
-        <td>{{ device.ProductId }}</td>
-        <td>{{ device.ProductTypeId }}</td>
+        <td><div><small>Manuf. :{{ device.Manufacturer }} </small></div>
+            <div><small>Id :{{ device.ProductId  }} </small></div>
+            <div><small>Type :{{ device.ProductTypeId }} </small></div>
+        </td>
+        <td><div><small>Hardw :{{ device.HardwareVersion }} </small></div>
+            <div><small>Softw :{{ device.SoftwareVersion }} </small></div>
+            <div><small>Protocol :{{ device.ProtocolVersion }} </small></div>
+        </td>
         <td><small>{{ device.HashCode }}</small></td>
         <td>{{ device.Status }}</td>
         <td>{{ device.LastErrorMsg }}</td>

@@ -33,7 +33,7 @@ class ZwTa(Core):
 
     def net_ping(self,node_id):
         msg = self.get_message("command","net.ping")
-        msg["command"]["default"]["value"]=node_id
+        msg["command"]["default"]["value"][0]=node_id
         return msg
 
 

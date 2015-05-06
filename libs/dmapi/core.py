@@ -12,11 +12,11 @@ class Core():
         self.origin={"@type":type,"@id":id,"vendor":vendor,"location":location}
 
     def get_message(self,msg_type,msg_class):
-        msg = self.__load_template(msg_type,msg_class)
+        msg = self.load_template(msg_type,msg_class)
         msg = self.__update_static_part_of_message(msg)
         return msg
 
-    def __load_template(self, msg_type,msg_class):
+    def load_template(self, msg_type,msg_class):
         """
         Method loads message template
         :param msg_type: command or event

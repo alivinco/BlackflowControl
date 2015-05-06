@@ -10,7 +10,7 @@
          "@type" : "net",
          "subtype" : "ping",
          "default" : {
-               "value" : 49
+               "value" : [49]
             },
          "properties" :{
              "timeout":10,

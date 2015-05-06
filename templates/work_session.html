@@ -1,0 +1,45 @@
+{% extends "base_layout_wide.html" %}
+{% block li_msg_types %}{% endblock %}
+{% block body %}
+</h1>
+<h3>Work session</h3>
+<div class="well well-sm">BF can be connected only to one gateway at time . In order to  connect to another gateway you need to start new session. Work session
+    is not linked to a user login.
+</div>
+<div class="well well-sm">Starting "fresh" session means that all configurations , timeseries data and msg history from previous work session  will be discarded .</div>
+<div class="container-fluid">
+<form class="form-horizontal" role="form" action="" method="post">
+  <div class="form-group">
+    <label for="mqtt_host_input" class="col-sm-2 control-label">Current gateway id</label>
+    <div class="col-sm-2">
+      <input type="text" readonly name="current_gateway_id" class="form-control" id="current_gateway_id" placeholder="" value="{{ gateway_id }}" />
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="gateway_id" class="col-sm-2 control-label"> New gateway id</label>
+    <div class="col-sm-2">
+      <input type="text" name="gateway_id" class="form-control" id="gateway_id" placeholder="" value="{{ new_gateway_id }}" />
+    </div>
+  </div>
+ <div class="form-group">
+    <label for="start_fresh" class="col-sm-2 control-label">Start fresh session</label>
+    <div class="col-sm-2">
+      <input type="checkbox" name="start_fresh"  id="start_fresh"  checked />
+    </div>
+  </div>
+ <div class="form-group">
+
+    <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit"  class="btn btn-default">Start new session</button>
+    </div>
+  </div>
+</form>
+
+</div>
+
+
+{% endblock %}
+{% block js_scripts %}
+{#    <script src="/static/js/msg_class.js"></script>#}
+{#    <script src="/static/js/utils.js"></script>#}
+{% endblock %}

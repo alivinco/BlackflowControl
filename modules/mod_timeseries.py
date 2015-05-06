@@ -87,13 +87,17 @@ class Timeseries():
                     row_id = str(row_id)
                     self.conn.execute("DELETE FROM msg_history WHERE rowid = ?", (row_id,))
                     self.conn.commit()
-                if type(row_id) == list:
+                elif type(row_id) == list:
                     if len(row_id) == 1:
                         self.conn.execute("DELETE FROM msg_history WHERE rowid = ?", (row_id[0],))
                     else:
                         dev_list = str(tuple(row_id))
                         self.conn.execute("DELETE FROM msg_history WHERE rowid in " + dev_list)
                     self.conn.commit()
+                elif del_type == "all":
+                    self.conn.execute("DELETE FROM msg_history")
+                    self.conn.commit()
+
             except Exception as ex:
                 self.log.error("Entries can't be deleted because of error")
                 self.log.error(ex)
@@ -210,13 +214,17 @@ class Timeseries():
                 dev_id = str(dev_id)
                 self.conn.execute("DELETE FROM timeseries WHERE dev_id = ?", (dev_id,))
                 self.conn.commit()
-            if type(dev_id) == list:
+            elif type(dev_id) == list:
                 if len(dev_id) == 1:
                     self.conn.execute("DELETE FROM timeseries WHERE dev_id = ?", (dev_id[0],))
                 else:
                     dev_list = str(tuple(dev_id))
                     self.conn.execute("DELETE FROM timeseries WHERE dev_id in " + dev_list)
                 self.conn.commit()
+            elif dev_id=="all":
+                self.conn.execute("DELETE FROM timeseries")
+                self.conn.commit()
+
         except Exception as ex:
             self.log.error("Entries can't be deleted because of error")
             self.log.error(ex)
