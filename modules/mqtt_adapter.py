@@ -38,7 +38,6 @@ class MqttAdapter:
         self.global_context = context
 
     def connect(self, host="localhost", port=1883, keepalive=60):
-        self.mqtt = mosquitto.Mosquitto(self.client_id, clean_session=True)
         self._host = host
         self._port = port
         self._keepalive = keepalive

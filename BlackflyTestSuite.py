@@ -62,7 +62,6 @@ login_manager.init_app(app)
 modules.mod_auth.global_context = global_context
 
 
-
 global_context["version"] = msg_man.global_configs["system"]["version"]
 http_server_port = msg_man.global_configs["system"]["http_server_port"]
 cache = MsgCache(msg_man)
