@@ -86,6 +86,11 @@ class MsgCache():
     def get_approval_list(self):
         return self.approve_cache
 
+    def clean_cache(self):
+        self.cache = {}
+        self.generic_cache = {}
+        self.approve_cache = {}
+
 
 
 

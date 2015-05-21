@@ -1,5 +1,8 @@
 {% extends "base_layout.html" %}
 {% block li_dr_registry %}class="active"{% endblock %}
+{% block css_scripts %}
+<link rel="stylesheet" href="/static/css/custom_icons.css">
+{% endblock %}
 {% block body %}
 </h1>
 <h3>Device registry explorer </h3>
@@ -24,7 +27,7 @@
         <th style="min-width: 80px"><h6>First Use Date</h6></th>
         <th style="min-width: 80px"><h6>Last Update</h6></th>
         <th><h6>Security Level</h6></th>
-        <th><h6>Power desc.</h6></th>
+        <th style="min-width: 170px"><h6>Power descriptor</h6></th>
         <th><h6>Action</h6></th>
       </tr>
    </thead>
@@ -35,7 +38,7 @@
         <td rowspan="2" >{{ device.Id }}</td>
         <td>{{ device.IntegrationId }}</td>
         <td>{{ device.Address }}</td>
-        <td>{{ device.SerialNumber }}</td>
+        <td><small>{{ device.SerialNumber }}</small></td>
         <td>{{ device.Name }}</td>
         <td> {% if device.Alias %} <a href="javascript:open_update_dr_field_modal({{ device.Id }},'Alias','{{ device.Alias }}')">{{ device.Alias }}</a>
         {% else %} <a href="javascript:open_update_dr_field_modal({{ device.Id }},'Alias','{{ device.Alias }}')"> <span class="pull-right glyphicon glyphicon-pencil">&nbsp;</span> </a> {% endif %}</td>
@@ -52,12 +55,22 @@
             <div><small>Protocol :{{ device.ProtocolVersion }} </small></div>
         </td>
         <td><small>{{ device.HashCode }}</small></td>
-        <td>{{ device.Status }}</td>
-        <td>{{ device.LastErrorMsg }}</td>
+        <td >{% if device.Status == "Up" %}<h4 class="pull-right glyphicon glyphicon-thumbs-up">&nbsp;</h4>{% else %}
+            <h4 class="pull-right glyphicon glyphicon-warning-sign">&nbsp;</h4>
+            {% endif %}
+        </td>
+        <td><small>{{ device.LastErrorMsg }}</small></td>
         <td><small>{{ device.FirstUseDate|replace("T"," ") }}</small></td>
         <td><small>{{ device.LastUpdate|replace("T"," ") }}</small></td>
         <td>{{ device.SecurityLevel }}</td>
-        <td>{{ device.PowerDescriptor }}</td>
+        <td>
+            {% if device.PowerDescriptor.CurrentPowerSource == "Rechargeable" %}<div > <div class="icon-battery"></div>  {{ device.PowerDescriptor.CurrentPowerSourceLevel }}%</div>{% endif %}
+            {% if device.PowerDescriptor.CurrentPowerSource == "Constant" %}<div class="icon-mains-power"></div>{% endif %}
+{#            <div><small>Current:{{ device.PowerDescriptor.CurrentPowerSource }} </small></div>#}
+{#            <div><small>Available:{{ device.PowerDescriptor.AvailablePowerSource }} </small></div>#}
+{#            <div><small>Level: </small>{{ device.PowerDescriptor.CurrentPowerSourceLevel }}%</div>#}
+           {% if device.PowerDescriptor.CurrentPowerSource == "Rechargeable" %} <div><small>Wakeup int. :{{ device.PowerDescriptor.WakeUpInterval }} </small></div> {% endif %}
+        </td>
 
         <td style="min-width: 100px">
             <a href="/ui/inter_console?filter=/dev/{{ device.CommunicationTechnology }}/{{ device.Address }}&mode=normal">Interact</a>
@@ -75,9 +88,10 @@
                   <thead>
                   <tr><th>Id</th>
                       <th>Type</th>
+                      <th>Support</th>
+                      <th>Control</th>
                       <th>Uri</th>
                       <th>Capabilities</th>
-
                       <th>Property</th>
                   </tr>
                   </thead>
@@ -85,8 +99,10 @@
                    {% for endp in device.EndPoint %}
                     <tr><td>{{ endp.Id }}</td>
                         <td>{{ endp.Type }}</td>
+                        <td>{% if endp.Support %} <h5 class="pull-right glyphicon glyphicon-ok">&nbsp;</h5>{% else %} <h5 class="pull-right glyphicon glyphicon-remove">&nbsp;</h5> {% endif %}</td>
+                        <td>{% if endp.Control %} <h5 class="pull-right glyphicon glyphicon-ok">&nbsp;</h5>{% else %} <h5 class="pull-right glyphicon glyphicon-remove">&nbsp;</h5> {% endif %}</td>
                         <td><a href="/ui/inter_console?filter={{ endp.Uri }}&mode=normal">{{ endp.Uri }}</a></td>
-                        <td>{{ endp.Capabilities }}</td>
+                        <td><small>{{ endp.Capabilities }}</small></td>
                         <td>{{ endp.Property }}</td></tr>
                    {% endfor %}
                   </tbody>

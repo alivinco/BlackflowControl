@@ -1,0 +1,15 @@
+.icon-battery {
+    background-image: url("/static/img/battery.png");
+    background-position: center center;
+    height: 15px;
+    width: 30px;
+    display:inline-block;
+    /*line-height: 15px;*/
+}
+.icon-mains-power {
+    background-image: url("/static/img/constant.png");
+    background-position: center center;
+    height: 15px;
+    width: 30px;
+    /*line-height: 15px;*/
+}
