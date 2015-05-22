@@ -14,7 +14,7 @@ class TestMessageManager(TestCase):
     def test_get_value_from_msg(self):
         msg = self.msg_man.load_template_by_key("sensor.temperature@event")
         st = time.time()
-        run_count = 50000
+        run_count = 500
         for i in range(run_count):
              value =  self.msg_man.get_value_from_msg(msg,"$.event.default.value")[0]
         et = time.time()
@@ -78,3 +78,11 @@ class TestMessageManager(TestCase):
 
         et = time.time()
         print "Test 5.0 execution time %s"%(et-st)
+
+    def test_generate_address_mappings_for_service(self):
+        list_of_services = [
+             {"Control": False, "Type": "dev_sys", "Support": True, "Uri": "/dev/zw/999/dev_sys/1", "Capabilities": []}
+        ]
+
+        self.msg_man.generate_address_mappings_for_service(list_of_services,"test_device")
+        self.assertEqual(self.msg_man.get_address_map("association.get","/dev/zw/999/dev_sys/1/commands")["name"],"association.get@test_device")

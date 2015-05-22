@@ -14,21 +14,21 @@
         <th><h6>Id</h6></th>
         <th><h6>Integr. Id</h6></th>
         <th><h6>Address</h6></th>
-        <th><h6>Serial Number</h6></th>
+
         <th><h6>Name</h6></th>
         <th><h6>Alias</h6></th>
         <th><h6>Components</h6></th>
         <th><h6>Comm Tech</h6></th>
-        <th style="min-width: 100px"><h6>Product info</h6></th>
-        <th style="min-width: 110px" ><h6>Versions</h6></th>
-        <th><h6>Hash code</h6></th>
+        <th style="min-width: 230px"><h6>Product info</h6></th>
+        <th style="min-width: 110px" ><h6>Version</h6></th>
         <th><h6>Status</h6></th>
-        <th><h6>Last Error Msg</h6></th>
+
         <th style="min-width: 80px"><h6>First Use Date</h6></th>
         <th style="min-width: 80px"><h6>Last Update</h6></th>
-        <th><h6>Security Level</h6></th>
-        <th style="min-width: 170px"><h6>Power descriptor</h6></th>
+        <th><h6>Security</h6></th>
+        <th style="min-width: 130px"><h6>Power descriptor</h6></th>
         <th><h6>Action</h6></th>
+        <th><h6>Last Error Msg</h6></th>
       </tr>
    </thead>
    <tbody>
@@ -38,7 +38,7 @@
         <td rowspan="2" >{{ device.Id }}</td>
         <td>{{ device.IntegrationId }}</td>
         <td>{{ device.Address }}</td>
-        <td><small>{{ device.SerialNumber }}</small></td>
+
         <td>{{ device.Name }}</td>
         <td> {% if device.Alias %} <a href="javascript:open_update_dr_field_modal({{ device.Id }},'Alias','{{ device.Alias }}')">{{ device.Alias }}</a>
         {% else %} <a href="javascript:open_update_dr_field_modal({{ device.Id }},'Alias','{{ device.Alias }}')"> <span class="pull-right glyphicon glyphicon-pencil">&nbsp;</span> </a> {% endif %}</td>
@@ -49,17 +49,18 @@
         <td><div><small>Manuf. :{{ device.Manufacturer }} </small></div>
             <div><small>Id :{{ device.ProductId  }} </small></div>
             <div><small>Type :{{ device.ProductTypeId }} </small></div>
+           {% if device.SerialNumber %} <div><small>Serial : {{ device.SerialNumber }}</small></div> {% endif %}
+            <div><small>Hash : {{ device.HashCode }} </small></div>
         </td>
         <td><div><small>Hardw :{{ device.HardwareVersion }} </small></div>
             <div><small>Softw :{{ device.SoftwareVersion }} </small></div>
             <div><small>Protocol :{{ device.ProtocolVersion }} </small></div>
         </td>
-        <td><small>{{ device.HashCode }}</small></td>
         <td >{% if device.Status == "Up" %}<h4 class="pull-right glyphicon glyphicon-thumbs-up">&nbsp;</h4>{% else %}
             <h4 class="pull-right glyphicon glyphicon-warning-sign">&nbsp;</h4>
             {% endif %}
         </td>
-        <td><small>{{ device.LastErrorMsg }}</small></td>
+
         <td><small>{{ device.FirstUseDate|replace("T"," ") }}</small></td>
         <td><small>{{ device.LastUpdate|replace("T"," ") }}</small></td>
         <td>{{ device.SecurityLevel }}</td>
@@ -73,10 +74,11 @@
         </td>
 
         <td style="min-width: 100px">
-            <a href="/ui/inter_console?filter=/dev/{{ device.CommunicationTechnology }}/{{ device.Address }}&mode=normal">Interact</a>
-            <p><a href="javascript:send_command('devicereg.delete@.app.devicereg.commands','',{{ device.Id }} );setTimeout(function(){location.reload()},500) ;">Delete</a></p>
-            <p><a target="_blank" href="{{ configs.smartly.sdc_uri }}/live/SDC/GetDeviceList?HashCode={{ device.HashCode }}">SDC lookup</a></p>
+            <a href="/ui/inter_console?filter=/dev/{{ device.CommunicationTechnology }}/{{ device.Address }}&mode=normal"><h4 class="glyphicon glyphicon-fullscreen"></h4></a>
+            <a target="_blank" href="{{ configs.smartly.sdc_uri }}/live/SDC/GetDeviceList?HashCode={{ device.HashCode }}"><h4 class=" glyphicon glyphicon-info-sign"></h4></a>
+            <a href="javascript:send_command('devicereg.delete@.app.devicereg.commands','',{{ device.Id }} );setTimeout(function(){location.reload()},500) ;"><h4 class="pull-right glyphicon glyphicon-trash">&nbsp;</h4></a>
         </td>
+       <td><small>{{ device.LastErrorMsg }}</small></td>
       </tr>
      <tr>
          <td colspan="18" >

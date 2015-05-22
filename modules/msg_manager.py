@@ -25,8 +25,11 @@ class MessageManager:
         self.commands_dir = os.path.join(self.app_root_path, "messages", "commands")
         self.msg_class_mapping_file_path = os.path.join(self.app_root_path, "configs", "msg_class_mapping.json")
         self.address_mapping_file_path = os.path.join(self.app_root_path, "configs", "address_mapping.json")
+        self.services_to_msg_mapping_file_path = os.path.join(self.app_root_path, "configs", "services_to_msg_mapping.json")
         self.msg_class_mapping = self.load_msg_class_mapping()
         self.address_mapping = self.load_address_mapping()
+        self.services_to_msg_mapping = self.load_service_to_msg_mapping()
+
         self.global_configs_path = os.path.join(self.app_root_path, "configs", "global.json")
         self.global_configs = json.load(file(self.global_configs_path))
         self.ui_elements_command = ["input_num_field","toggle_switch"]
@@ -111,10 +114,14 @@ class MessageManager:
             result = None
         return result
 
-
     def load_msg_class_mapping(self):
         log.debug("Loading msg class mapping.")
         jobj = json.load(file(self.msg_class_mapping_file_path))
+        return jobj
+
+    def load_service_to_msg_mapping(self):
+        log.debug("Loading service to msg mapping.")
+        jobj = json.load(file(self.services_to_msg_mapping_file_path))
         return jobj
 
     def load_address_mapping(self):
@@ -240,7 +247,7 @@ class MessageManager:
                 self.set_value_to_msg(msg_template, path, v)
         return msg_template
 
-    def update_address_mapping(self, key, name, msg_class, msg_type, address,override_properties="",override_value_path="",record_history=False):
+    def update_address_mapping(self, key, name, msg_class, msg_type, address,override_properties="",override_value_path="",record_history=False,serialize=True):
         if key:
             item = filter(lambda addr: (addr["key"] == key ), self.address_mapping)[0]
             item["msg_class"] = msg_class
@@ -255,10 +262,10 @@ class MessageManager:
             new_id = self.get_new_addr_id()
             self.address_mapping.append({"id":new_id,"msg_class": msg_class, "address": address, "name": name, "msg_type": msg_type,"record_history":record_history, "override_properties":override_properties,"override_value_path":override_value_path,"key": self.generate_key(msg_class, address)})
 
-        self.serialize_address_mapping()
+        if serialize :self.serialize_address_mapping()
 
 
-    def add_address_to_mapping(self, address, msg_class):
+    def add_address_to_mapping(self, address, msg_class,serialize=True):
         # register new address
         # calculating new id
         # self.address_mapping
@@ -271,11 +278,9 @@ class MessageManager:
             elif "command" in address :
                 self.address_mapping.append({"id":new_id,"msg_class": msg_class, "address": address, "name": msg_class, "msg_type": "command", "group_name": "","record_history":False,"override_properties":"","override_value_path":"","key": self.generate_key(msg_class, address)})
             # self.address_mapping = addr_map
-            self.serialize_address_mapping()
+            if serialize: self.serialize_address_mapping()
         else :
             log.info("The address is already registered and therefore ADD operation will be skipped.")
-
-
 
     def check_if_address_exists(self,address,msg_class):
         r = filter(lambda addr: (addr["msg_class"] == msg_class and addr["address"] == address ),self.address_mapping)
@@ -293,6 +298,13 @@ class MessageManager:
         try:
           k = self.decode_key(key)
           r = filter(lambda addr: (addr["msg_class"] == k["msg_class"] and addr["address"] == k['address']),self.address_mapping)[0]
+        except Exception as ex :
+          r = None
+        return r
+
+    def get_address_map(self,msg_class,address):
+        try:
+          r = filter(lambda addr: (addr["msg_class"] == msg_class and addr["address"] == address ),self.address_mapping)[0]
         except Exception as ex :
           r = None
         return r
@@ -342,6 +354,29 @@ class MessageManager:
                 d_key["address"]= d_key["address"].replace(find,replace_to)
                 item["key"] = self.generate_key(d_key["msg_class"],d_key["address"])
                 log.debug("New key "+item["key"])
+
+        self.serialize_address_mapping()
+
+    def generate_address_mappings_for_service(self,list_of_services,device_name=""):
+        """
+        :param list_of_services: list_of_services - is list of service where each service is in a form of :
+        {"Control":True,"Support":True,"Uri":"/dev/zw/4/dev_sys/1","Type":"dev_sys"}
+        """
+        for service in list_of_services:
+            service_map = self.services_to_msg_mapping[service["Type"]]
+
+            for event_msg_class in service_map["events"]:
+                address = service["Uri"]+"/events"
+                if device_name :name = event_msg_class+"@"+device_name
+                else : name = event_msg_class
+                if not self.check_if_address_exists(address,event_msg_class):
+                    self.update_address_mapping(None, name, event_msg_class,"event", address,serialize=False)
+            for command_msg_class in service_map["commands"]:
+                address = service["Uri"]+"/commands"
+                if device_name :name = command_msg_class+"@"+device_name
+                else : name = event_msg_class
+                if not self.check_if_address_exists(address,command_msg_class):
+                    self.update_address_mapping(None, name, command_msg_class,"command", address,serialize=False)
 
         self.serialize_address_mapping()
 

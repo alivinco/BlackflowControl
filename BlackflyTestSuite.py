@@ -673,13 +673,13 @@ def dr_browser():
     msg = deviceregapi.get_device_list()
     # log.debug(msg)
 
-    response = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events",timeout=5)
-    log.debug("response :"+str(response))
+    # response = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events",timeout=5)
+    # log.debug("response :"+str(response))
 
-    # response = None
-    # if not response :
-    #         log.warn("Deviceregistry is not responding therefore loading STATIC message template")
-    #         response = Core().load_template("event","devicereg.device_list")
+    response = None
+    if not response :
+            log.warn("Deviceregistry is not responding therefore loading STATIC message template")
+            response = Core().load_template("event","devicereg.device_list")
 
     return render_template('dr_device_browser.html',dr_response=response,global_context=global_context,configs = msg_man.global_configs)
 
