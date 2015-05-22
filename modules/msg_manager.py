@@ -275,6 +275,8 @@ class MessageManager:
         else :
             log.info("The address is already registered and therefore ADD operation will be skipped.")
 
+
+
     def check_if_address_exists(self,address,msg_class):
         r = filter(lambda addr: (addr["msg_class"] == msg_class and addr["address"] == address ),self.address_mapping)
         if len(r)>0:

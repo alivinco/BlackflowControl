@@ -1,0 +1,6 @@
+{
+ "bin_switch":{"events":["binary.switch"],
+               "commands":["binary.switch"]},
+ "dev_sys":{"events":["association.groups","association.report","config.get","config.set","net.ping_report"],
+            "commands":["association.get","association.get_groups","association.set","association.delete","config.report","net.ping"]}
+}
