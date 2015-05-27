@@ -37,11 +37,10 @@ import re
 
 from libs.sync_to_async_msg_converter import SyncToAsyncMsgConverter
 
-from libs.dmapi import devicereg,zw_ta
+from libs.dmapi import zw_ta
 
-from modules.mod_auth import login_manager , mod_auth
-import modules.mod_auth
-
+from extensions.auth.ui.controller import mod_auth,login_manager
+from extensions.devicereg.ui import controller as devicereg_ex
 
 global_context = {}
 logging.config.dictConfig(configs.log.config)
@@ -56,11 +55,11 @@ app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_FILE_DIR'] = '/tmp/'
 app.config['LOGIN_DISABLED'] = msg_man.global_configs["system"]["ui_security_disabled"]
 app.register_blueprint(mod_auth)
+app.register_blueprint(devicereg_ex.devreg_bp)
 
 login_manager.init_app(app)
 
-modules.mod_auth.global_context = global_context
-
+mod_auth.global_context = global_context
 
 global_context["version"] = msg_man.global_configs["system"]["version"]
 http_server_port = msg_man.global_configs["system"]["http_server_port"]
@@ -91,7 +90,13 @@ dash_man = DashboardManager()
 filter_man = FiltersManager()
 
 zwapi = zw_ta.ZwTa("app","blackfly","blackfly")
-deviceregapi = devicereg.Devicereg("app","blackfly","blackfly")
+
+# Injecting objects into extensions
+devicereg_ex.global_context = global_context
+devicereg_ex.mqtt = mqtt
+devicereg_ex.msg_man = msg_man
+devicereg_ex.sync_async_client = sync_async_client
+
 
 @app.route('/')
 def red():
@@ -657,31 +662,6 @@ def get_timeline():
 def help(page):
     return render_template('help_'+page+'.html',cfg=msg_man.global_configs,global_context=global_context)
 
-@app.route('/ui/dr_browser',methods=["GET","POST"])
-@login_required
-def dr_browser():
-    log.info("Device registry browser")
-    if request.method == "POST":
-        action = request.form["action"]
-        device_id = int(request.form["device_id"])
-        field_name = request.form["field_name"]
-        field_value = request.form["field_value"]
-        msg = deviceregapi.update({"Id":device_id},{field_name:field_value})
-        log.info(msg)
-        response = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events",timeout=10)
-
-    msg = deviceregapi.get_device_list()
-    # log.debug(msg)
-
-    response = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events",timeout=5)
-    log.debug("response :"+str(response))
-
-    # response = None
-    # if not response :
-    #         log.warn("Deviceregistry is not responding therefore loading STATIC message template")
-    #         response = Core().load_template("event","devicereg.device_list")
-
-    return render_template('dr_device_browser.html',dr_response=response,global_context=global_context,configs = msg_man.global_configs)
 
 @app.route('/ui/zw_diagnostics')
 @login_required

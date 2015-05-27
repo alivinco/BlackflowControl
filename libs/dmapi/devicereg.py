@@ -6,6 +6,11 @@ class Devicereg(Core):
     def get_device_list(self):
         return self.get_message("command","devicereg.get_device_list")
 
+    def get_device_by_id(self,device_id):
+        msg = self.get_message("command","devicereg.get_device_list")
+        msg["command"]["properties"]["search"]={"device_info":{"Id":device_id}}
+        return msg
+
     def update(self,search_map,update_map):
 
         """
@@ -16,4 +21,9 @@ class Devicereg(Core):
         msg = self.get_message("command","devicereg.update")
         msg["command"]["properties"]["search"] = search_map
         msg["command"]["properties"]["update"] = update_map
+        return msg
+
+    def delete(self,devicereg_id):
+        msg = self.get_message("command","devicereg.delete")
+        msg["command"]["default"]["value"]=devicereg_id
         return msg
