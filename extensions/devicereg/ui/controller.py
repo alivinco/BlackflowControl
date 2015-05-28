@@ -1,7 +1,9 @@
+import json
+
 __author__ = 'alivinco'
 import logging
 from libs.sync_to_async_msg_converter import SyncToAsyncMsgConverter
-from flask import render_template, Blueprint, request
+from flask import render_template, Blueprint, request, Response
 from libs.flask_login import LoginManager,  login_required
 from libs.dmapi import devicereg
 
@@ -17,10 +19,24 @@ login_manager.login_view = "/ui/login"
 deviceregapi = devicereg.Devicereg("app","blackfly","blackfly")
 
 
-@devreg_bp.route('/ui/dr_browser',methods=["GET","POST"])
+@devreg_bp.route('/ui/dr_browser',methods=["GET"])
 @login_required
 def dr_browser():
     log.info("Device registry browser")
+    device_id = request.args.get("Id","")
+    if device_id:
+        msg = deviceregapi.get_device_by_id(int(device_id))
+    else :
+        msg = deviceregapi.get_device_list()
+
+    response = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events",timeout=5)
+    log.debug("response :"+str(response))
+
+    return render_template('devicereg/dr_device_browser.html',dr_response=response,global_context=global_context,configs = msg_man.global_configs)
+
+@devreg_bp.route('/api/dr_browser',methods=["POST"])
+@login_required
+def dr_browser_api():
     if request.method == "POST":
         action = request.form["action"]
         device_id = int(request.form["device_id"])
@@ -29,21 +45,15 @@ def dr_browser():
             field_value = request.form["field_value"]
             msg = deviceregapi.update({"Id":device_id},{field_name:field_value})
             log.info(msg)
-            sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events",timeout=10)
+            sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events",timeout=2)
         elif action == "delete":
             msg = deviceregapi.delete(device_id)
-            sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events",timeout=10)
+            sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events",timeout=2)
         elif action == "init_device":
-            pass
-            # response = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events",timeout=5)
+            msg = deviceregapi.get_device_by_id(int(device_id))
+            device = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events",timeout=10)
+            services = device["event"]["properties"]["device_list"]["value"][0]["EndPoint"]
+            device_alias = device["event"]["properties"]["device_list"]["value"][0]["Alias"]
+            msg_man.generate_address_mappings_for_services(services,device_alias)
 
-    device_id = request.args.get("id","")
-    if device_id:
-        msg = deviceregapi.get_device_by_id(device_id)
-    else :
-        msg = deviceregapi.get_device_list()
-
-    response = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events",timeout=5)
-    log.debug("response :"+str(response))
-
-    return render_template('devicereg/dr_device_browser.html',dr_response=response,global_context=global_context,configs = msg_man.global_configs)
+        return Response(response=json.dumps({"status":"ok"}), mimetype='application/json')

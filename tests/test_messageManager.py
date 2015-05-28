@@ -84,5 +84,5 @@ class TestMessageManager(TestCase):
              {"Control": False, "Type": "dev_sys", "Support": True, "Uri": "/dev/zw/999/dev_sys/1", "Capabilities": []}
         ]
 
-        self.msg_man.generate_address_mappings_for_service(list_of_services,"test_device")
+        self.msg_man.generate_address_mappings_for_services(list_of_services,"test_device")
         self.assertEqual(self.msg_man.get_address_map("association.get","/dev/zw/999/dev_sys/1/commands")["name"],"association.get@test_device")

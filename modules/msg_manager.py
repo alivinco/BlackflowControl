@@ -135,6 +135,7 @@ class MessageManager:
     def reload_all_mappings(self):
         self.msg_class_mapping = self.load_msg_class_mapping()
         self.address_mapping = self.load_address_mapping()
+        self.load_service_to_msg_mapping()
 
     def generate_key(self, msg_class, address):
         return msg_class + "@" + address.replace("/", ".")
@@ -357,26 +358,29 @@ class MessageManager:
 
         self.serialize_address_mapping()
 
-    def generate_address_mappings_for_service(self,list_of_services,device_name=""):
+    def generate_address_mappings_for_services(self,list_of_services,device_name=""):
         """
         :param list_of_services: list_of_services - is list of service where each service is in a form of :
         {"Control":True,"Support":True,"Uri":"/dev/zw/4/dev_sys/1","Type":"dev_sys"}
         """
         for service in list_of_services:
-            service_map = self.services_to_msg_mapping[service["Type"]]
+            if service["Type"] in self.services_to_msg_mapping:
+                service_map = self.services_to_msg_mapping[service["Type"]]
 
-            for event_msg_class in service_map["events"]:
-                address = service["Uri"]+"/events"
-                if device_name :name = event_msg_class+"@"+device_name
-                else : name = event_msg_class
-                if not self.check_if_address_exists(address,event_msg_class):
-                    self.update_address_mapping(None, name, event_msg_class,"event", address,serialize=False)
-            for command_msg_class in service_map["commands"]:
-                address = service["Uri"]+"/commands"
-                if device_name :name = command_msg_class+"@"+device_name
-                else : name = event_msg_class
-                if not self.check_if_address_exists(address,command_msg_class):
-                    self.update_address_mapping(None, name, command_msg_class,"command", address,serialize=False)
+                for event_msg_class in service_map["events"]:
+                    address = service["Uri"]+"/events"
+                    if device_name :name = device_name+"=>"+event_msg_class
+                    else : name = event_msg_class
+                    if not self.check_if_address_exists(address,event_msg_class):
+                        self.update_address_mapping(None, name, event_msg_class,"event", address,serialize=False)
+                for command_msg_class in service_map["commands"]:
+                    address = service["Uri"]+"/commands"
+                    if device_name :name = device_name+"=>"+command_msg_class
+                    else : name = event_msg_class
+                    if not self.check_if_address_exists(address,command_msg_class):
+                        self.update_address_mapping(None, name, command_msg_class,"command", address,serialize=False)
+            else :
+                log.warn("Service of type = %s doesn't have a mapping therefore will be skipped "%service["Type"])
 
         self.serialize_address_mapping()
 

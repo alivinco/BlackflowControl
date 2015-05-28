@@ -8,7 +8,7 @@ class Devicereg(Core):
 
     def get_device_by_id(self,device_id):
         msg = self.get_message("command","devicereg.get_device_list")
-        msg["command"]["properties"]["search"]={"device_info":{"Id":device_id}}
+        msg["command"]["properties"]["search"]={"Id":device_id}
         return msg
 
     def update(self,search_map,update_map):

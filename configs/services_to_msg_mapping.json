@@ -1,6 +1,15 @@
 {
  "bin_switch":{"events":["binary.switch"],
-               "commands":["binary.switch"]},
- "dev_sys":{"events":["association.groups","association.report","config.get","config.set","net.ping_report"],
-            "commands":["association.get","association.get_groups","association.set","association.delete","config.report","net.ping"]}
+               "commands":["binary.switch","binary.switch_get"]},
+ "lvl_basic":{"events":["level.basic"],
+               "commands":[]},
+ "bin_intrusion":{"events":["binary.intrusion"],
+                "commands":[]},
+ "lvl_switch":{"events":["level.switch"],
+               "commands":["level.switch","level.switch_get"]},
+ "lvl_thermostat":{"events":["level.thermostat"],
+                   "commands":["level.thermostat","level.thermostat_get"]},
+ "dev_sys":{"events":["association.groups","association.report","net.ping_report","config.report"],
+            "commands":["association.get","association.get_groups","association.set","association.delete","config.get","config.set","net.ping"]}
+
 }

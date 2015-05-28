@@ -16,22 +16,14 @@
         },
         "properties" :
         {
-            "value" : "filter1",
             "search" :
             {
-                "device_info" :
-                {
-                    "address" : "*"
-                }
             },
             "sort" :
             {
-                "device_info" :
-                {
-                    "id" : "asc"
-                }
+              "Address" : "asc"
             },
-            "limit" : 0
+            "limit" : 300
         }
     },
     "creation_time" : 1385815582,

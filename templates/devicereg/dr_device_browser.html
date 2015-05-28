@@ -74,9 +74,9 @@
         </td>
 
         <td style="min-width: 100px">
-            <a href="/ui/inter_console?filter=/dev/{{ device.CommunicationTechnology }}/{{ device.Address }}&mode=normal"><h4 class="glyphicon glyphicon-fullscreen"></h4></a>
+            <a href="javascript:execute_devreg_cmd('init_device',{{ device.Id }},'/ui/inter_console?filter=/dev/{{ device.CommunicationTechnology }}/{{ device.Address }}/&mode=normal')"><h4 class="glyphicon glyphicon-fullscreen"></h4></a>
             <a target="_blank" href="{{ configs.smartly.sdc_uri }}/live/SDC/GetDeviceList?HashCode={{ device.HashCode }}"><h4 class=" glyphicon glyphicon-info-sign"></h4></a>
-            <a href="javascript:send_command('devicereg.delete@.app.devicereg.commands','',{{ device.Id }} );setTimeout(function(){location.reload()},500) ;"><h4 class="pull-right glyphicon glyphicon-trash">&nbsp;</h4></a>
+            <a href="javascript:execute_devreg_cmd('delete',{{ device.Id }} ,'')"><h4 class="pull-right glyphicon glyphicon-trash">&nbsp;</h4></a>
         </td>
        <td><small>{{ device.LastErrorMsg }}</small></td>
       </tr>

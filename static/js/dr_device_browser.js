@@ -17,3 +17,25 @@ function open_update_dr_field_modal(device_id,field_name,value)
 
     $("#dr_field_update_modal").modal('show')
 }
+
+
+
+function execute_devreg_cmd(cmd,device_id,redirect)
+{
+    $.ajax({
+      url: "/api/dr_browser",
+      method :"POST",
+      data: {action: cmd,device_id:device_id},
+      success: function( data ) {
+            if (redirect)
+                location.href = redirect
+            else
+                location.reload();
+      },
+      error:function(xhr,textStatus,error)
+      {
+          alert(error)
+      }
+
+    });
+}
