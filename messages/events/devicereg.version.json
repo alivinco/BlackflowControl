@@ -1,0 +1,22 @@
+{
+ "origin": {
+  "vendor": "Smartly", 
+  "@id": "devicereg", 
+  "@type": "app"
+ }, 
+ "uuid": "4a8493c4-ac7f-4b57-8ec6-d3e0df59358e", 
+ "creation_time": 1432912782, 
+ "spid": "UNDEFINED", 
+ "@context": "http://context.smartly.no", 
+ "corid": "86f93c70-6c47-4cfc-91eb-30d3b069e417", 
+ "event": {
+  "default": {
+   "value": null
+  }, 
+  "subtype": "version", 
+  "@type": "devicereg", 
+  "properties": {
+   "version": "0.28.0~beta"
+  }
+ }
+}

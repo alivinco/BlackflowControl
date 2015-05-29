@@ -12,6 +12,7 @@ from flask import Flask, Response, redirect, url_for
 from flask import render_template
 from flask import request
 import time
+from extensions import devicereg
 import libs
 from libs.dmapi.core import Core
 from libs.flask_login import LoginManager, login_required
@@ -97,10 +98,23 @@ devicereg_ex.mqtt = mqtt
 devicereg_ex.msg_man = msg_man
 devicereg_ex.sync_async_client = sync_async_client
 
+deviceregapi = libs.dmapi.devicereg.Devicereg("app","blackfly","blackfly")
 
 @app.route('/')
-def red():
-    return redirect("/ui/inter_console")
+def root_page():
+    return redirect("/ui/index")
+
+@app.route('/ui/index')
+@login_required
+def index():
+    msg = deviceregapi.get_version()
+    response = sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events",timeout=2)
+    devicereg_is_ok = False
+
+    if response :
+        devicereg_is_ok = True
+
+    return render_template('index.html', global_context=global_context,devicereg_is_ok = devicereg_is_ok)
 
 
 @app.route('/sys/mqtt_ctrl/<command>')
@@ -858,6 +872,20 @@ def mqtt_client():
 
     return render_template('mqtt_client.html',global_context=global_context,status=status)
 
+@app.route('/ui/config_editor',methods=["POST","GET"])
+@login_required
+def config_editor():
+    status = ""
+    if request.method == "POST":
+        address = request.form["address"]
+        payload = request.form["payload"]
+        log.info(type(payload))
+        log.info("Payload"+str(payload))
+        mqtt.publish(address,str(payload),1)
+        status = "The message was sent"
+
+    return render_template('config_editor.html',global_context=global_context,status=status)
+
 @app.route('/ui/work_session',methods=["POST","GET"])
 @login_required
 def work_session():
@@ -883,6 +911,7 @@ def work_session():
             timeseries.delete_all_for_dev("all")
             timeseries.delete_msg_history("all")
             cache.clean_cache()
+        return redirect('/ui/index')
 
     elif request.method == "GET":
        new_gateway_id = request.args.get("new_gateway_id",msg_man.global_configs["mqtt"]["global_topic_prefix"] )

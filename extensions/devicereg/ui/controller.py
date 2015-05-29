@@ -2,12 +2,12 @@ import json
 
 __author__ = 'alivinco'
 import logging
-from libs.sync_to_async_msg_converter import SyncToAsyncMsgConverter
 from flask import render_template, Blueprint, request, Response
 from libs.flask_login import LoginManager,  login_required
 from libs.dmapi import devicereg
-
+from flask import  Response, redirect
 log = logging.getLogger("bf_web")
+
 # the variables should be set by main app
 global_context = None
 sync_async_client = None
@@ -40,12 +40,14 @@ def dr_browser_api():
     if request.method == "POST":
         action = request.form["action"]
         device_id = int(request.form["device_id"])
-        if action == "update":
+        if action == "field_update":
             field_name = request.form["field_name"]
             field_value = request.form["field_value"]
             msg = deviceregapi.update({"Id":device_id},{field_name:field_value})
             log.info(msg)
             sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events",timeout=2)
+            return redirect("/ui/dr_browser")
+
         elif action == "delete":
             msg = deviceregapi.delete(device_id)
             sync_async_client.send_sync_msg(msg,"/app/devicereg/commands","/app/devicereg/events",timeout=2)

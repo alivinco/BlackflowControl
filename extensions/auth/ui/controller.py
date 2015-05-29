@@ -41,7 +41,7 @@ def login():
 
                 next = flask.request.args.get('next')
 
-                return flask.redirect(next or "/ui/inter_console")
+                return flask.redirect(next or "/ui/index")
 
     return render_template('auth/login.html',global_context=global_context)
 

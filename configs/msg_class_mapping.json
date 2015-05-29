@@ -550,9 +550,9 @@
   "msg_class": "net.ping", 
   "ui_mapping": {
    "count_num_input_path": "$.command.properties.count", 
-   "value_path": "$.command.default.value[0]", 
    "target_num_input_path": "$.command.default.value", 
    "power_level_input_path": "$.command.properties.power_level", 
+   "value_path": "$.command.default.value[0]", 
    "route_input_path": "$.command.properties.route", 
    "ui_element": "msg_class_ui", 
    "num_type": "int", 
@@ -748,11 +748,67 @@
   "subclass": "neighbor_update_report"
  }, 
  {
+  "msg_class": "level.basic", 
   "ui_mapping": {
    "ui_element": "binary_light", 
    "value_path": "$.event.default.value"
   }, 
+  "class": "level", 
   "msg_type": "event", 
-  "msg_class": "level.basic"
+  "subclass": "basic"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "input_dropdown_field", 
+   "value_enum": [
+    "fire", 
+    "water", 
+    "burglary", 
+    "arm_away", 
+    "arm_home", 
+    "disarm", 
+    "exit", 
+    "entry", 
+    "chime", 
+    "fault", 
+    "off"
+   ], 
+   "value_path": "$.command.default.value"
+  }, 
+  "subclass": "siren", 
+  "class": "mode", 
+  "msg_type": "command", 
+  "msg_class": "mode.siren"
+ }, 
+ {
+  "msg_type": "command", 
+  "ui_mapping": {
+   "ui_element": "input_dropdown_field", 
+   "value_enum": [
+    "entry", 
+    "exit", 
+    "off"
+   ], 
+   "value_path": "$.command.default.value"
+  }, 
+  "class": "mode", 
+  "subclass": "countdown", 
+  "msg_class": "mode.countdown"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "toggle_switch", 
+   "value_path": "$.command.default.value"
+  }, 
+  "msg_type": "command", 
+  "msg_class": "devicereg.version"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "free_text", 
+   "value_path": "$.event.default.value"
+  }, 
+  "msg_type": "event", 
+  "msg_class": "devicereg.version"
  }
 ]

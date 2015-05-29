@@ -56,8 +56,8 @@
             <div><small>Softw :{{ device.SoftwareVersion }} </small></div>
             <div><small>Protocol :{{ device.ProtocolVersion }} </small></div>
         </td>
-        <td >{% if device.Status == "Up" %}<h4 class="pull-right glyphicon glyphicon-thumbs-up">&nbsp;</h4>{% else %}
-            <h4 class="pull-right glyphicon glyphicon-warning-sign">&nbsp;</h4>
+        <td >{% if device.Status == "Up" %}<h4 style="color: #75c841" class="pull-right glyphicon glyphicon-thumbs-up">&nbsp;</h4>{% else %}
+            <h4 style="color: red" class="pull-right glyphicon glyphicon-warning-sign">&nbsp;</h4>
             {% endif %}
         </td>
 
@@ -170,7 +170,7 @@
       </div>
       <br/>
       <div >
-            <form class="form-horizontal" role="form" action="/ui/dr_browser" method="POST">
+            <form class="form-horizontal" role="form" action="/api/dr_browser" method="POST">
               <input type="hidden" name="action" value="field_update" />
               <input type="hidden" id = "field_name" name="field_name" value="" />
               <input type="hidden" id = "device_id" name="device_id" value="" />

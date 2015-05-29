@@ -4,7 +4,7 @@
 {% endblock %}
 {% block li_inter_console %}class="active"{% endblock %}
 {% block body %}
-</h1>
+
 <h3>Interactive console  <a href="inter_console?mode=normal" class="btn btn-default btn {% if mode == "normal" %} active {% endif %} " >Normal mode</a>  <a href="inter_console?mode=sim" class="btn btn-default btn {% if mode == "sim" %} active {% endif %}" >Simulation mode</a>  </h3>
 <br/>
 
@@ -55,12 +55,12 @@
      <thead>
                     <tr>
                       <th>Sevice name</th>
-                      <th data-sort="string">msg class (↑↓)</th>
                       <th data-sort="string">type (↑↓)</th>
+                      <th data-sort="string">msg class (↑↓)</th>
                       <th data-sort="string">address (↑↓)</th>
                     {% if mode == "normal" %}  <th data-sort="date" data-sort-value="">last msg</th>{% endif %}
                       <th style="width:120px">action</th>
-
+                      <th></th>
                     </tr>
      </thead>
      <tbody>
@@ -68,8 +68,8 @@
      {% set cache_item = cache.get_by_key(item.key) %}
       <tr>
        <td> {{ item.name }}  </td>
-       <td><a onclick="location.href ='/ui/msg_class/{{ item.msg_type }}/{{ item.msg_class }}'">{{ item.msg_class }}</a> </td>
        <td> {{ item.msg_type }} </td>
+       <td><a onclick="location.href ='/ui/msg_class/{{ item.msg_type }}/{{ item.msg_class }}'">{{ item.msg_class }}</a> </td>
        <td> <a href="/ui/address_map/{{ item.key }}">{{ item.address }}</a> </td>
        {% if mode == "normal" %} <td  > <div style="min-width: 100px" id="{{ item.key }}_msg_time" style="width: 70px">{{ cache_item.timestamp_iso }}</div> </td>{% endif %}
        <td><div style="width: 60px">

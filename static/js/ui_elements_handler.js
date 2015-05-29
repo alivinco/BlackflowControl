@@ -186,3 +186,8 @@ function initi_slider()
     }
 }
 
+function update_dropdown_input(dd_id,value)
+{
+    $("#"+jq_elector(dd_id)).val(value)
+}
+

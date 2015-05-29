@@ -9,6 +9,10 @@
                "commands":["level.switch","level.switch_get"]},
  "lvl_thermostat":{"events":["level.thermostat"],
                    "commands":["level.thermostat","level.thermostat_get"]},
+ "lvl_battery":{"events":["level.battery"],
+                "commands":["level.battery_get"]},
+ "mod_siren":{"events":[],
+              "commands":["mode.countdown","mode.siren"]},
  "dev_sys":{"events":["association.groups","association.report","net.ping_report","config.report"],
             "commands":["association.get","association.get_groups","association.set","association.delete","config.get","config.set","net.ping"]}
 

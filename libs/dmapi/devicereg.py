@@ -27,3 +27,6 @@ class Devicereg(Core):
         msg = self.get_message("command","devicereg.delete")
         msg["command"]["default"]["value"]=devicereg_id
         return msg
+
+    def get_version(self):
+        return self.get_message("command","devicereg.version")

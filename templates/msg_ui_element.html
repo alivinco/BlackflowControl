@@ -35,6 +35,23 @@
 
             </div>
           {% endif %}
+          {% if item.ui_mapping.ui_element=="input_dropdown_field" %}
+            <div id="{{ item.key }}">
+                <div class="input-group input-append">
+                  <input id="{{ item.key }}_input" type="text" class="form-control">
+                  <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                      {% for value in item.ui_mapping.value_enum %}
+                        <li><a href="javascript:update_dropdown_input('{{ item.key }}_input','{{ value }}')" >{{ value }}</a></li>
+                      {% endfor %}
+                    </ul>
+                      <button class="btn btn-default"  onclick="send_command('{{ item.key }}','input_text_field',''); return false" type="button">Set</button>
+                  </div><!-- /btn-group -->
+                </div>
+
+            </div>
+          {% endif %}
           {% if item.ui_mapping.ui_element=="slider" %}
             <div id="{{ item.key }}">
                 <div class="input-group">
