@@ -94,3 +94,21 @@ body {
   display: inline-block;
   border-radius: 50%;
 }
+
+/* 1st level */
+.nav label {
+	/*color: blue;*/
+  padding: 5px;
+}
+
+/* 2nd level */
+.tree > li > label {
+  padding:10px 15px;
+}
+
+/* 3rd level */
+.tree > li > ul > li > a {
+  color:#cc0000;
+  font-size:10pt;
+  margin-left:15px;
+}
