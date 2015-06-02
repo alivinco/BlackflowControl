@@ -64,8 +64,9 @@ class MsgPipeline():
         cache_key = ""
         addr_is_registered = False
         msg_class = self.__get_msg_class_from_msg(payload)
+        msg_type = "command" if "commands" in address else "event"
         if msg_class:
-            msg_class_is_registered = self.__check_msg_class(msg_class)
+            msg_class_is_registered = self.__check_msg_class(msg_class,msg_type)
             cache_key = self.msg_man.generate_key(msg_class, address)
             if msg_class_is_registered:
                 addr_is_registered = self.__check_address(address, msg_class)
@@ -198,8 +199,8 @@ class MsgPipeline():
         else:
             return False
 
-    def __check_msg_class(self, msg_class):
-        r = filter(lambda map_item: (map_item["msg_class"] == msg_class ), self.msg_man.msg_class_mapping)
+    def __check_msg_class(self, msg_class,msg_type="event"):
+        r = filter(lambda map_item: (map_item["msg_class"] == msg_class and map_item["msg_type"] == msg_type ), self.msg_man.msg_class_mapping)
         if len(r) > 0:
             return True
         else:
