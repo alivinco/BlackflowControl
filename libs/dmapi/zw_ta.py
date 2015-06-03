@@ -36,4 +36,9 @@ class ZwTa(Core):
         msg["command"]["default"]["value"][0]=node_id
         return msg
 
+    def neighbor_update(self,node_id):
+        msg = self.get_message("command","zw_ta.neighbor_update")
+        msg["command"]["default"]["value"][0]=node_id
+        return msg
+
 

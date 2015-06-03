@@ -135,7 +135,7 @@ class MessageManager:
     def reload_all_mappings(self):
         self.msg_class_mapping = self.load_msg_class_mapping()
         self.address_mapping = self.load_address_mapping()
-        self.load_service_to_msg_mapping()
+        self.services_to_msg_mapping = self.load_service_to_msg_mapping()
 
     def generate_key(self, msg_class, address):
         return msg_class + "@" + address.replace("/", ".")

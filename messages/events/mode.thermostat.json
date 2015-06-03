@@ -1,0 +1,19 @@
+{
+ "origin": {
+  "endp_id": "1", 
+  "@id": "86", 
+  "@type": "lvl_thermostat"
+ }, 
+ "uuid": "17cb1e4e-556d-4793-b69a-1fb0221f3799", 
+ "creation_time": 1433350018, 
+ "spid": "UNDEFINED", 
+ "@context": "http://context.smartly.no", 
+ "event": {
+  "default": {
+   "value": "off"
+  }, 
+  "subtype": "thermostat", 
+  "@type": "mode", 
+  "properties": {}
+ }
+}

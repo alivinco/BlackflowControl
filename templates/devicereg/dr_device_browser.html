@@ -137,7 +137,27 @@
                   </tbody>
 
               </table>
+               <form class="form-inline" action="/api/dr_browser" method="post">
+                  <div class="form-group" placeholder="Type">
+                      <select name = "config_type"  class="form-control">
+                          <option value="config">Configuration</option>
+                          <option value="assoc">Association</option>
+                      </select>
+                  </div>
+                  <div class="form-group">
+                          <input  name ="config_name" type="text" class="form-control" placeholder="Config id or association group" >
+                  </div>
+                  <div class="form-group">
+                          <input name ="config_value" type="text" class="form-control" placeholder="Value" >
+                          <input name ="config_topic" type="hidden" value="/dev/{{ device.CommunicationTechnology }}/{{ device.Address }}/dev_sys/1/commands" >
+{#                          <input name ="action" type="hidden" value="config_set" >#}
+                          <input name ="device_id" type="hidden" value="{{ device.Id }}" >
+                  </div>
+                          <button class="btn btn-default"  type="submit" name="action" value="config_set">Send configuration</button>
+                          <button class="btn btn-default"  type="submit" name="action" value="config_get">Request update</button>
+              </form>
           </div>
+
         </div>
         <div id="collapseLocation" class="panel-collapse collapse">
           <div class="panel-body">

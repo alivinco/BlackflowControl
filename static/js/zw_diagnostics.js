@@ -122,6 +122,21 @@ function get_node_info(node_id)
     });
 }
 
+function nb_update(node_id)
+{
+    $('#ping_node_modal').modal('show')
+    $('#ping_node_result').html("<h4> Neighbour redisovery is in progress , please wait. </h4>")
+    $.ajax({
+      url: "/api/zw_manager",
+      method :"POST",
+      data: {action: "neighbor_update",node_id:node_id},
+      success: function( data ) {
+            status = data.event.default.value
+            $('#ping_node_result').html("<h4> Operation completed with status "+status+"</h4>")
+      }
+    });
+}
+
 function ping_node(node_id)
 {
     $('#ping_node_modal').modal('show')

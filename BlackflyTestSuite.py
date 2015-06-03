@@ -771,6 +771,14 @@ def zw_manager_api():
         graph = ZwaveTools().get_network_graph(routing_info)
         jobj = json.dumps(graph)
 
+    elif action == "neighbor_update":
+        log.info("Requesting NB update for node %s"%request.form["node_id"])
+        node_id = int(request.form["node_id"])
+        msg = zwapi.neighbor_update(node_id)
+        response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=60,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.neighbor_update_report")
+        jobj = json.dumps(response)
+
+
     else :
         jobj = json.dumps({})
     return Response(response=jobj, mimetype='application/json')
