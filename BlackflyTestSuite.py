@@ -836,6 +836,7 @@ def updates():
     import os
 
     distro_uri = msg_man.global_configs["system"]["distro_server_uri"]
+    platform = msg_man.global_configs["system"]["platform"]
     build_info_path = os.path.join(os.getcwd(), "configs", "build_info.json")
     current_info = json.load(file(build_info_path))
     develop_info = json.load(urllib2.urlopen(distro_uri+"/develop/build_info.json",timeout=15))
@@ -847,9 +848,9 @@ def updates():
         tools = Tools()
         action = request.form["action"]
         if action == "update_to_master":
-            tools.run_update_procedure(distro_uri)
+            tools.run_update_procedure(distro_uri,platform)
         if action == "update_to_develop":
-            tools.run_update_procedure(distro_uri+"/develop")
+            tools.run_update_procedure(distro_uri+"/develop",platform)
         status = "Update procedure is in progres..... please check /var/log/blackfly_upgrade.log for details "
 
     return render_template('updates.html',global_context=global_context,current_info=current_info,develop_info=develop_info,master_info=master_info,autoescape=False,status=status)

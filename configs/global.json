@@ -11,7 +11,8 @@
   "http_server_port": 5000, 
   "ui_security_disabled": false, 
   "version": "1.4.9",
-  "distro_server_uri": "http://lego.fiicha.net/blackfly"
+  "distro_server_uri": "http://lego.fiicha.net/blackfly",
+  "platform":"sg"
  }, 
  "msg_class_lookup_path": [
   {

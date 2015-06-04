@@ -4,41 +4,48 @@ import subprocess
 import os
 import platform
 
+
 class Tools():
     def start_service(self, service_name):
-        sp = subprocess.check_output("nohup service " + service_name + " start > /tmp/nohup_"+service_name+".log 2>&1 &", shell=True)
+        sp = subprocess.check_output(
+            "nohup service " + service_name + " start > /tmp/nohup_" + service_name + ".log 2>&1 &", shell=True)
         return sp
 
     def stop_service(self, service_name):
-        sp = subprocess.check_output("nohup service " + service_name + " stop > /tmp/nohup_"+service_name+".log 2>&1 &", shell=True)
+        sp = subprocess.check_output(
+            "nohup service " + service_name + " stop > /tmp/nohup_" + service_name + ".log 2>&1 &", shell=True)
         return sp
 
-    def run_update_procedure(self,distro_server_uri,platform):
+    def run_update_procedure(self, distro_server_uri, platform):
         if platform == "sg":
-           script = "nohup cd /tmp; curl -O "+distro_server_uri+"/install.sh;chmod a+x install.sh;sudo ./install.sh > /var/log/blackfly_upgrade.log 2>&1 &"
-        elif platform == "debian" :
-           script = "nohup cd /tmp; curl -O "+distro_server_uri+"/install_debian.sh;chmod a+x install.sh;sudo ./install_debian.sh > /var/log/blackfly_upgrade.log 2>&1 &"
-
-        sp = subprocess.check_output(script, shell=True)
+            script = ["curl -o /tmp/bf_install.sh " + distro_server_uri + "/install.sh"]
+            script.append("chmod a+x /tmp/bf_install.sh")
+            script.append("nohup /tmp/bf_install.sh  > /var/log/bla/blackfly_upgrade.log 2>&1 &")
+        elif platform == "debian":
+            script = ["curl -o /tmp/bf_install.sh " + distro_server_uri + "/install_debian.sh"]
+            script.append("chmod a+x /tmp/bf_install.sh")
+            script.append("nohup /tmp/bf_install.sh  > /var/log/blackfly/blackfly_upgrade.log 2>&1 &")
+        for cmd in script:
+            sp = subprocess.check_output(cmd, shell=True)
         return sp
 
     @staticmethod
     def open_port_in_firewall():
         try:
-            if platform.system()=="Linux":
-                sp = subprocess.check_output("iptables -L INPUT",shell=True)
+            if platform.system() == "Linux":
+                sp = subprocess.check_output("iptables -L INPUT", shell=True)
                 status = "iptables already has rule for port 5000"
-                if not("tcp dpt:5000" in sp) :
+                if not ("tcp dpt:5000" in sp):
                     status = "Adding rule for port 5000"
                     sp = subprocess.check_output("iptables -I INPUT -p tcp --dport 5000 -j ACCEPT", shell=True)
-            else :
+            else:
                 status = "Your platform doesn't have iptables"
-        except :
+        except:
             status = "Firewall can be opened "
 
         return status
 
-        #iptables -I INPUT -p tcp --dport 5000 -j ACCEPT
+        # iptables -I INPUT -p tcp --dport 5000 -j ACCEPT
 
     def process_status(self, process_name):
         """
@@ -75,12 +82,11 @@ class Tools():
 
         return ps
 
-    def tail_log(self, log_file,n_lines,search_str):
+    def tail_log(self, log_file, n_lines, search_str):
         if search_str:
-            cmd_str = "tail -"+str(n_lines)+" "+log_file+"|grep "+search_str
-        else :
-            cmd_str = "tail -"+str(n_lines)+" "+log_file
-
+            cmd_str = "tail -" + str(n_lines) + " " + log_file + "|grep " + search_str
+        else:
+            cmd_str = "tail -" + str(n_lines) + " " + log_file
 
         return subprocess.check_output(cmd_str, shell=True)
 
