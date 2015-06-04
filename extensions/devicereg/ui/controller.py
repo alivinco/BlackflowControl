@@ -7,6 +7,7 @@ from libs.flask_login import LoginManager, login_required
 from libs.dmapi import devicereg
 from flask import Response, redirect
 from libs.dmapi import config
+from libs.dmapi import association
 
 log = logging.getLogger("bf_web")
 
@@ -57,20 +58,33 @@ def dr_browser_api():
             config_name = request.form["config_name"]
             config_value = request.form["config_value"]
             topic = request.form["config_topic"]
+            if "/zw/" in topic and config_name :
+                    config_name = int(config_name)
+            if "/zw/" in topic and config_value :
+                    config_value = int(config_value)
+
             if config_type == "config":
                 confapi = config.Config("app", "blackfly", "blackfly")
                 msg = None
                 if action == "config_set" and config_value and config_name:
                     msg = confapi.set(config_name, config_value)
                 elif action == "config_get" and config_name:
-                    if "/zw/" in topic:
-                        config_name = int(config_name)
                     msg = confapi.get(config_name)
                 else :
                     log.info("One of manadatory parameters is empty")
 
-                if msg:
-                    sync_async_client.msg_system.publish(topic, json.dumps(msg), 1)
+            elif config_type == "assoc":
+                confapi = association.Association("app", "blackfly", "blackfly")
+                msg = None
+                if action == "config_set" and config_value and config_name:
+                    msg = confapi.set(config_name, config_value)
+                elif action == "config_get" and config_name:
+                    msg = confapi.get(config_name)
+                else :
+                    log.info("One of manadatory parameters is empty")
+
+            if msg:
+                sync_async_client.msg_system.publish(topic, json.dumps(msg), 1)
 
             log.info("Configuration command of type = %s , name = %s , value = %s value was sent" % (
                 config_type, config_name, config_value))

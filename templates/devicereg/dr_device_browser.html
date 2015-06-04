@@ -145,7 +145,7 @@
                       </select>
                   </div>
                   <div class="form-group">
-                          <input  name ="config_name" type="text" class="form-control" placeholder="Config id or association group" >
+                          <input  name ="config_name" type="text" class="form-control" placeholder="Config or group id" >
                   </div>
                   <div class="form-group">
                           <input name ="config_value" type="text" class="form-control" placeholder="Value" >
@@ -153,8 +153,8 @@
 {#                          <input name ="action" type="hidden" value="config_set" >#}
                           <input name ="device_id" type="hidden" value="{{ device.Id }}" >
                   </div>
-                          <button class="btn btn-default"  type="submit" name="action" value="config_set">Send configuration</button>
-                          <button class="btn btn-default"  type="submit" name="action" value="config_get">Request update</button>
+                          <button class="btn btn-default"  type="submit" name="action" value="config_set">Set</button>
+                          <button class="btn btn-default"  type="submit" name="action" value="config_get">Get</button>
               </form>
           </div>
 
