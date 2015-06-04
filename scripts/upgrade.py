@@ -51,6 +51,7 @@ def update_global_config():
         jobj["system"]["http_server_port"]=5000
         jobj["system"]["distro_server_uri"]="http://lego.fiicha.net/blackfly"
         jobj["system"]["ui_security_disabled"]=False
+        jobj["system"]["platform"]="sg"
 
 
     else :

@@ -13,8 +13,13 @@ class Tools():
         sp = subprocess.check_output("nohup service " + service_name + " stop > /tmp/nohup_"+service_name+".log 2>&1 &", shell=True)
         return sp
 
-    def run_update_procedure(self,distro_server_uri):
-        sp = subprocess.check_output("nohup cd /tmp; curl -O "+distro_server_uri+"/install.sh;chmod a+x install.sh;sudo ./install.sh > /var/log/blackfly_upgrade.log 2>&1 &", shell=True)
+    def run_update_procedure(self,distro_server_uri,platform):
+        if platform == "sg":
+           script = "nohup cd /tmp; curl -O "+distro_server_uri+"/install.sh;chmod a+x install.sh;sudo ./install.sh > /var/log/blackfly_upgrade.log 2>&1 &"
+        elif platform == "debian" :
+           script = "nohup cd /tmp; curl -O "+distro_server_uri+"/install_debian.sh;chmod a+x install.sh;sudo ./install_debian.sh > /var/log/blackfly_upgrade.log 2>&1 &"
+
+        sp = subprocess.check_output(script, shell=True)
         return sp
 
     @staticmethod

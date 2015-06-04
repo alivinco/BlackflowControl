@@ -82,6 +82,7 @@ chown -R blackfly:blackfly $BF_ROOT
 # updating global.json config
 echo "Updating global.json config file"
 python scripts/cmd_update_config.py --file configs/global.json --jpath db.db_path --value /var/lib/blackfly/timeseries.db
+python scripts/cmd_update_config.py --file configs/global.json --jpath system.platform --value debian
 
 update-rc.d blackfly defaults 90
 echo "Starting blackfly daemon..."
