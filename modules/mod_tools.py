@@ -25,6 +25,10 @@ class Tools():
             script = ["curl -o /tmp/bf_install.sh " + distro_server_uri + "/install_debian.sh"]
             script.append("chmod a+x /tmp/bf_install.sh")
             script.append("nohup /tmp/bf_install.sh  > /var/log/blackfly/blackfly_upgrade.log 2>&1 &")
+        elif platform == "redhat":
+            script = ["curl -o /tmp/bf_install.sh " + distro_server_uri + "/install_redhat.sh"]
+            script.append("chmod a+x /tmp/bf_install.sh")
+            script.append("nohup /tmp/bf_install.sh  > /var/log/blackfly/blackfly_upgrade.log 2>&1 &")
         for cmd in script:
             sp = subprocess.check_output(cmd, shell=True)
         return sp
