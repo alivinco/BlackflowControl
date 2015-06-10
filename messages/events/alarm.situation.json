@@ -1,0 +1,20 @@
+{
+ "origin": {
+  "endp_id": "1", 
+  "vendor": "VS Safety", 
+  "@id": "87", 
+  "@type": "mod_alarm"
+ }, 
+ "uuid": "6ae51375-28cf-4031-a251-00a0bdb26659", 
+ "creation_time": 1433946433, 
+ "spid": "UNDEFINED", 
+ "@context": "http://context.smartly.no", 
+ "event": {
+  "default": {
+   "value": "medical"
+  }, 
+  "subtype": "situation", 
+  "@type": "alarm", 
+  "properties": {}
+ }
+}

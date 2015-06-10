@@ -1,0 +1,17 @@
+{
+ "origin": {
+  "@id": "blackfly", 
+  "@type": "app"
+ }, 
+ "uuid": "86f93c70-6c47-4cfc-91eb-30d3b069e417", 
+ "creation_time": 1385815582, 
+ "command": {
+  "default": {
+   "value": 3600
+  }, 
+  "subtype": "wakeup_interval", 
+  "@type": "time"
+ }, 
+ "spid": "S-451-12", 
+ "@context": "http://context.smartly.no"
+}
