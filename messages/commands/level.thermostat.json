@@ -13,9 +13,7 @@
             "unit": "C"
         },
         "properties": {
-            "setpoint_type": {
-                "value": "heating"
-            }
+            "setpoint_type":"heating"
         },
         "target": "/dev/zw/16/lvl_thermostat/1/events"
     },

@@ -81,8 +81,11 @@ function get_filter()
 
     filter =  $("#filter_field").val();
     limit =  $("#limit").val();
-    start_date = (new Date(start_time_str)).getTime()/1000
-    stop_date  = (new Date(stop_time_str)).getTime()/1000
+    timezone_offset = (new Date(start_time_str)).getTimezoneOffset()*60
+    start_date = ((new Date(start_time_str)).getTime()/1000)+timezone_offset
+    stop_date  = ((new Date(stop_time_str)).getTime()/1000)+timezone_offset
+    console.log()
+
     data = {start_dt:start_date,stop_dt:stop_date,filter:filter,limit:limit}
     console.dir(data)
     return data

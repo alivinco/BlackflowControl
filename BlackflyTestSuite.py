@@ -8,6 +8,8 @@
 # Package dependencies : Flask framework , jsonpath
 
 import json
+import uuid
+import datetime
 from flask import Flask, Response, redirect, url_for
 from flask import render_template
 from flask import request
@@ -660,7 +662,10 @@ def get_timeline():
                 stop  = int(time.time())
                 start = int(stop - 3600)
 
-            log.info("Start time = %s stopt time = %s"%(start,stop))
+            start_str = datetime.datetime.fromtimestamp(start).strftime('%Y-%m-%d %H:%M:%S')
+            stop_str = datetime.datetime.fromtimestamp(stop).strftime('%Y-%m-%d %H:%M:%S')
+
+            log.info("Start time = %s(%s) stop time = %s(%s) "%(start_str,start,stop_str,stop))
             filter  = request.args.get("filter","")
 
             limit = request.args.get("limit","100")
@@ -871,6 +876,17 @@ def log_viewer():
 @login_required
 def mqtt_client():
     status = ""
+    address = ""
+    if request.method == "GET":
+        payload =   {"origin": {"@id": "blackfly", "@type": "app"},
+                     "uuid": str(uuid.uuid4()),
+                     "creation_time": int(time.time()) * 1000,
+                     "command": {"default": {"value": "__fill_me__" },"subtype": "__fill_me__","@type": "__fill_me__"},
+                     "spid": "SP1",
+                     "@context": "http://context.smartly.no"
+                    }
+        payload = json.dumps(payload,indent=True)
+
     if request.method == "POST":
         address = request.form["address"]
         payload = request.form["payload"]
@@ -879,7 +895,7 @@ def mqtt_client():
         mqtt.publish(address,str(payload),1)
         status = "The message was sent"
 
-    return render_template('mqtt_client.html',global_context=global_context,status=status)
+    return render_template('mqtt_client.html',global_context=global_context,address=address,payload=payload,status=status)
 
 @app.route('/ui/config_editor',methods=["POST","GET"])
 @login_required
