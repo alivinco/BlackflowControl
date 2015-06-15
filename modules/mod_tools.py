@@ -20,7 +20,7 @@ class Tools():
         if platform == "sg":
             script = ["curl -o /tmp/bf_install.sh " + distro_server_uri + "/install.sh"]
             script.append("chmod a+x /tmp/bf_install.sh")
-            script.append("nohup /tmp/bf_install.sh  > /var/log/bla/blackfly_upgrade.log 2>&1 &")
+            script.append("nohup /tmp/bf_install.sh  > /var/log/blackfly_upgrade.log 2>&1 &")
         elif platform == "debian":
             script = ["curl -o /tmp/bf_install.sh " + distro_server_uri + "/install_debian.sh"]
             script.append("chmod a+x /tmp/bf_install.sh")
