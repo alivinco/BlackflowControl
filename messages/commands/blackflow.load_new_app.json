@@ -1,0 +1,17 @@
+{
+ "origin": {
+  "@id": "blackfly", 
+  "@type": "app"
+ }, 
+ "uuid": "757685e5-5400-41df-8857-8fba6569cefc", 
+ "creation_time": 1434291744000, 
+ "command": {
+  "default": {
+   "value": "PullCordSirenApp"
+  }, 
+  "subtype": "load_new_app", 
+  "@type": "blackflow"
+ }, 
+ "spid": "SP1", 
+ "@context": "http://context.smartly.no"
+}

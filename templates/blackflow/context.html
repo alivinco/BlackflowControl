@@ -1,0 +1,48 @@
+{% extends "base_layout.html" %}
+{% block li_dr_registry %}class="active"{% endblock %}
+{% block css_scripts %}
+<link rel="stylesheet" href="/static/css/custom_icons.css">
+{% endblock %}
+{% block body %}
+</h1>
+<h3>Blackflow application context viewer</h3>
+<div class="container-fluid">
+{% if bf_response %}
+<table class="table table-bordered table-striped table-hover">
+   <thead>
+      <tr>
+        <th><h6>Var name</h6></th>
+        <th><h6>Source type</h6></th>
+        <th><h6>Source name</h6></th>
+        <th style="width:140px"><h6>Updated at</h6></th>
+        <th><h6>Value</h6></th>
+      </tr>
+   </thead>
+   <tbody>
+   {%  for key,var in bf_response.event.properties.iteritems() %}
+    <tr>
+        <td >{{ key }}</td>
+        <td>{{ var.src_name }}</td>
+        <td>{{ var.src_type }}</td>
+        <td><small>{{ format_time(var.timestamp) }}</small></td>
+        <td>{{ var.value }}</td>
+    </tr>
+   {% endfor %}
+  <tbody>
+</table>
+
+{% else %}
+<h4>Device registry is not responding . Please check if device registry process is up and running and try again</h4>
+{% endif %}
+</div>
+
+
+{% endblock %}
+{% block js_scripts %}
+    <script>
+      var mode = "normal"
+    </script>
+    <script src="/static/js/stupidtable.min.js"></script>
+{#    <script src="/static/js/dr_device_browser.js"></script>#}
+
+{% endblock %}

@@ -44,6 +44,7 @@ from libs.dmapi import zw_ta
 
 from extensions.auth.ui.controller import mod_auth,login_manager
 from extensions.devicereg.ui import controller as devicereg_ex
+from extensions.blackflow.ui import controller as blackflow_ex
 
 global_context = {}
 logging.config.dictConfig(configs.log.config)
@@ -59,6 +60,7 @@ app.config['SESSION_FILE_DIR'] = '/tmp/'
 app.config['LOGIN_DISABLED'] = msg_man.global_configs["system"]["ui_security_disabled"]
 app.register_blueprint(mod_auth)
 app.register_blueprint(devicereg_ex.devreg_bp)
+app.register_blueprint(blackflow_ex.blackflow_bp)
 
 login_manager.init_app(app)
 
@@ -99,6 +101,9 @@ devicereg_ex.global_context = global_context
 devicereg_ex.mqtt = mqtt
 devicereg_ex.msg_man = msg_man
 devicereg_ex.sync_async_client = sync_async_client
+
+blackflow_ex.global_context = global_context
+blackflow_ex.sync_async_client = sync_async_client
 
 deviceregapi = libs.dmapi.devicereg.Devicereg("app","blackfly","blackfly")
 

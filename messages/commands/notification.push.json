@@ -1,0 +1,23 @@
+{
+ "origin": {
+  "@id": "blackfly", 
+  "@type": "app"
+ }, 
+ "uuid": "6c360cb8-e76c-45aa-bec4-14a3e32757e4", 
+ "creation_time": 1434668532000, 
+ "command": {
+  "default": {
+   "value": ""
+  }, 
+  "subtype": "push", 
+  "properties": {
+   "body": "test", 
+   "apikey": "", 
+   "title": "test", 
+   "address": "test"
+  }, 
+  "@type": "notification"
+ }, 
+ "spid": "SP1", 
+ "@context": "http://context.smartly.no"
+}
