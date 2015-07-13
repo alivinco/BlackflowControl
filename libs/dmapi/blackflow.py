@@ -6,5 +6,12 @@ class Blackflow(Core):
     def context_get(self):
         return self.get_message("command","blackflow.context_get")
 
+    def get_apps(self):
+        return self.get_message("command","blackflow.get_apps")
+
+    def get_app_instances(self):
+        return self.get_message("command","blackflow.get_app_instances")
+
+
 
 

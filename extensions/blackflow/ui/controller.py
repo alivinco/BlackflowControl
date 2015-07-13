@@ -28,5 +28,18 @@ def blackflow_app_context():
     response = sync_async_client.send_sync_msg(msg, "/app/blackflow/commands", "/app/blackflow/events", timeout=5,correlation_msg_type="blackflow.context",correlation_type="MSG_TYPE")
     return render_template('blackflow/context.html', bf_response=response, global_context=global_context,format_time = utils.format_iso_time_from_sec)
 
+@blackflow_bp.route('/ui/blackflow/apps', methods=["GET"])
+@login_required
+def blackflow_apps():
+    log.info("Blackflow Apps")
+    msg = blackflowapi.get_apps()
+    response = sync_async_client.send_sync_msg(msg, "/app/blackflow/commands", "/app/blackflow/events", timeout=5,correlation_msg_type="blackflow.apps",correlation_type="MSG_TYPE")
+    return render_template('blackflow/apps.html', bf_response=response, global_context=global_context,format_time = utils.format_iso_time_from_sec)
 
-
+@blackflow_bp.route('/ui/blackflow/app_instances', methods=["GET"])
+@login_required
+def blackflow_app_instances():
+    log.info("Blackflow Apps")
+    msg = blackflowapi.get_app_instances()
+    response = sync_async_client.send_sync_msg(msg, "/app/blackflow/commands", "/app/blackflow/events", timeout=5,correlation_msg_type="blackflow.app_instances",correlation_type="MSG_TYPE")
+    return render_template('blackflow/app_instances.html', bf_response=response, global_context=global_context,format_time = utils.format_iso_time_from_sec)

@@ -1,0 +1,95 @@
+{
+ "origin": {
+  "@id": "blackflow", 
+  "@type": "app"
+ }, 
+ "uuid": "0f25293c-6c22-4523-b253-7d32255af86a", 
+ "creation_time": 1436729872000, 
+ "spid": "SP1", 
+ "@context": "http://context.smartly.no", 
+ "event": {
+  "default": {
+   "value": ""
+  }, 
+  "subtype": "apps", 
+  "@type": "blackflow", 
+  "properties": {
+   "apps": [
+    {
+     "sub_for": {
+      "binary_event": {
+       "adapter": "mqtt", 
+       "msg_type": "event.binary.motion", 
+       "descr": "Binary alarm trigger"
+      }
+     }, 
+     "configs": [
+      "alarm_state_timeout"
+     ], 
+     "name": "AlarmApp", 
+     "pub_to": {
+      "alarm_state": {
+       "descr": "Alarm app state"
+      }, 
+      "push_notification": {
+       "adapter": "mqtt", 
+       "msg_type": "command.notification.push", 
+       "descr": "Push notificaiton sender"
+      }
+     }
+    }, 
+    {
+     "sub_for": [
+      "motion_sensor", 
+      "light_sensor"
+     ], 
+     "configs": [
+      "param1"
+     ], 
+     "name": "LightsControl", 
+     "pub_to": [
+      "switch"
+     ]
+    }, 
+    {
+     "sub_for": {
+      "pull_cord": {
+       "dev_type": "mod_alarm", 
+       "adapter": "mqtt", 
+       "msg_type": "event.alarm.situation", 
+       "descr": "Event from pull cord"
+      }
+     }, 
+     "configs": [], 
+     "name": "PullCordSirenApp", 
+     "pub_to": {
+      "siren_control": {
+       "dev_type": "mod_siren", 
+       "adapter": "mqtt", 
+       "msg_type": "command.mode.siren", 
+       "descr": "Command to turn on siren"
+      }, 
+      "pull_cord_is_on": {
+       "descr": "Pull cord state"
+      }
+     }
+    }, 
+    {
+     "sub_for": {
+      "push_msg_local": {}, 
+      "push_msg": {
+       "topic": "mqtt:/app/bf_pushnotificator/commands", 
+       "msg_type": "command.notification.push", 
+       "descr": "Command to send a message"
+      }
+     }, 
+     "configs": [
+      "api_key"
+     ], 
+     "name": "Pushnotificator", 
+     "pub_to": {}
+    }
+   ]
+  }
+ }
+}

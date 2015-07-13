@@ -1,0 +1,76 @@
+{% extends "base_layout.html" %}
+{% block li_dr_registry %}class="active"{% endblock %}
+{% block css_scripts %}
+<link rel="stylesheet" href="/static/css/custom_icons.css">
+{% endblock %}
+{% block body %}
+</h1>
+<h3>Installed apps</h3>
+<div class="container-fluid">
+{% if bf_response %}
+<table class="table table-bordered table-striped table-hover">
+   <thead>
+      <tr>
+        <th><h6>Name</h6></th>
+        <th><h6>Subscribes for</h6></th>
+        <th><h6>Publishes to</h6></th>
+        <th><h6>Configurable properties</h6></th>
+      </tr>
+   </thead>
+   <tbody>
+   {%  for app in bf_response.event.properties.apps %}
+    <tr>
+        <td >{{ app.name }}</td>
+
+        <td ><ul>
+            {% for key,sub_item in app.sub_for.iteritems() %}
+            <li style="min-width: 300px">
+                <div><h6>Sub name  : {{ key }}</h6></div>
+                {% if sub_item.topic %}<div><small>Topic   : {{ sub_item.topic }}</small></div>{% endif %}
+                <div><small>Adapter     : {% if sub_item.adapter %}{{ sub_item.adapter }}{% else %}local variable{% endif %} </small></div>
+                 {% if sub_item.dev_type %}<div><small>Device type : {{ sub_item.dev_type }}</small></div>{% endif %}
+                 {% if sub_item.msg_type %}<div><small>Message type: {{ sub_item.msg_type }}</small></div>{% endif %}
+                 {% if sub_item.descr %}<div><small>Description : {{ sub_item.descr }}</small></div>{% endif %}
+            </li>
+            {% endfor %}
+           </ul>
+        </td>
+        <td><ul>
+            {% for key,pub_item in app.pub_to.iteritems() %}
+            <li style="min-width: 300px">
+                <div><h6>Pub name  : {{ key }}</h6></div>
+                {% if pub_item.topic %}<div><small>Topic   : {{ pub_item.topic }}</small></div>{% endif %}
+                <div><small>Adapter     : {% if pub_item.adapter %}{{ pub_item.adapter }}{% else %}local variable{% endif %} </small></div>
+                {% if pub_item.dev_type %}<div><small>Device type : {{ pub_item.dev_type }}</small></div>{% endif %}
+                {% if pub_item.msg_type %}<div><small>Message type: {{ pub_item.msg_type }}</small></div>{% endif %}
+                {% if pub_item.descr %}<div><small>Description : {{ pub_item.descr }}</small></div>{% endif %}
+            </li>
+            {% endfor %}
+           </ul></td>
+        <td>
+            <ul>
+                {% for conf in app.configs %}
+                    <li>{{ conf }}</li>
+                {% endfor %}
+            </ul>
+        </td>
+    </tr>
+   {% endfor %}
+  <tbody>
+</table>
+
+{% else %}
+<h4>Device registry is not responding . Please check if device registry process is up and running and try again</h4>
+{% endif %}
+</div>
+
+
+{% endblock %}
+{% block js_scripts %}
+    <script>
+      var mode = "normal"
+    </script>
+    <script src="/static/js/stupidtable.min.js"></script>
+{#    <script src="/static/js/dr_device_browser.js"></script>#}
+
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "base_layout.html" %}
+{% block li_dr_registry %}class="active"{% endblock %}
+{% block css_scripts %}
+<link rel="stylesheet" href="/static/css/custom_icons.css">
+{% endblock %}
+{% block body %}
+</h1>
+<h3>Application instances</h3>
+<div class="container-fluid">
+{% if bf_response %}
+<table class="table table-bordered table-striped table-hover">
+   <thead>
+      <tr>
+        <th><h6>Id</h6></th>
+        <th><h6>App name</h6></th>
+        <th><h6>Instance alias</h6></th>
+        <th><h6>Subscribes for</h6></th>
+        <th><h6>Publishes to</h6></th>
+        <th><h6>Configured properties</h6></th>
+        <th><h6>Status</h6></th>
+        <th><h6>Description</h6></th>
+      </tr>
+   </thead>
+   <tbody>
+   {%  for app in bf_response.event.properties.app_instances %}
+    <tr>
+        <td >{{ app.id }}</td>
+        <td >{{ app.name }}</td>
+        <td >{{ app.alias }}</td>
+        <td ><ul>
+            {% for key,value in app.sub_for.iteritems() %}
+            <li style="min-width: 300px">
+                <h6>{{ key }}:{{ value }}</h6>
+            </li>
+            {% endfor %}
+           </ul>
+        </td>
+        <td><ul>
+            {% for key,value in app.pub_to.iteritems() %}
+            <li style="min-width: 300px">
+                <div><h6>{{ key }} : {{ value }}</h6></div>
+            </li>
+            {% endfor %}
+           </ul></td>
+        <td>
+            <ul>
+                {% for key,conf in app.configs.iteritems() %}
+                    <li>{{ key }} : {{ conf }}</li>
+                {% endfor %}
+            </ul>
+        </td>
+        <td>Running</td>
+        <td>
+
+        </td>
+    </tr>
+   {% endfor %}
+  <tbody>
+</table>
+
+{% else %}
+<h4>Device registry is not responding . Please check if device registry process is up and running and try again</h4>
+{% endif %}
+</div>
+
+
+{% endblock %}
+{% block js_scripts %}
+    <script>
+      var mode = "normal"
+    </script>
+    <script src="/static/js/stupidtable.min.js"></script>
+{#    <script src="/static/js/dr_device_browser.js"></script>#}
+
+{% endblock %}
