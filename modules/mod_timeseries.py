@@ -185,24 +185,24 @@ class Timeseries():
                 value = item[2]
                 map = filter(lambda m: (dev_id==m["id"]),mapping)[0]
 
-                if "binary" in map["msg_class"]: # bool type event
-                    if dev_id in binary_events and value == 0: # this is a stop of the event
-                        start_time = binary_events[dev_id]
-                        binary_events.pop(dev_id)
-                        result.append({"dev_id": dev_id, "start": start_time,"end":time_iso, "value": 1,"content":map["name"],"address":map["address"]})
-                    elif dev_id in binary_events and value == 1:
-                        # stopping and starting another event , that is needed just not too loose any events
-                        start_time = binary_events[dev_id]
-                        binary_events[dev_id] = time_iso
-                        result.append({"dev_id": dev_id, "start": start_time,"end":time_iso, "value": value,"content":map["name"],"address":map["address"]})
-                    elif not(dev_id in binary_events) and value == 1 :
-                        # staring new event , so need just to record the event
-                        binary_events[dev_id] = time_iso
-                    elif not(dev_id in binary_events) and value == 0 :
-                        # end of and event but we don't have start , so will create event without stop
-                        result.append({"dev_id": dev_id, "start": time_iso, "value": value,"content":map["name"],"address":map["address"]})
-                else :
-                    result.append({"dev_id": dev_id, "start": time_iso, "value": value, "content": map["name"], "address":map["address"]})
+                # if "binary" in map["msg_class"]: # bool type event
+                #     if dev_id in binary_events and value == 0: # this is a stop of the event
+                #         start_time = binary_events[dev_id]
+                #         binary_events.pop(dev_id)
+                #         result.append({"dev_id": dev_id, "start": start_time,"end":time_iso, "value": 1,"content":map["name"],"address":map["address"]})
+                #     elif dev_id in binary_events and value == 1:
+                #         # stopping and starting another event , that is needed just not too loose any events
+                #         start_time = binary_events[dev_id]
+                #         binary_events[dev_id] = time_iso
+                #         result.append({"dev_id": dev_id, "start": start_time,"end":time_iso, "value": value,"content":map["name"],"address":map["address"]})
+                #     elif not(dev_id in binary_events) and value == 1 :
+                #         # staring new event , so need just to record the event
+                #         binary_events[dev_id] = time_iso
+                #     elif not(dev_id in binary_events) and value == 0 :
+                #         # end of and event but we don't have start , so will create event without stop
+                #         result.append({"dev_id": dev_id, "start": time_iso, "value": value,"content":map["name"],"address":map["address"]})
+                # else :
+                result.append({"dev_id": dev_id, "start": time_iso, "value": value, "content": map["name"], "address":map["address"]})
 
 
         return result

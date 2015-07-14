@@ -43,7 +43,7 @@ function loadTimelineData()
                     temp_groups.push({name:group_name,id:dev_id})
                 }
                 data[i]['group'] = dev_id
-                data[i]['content'] = data[i].value
+                data[i]['content'] = data[i].value.toString()
                 items.add(data[i])
             }
             console.dir(temp_groups)
