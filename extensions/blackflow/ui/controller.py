@@ -1,3 +1,5 @@
+from extensions.blackflow.app_graph_manager import AppGraphManager
+
 __author__ = 'alivinco'
 import json
 import logging
@@ -43,3 +45,13 @@ def blackflow_app_instances():
     msg = blackflowapi.get_app_instances()
     response = sync_async_client.send_sync_msg(msg, "/app/blackflow/commands", "/app/blackflow/events", timeout=5,correlation_msg_type="blackflow.app_instances",correlation_type="MSG_TYPE")
     return render_template('blackflow/app_instances.html', bf_response=response, global_context=global_context,format_time = utils.format_iso_time_from_sec)
+
+@blackflow_bp.route('/api/blackflow/app_instances_graph', methods=["GET"])
+@login_required
+def blackflow_app_instances_graph():
+    log.info("Blackflow Apps")
+    msg = blackflowapi.get_app_instances()
+    response = sync_async_client.send_sync_msg(msg, "/app/blackflow/commands", "/app/blackflow/events", timeout=5,correlation_msg_type="blackflow.app_instances",correlation_type="MSG_TYPE")
+    graph = AppGraphManager(response["event"]["properties"]["app_instances"]).convert_app_instances_into_graph()
+    graph_json = json.dumps(graph)
+    return Response(response=graph_json, mimetype='application/json' )

@@ -2,6 +2,14 @@
 {% block li_dr_registry %}class="active"{% endblock %}
 {% block css_scripts %}
 <link rel="stylesheet" href="/static/css/custom_icons.css">
+<link href="/static/visjs/dist/vis.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        #app_instances_graph_div {
+            width: 100%;
+            height: 600px;
+            border: 1px solid lightgray;
+        }
+    </style>
 {% endblock %}
 {% block body %}
 </h1>
@@ -57,12 +65,18 @@
    {% endfor %}
   <tbody>
 </table>
+<div id="app_instances_graph_div">
 
-{% else %}
-<h4>Device registry is not responding . Please check if device registry process is up and running and try again</h4>
-{% endif %}
 </div>
 
+<div id="graph_options_div">
+
+</div>
+
+{% else %}
+<h4>Application runtime is not responding , please check if it is running and try again</h4>
+{% endif %}
+</div>
 
 {% endblock %}
 {% block js_scripts %}
@@ -70,6 +84,6 @@
       var mode = "normal"
     </script>
     <script src="/static/js/stupidtable.min.js"></script>
-{#    <script src="/static/js/dr_device_browser.js"></script>#}
-
+    <script src="/static/visjs/dist/vis.js"></script>
+    <script src="/static/js/blackflow/app_instances.js"></script>
 {% endblock %}
