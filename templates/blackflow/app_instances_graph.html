@@ -1,0 +1,31 @@
+{% extends "blackflow/base_layout_blackflow.html" %}
+{% block li_dr_registry %}class="active"{% endblock %}
+{% block css_scripts %}
+<link rel="stylesheet" href="/static/css/custom_icons.css">
+<link href="/static/visjs/dist/vis.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        #app_instances_graph_div {
+            width: 80vw;
+            height: 80vh;
+            border: 1px solid lightgray;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+</h1>
+<h3>Application instances graph </h3>
+<div  class="container-fluid">
+<div  id="app_instances_graph_div">
+
+</div>
+</div>
+
+{% endblock %}
+{% block js_scripts %}
+    <script>
+      var mode = "normal"
+    </script>
+    <script src="/static/js/stupidtable.min.js"></script>
+    <script src="/static/visjs/dist/vis.js"></script>
+    <script src="/static/js/blackflow/app_instances_graph.js"></script>
+{% endblock %}

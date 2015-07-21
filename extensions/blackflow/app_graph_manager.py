@@ -13,21 +13,25 @@ class AppGraphManager():
         for app_inst in self.app_instances:
           self.nodes.append(app_inst)
           for key , pub_to in app_inst["pub_to"].iteritems():
-                list_of_target_ids = self.__get_target_app_ids_by_pub_topic(pub_to)
-                if len(list_of_target_ids) > 0:
-                    for target_id in list_of_target_ids:
-                        self.edges.append({"from":app_inst["id"],"to":target_id})
-                else :
+                # list_of_target_ids = self.__get_target_app_ids_by_pub_topic(pub_to)
+                # if len(list_of_target_ids) > 0:
+                #     for target_id in list_of_target_ids:
+                #         edge = {"from":app_inst["id"],"to":target_id}
+                #         if not (edge in self.edges): self.edges.append(edge)
+                # else :
                     new_id = self.__add_unknown_node(pub_to)
-                    self.edges.append({"from":app_inst["id"],"to":new_id})
+                    edge = {"from":app_inst["id"],"to":new_id}
+                    if not (edge in self.edges) : self.edges.append(edge)
 
           for key , sub_for in app_inst["sub_for"].iteritems():
-                list_of_target_ids = self.__get_target_app_ids_by_sub_topic(sub_for)
-                if len(list_of_target_ids) > 0:
-                    for target_id in list_of_target_ids:
-                        self.edges.append({"to":app_inst["id"],"from":target_id})
+                # list_of_target_ids = self.__get_target_app_ids_by_sub_topic(sub_for)
+                # if len(list_of_target_ids) > 0:
+                #     for target_id in list_of_target_ids:
+                #         edge = {"to":app_inst["id"],"from":target_id}
+                #         if not (edge in self.edges) : self.edges.append(edge)
                 new_id = self.__add_unknown_node(sub_for)
-                self.edges.append({"to":app_inst["id"],"from":new_id})
+                edge = {"to":app_inst["id"],"from":new_id}
+                if not (edge in self.edges) : self.edges.append(edge)
 
         return {"nodes":self.nodes,"edges":self.edges}
 
@@ -41,8 +45,11 @@ class AppGraphManager():
     def __add_unknown_node(self,topic,desc=""):
         # check to avoid dublicates
         new_id = self.__get_next_node_id()
-        if len(filter(lambda node:node["name"] == topic,self.app_instances))==0:
+        search = filter(lambda node:node["alias"] == topic,self.nodes)
+        if len(search)==0:
             self.nodes.append({"id":new_id,"alias":topic})
+        else :
+            new_id = search[0]["id"]
         return new_id
 
     def __get_target_app_ids_by_pub_topic(self,pub_topic):

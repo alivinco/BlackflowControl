@@ -12,6 +12,8 @@ class Blackflow(Core):
     def get_app_instances(self):
         return self.get_message("command","blackflow.get_app_instances")
 
+    def get_analytics(self):
+        return self.get_message("command","blackflow.analytics_get")
 
 
 

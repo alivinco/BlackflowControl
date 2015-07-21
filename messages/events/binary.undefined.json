@@ -1,0 +1,21 @@
+{
+ "origin": {
+  "endp_id": "91", 
+  "@id": "91", 
+  "@type": "sen_alarm"
+ }, 
+ "uuid": "97bd9cc3-3e89-4762-8c6b-f8ab24c06ae4", 
+ "creation_time": 1436997794, 
+ "spid": "UNDEFINED", 
+ "@context": "http://context.smartly.no", 
+ "event": {
+  "default": {
+   "value": 255
+  }, 
+  "subtype": "undefined", 
+  "@type": "binary", 
+  "properties": {
+   "seconds": 0
+  }
+ }
+}

@@ -46,6 +46,20 @@ def blackflow_app_instances():
     response = sync_async_client.send_sync_msg(msg, "/app/blackflow/commands", "/app/blackflow/events", timeout=5,correlation_msg_type="blackflow.app_instances",correlation_type="MSG_TYPE")
     return render_template('blackflow/app_instances.html', bf_response=response, global_context=global_context,format_time = utils.format_iso_time_from_sec)
 
+@blackflow_bp.route('/ui/blackflow/app_instance_config/<inst_id>', methods=["GET"])
+@login_required
+def blackflow_app_instance_config(inst_id):
+    log.info("Blackflow App instance configurator")
+    msg = blackflowapi.get_app_instances()
+    response = sync_async_client.send_sync_msg(msg, "/app/blackflow/commands", "/app/blackflow/events", timeout=5,correlation_msg_type="blackflow.app_instances",correlation_type="MSG_TYPE")
+    return render_template('blackflow/app_instance_config.html', bf_response=response, global_context=global_context,format_time = utils.format_iso_time_from_sec)
+
+
+@blackflow_bp.route('/ui/blackflow/app_instances_graph', methods=["GET"])
+@login_required
+def blackflow_app_instances_graph_ui():
+    return render_template('blackflow/app_instances_graph.html', global_context=global_context,format_time = utils.format_iso_time_from_sec)
+
 @blackflow_bp.route('/api/blackflow/app_instances_graph', methods=["GET"])
 @login_required
 def blackflow_app_instances_graph():
@@ -55,3 +69,12 @@ def blackflow_app_instances_graph():
     graph = AppGraphManager(response["event"]["properties"]["app_instances"]).convert_app_instances_into_graph()
     graph_json = json.dumps(graph)
     return Response(response=graph_json, mimetype='application/json' )
+
+@blackflow_bp.route('/api/blackflow/analytics', methods=["GET"])
+@login_required
+def blackflow_analytics():
+    log.info("Blackflow analytics")
+    msg = blackflowapi.get_analytics()
+    response = sync_async_client.send_sync_msg(msg, "/app/blackflow/commands", "/app/blackflow/events", timeout=5,correlation_msg_type="blackflow.analytics",correlation_type="MSG_TYPE")
+    result = json.dumps(response["event"]["properties"])
+    return Response(response=result, mimetype='application/json' )
