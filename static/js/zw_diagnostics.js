@@ -37,7 +37,6 @@ function start_clusion_mode(mode,start)
         $('#start_mode_modal').modal('show')
     }
 
-
      $.ajax({
       url: "/api/zw_manager",
       method :"POST",
@@ -66,6 +65,44 @@ function start_clusion_mode(mode,start)
     //clusion_mode_result
 
 }
+// stop_message_resolver should be a function which should return true if the message final message .
+// function returns promise . Invoker can use progress(data) function or/and done(data) to receive events
+function pool_messages_from_server(topic,msg_type,stop_msg_resolver,timeout)
+{
+
+       var def = $.Deferred();
+       var isTimeout = false
+       function do_request() {
+           var prom = $.ajax({
+               url: "/api/wait_for_msg",
+               method: "GET",
+               data: {topic: topic, correlation_type: "MSG_TYPE", msg_type: msg_type, timeout: 60},
+           });
+
+           prom.done(function (data) {
+               //console.dir(data)
+               def.notify(data)
+               if (stop_msg_resolver(data) || isTimeout)
+                   def.resolve()
+               else
+                 do_request()
+           })
+       }
+       do_request()
+       if (timeout) setTimeout(function(){isTimeout=true},timeout)
+       return def.promise()
+}
+
+function test_pool()
+{
+    prom = pool_messages_from_server("/ta/zw/events","net.ping_report",function(){return true},60000)
+    prom.progress(function(data){
+        console.log("Ping response")
+        console.dir(data)
+    })
+    prom.done(function(data){console.log("Done!!")})
+}
+
 function countdown(seconds) {
 
     if (seconds == 1) {

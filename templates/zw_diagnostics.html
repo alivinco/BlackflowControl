@@ -7,9 +7,19 @@
 
 <h4>Add / remove a device </h4>
 <div class="btn-group">
-  <button type="button" class="btn btn-default" onclick="start_clusion_mode('zw_inclusion_mode',true)">Inclusion</button>
-  <button type="button" class="btn btn-default" onclick="start_clusion_mode('zw_exclusion_mode',true)" >Exclusion</button>
+  <button type="button" class="btn btn-default" onclick="start_clusion_mode('zw_inclusion_mode',true)" title = "Inclusion mode" >Add device</button>
+  <button type="button" class="btn btn-default" onclick="start_clusion_mode('zw_exclusion_mode',true)" title = "Exclusion mode" >Remove device</button>
 </div>
+ <a class="btn btn-default" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Advanced operations</a>
+<div class="collapse" id="collapseExample">
+  <div class="well">
+  <p><button type="button" class="btn btn-default" onclick="test_pool()" title="Learn mode">Include the gateway into another network</button>
+      The operation allows to include zwave controller into another network . In order to complete the process you need to press "Add device" in another network.  </p>
+  <p><button type="button" class="btn btn-default" onclick="start_clusion_mode('zw_controller_shift_mode',true)" title="Controller shift">Set another controller as primary</button>
+      The operation will delegate primary role to another controller. In order to complete the operation you need to put another controller into Learn mode.  </p>
+  </div>
+</div>
+
 <br/>
 <h4>Zwave mesh routing information</h4>
 <a href="/ui/zw_diagnostics?action=refresh_routing_info" class="btn btn-default " role="button">Refresh routing info from zwave module</a>

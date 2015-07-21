@@ -5,6 +5,7 @@ import uuid
 
 __author__ = 'alivinco'
 
+
 class RequestResponseStruct:
     def __init__(self):
         self.request_topic = ""
@@ -22,7 +23,7 @@ class RequestResponseStruct:
 
 
 class SyncToAsyncMsgConverter:
-    def __init__(self,msg_subsystem):
+    def __init__(self, msg_subsystem):
         self.request_timeout = 30
         self.request_table = []
         self.msg_system = msg_subsystem
@@ -33,30 +34,43 @@ class SyncToAsyncMsgConverter:
     def __generate_correlation_id(self):
         return str(uuid.uuid4())
 
-    def __set_correlation_id(self,msg,corrid):
+    def __set_correlation_id(self, msg, corrid):
         msg["corid"] = corrid
 
-    def __extract_correlation_id(self,msg,is_request=True):
-        if "corid" in msg : return msg["corid"]
-        elif "uuid" in msg : return msg["uuid"]
-        else:return None
-
-    def __extract_message_type(self,msg):
-        if "event" in msg :
-            return msg["event"]["@type"]+"."+msg["event"]["subtype"]
-        elif "command" in msg:
-            return msg["command"]["@type"]+"."+msg["command"]["subtype"]
-        else :
+    def __extract_correlation_id(self, msg, is_request=True):
+        if "corid" in msg:
+            return msg["corid"]
+        elif "uuid" in msg:
+            return msg["uuid"]
+        else:
             return None
 
+    def __extract_message_type(self, msg):
+        if "event" in msg:
+            return msg["event"]["@type"] + "." + msg["event"]["subtype"]
+        elif "command" in msg:
+            return msg["command"]["@type"] + "." + msg["command"]["subtype"]
+        else:
+            return None
 
-    def __publish_to_msg_system(self,topic,msg):
-        self.msg_system.publish(topic,json.dumps(msg),1)
+    def __publish_to_msg_system(self, topic, msg):
+        self.msg_system.publish(topic, json.dumps(msg), 1)
 
     def get_request_table_size(self):
         return len(self.request_table)
 
-    def send_sync_msg(self,msg,request_topic,response_topic,timeout=30,generate_corrid=False,correlation_type="COR_ID",correlation_msg_type=""):
+    def sync_wait_for_msg(self, response_topic,correlation_type="MSG_TYPE", correlation_msg_type="", timeout=30, ):
+        req_row = RequestResponseStruct()
+        req_row.request_topic = None
+        req_row.response_topic = response_topic
+        req_row.correlation_type = correlation_type
+        req_row.correlation_id = correlation_msg_type
+        with self.request_table_lock:
+            self.request_table.append(req_row)
+
+        return self.wait(req_row,timeout)
+
+    def send_sync_msg(self, msg, request_topic, response_topic, timeout=30, generate_corrid=False, correlation_type="COR_ID", correlation_msg_type=""):
 
         """
         The method sends message over async messaging subsystem and is waiting for response (blocking) .
@@ -75,11 +89,11 @@ class SyncToAsyncMsgConverter:
         req_row.correlation_type = correlation_type
 
         if correlation_type == "COR_ID":
-            if generate_corrid :
+            if generate_corrid:
                 req_row.correlation_id = self.__generate_correlation_id()
-                self.__set_correlation_id(msg,req_row.correlation_id)
-            else :
-                req_row.correlation_id = (lambda : self.__extract_correlation_id(msg) if self.extract_correlation_id  else  self.__generate_correlation_id())()
+                self.__set_correlation_id(msg, req_row.correlation_id)
+            else:
+                req_row.correlation_id = (lambda: self.__extract_correlation_id(msg) if self.extract_correlation_id  else  self.__generate_correlation_id())()
         elif correlation_type == "MSG_TYPE":
             req_row.correlation_id = correlation_msg_type
 
@@ -87,27 +101,29 @@ class SyncToAsyncMsgConverter:
         with self.request_table_lock:
             self.request_table.append(req_row)
         # publishing message to a queue
-        self.__publish_to_msg_system(request_topic,msg)
-        print "Request table size = "+str(len(self.request_table))
+        self.__publish_to_msg_system(request_topic, msg)
+        print "Request table size = " + str(len(self.request_table))
+        return self.wait(req_row, timeout)
+
+    def wait(self, req_row, timeout):
         run = True
         start_time = time.time()
-        while run :
-             if req_row.response_msg :
+        while run:
+            if req_row.response_msg:
                 response_msg = req_row.response_msg
                 with self.request_table_lock:
                     self.request_table.remove(req_row)
                 run = False
                 return response_msg
-             else:
-                execution_time = time.time()-start_time
+            else:
+                execution_time = time.time() - start_time
                 if execution_time < timeout:
                     time.sleep(self.wait_loop_delay)
-                else :
+                else:
                     self.request_table.remove(req_row)
                     return None
 
-
-    def on_message(self,topic,msg):
+    def on_message(self, topic, msg):
         """
         The method should be invoked by a message processing pipeline code or something else when a new message appears in msg subsystem .
 
@@ -116,38 +132,20 @@ class SyncToAsyncMsgConverter:
         """
         topic_is_in_table = False
         # small optimisation. Skip messages if there are no requests waiting for response.
-        if len(self.request_table)>0:
+        if len(self.request_table) > 0:
             # Doing a check if request table has any entry with such topic
             with self.request_table_lock:
-                req_rows_with_topic = filter((lambda row :topic==row.response_topic),self.request_table)
+                req_rows_with_topic = filter((lambda row: topic == row.response_topic), self.request_table)
                 for req_row in req_rows_with_topic:
-                    if req_row.correlation_type == "COR_ID" :
-                        extr_corr_id = self.__extract_correlation_id(msg,is_request=False)
-                        if extr_corr_id :
+                    if req_row.correlation_type == "COR_ID":
+                        extr_corr_id = self.__extract_correlation_id(msg, is_request=False)
+                        if extr_corr_id:
                             if extr_corr_id == req_row.correlation_id:
                                 req_row.response_msg = msg
-                    elif req_row.correlation_type == "MSG_TYPE" :
+                    elif req_row.correlation_type == "MSG_TYPE":
                         extr_msg_type = self.__extract_message_type(msg)
-                        if extr_msg_type :
+                        if extr_msg_type:
                             if extr_msg_type == req_row.correlation_id:
                                 req_row.response_msg = msg
                     elif req_row.correlation_type == "NO_COR_ID":
                         req_row.response_msg = msg
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

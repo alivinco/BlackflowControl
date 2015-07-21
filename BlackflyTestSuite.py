@@ -727,6 +727,19 @@ def zw_diagnostics():
 #         jobj = json.dumps({})
 #     return Response(response=jobj, mimetype='application/json')
 
+@app.route('/api/wait_for_msg',methods=["POST","GET"])
+@login_required
+def wait_for_msg():
+    topic = request.args.get("topic")
+    timeout = int(request.args.get("timeout",30))
+    # MSG_TYPE or NO_COR_ID
+    cor_type = request.args.get("correlation_type","MSG_TYPE")
+    msg_type = request.args.get("msg_type")
+    msg = sync_async_client.sync_wait_for_msg(topic,cor_type,msg_type,timeout)
+    jobj = json.dumps(msg)
+    return Response(response=jobj, mimetype='application/json')
+
+
 @app.route('/api/zw_manager',methods=["POST"])
 @login_required
 def zw_manager_api():
@@ -787,8 +800,6 @@ def zw_manager_api():
         msg = zwapi.neighbor_update(node_id)
         response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=60,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.neighbor_update_report")
         jobj = json.dumps(response)
-
-
     else :
         jobj = json.dumps({})
     return Response(response=jobj, mimetype='application/json')
