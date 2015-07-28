@@ -21,6 +21,16 @@ class ZwTa(Core):
         msg["command"]["default"]["value"]=start
         return msg
 
+    def learn_mode(self,start=True):
+        msg = self.get_message("command","zw_ta.learn_mode")
+        msg["command"]["default"]["value"]=start
+        return msg
+
+    def controller_shift_mode(self,start=True):
+        msg = self.get_message("command","zw_ta.controller_shift_mode")
+        msg["command"]["default"]["value"]=start
+        return msg
+
     def remove_failed_node(self,node_id):
         msg = self.get_message("command","zw_ta.remove_failed_node")
         msg["command"]["default"]["value"]=node_id
@@ -40,5 +50,14 @@ class ZwTa(Core):
         msg = self.get_message("command","zw_ta.neighbor_update")
         msg["command"]["default"]["value"][0]=node_id
         return msg
+
+    def hard_reset(self):
+        return self.get_message("command","zw_ta.hard_reset")
+
+    def get_controller_full_info(self):
+        return self.get_message("command","zw_ta.get_controller_full_info")
+
+    def reset_controller_to_default(self):
+        return self.get_message("command","zw_ta.reset_controller_to_default")
 
 

@@ -13,10 +13,22 @@
  <a class="btn btn-default" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Advanced operations</a>
 <div class="collapse" id="collapseExample">
   <div class="well">
-  <p><button type="button" class="btn btn-default" onclick="test_pool()" title="Learn mode">Include the gateway into another network</button>
-      The operation allows to include zwave controller into another network . In order to complete the process you need to press "Add device" in another network.  </p>
-  <p><button type="button" class="btn btn-default" onclick="start_clusion_mode('zw_controller_shift_mode',true)" title="Controller shift">Set another controller as primary</button>
-      The operation will delegate primary role to another controller. In order to complete the operation you need to put another controller into Learn mode.  </p>
+  <p><button type="button" class="btn btn-success" onclick="get_controller_full_info()" title="Full info">Request controller full info</button>
+      - The operation gets complete information about controller . The information contains controller Node Id , zwave network Home Id , etc.
+  </p>
+  <p><button type="button" class="btn btn-default" onclick="learn_mode(true)" title="Learn mode">Include the gateway into another network</button>
+      - The operation is used to add zwave controller into another network . In order to complete the process you need to press "Add device" in another controller.
+      WARNING :existing networks will be reseted .
+  </p>
+  <p><button type="button" class="btn btn-default" onclick="controller_shift(true)" title="Controller shift">Set another controller as primary</button>
+      - The operation is used to add the controller to the Z-Wave network and transfer the role as primary controller to it.
+  </p>
+  <p><button type="button" class="btn btn-default" onclick="hard_reset()" title="Hard reset">Controller hard reset</button>
+      - The operation is used to to restart Zwave module . The operation will NOT reset zwave network .
+  </p>
+  <p><button type="button" class="btn btn-danger" onclick="reset_controller_to_default()" title="Reset to default">Reset to default</button>
+      - !!!DANGER!!!! The operation will delete entire Zwave network and will assign new home ID.
+  </p>
   </div>
 </div>
 
@@ -69,11 +81,54 @@
       </div>
 
       <br/>
-      <div id="clusion_mode_result" class="modal-body">
-
+      <div class="modal-body">
+        <div id="countdown_id" ></div>
+        <div id="clusion_mode_result" ></div>
       </div>
       <div class="modal-footer">
                 <button type="button" class="btn btn-default" onclick="start_clusion_mode('',false)" >Stop</button>
+{#                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>#}
+       </div>
+    </div>
+  </div>
+</div>
+
+{#Controller shift dialog #}
+<div class="modal fade" id="start_cshift_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="mode_header">Controller shift</h4>
+      </div>
+
+      <br/>
+      <div class="modal-body">
+        <div id="cshift_result" ></div>
+      </div>
+      <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="controller_shift(false)" >Stop</button>
+{#                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>#}
+       </div>
+    </div>
+  </div>
+</div>
+
+{#Learn mode dialog #}
+<div class="modal fade" id="learn_mode_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="mode_header">Controller shift</h4>
+      </div>
+
+      <br/>
+      <div class="modal-body">
+        <div id="learn_mode_result" ></div>
+      </div>
+      <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="learn_mode(false)" >Stop</button>
 {#                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>#}
        </div>
     </div>

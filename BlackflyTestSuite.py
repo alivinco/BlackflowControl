@@ -749,14 +749,22 @@ def zw_manager_api():
         log.info("Setting zwave controller into inclusion mode")
         start =  libs.utils.convert_bool(request.form["start"])
         msg = zwapi.inclusion_mode(start)
-        response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.inclusion_report")
+        if start:
+            response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.inclusion_report")
+        else :
+            mqtt.publish("/ta/zw/commands",json.dumps(msg),1)
+            response = {}
         log.info("Inclusion mode operation is completed")
         jobj = json.dumps(response)
     elif action == "zw_exclusion_mode":
         log.info("Setting zwave controller into exclusion mode")
         start =  libs.utils.convert_bool(request.form["start"])
         msg = zwapi.exclusion_mode(start)
-        response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.exclusion_report")
+        if start:
+            response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.exclusion_report")
+        else :
+            mqtt.publish("/ta/zw/commands",json.dumps(msg),1)
+            response = {}
         log.info("Exclusion mode operation is completed")
         jobj = json.dumps(response)
 
@@ -772,6 +780,12 @@ def zw_manager_api():
         mqtt.publish("/ta/zw/commands",json.dumps(msg),1)
         jobj = json.dumps({})
 
+    elif action == "controller_shift_mode":
+        start =  libs.utils.convert_bool(request.form["start"])
+        msg = zwapi.controller_shift_mode(start)
+        mqtt.publish("/ta/zw/commands",json.dumps(msg),1)
+        jobj = json.dumps({})
+
     elif action == "ping_node":
         node_id = int(request.form["node_id"])
         msg = zwapi.net_ping(node_id)
@@ -784,7 +798,15 @@ def zw_manager_api():
         node_id = int(request.form["node_id"])
         msg = zwapi.get_node_info(node_id)
         response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.inclusion_report")
-        log.info("Inclusion mode operation is completed")
+        log.info("Inclusion mode operation completed")
+        jobj = json.dumps(response)
+
+    elif action == "learn_mode":
+        log.info("Setting Learn mode")
+        start =  libs.utils.convert_bool(request.form["start"])
+        msg = zwapi.learn_mode(start)
+        response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.learn_mode")
+        log.info("Learn mode operation completed")
         jobj = json.dumps(response)
 
     elif action == "get_network_graph":
@@ -798,8 +820,27 @@ def zw_manager_api():
         log.info("Requesting NB update for node %s"%request.form["node_id"])
         node_id = int(request.form["node_id"])
         msg = zwapi.neighbor_update(node_id)
-        response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=60,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.neighbor_update_report")
+        mqtt.publish("/ta/zw/commands",json.dumps(msg),1)
+        # response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=60,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.neighbor_update_report")
+        jobj = json.dumps({})
+    elif action == "hard_reset":
+        log.info("Controller hard reset")
+        msg = zwapi.hard_reset()
+        response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="error.status_code")
         jobj = json.dumps(response)
+
+    elif action == "get_controller_full_info":
+        log.info("Controller get_controller_full_info")
+        msg = zwapi.get_controller_full_info()
+        response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.controller_full_info")
+        jobj = json.dumps(response)
+
+    elif action == "reset_controller_to_default":
+        log.info("Reseting controller to default")
+        msg = zwapi.reset_controller_to_default()
+        response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.reset_controller_to_default")
+        jobj = json.dumps(response)
+
     else :
         jobj = json.dumps({})
     return Response(response=jobj, mimetype='application/json')

@@ -1,0 +1,18 @@
+{
+ "origin": {
+  "@id": "1", 
+  "@type": "zw_ta"
+ }, 
+ "uuid": "bea58db4-c637-421f-b032-fcbf262e67e5", 
+ "creation_time": 1438077594, 
+ "spid": "UNDEFINED", 
+ "@context": "http://context.smartly.no", 
+ "event": {
+  "default": {
+   "value": "CONTROLLER_RESET_DONE"
+  }, 
+  "subtype": "reset_controller_to_default", 
+  "@type": "zw_ta", 
+  "properties": {}
+ }
+}

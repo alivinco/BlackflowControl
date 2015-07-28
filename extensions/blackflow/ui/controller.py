@@ -46,19 +46,47 @@ def blackflow_app_instances():
     response = sync_async_client.send_sync_msg(msg, "/app/blackflow/commands", "/app/blackflow/events", timeout=5,correlation_msg_type="blackflow.app_instances",correlation_type="MSG_TYPE")
     return render_template('blackflow/app_instances.html', bf_response=response, global_context=global_context,format_time = utils.format_iso_time_from_sec)
 
-@blackflow_bp.route('/ui/blackflow/app_instance_config/<inst_id>', methods=["GET"])
+@blackflow_bp.route('/ui/blackflow/app_instance_config', methods=["GET"])
 @login_required
-def blackflow_app_instance_config(inst_id):
+def blackflow_app_instance_config():
     log.info("Blackflow App instance configurator")
-    msg = blackflowapi.get_app_instances()
-    response = sync_async_client.send_sync_msg(msg, "/app/blackflow/commands", "/app/blackflow/events", timeout=5,correlation_msg_type="blackflow.app_instances",correlation_type="MSG_TYPE")
-    return render_template('blackflow/app_instance_config.html', bf_response=response, global_context=global_context,format_time = utils.format_iso_time_from_sec)
+    inst_id = int(request.args.get("id",0))
+    app_name = request.args.get("app_name","")
+    # if inst_id :
+    #     #query for instance
+    #     msg = blackflowapi.get_app_instances()
+    #     response = sync_async_client.send_sync_msg(msg, "/app/blackflow/commands", "/app/blackflow/events", timeout=5,correlation_msg_type="blackflow.app_instances",correlation_type="MSG_TYPE")
+    #     response = filter(lambda inst:inst["id"]==inst_id,response["event"]["properties"]["app_instances"])[0]
+    # else :
+    #     msg = blackflowapi.get_apps()
+    #     response = sync_async_client.send_sync_msg(msg, "/app/blackflow/commands", "/app/blackflow/events", timeout=5,correlation_msg_type="blackflow.apps",correlation_type="MSG_TYPE")
+    #     response = filter(lambda inst:inst["name"]==app_name,response)[0]
+
+    return render_template('blackflow/app_instance_config.html',inst_id=inst_id, global_context=global_context,format_time = utils.format_iso_time_from_sec)
 
 
 @blackflow_bp.route('/ui/blackflow/app_instances_graph', methods=["GET"])
 @login_required
 def blackflow_app_instances_graph_ui():
     return render_template('blackflow/app_instances_graph.html', global_context=global_context,format_time = utils.format_iso_time_from_sec)
+
+@blackflow_bp.route('/api/blackflow/app_instance_config', methods=["GET"])
+@login_required
+def blackflow_app_instance_config_api():
+    log.info("Blackflow App instance configurator")
+    inst_id = int(request.args.get("id",0))
+    app_name = request.args.get("app_name","")
+    if inst_id :
+        #query for instance
+        msg = blackflowapi.get_app_instances()
+        response = sync_async_client.send_sync_msg(msg, "/app/blackflow/commands", "/app/blackflow/events", timeout=5,correlation_msg_type="blackflow.app_instances",correlation_type="MSG_TYPE")
+        response = filter(lambda inst:inst["id"]==inst_id,response["event"]["properties"]["app_instances"])[0]
+    else :
+        msg = blackflowapi.get_apps()
+        response = sync_async_client.send_sync_msg(msg, "/app/blackflow/commands", "/app/blackflow/events", timeout=5,correlation_msg_type="blackflow.apps",correlation_type="MSG_TYPE")
+        response = filter(lambda inst:inst["name"]==app_name,response)[0]
+    graph_json = json.dumps(response)
+    return Response(response=graph_json, mimetype='application/json' )
 
 @blackflow_bp.route('/api/blackflow/app_instances_graph', methods=["GET"])
 @login_required

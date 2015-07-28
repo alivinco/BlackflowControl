@@ -17,8 +17,6 @@ function start_clusion_mode(mode,start)
         mode = current_controller_mode
     }
 
-
-
     if (mode=="zw_inclusion_mode")
         $("#mode_header").html("Inclusion mode")
     else
@@ -34,9 +32,30 @@ function start_clusion_mode(mode,start)
         $('#start_mode_modal').modal('hide')
 
     }else{
+         $('#clusion_mode_result').html("")
         $('#start_mode_modal').modal('show')
     }
 
+    if (start) {
+        prom = pool_messages_from_server("/ta/zw/events", "", function (data) {
+            if (data.event.subtype == "inclusion_report" || data.event.subtype == "exclusion_report")
+                return true
+            else return false
+        }, 30000)
+        prom.progress(function (data) {
+            if (data) $('#clusion_mode_result').html("<h4>Inclusion stage : " + data.event.default.value + "</h4>")
+        })
+        prom.done(function (data) {
+            if(current_controller_mode == "zw_inclusion_mode")
+            {
+                new_dev = data.event.properties.inclusion_report.value.device
+                $('#clusion_mode_result').html("<h4>Device with node id ="+new_dev.id+" was added to the network</h4>")
+            }else {
+                removed_dev = data.event.default.value
+                $('#clusion_mode_result').html("<h4>Device with node id ="+removed_dev+" was removed from the network</h4>")
+            }
+        })
+    }
      $.ajax({
       url: "/api/zw_manager",
       method :"POST",
@@ -45,20 +64,19 @@ function start_clusion_mode(mode,start)
         start:start
       },
       success: function( data ) {
-//        console.dir(data)
         console.dir(data)
         clearTimeout(countdown_timer_obj)
         if (data)
         {
-            if(current_controller_mode == "zw_inclusion_mode")
-            {
-                new_dev = data.event.properties.inclusion_report.value.device
-                console.log(new_dev.id)
-                $('#clusion_mode_result').html("<h4>Device with node id ="+new_dev.id+" was added to the network</h4>")
-            }else {
-                removed_dev = data.event.default.value
-                $('#clusion_mode_result').html("<h4>Device with node id ="+removed_dev+" was removed from the network</h4>")
-            }
+            if (data.event)
+                if(current_controller_mode == "zw_inclusion_mode")
+                {
+                    new_dev = data.event.properties.inclusion_report.value.device
+                    $('#clusion_mode_result').html("<h4>Device with node id ="+new_dev.id+" was added to the network</h4>")
+                }else {
+                    removed_dev = data.event.default.value
+                    $('#clusion_mode_result').html("<h4>Device with node id ="+removed_dev+" was removed from the network</h4>")
+                }
         }
       }
     });
@@ -67,26 +85,41 @@ function start_clusion_mode(mode,start)
 }
 // stop_message_resolver should be a function which should return true if the message final message .
 // function returns promise . Invoker can use progress(data) function or/and done(data) to receive events
+// topic returns response whenever topic and msg_type match the values in message
+// the function itself will run until stop_msg_resolver returns true or timesout
+var global_pool_request_xhr = null
 function pool_messages_from_server(topic,msg_type,stop_msg_resolver,timeout)
 {
 
        var def = $.Deferred();
        var isTimeout = false
+       if(msg_type) cor_type = "MSG_TYPE"
+       else cor_type = "NO_COR_ID"
+
        function do_request() {
            var prom = $.ajax({
                url: "/api/wait_for_msg",
                method: "GET",
-               data: {topic: topic, correlation_type: "MSG_TYPE", msg_type: msg_type, timeout: 60},
+               data: {topic: topic, correlation_type: cor_type, msg_type: msg_type, timeout: 35},
            });
-
+           global_pool_request_xhr = prom
            prom.done(function (data) {
                //console.dir(data)
+               global_pool_request_xhr = null
                def.notify(data)
-               if (stop_msg_resolver(data) || isTimeout)
-                   def.resolve()
+               if (data)
+                   if (stop_msg_resolver(data))
+                          def.resolve(data)
+               else if(isTimeout)
+                  def.reject()
                else
                  do_request()
+
            })
+       }
+       if (global_pool_request_xhr) {
+           global_pool_request_xhr.abort()
+           global_pool_request_xhr = null
        }
        do_request()
        if (timeout) setTimeout(function(){isTimeout=true},timeout)
@@ -106,12 +139,12 @@ function test_pool()
 function countdown(seconds) {
 
     if (seconds == 1) {
-      $('#clusion_mode_result').html("Controller has timed out");
+      $('#countdown_id').html("Controller has timed out");
       return;
     }
 
     seconds--;
-    $('#clusion_mode_result').html(seconds+" seconds left .");
+    $('#countdown_id').html(seconds+" seconds left .");
     countdown_timer_obj = setTimeout(countdown, 1000,seconds);
 }
 
@@ -124,8 +157,20 @@ function remove_node(node_id)
       method :"POST",
       data: {action: "remove_failed_node",node_id:node_id},
       success: function( data ) {
-         $('#ping_node_result').html("<h4> Command was sent and will be completed in a few seconds. You need to reload page to reflect changes. </h4>")
-         setTimeout(function () { $('#ping_node_modal').modal('hide'); }, 5000);
+         //$('#ping_node_result').html("<h4> Command was sent and will be completed in a few seconds. You need to reload page to reflect changes. </h4>")
+        prom = pool_messages_from_server("/ta/zw/events", "zw_ta.remove_failed_node_report", function (data) {
+             default_value = data.event.default.value
+             if (default_value=="ZW_FAILED_NODE_NOT_REMOVED"|| default_value=="FAILED_NODE_NOT_FOUND")
+                return true
+             else return false
+        }, 30000)
+        prom.progress(function (data) {
+            if (data) $('#ping_node_result').html("<h4>Node remove status : " + data.event.default.value + "</h4>")
+        })
+        prom.done(function (data) {
+            if (data) $('#ping_node_result').html("<h4>Node removed with status : " + data.event.default.value + "</h4>")
+        })
+        setTimeout(function () { $('#ping_node_modal').modal('hide'); }, 30000);
       }
     });
 }
@@ -163,13 +208,79 @@ function nb_update(node_id)
 {
     $('#ping_node_modal').modal('show')
     $('#ping_node_result').html("<h4> Neighbour redisovery is in progress , please wait. </h4>")
+     //status = data.event.default.value
+            //$('#ping_node_result').html("<h4> Operation completed with status "+status+"</h4>")
+    prom = pool_messages_from_server("/ta/zw/events", "zw_ta.neighbor_update_report", function (data) {
+             default_value = data.event.default.value
+             if (default_value=="REQUEST_NEIGHBOR_UPDATE_DONE"||default_value=="REQUEST_NEIGHBOR_UPDATE_FAILED")
+                return true
+             else return false
+        }, 60000)
+    prom.progress(function (data) {
+            if (data) $('#ping_node_result').html("<h4>Operation status has changed to : " + data.event.default.value + "</h4>")
+        })
+    prom.done(function (data) {
+            if (data) $('#ping_node_result').html("<h4>Neighbour redisovery completed with status : " + data.event.default.value + "</h4>")
+        })
+
     $.ajax({
       url: "/api/zw_manager",
       method :"POST",
       data: {action: "neighbor_update",node_id:node_id},
       success: function( data ) {
-            status = data.event.default.value
-            $('#ping_node_result').html("<h4> Operation completed with status "+status+"</h4>")
+
+        setTimeout(function () { $('#ping_node_modal').modal('hide'); }, 60000);
+      }
+    });
+}
+
+function learn_mode(start)
+{
+  if (start) {
+        $('#learn_mode_result').html("<h4>Operation is in progress.</h4>")
+        $('#learn_mode_modal').modal('show')
+    }else {
+      $('#learn_mode_modal').modal('hide')
+  }
+  $.ajax({
+      url: "/api/zw_manager",
+      method :"POST",
+      data: {action: "learn_mode",start:start},
+      success: function( data ) {
+        $('#learn_mode_result').html("<h4>Learn mode has finished with status : "+data.event.default.value+"</h4>")
+      }
+    });
+}
+
+function controller_shift(start)
+{
+
+    if (start) {
+        $('#cshift_result').html("<h4>Operation is in progress.</h4>")
+        $('#start_cshift_modal').modal('show')
+    }else {
+        $('#start_cshift_modal').modal('hide')
+    }
+
+    prom = pool_messages_from_server("/ta/zw/events", "zw_ta.inclusion_stage", function (data) {
+             default_value = data.event.default.value
+             if (default_value=="ADD_NODE_STATUS_DONE"||default_value=="ADD_NODE_STATUS_FAILED")
+                return true
+             else return false
+        }, 60000)
+    prom.progress(function (data) {
+            if (data) $('#cshift_result').html("<h4>Operation changed status to : " + data.event.default.value + "</h4>")
+        })
+    prom.done(function (data) {
+            if (data) $('#cshift_result').html("<h4>Controller shift completed with status : " + data.event.default.value + "</h4>")
+        })
+
+    $.ajax({
+      url: "/api/zw_manager",
+      method :"POST",
+      data: {action: "controller_shift_mode",start:start},
+      success: function( data ) {
+        setTimeout(function () { $('#cshift_result').modal('hide'); }, 60000);
       }
     });
 }
@@ -188,6 +299,48 @@ function ping_node(node_id)
             if (tx_count == rx_count) status = "Node is reachable "
             else status = "Node is unreachable "
             $('#ping_node_result').html("<h4>"+status+" (tx:"+tx_count+",rx:"+rx_count+") </h4>")
+      }
+    });
+}
+
+function hard_reset()
+{
+    $('#ping_node_modal').modal('show')
+    $('#ping_node_result').html("<h4> Reseting zwave module </h4>")
+    $.ajax({
+      url: "/api/zw_manager",
+      method :"POST",
+      data: {action: "hard_reset"},
+      success: function( data ) {
+            $('#ping_node_result').html("<h4>Zwave module reset completed with status = "+data.event.default.value+" </h4>")
+      }
+    });
+}
+
+function get_controller_full_info()
+{
+    $('#ping_node_modal').modal('show')
+    $('#ping_node_result').html("<h4> Requesting information from zwave module.</h4>")
+    $.ajax({
+      url: "/api/zw_manager",
+      method :"POST",
+      data: {action: "get_controller_full_info"},
+      success: function( data ) {
+            $('#ping_node_result').html("<pre>"+JSON.stringify(data.event.properties,null,2)+"</pre>")
+      }
+    });
+}
+
+function reset_controller_to_default()
+{
+    $('#ping_node_modal').modal('show')
+    $('#ping_node_result').html("<h4> Reseting controller to default .</h4>")
+    $.ajax({
+      url: "/api/zw_manager",
+      method :"POST",
+      data: {action: "reset_controller_to_default"},
+      success: function( data ) {
+            $('#ping_node_result').html("<h4>Reset completed with status = "+data.event.default.value+" </h4>")
       }
     });
 }

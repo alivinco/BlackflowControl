@@ -1,80 +1,180 @@
 {% extends "blackflow/base_layout_blackflow.html" %}
-{% block li_dr_registry %}class="active"{% endblock %}
 {% block css_scripts %}
-<link rel="stylesheet" href="/static/css/custom_icons.css">
-<link href="/static/visjs/dist/vis.css" rel="stylesheet" type="text/css">
-    <style type="text/css">
-        #app_instances_graph_div {
-            width: 100%;
-            height: 600px;
-            border: 1px solid lightgray;
-        }
-    </style>
+ <link href="/static/css/bootstrap-slider.min.css" rel="stylesheet">
+<style >
+.movable { min-height: 120px;min-width: 220px}
+.movable_div { min-height: 120px}
+</style>
+<script src="/static/js/angular.min.js"></script>
 {% endblock %}
 {% block body %}
-</h1>
-<h3>Application instances</h3>
-<div class="container-fluid">
-{% if bf_response %}
-<table class="table table-bordered table-striped table-hover">
-   <thead>
-      <tr>
-        <th><h6>Id</h6></th>
-        <th><h6>App name</h6></th>
-        <th><h6>Instance alias</h6></th>
-        <th><h6>Subscribes for</h6></th>
-        <th><h6>Publishes to</h6></th>
-        <th><h6>Configured properties</h6></th>
-        <th><h6>Status</h6></th>
-        <th><h6>Description</h6></th>
-      </tr>
-   </thead>
-   <tbody>
-   {%  for app in bf_response.event.properties.app_instances %}
-    <tr>
-        <td >{{ app.id }}</td>
-        <td >{{ app.name }}</td>
-        <td >{{ app.alias }}</td>
-        <td ><ul>
-            {% for key,value in app.sub_for.iteritems() %}
-            <li style="min-width: 300px">
-                <h6>{{ key }}:{{ value }}</h6>
-            </li>
-            {% endfor %}
-           </ul>
-        </td>
-        <td><ul>
-            {% for key,value in app.pub_to.iteritems() %}
-            <li style="min-width: 300px">
-                <div><h6>{{ key }} : {{ value }}</h6></div>
-            </li>
-            {% endfor %}
-           </ul></td>
-        <td>
-            <ul>
-                {% for key,conf in app.configs.iteritems() %}
-                    <li>{{ key }} : {{ conf }}</li>
-                {% endfor %}
-            </ul>
-        </td>
-        <td>Running</td>
-        <td>
 
-        </td>
-    </tr>
-   {% endfor %}
-  <tbody>
-</table>
+<br/>
+{#<div class="container-fluid">#}
+ <div ng-controller="AppConfigController">
+  <form class="form-horizontal" role="form" action="/api/filters" method="POST">
+  <div>
+    <div >
+      <h4>Application instance configurator</h4>
+    </div>
+    <div >
+      <div class="form-group">
+                <label for="spid_input"  class="col-sm-2 control-label">Application</label>
+                <div class="col-sm-5">
+                  <input type="text" name="spid" ng-model="inst_config.name" class="form-control" id="spid_input" >
+                </div>
+      </div>
+      <div class="form-group">
+                <label for="topic_input" class="col-sm-2 control-label">Instance name</label>
+                <div class="col-sm-5">
+                  <input type="text" name="topic" class="form-control" ng-model="inst_config.name">
+                </div>
+      </div>
+      <div class="form-group form-inline" >
+                <label class="col-sm-2 control-label">App subscribes for:</label>
+                <div class="col-sm-6"></div>
+      </div>
+      <div ng-repeat="sub in sub_for" class="form-group form-inline" >
+                <label for="msg_type_input__1" class="col-sm-2 control-label"></label>
+                <div class="col-sm-10 col-md-10 col-lg-8">
+                  <input style="width: 170px" type="text"  class="form-control" ng-model="sub.key" placeholder="type" >
+                  <input style="width: 350px" type="text"  class="form-control" ng-model="sub.value" placeholder="subtype" >
+                  <button  class="btn btn-default" id="add_msg_type" value="Delete" >
+                   <span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="del_sub($index)"></span>
+                  </button>
+                </div>
+      </div>
+      <div class="form-group">
+                <div class="col-sm-6 col-sm-offset-2">
+                  <button  class="btn btn-default" type="button" ng-click="add_sub()"  >
+                   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                  </button>
+                </div>
+      </div>
+      <div class="form-group form-inline" >
+                <label class="col-sm-2 control-label">App publishes msg to:</label>
+                <div class="col-sm-6"></div>
+      </div>
+       <div ng-repeat="pub in pub_to" class="form-group form-inline" >
+                <label for="msg_subtype_input_2" class="col-sm-2 control-label"></label>
+                <div class="col-sm-10 col-md-10 col-lg-8">
+                  <input style="width: 170px" type="text"  class="form-control" ng-model="pub.key"  >
+                  <input style="width: 350px" type="text"  class="form-control" ng-model="pub.value"  >
+                  <button  class="btn btn-default" id="add_msg_type" value="Delete" ng-click="del_pub($index)">
+                   <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                  </button>
+                </div>
+      </div>
+       <div class="form-group">
+                <div class="col-sm-6 col-sm-offset-2">
+                  <button  class="btn btn-default" type="button" ng-click="add_pub()">
+                   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                  </button>
+                </div>
+      </div>
+      <div class="form-group form-inline" >
+                <label class="col-sm-2 control-label">App configurations</label>
+                <div class="col-sm-6"></div>
+      </div>
+      <div ng-repeat="conf in configs" class="form-group form-inline"  class="col-sm-7">
+                <label for="msg_subtype_input_2" class="col-sm-2 control-label"></label>
+                <div class="col-sm-10 col-md-10 col-lg-8">
+                  <input style="width: 170px" type="text"  class="form-control" ng-model="conf.key" >
+                  <input style="width: 350px" type="text"  class="form-control" ng-model="conf.value" >
+                  <button  class="btn btn-default" ng-click="del_conf($index)">
+                   <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                  </button>
+                </div>
+      </div>
+       <div class="form-group">
+                <div class="col-sm-6 col-sm-offset-2">
+                  <button  class="btn btn-default" type="button" ng-click="add_conf()">
+                   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                  </button>
+                </div>
+      </div>
+      <div>
+          <div class="form-group">
+          <label for="collection_name_input" class="col-sm-2 control-label">Comments</label>
+            <div class="col-sm-6">
+               <input type="text" name="collection_name" class="form-control" id="collection_name_input" ng-model="inst_config.comments">
+            </div>
+          </div>
+      </div>
+      <div>
+          <div class="form-group">
+          <label for="collection_name_input" class="col-sm-2 control-label"></label>
+            <div class="col-sm-6">
+               <button type="button" ng-click ="update()" class="btn btn-default" >Save</button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  </form>
 
-{% else %}
-<h4>Application runtime is not responding , please check if it is running and try again</h4>
-{% endif %}
+<pre>master = {[inst_config | json]}</pre>
 </div>
+{#Add service modal dialog #}
+<div class="modal fade" id="add_service_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Add service</h4>
+      </div>
+      <br/>
+      <div >
+            <form class="form-horizontal" role="form" action="/api/dashboard" method="POST">
+              <input type="hidden" name="action" value="add_service_to_dashboard" />
+              <input type="hidden" name="group_id" value="0" id="service_modal_group_id" />
+              <input type="hidden" name="dashboard_id" value="{{ dashboard_id }}" />
+              <div class="form-group">
+                <label for="inputName" class="col-sm-4 control-label">Service</label>
+                <div class="col-sm-6">
+                   <select name="service_id" id="inputMsgClass" class="form-control">
+                     {% for item in address_list|sort(attribute='name') %}
+                        <option value="{{ item.id }}" >{{ item.name }} -> {{ item.address }}</option>
+                     {% endfor %}
+                  </select>
+                </div>
+              </div>
+             <div class="form-group">
+                <label for="inputName" class="col-sm-4 control-label">Service name</label>
+                <div class="col-sm-6">
+                  <input type="text" name="service_name" class="form-control" id="inputName" placeholder="" value="">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputName" class="col-sm-4 control-label">X Position</label>
+                <div class="col-sm-6">
+                  <input type="text" name="position_x" class="form-control" id="inputName" placeholder="" value="auto">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputName" class="col-sm-4 control-label">Y Position</label>
+                <div class="col-sm-6">
+                  <input type="text" name="position_y" class="form-control" id="inputName" placeholder="" value="auto">
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-default">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 {% endblock %}
 {% block js_scripts %}
     <script>
-      var mode = "normal"
+    var inst_id = {{ inst_id }}
     </script>
-    <script src="/static/js/stupidtable.min.js"></script>
+
+    <script src="/static/js/blackflow/app_instances_config.js"></script>
+
 {% endblock %}
