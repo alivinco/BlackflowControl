@@ -694,24 +694,26 @@ def zw_diagnostics():
     action = request.args.get("action","")
     # get routing info may take some time to generate the response for zwave stack , therefore it may be usefull to show values from cache and add
     # refresh on demand feature .
+
     response = cache.get("zw_ta.routing_info","/ta/zw/events")
     if action == "refresh_routing_info" or not response :
         log.info("Doing zwave info refresh")
-        msg = zwapi.get_routing_info()
-        # That is propper request
-        response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.routing_info")
+
+        response = sync_async_client.send_sync_msg(zwapi.get_routing_info(),"/ta/zw/commands","/ta/zw/events",correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.routing_info",timeout=30)
         # This 2 lines below are a workaround while zwave ta is not available
         # response  = json.load(file("tests/poc/network_info.json"))
         if not response : response  = {"event":{"properties":{}}}
+
         cache.put("zw_ta.routing_info@.ta.zw.events",response,{"ui_element":{}},{})
 
     else :
         response = response["raw_msg"]
 
     routing_info = response["event"]["properties"]
+    context = sync_async_client.send_sync_msg(zwapi.get_context(),"/ta/zw/commands","/ta/zw/events",correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.context",timeout=5)
 
     log.debug("response :"+str(response))
-    return render_template('zw_diagnostics.html',routing_info=routing_info,global_context=global_context)
+    return render_template('zw_diagnostics.html',routing_info=routing_info,context=context["event"]["properties"]["context"],global_context=global_context)
 
 
 #TODO: That part is depricated and have to be removed .
@@ -823,6 +825,7 @@ def zw_manager_api():
         mqtt.publish("/ta/zw/commands",json.dumps(msg),1)
         # response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=60,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.neighbor_update_report")
         jobj = json.dumps({})
+
     elif action == "hard_reset":
         log.info("Controller hard reset")
         msg = zwapi.hard_reset()
@@ -839,6 +842,12 @@ def zw_manager_api():
         log.info("Reseting controller to default")
         msg = zwapi.reset_controller_to_default()
         response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.reset_controller_to_default")
+        jobj = json.dumps(response)
+
+    elif action == "network_update":
+        log.info("Requesting network update from suc.")
+        msg = zwapi.network_update()
+        response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=5,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.network_update_status")
         jobj = json.dumps(response)
 
     else :

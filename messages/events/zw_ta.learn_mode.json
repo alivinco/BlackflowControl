@@ -1,0 +1,20 @@
+{
+ "origin": {
+  "@id": "1", 
+  "@type": "zw_ta"
+ }, 
+ "uuid": "c9cb0ced-854a-48ed-aa31-c051034b747c", 
+ "creation_time": 1438180621, 
+ "spid": "UNDEFINED", 
+ "@context": "http://context.smartly.no", 
+ "event": {
+  "default": {
+   "value": "DONE"
+  }, 
+  "subtype": "learn_mode", 
+  "@type": "zw_ta", 
+  "properties": {
+   "new_node_id": 8
+  }
+ }
+}

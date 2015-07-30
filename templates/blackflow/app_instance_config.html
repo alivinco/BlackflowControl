@@ -21,7 +21,7 @@
       <div class="form-group">
                 <label for="spid_input"  class="col-sm-2 control-label">Application</label>
                 <div class="col-sm-5">
-                  <input type="text" name="spid" ng-model="inst_config.name" class="form-control" id="spid_input" >
+                  <input type="text" name="spid" readonly ng-model="inst_config.name" class="form-control" id="spid_input" >
                 </div>
       </div>
       <div class="form-group">
@@ -37,9 +37,12 @@
       <div ng-repeat="sub in sub_for" class="form-group form-inline" >
                 <label for="msg_type_input__1" class="col-sm-2 control-label"></label>
                 <div class="col-sm-10 col-md-10 col-lg-8">
-                  <input style="width: 170px" type="text"  class="form-control" ng-model="sub.key" placeholder="type" >
-                  <input style="width: 350px" type="text"  class="form-control" ng-model="sub.value" placeholder="subtype" >
-                  <button  class="btn btn-default" id="add_msg_type" value="Delete" >
+                  <input style="width: 170px" type="text"  class="form-control" ng-readonly="sub.value.app_def" ng-model="sub.key" placeholder="type" >
+                  <input style="width: 350px" type="text"  class="form-control" ng-model="sub.value.topic" placeholder="subtype" >
+                  <button  class="btn btn-default" id="add_msg_type"  value="Delete" >
+                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" ng-click="del_sub($index)"></span>
+                  </button>
+                  <button  class="btn btn-default" id="add_msg_type" ng-if="!sub.value.app_def" value="Delete" >
                    <span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="del_sub($index)"></span>
                   </button>
                 </div>
@@ -58,9 +61,12 @@
        <div ng-repeat="pub in pub_to" class="form-group form-inline" >
                 <label for="msg_subtype_input_2" class="col-sm-2 control-label"></label>
                 <div class="col-sm-10 col-md-10 col-lg-8">
-                  <input style="width: 170px" type="text"  class="form-control" ng-model="pub.key"  >
-                  <input style="width: 350px" type="text"  class="form-control" ng-model="pub.value"  >
-                  <button  class="btn btn-default" id="add_msg_type" value="Delete" ng-click="del_pub($index)">
+                  <input style="width: 170px" type="text"  class="form-control" ng-readonly="pub.value.app_def" ng-model="pub.key"  >
+                  <input style="width: 350px" type="text"  class="form-control" ng-model="pub.value.topic"  >
+                  <button  class="btn btn-default" id="add_msg_type"  value="Delete" >
+                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" ng-click="del_sub($index)"></span>
+                  </button>
+                  <button  class="btn btn-default" id="add_msg_type" ng-if="!pub.value.app_def" value="Delete" ng-click="del_pub($index)">
                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                   </button>
                 </div>
@@ -173,6 +179,7 @@
 {% block js_scripts %}
     <script>
     var inst_id = {{ inst_id }}
+    var app_name = "{{ app_name }}"
     </script>
 
     <script src="/static/js/blackflow/app_instances_config.js"></script>

@@ -38,7 +38,7 @@
         <td ><ul>
             {% for key,value in app.sub_for.iteritems() %}
             <li style="min-width: 300px">
-                <h6>{{ key }}:{{ value }}</h6>
+                <h6>{{ key }}:{{ value.topic }}</h6>
             </li>
             {% endfor %}
            </ul>
@@ -46,7 +46,7 @@
         <td><ul>
             {% for key,value in app.pub_to.iteritems() %}
             <li style="min-width: 300px">
-                <div><h6>{{ key }} : {{ value }}</h6></div>
+                <div><h6>{{ key }} : {{ value.topic }}</h6></div>
             </li>
             {% endfor %}
            </ul></td>

@@ -331,6 +331,20 @@ function get_controller_full_info()
     });
 }
 
+function network_update()
+{
+    $('#ping_node_modal').modal('show')
+    $('#ping_node_result').html("<h4> Requesting network update from SUC.</h4>")
+    $.ajax({
+      url: "/api/zw_manager",
+      method :"POST",
+      data: {action: "network_update"},
+      success: function( data ) {
+            $('#ping_node_result').html("<h4> Network update completed with status = "+data.event.default.value+" </h4>")
+      }
+    });
+}
+
 function reset_controller_to_default()
 {
     $('#ping_node_modal').modal('show')

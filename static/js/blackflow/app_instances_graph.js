@@ -66,7 +66,7 @@ function loadGraph()
     return  $.getJSON('/api/blackflow/app_instances_graph',data, function (data) {
         instancesGraphData = transformData(data)
         instancesGraph.setData(instancesGraphData)
-        console.log(nodeAliasToIdLookup("mqtt:/dev/serial/99/bin_switch/commands"))
+        //console.log(nodeAliasToIdLookup("mqtt:/dev/serial/99/bin_switch/commands"))
 
     })
 }

@@ -1,0 +1,70 @@
+{
+ "origin": {
+  "@id": "1", 
+  "@type": "zw_ta"
+ }, 
+ "uuid": "dfb06648-7c24-4238-94ae-0885746c627f", 
+ "creation_time": 1438249866, 
+ "spid": "UNDEFINED", 
+ "@context": "http://context.smartly.no", 
+ "event": {
+  "subtype": "context", 
+  "@type": "zw_ta", 
+  "properties": {
+   "context": [
+    {
+     "specific_device_type": 1, 
+     "cc_versions": {}, 
+     "task_queue_size": 0, 
+     "id": 1, 
+     "generic_device_type": 2, 
+     "basic_device_type": 2, 
+     "msg_queue_size": 0, 
+     "listening": true, 
+     "product_info": {}, 
+     "security": 0, 
+     "properties": []
+    }, 
+    {
+     "specific_device_type": 2, 
+     "cc_versions": {}, 
+     "task_queue_size": 0, 
+     "id": 4, 
+     "generic_device_type": 64, 
+     "basic_device_type": 4, 
+     "msg_queue_size": 0, 
+     "listening": false, 
+     "product_info": {}, 
+     "security": 0, 
+     "properties": []
+    }, 
+    {
+     "specific_device_type": 1, 
+     "cc_versions": {}, 
+     "task_queue_size": 0, 
+     "id": 5, 
+     "generic_device_type": 2, 
+     "basic_device_type": 2, 
+     "msg_queue_size": 0, 
+     "listening": true, 
+     "product_info": {}, 
+     "security": 0, 
+     "properties": []
+    }, 
+    {
+     "specific_device_type": 1, 
+     "cc_versions": {}, 
+     "task_queue_size": 0, 
+     "id": 8, 
+     "generic_device_type": 2, 
+     "basic_device_type": 2, 
+     "msg_queue_size": 0, 
+     "listening": true, 
+     "product_info": {}, 
+     "security": 0, 
+     "properties": []
+    }
+   ]
+  }
+ }
+}

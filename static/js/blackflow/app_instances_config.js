@@ -28,7 +28,7 @@ function convertKeyValueListToDict(list)
 
 app.controller("AppConfigController",function($scope,$http){
 
-    $http.get('/api/blackflow/app_instance_config',{params:{"id":inst_id}}).success(function(data) {
+    $http.get('/api/blackflow/app_instance_config',{params:{"id":inst_id,"app_name":app_name}}).success(function(data) {
 
         $scope.inst_config = data;
         $scope.sub_for = convertDictToKeyValList(data.sub_for)

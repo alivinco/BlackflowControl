@@ -1,5 +1,8 @@
 {% extends "base_layout.html" %}
 {% block li_zw_diganostics %}class="active"{% endblock %}
+{% block css_scripts %}
+<link rel="stylesheet" href="/static/css/custom_icons.css">
+{% endblock %}
 {% block body %}
 </h1>
 <h3>Zwave network managment</h3>
@@ -13,20 +16,23 @@
  <a class="btn btn-default" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Advanced operations</a>
 <div class="collapse" id="collapseExample">
   <div class="well">
-  <p><button type="button" class="btn btn-success" onclick="get_controller_full_info()" title="Full info">Request controller full info</button>
+  <p><button type="button" class="btn btn-success" style="width: 280px" onclick="get_controller_full_info()" title="Full info">Request controller full info</button>
       - The operation gets complete information about controller . The information contains controller Node Id , zwave network Home Id , etc.
   </p>
-  <p><button type="button" class="btn btn-default" onclick="learn_mode(true)" title="Learn mode">Include the gateway into another network</button>
+  <p><button type="button" class="btn btn-default" style="width: 280px" onclick="learn_mode(true)" title="Learn mode">Include the gateway into another network</button>
       - The operation is used to add zwave controller into another network . In order to complete the process you need to press "Add device" in another controller.
       WARNING :existing networks will be reseted .
   </p>
-  <p><button type="button" class="btn btn-default" onclick="controller_shift(true)" title="Controller shift">Set another controller as primary</button>
+  <p><button type="button" class="btn btn-default" style="width: 280px" onclick="controller_shift(true)" title="Controller shift">Set another controller as primary</button>
       - The operation is used to add the controller to the Z-Wave network and transfer the role as primary controller to it.
   </p>
-  <p><button type="button" class="btn btn-default" onclick="hard_reset()" title="Hard reset">Controller hard reset</button>
+  <p><button type="button" class="btn btn-default" style="width: 280px" onclick="network_update()" title="Controller shift">Request network update</button>
+      - The operation is used to request network update from SUC or primary controller.
+  </p>
+  <p><button type="button" class="btn btn-warning" style="width: 280px" onclick="hard_reset()" title="Hard reset">Controller hard reset</button>
       - The operation is used to to restart Zwave module . The operation will NOT reset zwave network .
   </p>
-  <p><button type="button" class="btn btn-danger" onclick="reset_controller_to_default()" title="Reset to default">Reset to default</button>
+  <p><button type="button" class="btn btn-danger"  onclick="reset_controller_to_default()" title="Reset to default">Reset to default</button>
       - !!!DANGER!!!! The operation will delete entire Zwave network and will assign new home ID.
   </p>
   </div>
@@ -42,22 +48,51 @@
     <tr>
         <td>Node id</td>
         <td>Neighbors</td>
+        <td>Power source</td>
         <td>action</td>
     </tr>
   </thead>
   <tbody>
-    {%  for node , nb in routing_info.iteritems() %}
-    <tr>
-        <td><a href="/ui/inter_console?filter=/dev/zw/{{ node }}&mode=normal">{{ node }}</a></td>
-        <td>{{ nb }}</td>
-        <td><a href="#" onclick="ping_node({{ node }})">Ping</a> |
-{#            <a href="#">Update neighbors list</a> |#}
-            <a href="#" onclick="get_node_info({{ node }})" >Request NIF</a> |
-            <a href="#" onclick="nb_update({{ node }})" >Neighbors rediscovery</a> |
-            <a href="#" onclick="remove_node({{ node }})" >Remove</a> |
-            <a href="#" onclick="replace_node({{ node }})" >Replace</a></td>
-    </tr>
-    {% endfor %}
+
+    {% if context %}
+        {%  for node , nb in routing_info.iteritems() %}
+            {% for ctx in context %}
+                {% if ctx.id == (node|int) %}
+                    <tr>
+                        <td><a href="/ui/inter_console?filter=/dev/zw/{{ node }}&mode=normal">{{ node }}</a></td>
+                        <td>{{ nb }}</td>
+                        <td>
+                              {% if ctx.listening %}
+                                  <div class="icon-mains-power"></div>
+                              {% else %}
+                                  <div class="icon-battery"></div>
+                              {% endif %}
+                        </td>
+                        <td><a href="#" onclick="ping_node({{ node }})">Ping</a> |
+                {#            <a href="#">Update neighbors list</a> |#}
+                            <a href="#" onclick="get_node_info({{ node }})" >Request NIF</a> |
+                            <a href="#" onclick="nb_update({{ node }})" >Neighbors rediscovery</a> |
+                            <a href="#" onclick="remove_node({{ node }})" >Remove</a> |
+                            <a href="#" onclick="replace_node({{ node }})" >Replace</a></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    {% else %}
+        {%  for node , nb in routing_info.iteritems() %}
+                    <tr>
+                        <td><a href="/ui/inter_console?filter=/dev/zw/{{ node }}&mode=normal">{{ node }}</a></td>
+                        <td>{{ nb }}</td>
+                        <td></td>
+                        <td><a href="#" onclick="ping_node({{ node }})">Ping</a> |
+                {#            <a href="#">Update neighbors list</a> |#}
+                            <a href="#" onclick="get_node_info({{ node }})" >Request NIF</a> |
+                            <a href="#" onclick="nb_update({{ node }})" >Neighbors rediscovery</a> |
+                            <a href="#" onclick="remove_node({{ node }})" >Remove</a> |
+                            <a href="#" onclick="replace_node({{ node }})" >Replace</a></td>
+                    </tr>
+        {% endfor %}
+    {% endif %}
   </tbody>
  </table>
 </div>
