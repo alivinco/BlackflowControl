@@ -711,9 +711,9 @@ def zw_diagnostics():
 
     routing_info = response["event"]["properties"]
     context = sync_async_client.send_sync_msg(zwapi.get_context(),"/ta/zw/commands","/ta/zw/events",correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.context",timeout=5)
-
+    context = context["event"]["properties"]["context"] if context else None
     log.debug("response :"+str(response))
-    return render_template('zw_diagnostics.html',routing_info=routing_info,context=context["event"]["properties"]["context"],global_context=global_context)
+    return render_template('zw_diagnostics.html',routing_info=routing_info,context=context,global_context=global_context)
 
 
 #TODO: That part is depricated and have to be removed .
