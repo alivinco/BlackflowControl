@@ -25,6 +25,48 @@ function convertKeyValueListToDict(list)
     return result
 }
 
+function getMessagePacket(msg_type,msg_class,msg_subclass)
+{
+    template =  {
+         origin: {
+          "@id": "blackfly",
+          vendor: "blackfly",
+          "@type": "app"
+         },
+         uuid: "",
+         creation_time: new Date().getTime(),
+         spid: ""
+        }
+    template[msg_type]={
+         "subtype": msg_subclass,
+         "@type": msg_class
+         }
+}
+
+function getInstConfigRequest(inst_config_orig,sub_for,pub_to,configs)
+{
+    inst_config = {}
+    sub_for_new  = []
+    pub_to_new  = []
+    configs_new  = []
+    angular.copy(sub_for,sub_for_new)
+    angular.copy(pub_to,pub_to_new)
+    angular.copy(configs,configs_new)
+    angular.copy(inst_config_orig,inst_config)
+    inst_config.sub_for = convertKeyValueListToDict(sub_for_new)
+    inst_config.pub_to = convertKeyValueListToDict(pub_to_new)
+    inst_config.configs = convertKeyValueListToDict(configs_new)
+    // cleaning up unneeded fields
+    for (i in inst_config.sub_for)
+    {
+        delete inst_config.sub_for[i].app_def
+    }
+    for (i in inst_config.pub_to)
+    {
+        delete inst_config.pub_to[i].app_def
+    }
+    return inst_config
+}
 
 app.controller("AppConfigController",function($scope,$http){
 
@@ -37,18 +79,20 @@ app.controller("AppConfigController",function($scope,$http){
 
     });
     $scope.update = function (){
-        $scope.inst_config.sub_for = convertKeyValueListToDict($scope.sub_for)
-        console.dir(inst_config)
+        req = getInstConfigRequest($scope.inst_config,$scope.sub_for,$scope.pub_to,$scope.configs)
+        $http.post("/api/blackflow/proxy",{"req_type":"one_way","req_payload":req})
+        console.dir(req)
+
     }
     $scope.add_sub = function(){
-        $scope.sub_for.push({"key":"","value":""})
+        $scope.sub_for.push({"key":"","value":{"topic":""}})
     }
     $scope.del_sub = function(index){
         $scope.sub_for.splice(index,1)
     }
     //
     $scope.add_pub = function(){
-        $scope.pub_to.push({"key":"","value":""})
+        $scope.pub_to.push({"key":"","value":{"topic":""}})
     }
     $scope.del_pub = function(index){
         $scope.pub_to.splice(index,1)

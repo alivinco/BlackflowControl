@@ -64,6 +64,28 @@ def blackflow_app_instance_config():
 
     return render_template('blackflow/app_instance_config.html',inst_id=inst_id,app_name = app_name ,global_context=global_context,format_time = utils.format_iso_time_from_sec)
 
+@blackflow_bp.route('/api/blackflow/proxy', methods=["POST"])
+@login_required
+def blackflow_proxy():
+    """
+    The method is a proxy between javascript client and MQTT
+
+    """
+    # supported types : one_way , sync_response
+    request_type = request.args.get("req_type","one_way")
+    request_topic = "/app/blackflow/commands"
+    response_topic = "/app/blackflow/events"
+    correlation_msg_type = request.args.get("corr_msg_type","")
+    sync_request_timeout = int(request.args.get("sync_req_timeout",30))
+    request_payload = request.args.get("req_payload","{}")
+    log.info("Proxy request . type = %s , correlation_msg_type = %s , request_payload = %s "%(request_type,correlation_msg_type,request_payload))
+    if request_type == "one_way":
+        sync_async_client.msg_system.publish(request_topic,request_payload,1)
+        response = "{}"
+    elif request_type == "sync_response":
+        response = sync_async_client.send_sync_msg(request_payload, request_topic,response_topic, sync_request_timeout,correlation_msg_type=correlation_msg_type,correlation_type="MSG_TYPE")
+    return Response(response=response, mimetype='application/json' )
+
 
 @blackflow_bp.route('/ui/blackflow/app_instances_graph', methods=["GET"])
 @login_required
