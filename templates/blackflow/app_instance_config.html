@@ -39,10 +39,10 @@
                 <div class="col-sm-10 col-md-10 col-lg-8">
                   <input style="width: 170px" type="text"  class="form-control" ng-readonly="sub.value.app_def" ng-model="sub.key" placeholder="type" >
                   <input style="width: 350px" type="text"  class="form-control" ng-model="sub.value.topic" placeholder="subtype" >
-                  <button  class="btn btn-default" id="add_msg_type"  value="Delete" >
-                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" ng-click="del_sub($index)"></span>
+                  <button  class="btn btn-default" id="add_msg_type"  value="Info" >
+                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" ></span>
                   </button>
-                  <button  class="btn btn-default" id="add_msg_type" ng-if="!sub.value.app_def" value="Delete" >
+                  <button  class="btn btn-default" id="add_msg_type" type="button" ng-if="!sub.value.app_def" value="Delete" >
                    <span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="del_sub($index)"></span>
                   </button>
                 </div>
@@ -63,10 +63,10 @@
                 <div class="col-sm-10 col-md-10 col-lg-8">
                   <input style="width: 170px" type="text"  class="form-control" ng-readonly="pub.value.app_def" ng-model="pub.key"  >
                   <input style="width: 350px" type="text"  class="form-control" ng-model="pub.value.topic"  >
-                  <button  class="btn btn-default" id="add_msg_type"  value="Delete" >
-                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" ng-click="del_sub($index)"></span>
+                  <button  class="btn btn-default" id="add_msg_type"  value="Info" >
+                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" ></span>
                   </button>
-                  <button  class="btn btn-default" id="add_msg_type" ng-if="!pub.value.app_def" value="Delete" ng-click="del_pub($index)">
+                  <button  class="btn btn-default" type="button" id="add_msg_type" ng-if="!pub.value.app_def" value="Delete" ng-click="del_pub($index)">
                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                   </button>
                 </div>
@@ -119,8 +119,8 @@
   </div>
   </form>
 
-<pre>master = {[inst_config | json]}</pre>
-<pre>master = {[sub_for | json]}</pre>
+{#<pre>master = {[inst_config | json]}</pre>#}
+{#<pre>master = {[sub_for | json]}</pre>#}
 </div>
 {#Add service modal dialog #}
 <div class="modal fade" id="add_service_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

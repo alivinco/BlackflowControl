@@ -26,7 +26,8 @@
         <th><h6>Publishes to</h6></th>
         <th><h6>Configured properties</h6></th>
         <th><h6>Status</h6></th>
-        <th><h6>Description</h6></th>
+        <th><h6>Action</h6></th>
+        <th><h6>Comments</h6></th>
       </tr>
    </thead>
    <tbody>
@@ -35,31 +36,36 @@
         <td >{{ app.id }}</td>
         <td >{{ app.name }}</td>
         <td >{{ app.alias }}</td>
-        <td ><ul>
+        <td >
             {% for key,value in app.sub_for.iteritems() %}
-            <li style="min-width: 300px">
+            <p style="min-width: 300px">
                 <h6>{{ key }}:{{ value.topic }}</h6>
-            </li>
+            </p>
             {% endfor %}
-           </ul>
+
         </td>
-        <td><ul>
-            {% for key,value in app.pub_to.iteritems() %}
-            <li style="min-width: 300px">
-                <div><h6>{{ key }} : {{ value.topic }}</h6></div>
-            </li>
-            {% endfor %}
-           </ul></td>
         <td>
-            <ul>
+            {% for key,value in app.pub_to.iteritems() %}
+            <p style="min-width: 300px">
+                <div><h6>{{ key }} : {{ value.topic }}</h6></div>
+            </p>
+            {% endfor %}
+           </td>
+        <td>
                 {% for key,conf in app.configs.iteritems() %}
-                    <li>{{ key }} : {{ conf }}</li>
+                    <p>{{ key }} : {{ conf }}</p>
                 {% endfor %}
-            </ul>
         </td>
         <td>Running</td>
+        <td style="min-width: 110px">
+            <a href="/ui/blackflow/app_instance_config?id={{ app.id }}&app_name={{ app.name }}"><span class=" glyphicon glyphicon-cog"/></a>
+            <a><span class=" glyphicon glyphicon-refresh"/></a>
+            <a><span class=" glyphicon glyphicon-play"/></a>
+            <a><span class=" glyphicon glyphicon-stop"/></a>
+            <a><span class=" glyphicon glyphicon-trash"/></a>
+        </td>
         <td>
-
+           {{ app.comments }}
         </td>
     </tr>
    {% endfor %}

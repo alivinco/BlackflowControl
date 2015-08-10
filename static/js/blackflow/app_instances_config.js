@@ -39,8 +39,11 @@ function getMessagePacket(msg_type,msg_class,msg_subclass)
         }
     template[msg_type]={
          "subtype": msg_subclass,
-         "@type": msg_class
+         "@type": msg_class,
+         "default":{"value":""},
+         "properties":{}
          }
+    return template
 }
 
 function getInstConfigRequest(inst_config_orig,sub_for,pub_to,configs)
@@ -56,6 +59,7 @@ function getInstConfigRequest(inst_config_orig,sub_for,pub_to,configs)
     inst_config.sub_for = convertKeyValueListToDict(sub_for_new)
     inst_config.pub_to = convertKeyValueListToDict(pub_to_new)
     inst_config.configs = convertKeyValueListToDict(configs_new)
+    inst_config.comments = inst_config_orig.comments
     // cleaning up unneeded fields
     for (i in inst_config.sub_for)
     {
@@ -79,10 +83,26 @@ app.controller("AppConfigController",function($scope,$http){
 
     });
     $scope.update = function (){
+        packet = getMessagePacket("command","blackflow","configure_app_instance")
         req = getInstConfigRequest($scope.inst_config,$scope.sub_for,$scope.pub_to,$scope.configs)
-        $http.post("/api/blackflow/proxy",{"req_type":"one_way","req_payload":req})
-        console.dir(req)
+        packet.command.properties = req
+        $http.post("/api/blackflow/proxy",{"req_type":"one_way","req_payload":packet}).
+        then(function(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            window.location = "/ui/blackflow/app_instances"
+          }, function(response) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+          });
+        //console.dir(req)
 
+
+    }
+    $scope.reload_app_instance = function (id){
+        packet = getMessagePacket("command","blackflow","configure_app_instance")
+        packet.default.value = id
+        $http.post("/api/blackflow/proxy",{"req_type":"one_way","req_payload":packet})
     }
     $scope.add_sub = function(){
         $scope.sub_for.push({"key":"","value":{"topic":""}})

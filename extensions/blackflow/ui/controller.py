@@ -72,12 +72,13 @@ def blackflow_proxy():
 
     """
     # supported types : one_way , sync_response
-    request_type = request.args.get("req_type","one_way")
     request_topic = "/app/blackflow/commands"
     response_topic = "/app/blackflow/events"
-    correlation_msg_type = request.args.get("corr_msg_type","")
-    sync_request_timeout = int(request.args.get("sync_req_timeout",30))
-    request_payload = request.args.get("req_payload","{}")
+    data = request.get_json()
+    request_type = data["req_type"] if "req_type" in data else "one_way"
+    correlation_msg_type = data["corr_msg_type"] if "corr_msg_type" in data else ""
+    sync_request_timeout = int(data["sync_req_timeout"]) if "sync_req_timeout" in data else 30
+    request_payload = json.dumps(data["req_payload"])
     log.info("Proxy request . type = %s , correlation_msg_type = %s , request_payload = %s "%(request_type,correlation_msg_type,request_payload))
     if request_type == "one_way":
         sync_async_client.msg_system.publish(request_topic,request_payload,1)
