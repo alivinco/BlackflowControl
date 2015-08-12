@@ -1,0 +1,31 @@
+{% extends "blackflow/base_layout_blackflow.html" %}
+{% block li_dr_registry %}class="active"{% endblock %}
+{% block css_scripts %}
+<link rel="stylesheet" href="/static/css/custom_icons.css">
+  <style type="text/css" media="screen">
+    #editor {
+        position: relative;
+        height: 80vh;
+    }
+</style>
+{% endblock %}
+{% block body %}
+<h3>App code editor</h3>
+<div id="editor">
+def learn_mode(self,start=True):
+        msg = self.get_message("command","zw_ta.learn_mode")
+        msg["command"]["default"]["value"]=start
+        return msg
+}</div>
+
+</div>
+
+{% endblock %}
+{% block js_scripts %}
+<script src="/static/js/ace/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/python");
+</script>
+{% endblock %}
