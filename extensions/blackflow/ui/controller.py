@@ -77,6 +77,7 @@ def blackflow_proxy():
     data = request.get_json()
     request_type = data["req_type"] if "req_type" in data else "one_way"
     correlation_msg_type = data["corr_msg_type"] if "corr_msg_type" in data else ""
+    correlation_type = data["corr_type"] if "corr_type" in data else "MSG_TYPE"
     sync_request_timeout = int(data["sync_req_timeout"]) if "sync_req_timeout" in data else 30
     request_payload = json.dumps(data["req_payload"])
     log.info("Proxy request . type = %s , correlation_msg_type = %s , request_payload = %s "%(request_type,correlation_msg_type,request_payload))
@@ -84,7 +85,9 @@ def blackflow_proxy():
         sync_async_client.msg_system.publish(request_topic,request_payload,1)
         response = "{}"
     elif request_type == "sync_response":
-        response = sync_async_client.send_sync_msg(request_payload, request_topic,response_topic, sync_request_timeout,correlation_msg_type=correlation_msg_type,correlation_type="MSG_TYPE")
+        request_payload = data["req_payload"]
+        response = sync_async_client.send_sync_msg(request_payload, request_topic,response_topic, sync_request_timeout,correlation_msg_type=correlation_msg_type,correlation_type=correlation_type)
+        response = json.dumps(response)
     return Response(response=response, mimetype='application/json' )
 
 

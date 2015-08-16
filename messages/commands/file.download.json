@@ -1,0 +1,17 @@
+{
+ "origin": {
+  "@id": "blackfly", 
+  "@type": "app"
+ }, 
+ "uuid": "a423f2a2-ab03-4f8a-9be4-2ea1a212d72d", 
+ "creation_time": 1439661559000, 
+ "command": {
+  "default": {
+   "value": "AlarmApp/AlarmApp.py"
+  }, 
+  "subtype": "download", 
+  "@type": "file"
+ }, 
+ "spid": "SP1", 
+ "@context": "http://context.smartly.no"
+}
