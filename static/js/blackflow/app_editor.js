@@ -14,7 +14,7 @@ app.config(['$interpolateProvider', function($interpolateProvider) {
 
 app.controller("AppEditorController",["$scope","$http","$base64",function($scope,$http,$base64){
     packet = getMessagePacket("command","file","download")
-    packet["command"]["default"]["value"] = "AlarmApp/AlarmApp.py"
+    packet["command"]["default"]["value"] = app_name
     $http.post('/api/blackflow/proxy',{"req_type":"sync_response","req_payload":packet,"corr_type":"COR_ID"}).
         then(function(response) {
             // this callback will be called asynchronously
@@ -29,10 +29,9 @@ app.controller("AppEditorController",["$scope","$http","$base64",function($scope
             // or server returns response with an error status.
           });
 
-    $scope.update = function (){
-        packet = getMessagePacket("command","blackflow","configure_app_instance")
-        req = getInstConfigRequest($scope.inst_config,$scope.sub_for,$scope.pub_to,$scope.configs)
-        packet.command.properties = req
+    $scope.save = function (){
+        packet = getMessagePacket("command","file","upload")
+        packet.command.properties = {"name":""}
         $http.post("/api/blackflow/proxy",{"req_type":"one_way","req_payload":packet}).
         then(function(response) {
             // this callback will be called asynchronously

@@ -9,10 +9,10 @@
  }, 
  "system": {
   "http_server_port": 5000, 
+  "platform": "sg", 
   "ui_security_disabled": false, 
-  "version": "1.5.1",
-  "distro_server_uri": "http://lego.fiicha.net/blackfly",
-  "platform":"sg"
+  "version": "1.5.1", 
+  "distro_server_uri": "http://lego.fiicha.net/blackfly"
  }, 
  "msg_class_lookup_path": [
   {
@@ -44,7 +44,7 @@
  ], 
  "mqtt": {
   "username": "blackfly_test", 
-  "root_topic": "#", 
+  "root_topic": "/#", 
   "enable_sys": false, 
   "global_topic_prefix": "", 
   "host": "localhost", 
