@@ -112,6 +112,7 @@
           <label for="collection_name_input" class="col-sm-2 control-label"></label>
             <div class="col-sm-6">
                <button type="button" ng-click ="update()" class="btn btn-default" >Save</button>
+               <button type="button" ng-click ="restart()" class="btn btn-default" >Restart instance</button>
             </div>
           </div>
       </div>
@@ -182,7 +183,7 @@
     var inst_id = {{ inst_id }}
     var app_name = "{{ app_name }}"
     </script>
-
+    <script src="/static/js/utils.js" type="text/javascript" charset="utf-8"></script>
     <script src="/static/js/blackflow/app_instances_config.js"></script>
 
 {% endblock %}

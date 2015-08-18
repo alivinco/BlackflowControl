@@ -27,7 +27,7 @@ function syntaxHighlight(json) {
         return '<span class="' + cls + '">' + match + '</span>';
     });
 }
-function guid() {
+function guidGen() {
   var d = new Date().getTime();
     var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = (d + Math.random()*16)%16 | 0;
@@ -39,7 +39,7 @@ function guid() {
 
 function getMessagePacket(msg_type,msg_class,msg_subclass)
 {
-    guid = guid()
+    guid = guidGen()
 
     template =  {
          origin: {

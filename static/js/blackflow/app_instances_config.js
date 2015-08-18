@@ -25,26 +25,7 @@ function convertKeyValueListToDict(list)
     return result
 }
 
-function getMessagePacket(msg_type,msg_class,msg_subclass)
-{
-    template =  {
-         origin: {
-          "@id": "blackfly",
-          vendor: "blackfly",
-          "@type": "app"
-         },
-         uuid: "",
-         creation_time: new Date().getTime(),
-         spid: ""
-        }
-    template[msg_type]={
-         "subtype": msg_subclass,
-         "@type": msg_class,
-         "default":{"value":""},
-         "properties":{}
-         }
-    return template
-}
+
 
 function getInstConfigRequest(inst_config_orig,sub_for,pub_to,configs)
 {
@@ -88,15 +69,12 @@ app.controller("AppConfigController",function($scope,$http){
         packet.command.properties = req
         $http.post("/api/blackflow/proxy",{"req_type":"one_way","req_payload":packet}).
         then(function(response) {
-            // this callback will be called asynchronously
-            // when the response is available
-            window.location = "/ui/blackflow/app_instances"
+            //window.location = "/ui/blackflow/app_instances"
+            alert("Changes were saved.")
           }, function(response) {
             // called asynchronously if an error occurs
             // or server returns response with an error status.
           });
-        //console.dir(req)
-
 
     }
     $scope.reload_app_instance = function (id){
@@ -123,6 +101,19 @@ app.controller("AppConfigController",function($scope,$http){
     }
     $scope.del_conf = function(index){
         $scope.configs.splice(index,1)
+    }
+    $scope.restart = function (){
+        packet = getMessagePacket("command","blackflow","reload_app_instance")
+        packet.command.default.value = $scope.inst_config.id
+        $http.post("/api/blackflow/proxy",{"req_type":"sync_response","req_payload":packet,"corr_type":"COR_ID"}).
+        then(function(response) {
+           if (response.data.event.default.value)
+               alert("The app instance restarted successfully")
+           else
+               alert(response.data.event.properties.error)
+          }, function(response) {
+             alert("Error")
+          });
     }
 })
 

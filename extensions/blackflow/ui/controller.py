@@ -99,7 +99,6 @@ def app_instances_graph_ui():
 @blackflow_bp.route('/ui/blackflow/app_editor', methods=["GET"])
 @login_required
 def app_editor_ui():
-    "AlarmApp/AlarmApp.py"
     app_name = request.args.get("app_name","")
     return render_template('blackflow/app_editor.html',app_name= app_name, global_context=global_context,format_time = utils.format_iso_time_from_sec)
 
