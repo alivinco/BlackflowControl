@@ -55,7 +55,7 @@ function getInstConfigRequest(inst_config_orig,sub_for,pub_to,configs)
 
 app.controller("AppConfigController",function($scope,$http){
 
-    $http.get('/api/blackflow/app_instance_config',{params:{"id":inst_id,"app_name":app_name}}).success(function(data) {
+    $http.get('/api/blackflow/'+bf_inst_name+'/app_instance_config',{params:{"id":inst_id,"app_name":app_name}}).success(function(data) {
 
         $scope.inst_config = data;
         $scope.sub_for = convertDictToKeyValList(data.sub_for)
@@ -67,7 +67,7 @@ app.controller("AppConfigController",function($scope,$http){
         packet = getMessagePacket("command","blackflow","configure_app_instance")
         req = getInstConfigRequest($scope.inst_config,$scope.sub_for,$scope.pub_to,$scope.configs)
         packet.command.properties = req
-        $http.post("/api/blackflow/proxy",{"req_type":"one_way","req_payload":packet}).
+        $http.post("/api/blackflow/"+bf_inst_name+"/proxy",{"req_type":"one_way","req_payload":packet}).
         then(function(response) {
             //window.location = "/ui/blackflow/app_instances"
             alert("Changes were saved.")
@@ -80,7 +80,7 @@ app.controller("AppConfigController",function($scope,$http){
     $scope.reload_app_instance = function (id){
         packet = getMessagePacket("command","blackflow","configure_app_instance")
         packet.default.value = id
-        $http.post("/api/blackflow/proxy",{"req_type":"one_way","req_payload":packet})
+        $http.post("/api/blackflow/"+bf_inst_name+"/proxy",{"req_type":"one_way","req_payload":packet})
     }
     $scope.add_sub = function(){
         $scope.sub_for.push({"key":"","value":{"topic":""}})
@@ -105,7 +105,7 @@ app.controller("AppConfigController",function($scope,$http){
     $scope.restart = function (){
         packet = getMessagePacket("command","blackflow","reload_app_instance")
         packet.command.default.value = $scope.inst_config.id
-        $http.post("/api/blackflow/proxy",{"req_type":"sync_response","req_payload":packet,"corr_type":"COR_ID"}).
+        $http.post("/api/blackflow/"+bf_inst_name+"/proxy",{"req_type":"sync_response","req_payload":packet,"corr_type":"COR_ID"}).
         then(function(response) {
            if (response.data.event.default.value)
                alert("The app instance restarted successfully")

@@ -15,7 +15,7 @@ app.config(['$interpolateProvider', function($interpolateProvider) {
 app.controller("AppEditorController",["$scope","$http","$base64",function($scope,$http,$base64){
     packet = getMessagePacket("command","file","download")
     packet["command"]["default"]["value"] = app_name+"/"+app_name+".py"
-    $http.post('/api/blackflow/proxy',{"req_type":"sync_response","req_payload":packet,"corr_type":"COR_ID"}).
+    $http.post('/api/blackflow/'+bf_inst_name+'/proxy',{"req_type":"sync_response","req_payload":packet,"corr_type":"COR_ID"}).
         then(function(response) {
             base64data = response.data.event.properties.bin_data
             decoded = $base64.decode(base64data);
@@ -30,7 +30,7 @@ app.controller("AppEditorController",["$scope","$http","$base64",function($scope
         bin_data =  $base64.encode(src);
         packet = getMessagePacket("command","file","upload")
         packet.command.properties = {"name":app_name+"/"+app_name+".py","type":"python","bin_data":bin_data}
-        $http.post("/api/blackflow/proxy",{"req_type":"one_way","req_payload":packet}).
+        $http.post("/api/blackflow/"+bf_inst_name+"/proxy",{"req_type":"one_way","req_payload":packet}).
         then(function(response) {
             alert("Changes were saved")
           }, function(response) {
@@ -40,7 +40,7 @@ app.controller("AppEditorController",["$scope","$http","$base64",function($scope
     $scope.reload = function (){
         packet = getMessagePacket("command","blackflow","reload_app")
         packet.command.default.value = app_name
-        $http.post("/api/blackflow/proxy",{"req_type":"sync_response","req_payload":packet,"corr_type":"COR_ID"}).
+        $http.post("/api/blackflow/"+bf_inst_name+"/proxy",{"req_type":"sync_response","req_payload":packet,"corr_type":"COR_ID"}).
         then(function(response) {
            if (response.data.event.default.value)
                alert("The app reloaded successfully")
