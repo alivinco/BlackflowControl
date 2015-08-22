@@ -120,7 +120,7 @@ class MsgPipeline():
 
         return {"success": False}
 
-    def process_command(self, mqtt, address, payload):
+    def process_command(self, mqtt, address, payload,id):
         # push message to cache
         # publish to mqtt
         log.info("New command entered message pipeline")
@@ -129,7 +129,7 @@ class MsgPipeline():
         self.update_static_part_of_message(payload, address)
         mqtt.publish(address, json.dumps(payload), 1)
 
-        exdt = self.__extract_data(address, msg_class, payload)
+        exdt = self.__extract_data(address, msg_class, payload,id)
         cache_key = self.msg_man.generate_key(msg_class, address)
         self.cache.put(cache_key, payload, exdt["ui_mapping"], exdt["extracted_values"])
         log.info("Message was saved to cache with key =" + str(cache_key))
@@ -207,7 +207,7 @@ class MsgPipeline():
             return False
 
 
-    def __extract_data(self, address, msg_class, payload):
+    def __extract_data(self, address, msg_class, payload, id=None):
         # extract values
         """
          Method extracts simple data from message . The date then is stored in cache in is used by UI to render element value .
@@ -218,11 +218,15 @@ class MsgPipeline():
         """
         extracted_values = {}
         ui_mapping = {}
-        key = self.msg_man.generate_key(msg_class, address)
-        address_map = self.msg_man.get_address_by_key(key)
-        # print id
+        if id :
+            address_map = self.msg_man.get_address_by_id(id)
+        else :
+            key = self.msg_man.generate_key(msg_class, address)
+            address_map = self.msg_man.get_address_by_key(key)
+
         try:
-            ui_mapping = self.msg_man.get_msg_class_by_key(key)["ui_mapping"]
+
+            ui_mapping = address_map["ui_mapping"]
             override_path = ""
             if "override_value_path" in address_map:
                 override_path = address_map["override_value_path"]

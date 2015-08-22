@@ -8,7 +8,7 @@
         <option value="routed">routed</option>
       </select>
       <span class="input-group-btn">
-         <button class="btn btn-default"  onclick="send_command('{{ item.key }}','msg_class_ui',''); return false" type="button">Ping</button>
+         <button class="btn btn-default"  onclick="send_command({{ item.id }},'{{ item.key }}','msg_class_ui',''); return false" type="button">Ping</button>
       </span>
    </div>
 </div>

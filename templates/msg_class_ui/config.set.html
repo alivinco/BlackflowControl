@@ -3,7 +3,7 @@
       <input id="prop_key" type="text"  class="form-control" placeholder="Name">
       <input id="prop_int_value" type="number"  class="form-control" placeholder="Value">
       <span class="input-group-btn">
-         <button class="btn btn-default"  onclick="send_command('{{ item.key }}','msg_class_ui',''); return false" type="button">Set</button>
+         <button class="btn btn-default"  onclick="send_command({{ item.id }},'{{ item.key }}','msg_class_ui',''); return false" type="button">Set</button>
       </span>
    </div>
 </div>

@@ -83,20 +83,19 @@ class Timeseries():
         if del_type:
             try:
                 self.lock.acquire()
-                if type(row_id) == int:
-                    row_id = str(row_id)
-                    self.conn.execute("DELETE FROM msg_history WHERE rowid = ?", (row_id,))
-                    self.conn.commit()
-                elif type(row_id) == list:
-                    if len(row_id) == 1:
-                        self.conn.execute("DELETE FROM msg_history WHERE rowid = ?", (row_id[0],))
-                    else:
-                        dev_list = str(tuple(row_id))
-                        self.conn.execute("DELETE FROM msg_history WHERE rowid in " + dev_list)
-                    self.conn.commit()
-                elif del_type == "all":
+                if del_type == "all":
                     self.conn.execute("DELETE FROM msg_history")
-                    self.conn.commit()
+                else :
+                    if type(row_id) == int:
+                        row_id = str(row_id)
+                        self.conn.execute("DELETE FROM msg_history WHERE rowid = ?", (row_id,))
+                    elif type(row_id) == list:
+                        if len(row_id) == 1:
+                            self.conn.execute("DELETE FROM msg_history WHERE rowid = ?", (row_id[0],))
+                        else:
+                            dev_list = str(tuple(row_id))
+                            self.conn.execute("DELETE FROM msg_history WHERE rowid in " + dev_list)
+                self.conn.commit()
 
             except Exception as ex:
                 self.log.error("Entries can't be deleted because of error")

@@ -233,13 +233,15 @@
  {
   "ui_mapping": {
    "ui_element": "slider", 
-   "num_type": "int", 
-   "value_path": "$.command.default.value"
+   "override_properties": true, 
+   "value_path": "$.command.default.value", 
+   "num_type": "int"
   }, 
+  "msg_type": "command", 
+  "msg_class": "level.switch", 
   "subclass": "switch", 
   "class": "level", 
-  "msg_type": "command", 
-  "msg_class": "level.switch"
+  "override_properties": true
  }, 
  {
   "ui_mapping": {

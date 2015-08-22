@@ -3,6 +3,10 @@
 {% block body %}
 
     <div>
+    <form action="/api/msg_history"   method="POST" style="display:inline">
+        <input type="hidden" name="action" value="delete_all"/>
+        <button type="submit"  class="btn btn-default">Delete all</button>
+    </form>
     {% for msg in history %}
      <div>
          <b>Time : {{ msg.time_iso }} ; msg class:{{ msg.msg_class }} ; address:{{ msg.address }}</b>

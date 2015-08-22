@@ -1,7 +1,7 @@
           {% if item.ui_mapping.ui_element=="toggle_switch" %}
                <div id="{{ item.key }}">
-                <a id="{{ item.key+"_on" }}"  href="#" onclick="send_command('{{ item.key }}','toggle_switch',true); return false" class="btn btn-default btn" >On</a>
-                <a id="{{ item.key+"_off" }}"  href="#" onclick="send_command('{{ item.key }}','toggle_switch',false); return false" class="btn btn-default btn" >Off</a>
+                <a id="{{ item.key+"_on" }}"  href="#" onclick="send_command({{ item.id }},'{{ item.key }}','toggle_switch',true); return false" class="btn btn-default btn" >On</a>
+                <a id="{{ item.key+"_off" }}"  href="#" onclick="send_command({{ item.id }},'{{ item.key }}','toggle_switch',false); return false" class="btn btn-default btn" >Off</a>
                </div>
           {% endif %}
           {% if item.ui_mapping.ui_element=="binary_light" %}
@@ -16,9 +16,9 @@
           {% if item.ui_mapping.ui_element=="input_num_field" %}
             <div id="{{ item.key }}" >
                 <div class="input-group">
-                  <input id="{{ item.key }}_input" type="text" class="form-control" style="min-width: 100px">
+                  <input id="{{ item.id }}_input" type="text" class="form-control" style="min-width: 100px">
                   <span class="input-group-btn">
-                    <button class="btn btn-default"  onclick="send_command('{{ item.key }}','input_num_field',''); return false" type="button">Set</button>
+                    <button class="btn btn-default"  onclick="send_command({{ item.id }},'{{ item.key }}','input_num_field',''); return false" type="button">Set</button>
                   </span>
                 </div>
 
@@ -27,9 +27,9 @@
           {% if item.ui_mapping.ui_element=="input_text_field" %}
             <div id="{{ item.key }}">
                 <div class="input-group">
-                  <input id="{{ item.key }}_input" type="text" class="form-control" style="min-width: 100px">
+                  <input id="{{ item.id }}_input" type="text" class="form-control" style="min-width: 100px">
                   <span class="input-group-btn">
-                    <button class="btn btn-default"  onclick="send_command('{{ item.key }}','input_text_field',''); return false" type="button">Set</button>
+                    <button class="btn btn-default"  onclick="send_command({{ item.id }},'{{ item.key }}','input_text_field',''); return false" type="button">Set</button>
                   </span>
                 </div>
 
@@ -38,15 +38,15 @@
           {% if item.ui_mapping.ui_element=="input_dropdown_field" %}
             <div id="{{ item.key }}">
                 <div class="input-group input-append">
-                  <input id="{{ item.key }}_input" type="text" class="form-control" style="min-width: 100px">
+                  <input id="{{ item.id }}_input" type="text" class="form-control" style="min-width: 100px">
                   <div class="input-group-btn">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
                     <ul class="dropdown-menu dropdown-menu-right" role="menu">
                       {% for value in item.ui_mapping.value_enum %}
-                        <li><a href="javascript:update_dropdown_input('{{ item.key }}_input','{{ value }}')" >{{ value }}</a></li>
+                        <li><a href="javascript:update_dropdown_input('{{ item.id }}_input','{{ value }}')" >{{ value }}</a></li>
                       {% endfor %}
                     </ul>
-                      <button class="btn btn-default"  onclick="send_command('{{ item.key }}','input_text_field',''); return false" type="button">Set</button>
+                      <button class="btn btn-default"  onclick="send_command({{ item.id }},'{{ item.key }}','input_text_field',''); return false" type="button">Set</button>
                   </div><!-- /btn-group -->
                 </div>
 
@@ -55,7 +55,7 @@
           {% if item.ui_mapping.ui_element=="slider" %}
             <div id="{{ item.key }}">
                 <div class="input-group">
-                  <input id="{{ item.key }}_input" type="text" ui_ext_type='slider' class="form-control" style="min-width: 100px" />
+                  <input id="{{ item.id }}_input" key = "{{ item.key }}" type="text" ui_ext_type='slider' class="form-control" style="min-width: 100px" />
                 </div>
              </div>
           {% endif %}
