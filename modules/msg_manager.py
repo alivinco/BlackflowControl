@@ -207,10 +207,10 @@ class MessageManager:
 
     # params have to have the same values as explained in ui_mapping part of msg class mapping
     #
-    def generate_command_from_user_params(self, msg_key, params):
+    def generate_command_from_user_params(self, msg_key, params,id):
         msg_template = self.load_template_by_key(msg_key)
         msg_class_map = self.get_msg_class_by_key(msg_key)
-        address = self.get_address_by_key(msg_key)
+        address = self.get_address_by_id(id)
         #parameters = {"value":"True"}
         for k, v in params.items():
             if "properties_are_key_value" in msg_class_map["ui_mapping"] :
@@ -248,9 +248,10 @@ class MessageManager:
                 self.set_value_to_msg(msg_template, path, v)
         return msg_template
 
-    def update_address_mapping(self, key, name, msg_class, msg_type, address,override_properties="",override_value_path="",record_history=False,serialize=True):
-        if key:
-            item = filter(lambda addr: (addr["key"] == key ), self.address_mapping)[0]
+    def update_address_mapping(self, id, name, msg_class, msg_type, address,override_properties="",override_value_path="",record_history=False,serialize=True):
+        key = self.generate_key(msg_class, address)
+        if id:
+            item = filter(lambda addr: (addr["id"] == id ), self.address_mapping)[0]
             item["msg_class"] = msg_class
             item["address"] = address
             item["name"] = name
@@ -261,7 +262,7 @@ class MessageManager:
             log.info("Address mapping updated with " + str(item))
         else :
             new_id = self.get_new_addr_id()
-            self.address_mapping.append({"id":new_id,"msg_class": msg_class, "address": address, "name": name, "msg_type": msg_type,"record_history":record_history, "override_properties":override_properties,"override_value_path":override_value_path,"key": self.generate_key(msg_class, address)})
+            self.address_mapping.append({"id":new_id,"msg_class": msg_class, "address": address, "name": name, "msg_type": msg_type,"record_history":record_history, "override_properties":override_properties,"override_value_path":override_value_path,"key": key})
 
         if serialize :self.serialize_address_mapping()
 
@@ -299,6 +300,13 @@ class MessageManager:
         try:
           k = self.decode_key(key)
           r = filter(lambda addr: (addr["msg_class"] == k["msg_class"] and addr["address"] == k['address']),self.address_mapping)[0]
+        except Exception as ex :
+          r = None
+        return r
+
+    def get_address_by_id(self, id):
+        try:
+          r = filter(lambda addr: (addr["id"] == id ),self.address_mapping)[0]
         except Exception as ex :
           r = None
         return r

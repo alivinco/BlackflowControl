@@ -71,7 +71,7 @@
        <td> {{ item.name }}  </td>
        <td> {{ item.msg_type }} </td>
        <td><a onclick="location.href ='/ui/msg_class/{{ item.msg_type }}/{{ item.msg_class }}'">{{ item.msg_class }}</a> </td>
-       <td> <a href="/ui/address_map/{{ item.key }}">{{ item.address }}</a> </td>
+       <td> <a href="/ui/address_map/{{ item.id }}">{{ item.address }}</a> </td>
        {% if mode == "normal" %} <td  > <div style="min-width: 100px" id="{{ item.key }}_msg_time" style="width: 70px">{{ cache_item.timestamp_iso }}</div> </td>{% endif %}
        <td><div style="width: 60px">
            <a href="../api/get_last_raw_msg/{{item.key}}" target="_blank">Last msg</a>

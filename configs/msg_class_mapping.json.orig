@@ -238,9 +238,17 @@
    "value_path": "$.command.default.value", 
    "num_type": "int"
   }, 
+<<<<<<< HEAD
   "class": "level", 
   "subclass": "switch", 
   "msg_class": "level.switch"
+=======
+  "msg_type": "command", 
+  "msg_class": "level.switch", 
+  "subclass": "switch", 
+  "class": "level", 
+  "override_properties": true
+>>>>>>> develop
  }, 
  {
   "msg_type": "command", 
@@ -1165,7 +1173,10 @@
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
+<<<<<<< HEAD
   "subclass": "context", 
+=======
+>>>>>>> develop
   "class": "zw_ta", 
   "msg_type": "event", 
   "subclass": "context"
@@ -1176,9 +1187,30 @@
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
+  "class": "zw_ta", 
+  "msg_type": "event", 
+  "subclass": "network_update_status"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "input_num_field", 
+   "value_path": "$.command.properties.iterations", 
+   "num_type": "int"
+  }, 
+  "subclass": "selftest", 
+  "class": "zw_ta", 
+  "msg_type": "command", 
+  "msg_class": "zw_ta.selftest"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "free_text", 
+   "value_path": "$.event.default.value"
+  }, 
   "subclass": "network_update_status", 
   "class": "zw_ta", 
   "msg_type": "event", 
+<<<<<<< HEAD
   "msg_class": "zw_ta.network_update_status"
  }, 
  {
@@ -1209,25 +1241,8 @@
   }, 
   "msg_type": "command", 
   "msg_class": "level.servo"
- },
-{
-  "ui_mapping": {
-   "ui_element": "input_num_field", 
-   "value_path": "$.command.properties.iterations", 
-   "num_type": "int"
-  }, 
-  "subclass": "selftest", 
-  "class": "zw_ta", 
-  "msg_type": "command", 
+=======
   "msg_class": "zw_ta.selftest"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "free_text", 
-   "value_path": "$.event.default.value"
-  }, 
-  "msg_type": "event", 
-  "msg_class": "zw_ta.selftest"
+>>>>>>> develop
  }
-
 ]

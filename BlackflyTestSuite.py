@@ -18,6 +18,7 @@ from extensions import devicereg
 import libs
 from libs.dmapi.core import Core
 from libs.flask_login import LoginManager, login_required
+from libs.utils import convert_bool
 from mappings.msg_class_to_zw import get_msg_class_by_capabilities
 import modules
 from modules.mod_dashboards import DashboardManager
@@ -222,11 +223,12 @@ def device_templates_ui():
     return render_template('device_templates.html', mapping=mapping,global_context=global_context)
 
 
-@app.route('/ui/address_map/<key>')
+@app.route('/ui/address_map/<id>')
 @login_required
-def address_map_ui(key):
+def address_map_ui(id):
     msg_man.reload_all_mappings()
-    mapping = msg_man.get_address_by_key(key)
+    if id :
+        mapping = msg_man.get_address_by_id(int(id))
     msg_class_list = msg_man.msg_class_mapping
 
     if not mapping:
@@ -261,6 +263,7 @@ def msg_class_ui(msg_type,msg_class):
         if request.method == 'POST':
            class_name = request.form["class"]
            msg_type = request.form["type"]
+           over_props = True if "override_properties" in request.form else False
            msg_class_obj = msg_man.get_msg_clas_by_name(msg_type,class_name)
            ui_el = request.form["ui_element"]
            is_new_class = False
@@ -269,12 +272,14 @@ def msg_class_ui(msg_type,msg_class):
               is_new_class = True
               msg_class_obj = {"ui_mapping": {
                                "ui_element": "",
-                               "value_path": ""
+                               "value_path": "",
+                               "override_properties":False
                               },
                               "msg_type": "",
-                              "msg_class": ""
+                              "msg_class": "",
+                              "override_properties":False
                              }
-
+           msg_class_obj["ui_mapping"]["override_properties"] = over_props
            msg_class_obj["ui_mapping"]["ui_element"] = ui_el
            msg_class_obj["ui_mapping"]["value_path"] = request.form["ui_value_path"]
            if ui_el == "sensor_value":
@@ -399,14 +404,15 @@ def send_command():
     log.info("New message from UI")
     try:
         req = request.get_json()
-        command = msg_man.generate_command_from_user_params(req["msg_key"],req["user_params"])
+        addr_id = int(req["id"])
+        command = msg_man.generate_command_from_user_params(req["msg_key"],req["user_params"],addr_id)
         log.debug("Command message = "+str(command))
         address = req["msg_key"].split("@")[1]
         log.info("Destination address = "+str(address.replace(".","/"))+"; Mode = "+req["mode"])
         # print json.dumps(command,indent=True
         # mqtt.mqtt.publish(address.replace(".","/"),json.dumps(command),1)
         # cache.put(address,command)
-        msg_pipeline.process_command(mqtt,address.replace(".","/"),command)
+        msg_pipeline.process_command(mqtt,address.replace(".","/"),command,addr_id)
         dev = json.dumps({"success":True})
     except Exception as ex:
         dev = json.dumps({"success":False})
@@ -504,7 +510,7 @@ def address_manager():
             action = request.form["action"]
 
             if action == "update_address_mapping":
-                key = request.form["key"]
+                id = int(request.form["id"]) if request.form["id"] else None
                 override_props = ""
                 override_value_path = ""
                 try:
@@ -520,7 +526,7 @@ def address_manager():
                 msg_class = msg_class_split[1]
                 str_to_bool = {"True":True,"False":False}
                 record_history = str_to_bool[request.form["record_history"]]
-                msg_man.update_address_mapping(key,request.form["name"],msg_class,msg_type,request.form["address"],override_props,override_value_path,record_history)
+                msg_man.update_address_mapping(id,request.form["name"],msg_class,msg_type,request.form["address"],override_props,override_value_path,record_history)
                 log.info("Address mapping successfully updated")
             elif action =="bulk_address_update":
                 msg_man.find_replace_address(request.form["find"],request.form["replace_to"])
@@ -622,7 +628,7 @@ def msg_history_api():
     try:
         if request.method == "POST":
            action = request.form["action"]
-           id = int(request.form["id"])
+           id = int(request.form["id"]) if "id" in request.form else None
 
         if action =="resend":
             msg = timeseries.get_msg_history(rowid=id)[0]
@@ -630,6 +636,9 @@ def msg_history_api():
             mqtt.publish(msg["address"],msg["msg"],1)
         elif action =="delete":
             timeseries.delete_msg_history("rowid",id)
+        elif action =="delete_all":
+            timeseries.delete_msg_history(del_type="all")
+
     except Exception as ex:
         log.error(ex)
 

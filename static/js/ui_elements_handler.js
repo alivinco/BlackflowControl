@@ -30,18 +30,18 @@ function load_data()
     });
 }
 
-function send_command(key,ui_type,value)
+function send_command(id,key,ui_type,value)
 {
     obj = null
     if (ui_type=="input_num_field")
     {
-        val = parseFloat($("#"+jq_elector(key+"_input")).val())
+        val = parseFloat($("#"+jq_elector(id+"_input")).val())
 //        console.log(typeof val)
 //        console.log("var:"+val)
 
     }else if (ui_type=="input_text_field")
     {
-        val = $("#"+jq_elector(key+"_input")).val()
+        val = $("#"+jq_elector(id+"_input")).val()
     }
 
     else if (ui_type=="msg_class_ui")
@@ -55,7 +55,7 @@ function send_command(key,ui_type,value)
            user_params[input_id]=input_value
        })
 
-       obj = {"msg_key":key,"user_params":user_params,"mode":mode}
+       obj = {"msg_key":key,"user_params":user_params,"mode":mode,"id":id}
 //       console.dir(obj)
     } else
     {
@@ -63,7 +63,8 @@ function send_command(key,ui_type,value)
 //        console.log(value)
     }
 
-    if(!obj) obj = {"msg_key":key,"user_params":{"value":val},"mode":mode}
+    if(!obj) obj = {"msg_key":key,"user_params":{"value":val},"mode":mode,"id":id}
+    console.dir(obj)
     $.ajax({
       url: "/api/send_command",
       type: 'POST',
@@ -175,13 +176,14 @@ function initi_slider()
 {
     if ($("input[ui_ext_type='slider']").length>0)
     {
-    $("input[ui_ext_type='slider']").slider({min:0,max:100,tooltip: 'always'});
+    $("input[ui_ext_type='slider']").slider({min:0,max:200,tooltip: 'always'});
     $("input[ui_ext_type='slider']").on('slideStop', function(slideEvt) {
 	    id = slideEvt.target.id.replace("_input","")
+        key = slideEvt.target.attributes.key.value
         console.dir(slideEvt)
         value = slideEvt.value
-        console.log(value)
-        send_command(id,'slider',value); return false
+        //console.log(value)
+        send_command(id,key,'slider',value); return false
     });
     }
 }

@@ -3,7 +3,7 @@
       <input id="group_id_num_input" type="number"  class="form-control" placeholder="Group id">
       <input id="device_id_num_input" type="number"  class="form-control" placeholder="Device id">
       <span class="input-group-btn">
-         <button class="btn btn-default"  onclick="send_command('{{ item.key }}','msg_class_ui',''); return false" type="button">Set</button>
+         <button class="btn btn-default"  onclick="send_command({{ item.id }},'{{ item.key }}','msg_class_ui',''); return false" type="button">Set</button>
       </span>
    </div>
 </div>
