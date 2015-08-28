@@ -961,6 +961,7 @@ def mqtt_client():
                      "@context": "http://context.smartly.no"
                     }
         payload = json.dumps(payload,indent=True)
+        return render_template('mqtt_client.html',global_context=global_context,address=address,payload=payload,status=status)
 
     if request.method == "POST":
         address = request.form["address"]
@@ -968,9 +969,8 @@ def mqtt_client():
         log.info(type(payload))
         log.info("Payload"+str(payload))
         mqtt.publish(address,str(payload),1)
-        status = "The message was sent"
+        return Response(response="{}", mimetype='application/json')
 
-    return render_template('mqtt_client.html',global_context=global_context,address=address,payload=payload,status=status)
 
 @app.route('/ui/config_editor',methods=["POST","GET"])
 @login_required
