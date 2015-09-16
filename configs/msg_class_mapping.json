@@ -231,16 +231,17 @@
   "msg_class": "binary.smoke"
  }, 
  {
-  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "slider", 
    "override_properties": true, 
    "value_path": "$.command.default.value", 
    "num_type": "int"
   }, 
-  "class": "level", 
+  "msg_type": "command", 
+  "msg_class": "level.switch", 
   "subclass": "switch", 
-  "msg_class": "level.switch"
+  "class": "level", 
+  "override_properties": true
  }, 
  {
   "msg_type": "command", 
@@ -857,7 +858,8 @@
   "ui_mapping": {
    "ui_element": "input_num_field", 
    "num_type": "int", 
-   "value_path": "$.command.default.value"
+   "value_path": "$.command.default.value", 
+   "override_properties": true
   }, 
   "subclass": "basic", 
   "class": "level", 
@@ -1160,7 +1162,6 @@
   "msg_class": "zw_ta.get_context"
  }, 
  {
-  "msg_class": "zw_ta.context", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
@@ -1168,10 +1169,9 @@
   "subclass": "context", 
   "class": "zw_ta", 
   "msg_type": "event", 
-  "subclass": "context"
+  "msg_class": "zw_ta.context"
  }, 
  {
-  "msg_class": "zw_ta.network_update_status", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
@@ -1182,43 +1182,15 @@
   "msg_class": "zw_ta.network_update_status"
  }, 
  {
-  "msg_class": "file.download", 
-  "ui_mapping": {
-   "ui_element": "free_text", 
-   "value_path": "$.command.default.value"
-  }, 
-  "class": "file", 
   "msg_type": "command", 
-  "subclass": "download"
- }, 
- {
-  "msg_class": "file.download", 
   "ui_mapping": {
-   "ui_element": "free_text", 
-   "value_path": "$.event.default.value"
+   "ui_element": "input_text_field", 
+   "num_type": "int", 
+   "value_path": "$.command.default.value", 
+   "override_properties": true
   }, 
-  "class": "file", 
-  "msg_type": "event", 
-  "subclass": "download"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "slider", 
-   "value_path": "$.command.default.value",
-   "num_type":"int"
-  }, 
-  "msg_type": "command", 
-  "msg_class": "level.servo"
- },
-{
-  "ui_mapping": {
-   "ui_element": "input_num_field", 
-   "value_path": "$.command.properties.iterations", 
-   "num_type": "int"
-  }, 
-  "subclass": "selftest", 
   "class": "zw_ta", 
-  "msg_type": "command", 
+  "subclass": "selftest", 
   "msg_class": "zw_ta.selftest"
  }, 
  {
@@ -1229,5 +1201,4 @@
   "msg_type": "event", 
   "msg_class": "zw_ta.selftest"
  }
-
 ]
