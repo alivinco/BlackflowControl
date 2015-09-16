@@ -92,6 +92,7 @@
                       <th>Type</th>
                       <th>Support</th>
                       <th>Control</th>
+                      <th>Security</th>
                       <th>Uri</th>
                       <th>Capabilities</th>
                       <th>Property</th>
@@ -103,6 +104,7 @@
                         <td>{{ endp.Type }}</td>
                         <td>{% if endp.Support %} <h5 class="pull-right glyphicon glyphicon-ok">&nbsp;</h5>{% else %} <h5 class="pull-right glyphicon glyphicon-remove">&nbsp;</h5> {% endif %}</td>
                         <td>{% if endp.Control %} <h5 class="pull-right glyphicon glyphicon-ok">&nbsp;</h5>{% else %} <h5 class="pull-right glyphicon glyphicon-remove">&nbsp;</h5> {% endif %}</td>
+                        <td>{{ endp.SecurityLevel }}</td>
                         <td><a href="/ui/inter_console?filter={{ endp.Uri }}&mode=normal">{{ endp.Uri }}</a></td>
                         <td><small>{{ endp.Capabilities }}</small></td>
                         <td>{{ endp.Property }}</td></tr>
