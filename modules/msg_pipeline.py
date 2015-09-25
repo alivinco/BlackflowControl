@@ -218,15 +218,16 @@ class MsgPipeline():
         """
         extracted_values = {}
         ui_mapping = {}
+        key = self.msg_man.generate_key(msg_class, address)
         if id :
             address_map = self.msg_man.get_address_by_id(id)
         else :
-            key = self.msg_man.generate_key(msg_class, address)
             address_map = self.msg_man.get_address_by_key(key)
 
         try:
 
-            ui_mapping = address_map["ui_mapping"]
+            # ui_mapping = address_map["ui_mapping"]
+            ui_mapping = self.msg_man.get_msg_class_by_key(key)["ui_mapping"]
             override_path = ""
             if "override_value_path" in address_map:
                 override_path = address_map["override_value_path"]

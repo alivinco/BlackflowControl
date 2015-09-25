@@ -38,14 +38,22 @@
   <div class="form-group">
     <label for="inputType" class="col-sm-2 control-label">Record history</label>
     <div class="col-sm-10">
-{#      <input type="text" name="type" class="form-control" id="inputType"  value="{{ mapping.msg_type }}">#}
-
       <select name="record_history" id="inputType" class="form-control">
            <option {% if mapping.record_history == False %}selected="selected"{% endif %} >False</option>
            <option {% if mapping.record_history == True %}selected="selected"{% endif %} >True</option>
 
       </select>
     </div>
+  </div>
+  <div class="form-group">
+        <label for="inputType" class="col-sm-2 control-label">Transport</label>
+        <div class="col-sm-10">
+          <select name="transport" id="inputType" class="form-control">
+               <option {% if mapping.transport == "" %}selected="selected"{% endif %} value="" >None</option>
+               <option {% if mapping.transport == "AES-128" %}selected="selected"{% endif %} value="AES-128" >AES-128</option>
+               <option {% if mapping.transport == "crc16" %}selected="selected"{% endif %} value="crc16" >CRC-16</option>
+          </select>
+        </div>
   </div>
 {% for item in msg_class_list %}
     {% if item.msg_class == mapping.msg_class and item.msg_type == mapping.msg_type and item.ui_mapping.override_properties %}

@@ -49,6 +49,7 @@
         <td>Node id</td>
         <td>Neighbors</td>
         <td>Power source</td>
+        <td>Queue</td>
         <td>action</td>
     </tr>
   </thead>
@@ -68,6 +69,7 @@
                                   <div class="icon-battery"></div>
                               {% endif %}
                         </td>
+                       <td>{{ ctx.msg_queue_size+ctx.task_queue_size }}</td>
                         <td><a href="#" onclick="ping_node({{ node }})">Ping</a> |
                 {#            <a href="#">Update neighbors list</a> |#}
                             <a href="#" onclick="get_node_info({{ node }})" >Request NIF</a> |

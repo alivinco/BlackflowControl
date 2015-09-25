@@ -526,7 +526,8 @@ def address_manager():
                 msg_class = msg_class_split[1]
                 str_to_bool = {"True":True,"False":False}
                 record_history = str_to_bool[request.form["record_history"]]
-                msg_man.update_address_mapping(id,request.form["name"],msg_class,msg_type,request.form["address"],override_props,override_value_path,record_history)
+                transport = request.form["transport"]
+                msg_man.update_address_mapping(id,request.form["name"],msg_class,msg_type,request.form["address"],override_props,override_value_path,record_history,transport=transport)
                 log.info("Address mapping successfully updated")
             elif action =="bulk_address_update":
                 msg_man.find_replace_address(request.form["find"],request.form["replace_to"])
