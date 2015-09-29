@@ -14,6 +14,7 @@ from flask import Flask, Response, redirect, url_for
 from flask import render_template
 from flask import request
 import time
+import operator
 from extensions import devicereg
 import libs
 from libs.dmapi.core import Core
@@ -723,7 +724,29 @@ def zw_diagnostics():
     context = sync_async_client.send_sync_msg(zwapi.get_context(),"/ta/zw/commands","/ta/zw/events",correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.context",timeout=5)
     context = context["event"]["properties"]["context"] if context else None
     log.debug("response :"+str(response))
-    return render_template('zw_diagnostics.html',routing_info=routing_info,context=context,global_context=global_context)
+    # routing_info_sorted = sorted(routing_info, key=operator.itemgetter('id'))
+    context_view = []
+    try:
+        for node_id ,nb_list in routing_info.iteritems():
+            for ctx_item in context :
+                if ctx_item["id"] == int(node_id):
+                    ctx_item["nb_list"] = nb_list
+                    context_view.append(ctx_item)
+    except:
+        context_view = None
+    else:
+        try:
+         # Try to extend info with device registry data
+         response = cache.get("devicereg.device_list","/app/devicereg/events")
+         if response:
+            dr_dev_list = response["raw_msg"]["event"]["properties"]["device_list"]["value"]
+            for ctx_dev in context_view:
+                dr_dev_info = filter(lambda dev : int(dev["Address"])==ctx_dev["id"] ,dr_dev_list)[0]
+                ctx_dev["Alias"] = dr_dev_info["Alias"]
+        except Exception as ex:
+            log.info("Context infor can't be extended because of error : %s"%ex)
+
+    return render_template('zw_diagnostics.html',routing_info=routing_info,context=context_view,global_context=global_context)
 
 
 #TODO: That part is depricated and have to be removed .

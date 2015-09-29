@@ -47,6 +47,7 @@
   <thead>
     <tr>
         <td>Node id</td>
+        <td>Alias</td>
         <td>Neighbors</td>
         <td>Power source</td>
         <td>Queue</td>
@@ -56,12 +57,11 @@
   <tbody>
 
     {% if context %}
-        {%  for node , nb in routing_info.iteritems() %}
-            {% for ctx in context %}
-                {% if ctx.id == (node|int) %}
+            {% for ctx in context|sort(attribute="id") %}
                     <tr>
-                        <td><a href="/ui/inter_console?filter=/dev/zw/{{ node }}&mode=normal">{{ node }}</a></td>
-                        <td>{{ nb }}</td>
+                        <td><a href="/ui/inter_console?filter=/dev/zw/{{ ctx.id }}&mode=normal">{{ ctx.id }}</a></td>
+                        <td>{{ ctx.Alias }}</td>
+                        <td>{{ ctx.nb_list }}</td>
                         <td>
                               {% if ctx.listening %}
                                   <div class="icon-mains-power"></div>
@@ -70,16 +70,14 @@
                               {% endif %}
                         </td>
                        <td>{{ ctx.msg_queue_size+ctx.task_queue_size }}</td>
-                        <td><a href="#" onclick="ping_node({{ node }})">Ping</a> |
+                        <td><a href="#" onclick="ping_node({{ ctx.id }})">Ping</a> |
                 {#            <a href="#">Update neighbors list</a> |#}
-                            <a href="#" onclick="get_node_info({{ node }})" >Request NIF</a> |
-                            <a href="#" onclick="nb_update({{ node }})" >Neighbors rediscovery</a> |
-                            <a href="#" onclick="remove_node({{ node }})" >Remove</a> |
-                            <a href="#" onclick="replace_node({{ node }})" >Replace</a></td>
+                            <a href="#" onclick="get_node_info({{ ctx.id }})" >Request NIF</a> |
+                            <a href="#" onclick="nb_update({{ ctx.id }})" >Neighbors rediscovery</a> |
+                            <a href="#" onclick="remove_node({{ ctx.id }})" >Remove</a> |
+                            <a href="#" onclick="replace_node({{ ctx.id }})" >Replace</a></td>
                     </tr>
-                {% endif %}
             {% endfor %}
-        {% endfor %}
     {% else %}
         {%  for node , nb in routing_info.iteritems() %}
                     <tr>
