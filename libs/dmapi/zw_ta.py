@@ -7,13 +7,14 @@ class ZwTa(Core):
         return self.get_message("command","zw_ta.get_routing_info")
 
     def get_node_info(self,node_id):
-        msg = self.get_message("command","zw_ta.get_node_info")
+        msg = self.get_message("command","zw_ta.request_inclusion_report")
         msg["command"]["default"]["value"]=node_id
         return msg
 
-    def inclusion_mode(self,start=True):
+    def inclusion_mode(self,start=True,enable_security=True):
         msg = self.get_message("command","zw_ta.inclusion_mode")
-        msg["command"]["default"]["value"]=start
+        msg["command"]["default"]["value"] = start
+        msg["command"]["properties"]["enable_secure_inclusion"] = enable_security
         return msg
 
     def exclusion_mode(self,start=True):

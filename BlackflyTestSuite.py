@@ -70,14 +70,17 @@ mod_auth.global_context = global_context
 
 global_context["version"] = msg_man.global_configs["system"]["version"]
 http_server_port = msg_man.global_configs["system"]["http_server_port"]
+# Message cache
 cache = MsgCache(msg_man)
-
+# Timeseries Database
 timeseries = Timeseries(msg_man.global_configs["db"]["db_path"])
 timeseries.init_db()
 timeseries.enable(True)
-# Mqtt initialization
+# Message processing pipeline
 msg_pipeline = MsgPipeline(msg_man,cache,timeseries)
+# Device simulator , which flips events to commands and makes ir possible to simulate devices
 dev_simulator = DeviceSimulator(msg_man)
+# Mqtt Adapter
 mqtt = MqttAdapter(msg_pipeline,msg_man.global_configs["mqtt"]["client_id"])
 mqtt.set_mqtt_params(msg_man.global_configs["mqtt"]["client_id"],msg_man.global_configs["mqtt"]["username"],msg_man.global_configs["mqtt"]["password"],msg_man.global_configs["mqtt"]["global_topic_prefix"],msg_man.global_configs["mqtt"]["enable_sys"])
 mqtt.sub_topic = msg_man.global_configs["mqtt"]["root_topic"]
@@ -90,13 +93,16 @@ except Exception as ex :
   log.error("application can't connect to message broker.")
   log.error(ex)
 
+# Sync async which implement sync service invocation over async
 sync_async_client = SyncToAsyncMsgConverter(mqtt)
 msg_pipeline.set_sync_async_client(sync_async_client)
 
+# Dashboard manager
 dash_man = DashboardManager()
 filter_man = FiltersManager()
-
+# Msg api wrappers message wrapper
 zwapi = zw_ta.ZwTa("app","blackfly","blackfly")
+deviceregapi = libs.dmapi.devicereg.Devicereg("app","blackfly","blackfly")
 
 # Injecting objects into extensions
 devicereg_ex.global_context = global_context
@@ -106,8 +112,6 @@ devicereg_ex.sync_async_client = sync_async_client
 
 blackflow_ex.global_context = global_context
 blackflow_ex.sync_async_client = sync_async_client
-
-deviceregapi = libs.dmapi.devicereg.Devicereg("app","blackfly","blackfly")
 
 @app.route('/')
 def root_page():
@@ -783,9 +787,10 @@ def zw_manager_api():
     if action == "zw_inclusion_mode":
         log.info("Setting zwave controller into inclusion mode")
         start =  libs.utils.convert_bool(request.form["start"])
-        msg = zwapi.inclusion_mode(start)
+        enable_security = libs.utils.convert_bool(request.form["enable_security"])
+        msg = zwapi.inclusion_mode(start,enable_security)
         if start:
-            response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.inclusion_report")
+            response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=60,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.inclusion_report")
         else :
             mqtt.publish("/ta/zw/commands",json.dumps(msg),1)
             response = {}
@@ -796,7 +801,7 @@ def zw_manager_api():
         start =  libs.utils.convert_bool(request.form["start"])
         msg = zwapi.exclusion_mode(start)
         if start:
-            response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.exclusion_report")
+            response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=60,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.exclusion_report")
         else :
             mqtt.publish("/ta/zw/commands",json.dumps(msg),1)
             response = {}

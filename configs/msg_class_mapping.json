@@ -1,79 +1,81 @@
 [
  {
-  "msg_class": "zw_ta.inclusion_mode", 
-  "ui_mapping": {
-   "ui_element": "toggle_switch", 
-   "value_path": "$.command.default.value"
-  }, 
-  "class": "zw_ta", 
   "msg_type": "command", 
-  "subclass": "inclusion_mode"
- }, 
- {
-  "msg_class": "zw_ta.query_mode", 
-  "ui_mapping": {
-   "ui_element": "toggle_switch", 
-   "value_path": "$.command.default.value"
-  }, 
-  "class": "zw_ta", 
-  "msg_type": "command", 
-  "subclass": "query_mode"
- }, 
- {
-  "msg_class": "zw_ta.get_dead_node_list", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value", 
    "override_properties": true
   }, 
   "class": "zw_ta", 
-  "msg_type": "command", 
-  "subclass": "get_dead_node_list"
+  "subclass": "inclusion_mode", 
+  "msg_class": "zw_ta.inclusion_mode"
  }, 
  {
-  "msg_class": "zw_ta.get_routing_info", 
+  "msg_type": "command", 
+  "ui_mapping": {
+   "ui_element": "toggle_switch", 
+   "value_path": "$.command.default.value"
+  }, 
+  "class": "zw_ta", 
+  "subclass": "query_mode", 
+  "msg_class": "zw_ta.query_mode"
+ }, 
+ {
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value", 
    "override_properties": true
   }, 
   "class": "zw_ta", 
-  "msg_type": "command", 
-  "subclass": "get_routing_info"
+  "subclass": "get_dead_node_list", 
+  "msg_class": "zw_ta.get_dead_node_list"
  }, 
  {
-  "msg_class": "zw_ta.make_nodes_alive", 
+  "msg_type": "command", 
+  "ui_mapping": {
+   "ui_element": "toggle_switch", 
+   "value_path": "$.command.default.value", 
+   "override_properties": true
+  }, 
+  "class": "zw_ta", 
+  "subclass": "get_routing_info", 
+  "msg_class": "zw_ta.get_routing_info"
+ }, 
+ {
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_num_field", 
    "num_type": "int", 
    "value_path": "$.command.default.value[0]"
   }, 
   "class": "zw_ta", 
-  "msg_type": "command", 
-  "subclass": "make_nodes_alive"
+  "subclass": "make_nodes_alive", 
+  "msg_class": "zw_ta.make_nodes_alive"
  }, 
  {
-  "msg_class": "zw_ta.exclusion_mode", 
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
+   "override_properties": true, 
    "value_path": "$.command.default.value"
   }, 
   "class": "zw_ta", 
-  "msg_type": "command", 
-  "subclass": "exclusion_mode"
+  "subclass": "exclusion_mode", 
+  "msg_class": "zw_ta.exclusion_mode"
  }, 
  {
-  "msg_class": "binary.switch", 
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value"
   }, 
   "class": "binary", 
-  "msg_type": "command", 
-  "subclass": "switch"
+  "subclass": "switch", 
+  "msg_class": "binary.switch"
  }, 
  {
-  "msg_class": "level.thermostat", 
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_num_field", 
    "override_properties": true, 
@@ -81,154 +83,154 @@
    "num_type": "float"
   }, 
   "class": "level", 
-  "msg_type": "command", 
-  "subclass": "thermostat"
+  "subclass": "thermostat", 
+  "msg_class": "level.thermostat"
  }, 
  {
-  "msg_class": "level.thermostat", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "sensor_value", 
    "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
   "class": "level", 
-  "msg_type": "event", 
-  "subclass": "thermostat"
+  "subclass": "thermostat", 
+  "msg_class": "level.thermostat"
  }, 
  {
-  "msg_class": "meter.power", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "sensor_value", 
    "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
   "class": "meter", 
-  "msg_type": "event", 
-  "subclass": "power"
+  "subclass": "power", 
+  "msg_class": "meter.power"
  }, 
  {
-  "msg_class": "level.battery", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "sensor_value", 
    "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
   "class": "level", 
-  "msg_type": "event", 
-  "subclass": "battery"
+  "subclass": "battery", 
+  "msg_class": "level.battery"
  }, 
  {
-  "msg_class": "sensor.temperature", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "sensor_value", 
    "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
   "class": "sensor", 
-  "msg_type": "event", 
-  "subclass": "temperature"
+  "subclass": "temperature", 
+  "msg_class": "sensor.temperature"
  }, 
  {
-  "msg_class": "sensor.power", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "sensor_value", 
    "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
   "class": "sensor", 
-  "msg_type": "event", 
-  "subclass": "power"
+  "subclass": "power", 
+  "msg_class": "sensor.power"
  }, 
  {
-  "msg_class": "binary.open", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "binary_light", 
    "value_path": "$.event.default.value"
   }, 
   "class": "binary", 
-  "msg_type": "event", 
-  "subclass": "open"
+  "subclass": "open", 
+  "msg_class": "binary.open"
  }, 
  {
-  "msg_class": "binary.switch", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "binary_light", 
    "value_path": "$.event.default.value"
   }, 
   "class": "binary", 
-  "msg_type": "event", 
-  "subclass": "switch"
+  "subclass": "switch", 
+  "msg_class": "binary.switch"
  }, 
  {
-  "msg_class": "time.wakeup_interval", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "sensor_value", 
    "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
   "class": "time", 
-  "msg_type": "event", 
-  "subclass": "wakeup_interval"
+  "subclass": "wakeup_interval", 
+  "msg_class": "time.wakeup_interval"
  }, 
  {
-  "msg_class": "zw_ta.exclusion_report", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
   "class": "zw_ta", 
-  "msg_type": "event", 
-  "subclass": "exclusion_report"
+  "subclass": "exclusion_report", 
+  "msg_class": "zw_ta.exclusion_report"
  }, 
  {
-  "msg_class": "zw_ta.inclusion_report", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
   "class": "zw_ta", 
-  "msg_type": "event", 
-  "subclass": "inclusion_report"
+  "subclass": "inclusion_report", 
+  "msg_class": "zw_ta.inclusion_report"
  }, 
  {
-  "msg_class": "binary.flood", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "binary_light", 
    "value_path": "$.event.default.value"
   }, 
   "class": "binary", 
-  "msg_type": "event", 
-  "subclass": "flood"
+  "subclass": "flood", 
+  "msg_class": "binary.flood"
  }, 
  {
-  "msg_class": "binary.fire", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "binary_light", 
    "value_path": "$.event.default.value"
   }, 
   "class": "binary", 
-  "msg_type": "event", 
-  "subclass": "fire"
+  "subclass": "fire", 
+  "msg_class": "binary.fire"
  }, 
  {
-  "msg_class": "binary.heat", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "binary_light", 
    "value_path": "$.event.default.value"
   }, 
   "class": "binary", 
-  "msg_type": "event", 
-  "subclass": "heat"
+  "subclass": "heat", 
+  "msg_class": "binary.heat"
  }, 
  {
-  "msg_class": "binary.smoke", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "binary_light", 
    "value_path": "$.event.default.value"
   }, 
   "class": "binary", 
-  "msg_type": "event", 
-  "subclass": "smoke"
+  "subclass": "smoke", 
+  "msg_class": "binary.smoke"
  }, 
  {
   "ui_mapping": {
@@ -244,7 +246,7 @@
   "override_properties": true
  }, 
  {
-  "msg_class": "config.set", 
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "msg_class_ui", 
    "properties_are_key_value": true, 
@@ -252,11 +254,11 @@
    "num_type": "int"
   }, 
   "class": "config", 
-  "msg_type": "command", 
-  "subclass": "set"
+  "subclass": "set", 
+  "msg_class": "config.set"
  }, 
  {
-  "msg_class": "association.get", 
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_num_field", 
    "override_properties": false, 
@@ -264,11 +266,11 @@
    "num_type": "int"
   }, 
   "class": "association", 
-  "msg_type": "command", 
-  "subclass": "get"
+  "subclass": "get", 
+  "msg_class": "association.get"
  }, 
  {
-  "msg_class": "association.get_groups", 
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
    "override_properties": false, 
@@ -276,76 +278,76 @@
    "num_type": "int"
   }, 
   "class": "association", 
-  "msg_type": "command", 
-  "subclass": "get_groups"
+  "subclass": "get_groups", 
+  "msg_class": "association.get_groups"
  }, 
  {
-  "msg_class": "meter.radon", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "sensor_value", 
    "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
   "class": "meter", 
-  "msg_type": "event", 
-  "subclass": "radon"
+  "subclass": "radon", 
+  "msg_class": "meter.radon"
  }, 
  {
-  "msg_class": "sensor.time", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "sensor_value", 
    "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
   "class": "sensor", 
-  "msg_type": "event", 
-  "subclass": "time"
+  "subclass": "time", 
+  "msg_class": "sensor.time"
  }, 
  {
-  "msg_class": "sensor.baro_pressure", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "sensor_value", 
    "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
   "class": "sensor", 
-  "msg_type": "event", 
-  "subclass": "baro_pressure"
+  "subclass": "baro_pressure", 
+  "msg_class": "sensor.baro_pressure"
  }, 
  {
-  "msg_class": "sensor.humidity", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "sensor_value", 
    "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
   "class": "sensor", 
-  "msg_type": "event", 
-  "subclass": "humidity"
+  "subclass": "humidity", 
+  "msg_class": "sensor.humidity"
  }, 
  {
-  "msg_class": "sensor.luminance", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "sensor_value", 
    "unit_path": "$.event.default.unit", 
    "value_path": "$.event.default.value"
   }, 
   "class": "sensor", 
-  "msg_type": "event", 
-  "subclass": "luminance"
+  "subclass": "luminance", 
+  "msg_class": "sensor.luminance"
  }, 
  {
-  "msg_class": "error.status_code", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.properties"
   }, 
   "class": "error", 
-  "msg_type": "event", 
-  "subclass": "status_code"
+  "subclass": "status_code", 
+  "msg_class": "error.status_code"
  }, 
  {
-  "msg_class": "association.set", 
+  "msg_type": "command", 
   "ui_mapping": {
    "device_id_num_input_path": "$.command.properties.devices.value[0]", 
    "ui_element": "msg_class_ui", 
@@ -354,11 +356,11 @@
    "num_type": "int"
   }, 
   "class": "association", 
-  "msg_type": "command", 
-  "subclass": "set"
+  "subclass": "set", 
+  "msg_class": "association.set"
  }, 
  {
-  "msg_class": "association.delete", 
+  "msg_type": "command", 
   "ui_mapping": {
    "device_id_num_input_path": "$.command.properties.devices.value[0]", 
    "ui_element": "msg_class_ui", 
@@ -367,81 +369,81 @@
    "num_type": "int"
   }, 
   "class": "association", 
+  "subclass": "delete", 
+  "msg_class": "association.delete"
+ }, 
+ {
+  "msg_type": "event", 
+  "ui_mapping": {
+   "ui_element": "binary_light", 
+   "value_path": "$.event.default.value"
+  }, 
+  "class": "binary", 
+  "subclass": "motion", 
+  "msg_class": "binary.motion"
+ }, 
+ {
+  "msg_type": "event", 
+  "ui_mapping": {
+   "ui_element": "binary_light", 
+   "value_path": "$.event.default.value"
+  }, 
+  "class": "binary", 
+  "subclass": "tamper", 
+  "msg_class": "binary.tamper"
+ }, 
+ {
+  "msg_type": "event", 
+  "ui_mapping": {
+   "ui_element": "binary_light", 
+   "value_path": "$.event.default.value"
+  }, 
+  "class": "binary", 
+  "subclass": "generic", 
+  "msg_class": "binary.generic"
+ }, 
+ {
   "msg_type": "command", 
-  "subclass": "delete"
- }, 
- {
-  "msg_class": "binary.motion", 
-  "ui_mapping": {
-   "ui_element": "binary_light", 
-   "value_path": "$.event.default.value"
-  }, 
-  "class": "binary", 
-  "msg_type": "event", 
-  "subclass": "motion"
- }, 
- {
-  "msg_class": "binary.tamper", 
-  "ui_mapping": {
-   "ui_element": "binary_light", 
-   "value_path": "$.event.default.value"
-  }, 
-  "class": "binary", 
-  "msg_type": "event", 
-  "subclass": "tamper"
- }, 
- {
-  "msg_class": "binary.generic", 
-  "ui_mapping": {
-   "ui_element": "binary_light", 
-   "value_path": "$.event.default.value"
-  }, 
-  "class": "binary", 
-  "msg_type": "event", 
-  "subclass": "generic"
- }, 
- {
-  "msg_class": "device_info.get_device_id", 
   "ui_mapping": {
    "ui_element": "input_num_field", 
    "value_path": "$.event.default.value"
   }, 
   "class": "device_info", 
-  "msg_type": "command", 
-  "subclass": "get_device_id"
+  "subclass": "get_device_id", 
+  "msg_class": "device_info.get_device_id"
  }, 
  {
-  "msg_class": "device_info.device_id", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "sensor_value", 
    "value_path": "$.event.default.value"
   }, 
   "class": "device_info", 
-  "msg_type": "event", 
-  "subclass": "device_id"
+  "subclass": "device_id", 
+  "msg_class": "device_info.device_id"
  }, 
  {
-  "msg_class": "association.groups", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
   "class": "association", 
-  "msg_type": "event", 
-  "subclass": "groups"
+  "subclass": "groups", 
+  "msg_class": "association.groups"
  }, 
  {
-  "msg_class": "association.report", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
   "class": "association", 
-  "msg_type": "event", 
-  "subclass": "report"
+  "subclass": "report", 
+  "msg_class": "association.report"
  }, 
  {
-  "msg_class": "devicereg.get_device_list", 
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
    "override_properties": true, 
@@ -449,11 +451,11 @@
    "num_type": "int"
   }, 
   "class": "devicereg", 
-  "msg_type": "command", 
-  "subclass": "get_device_list"
+  "subclass": "get_device_list", 
+  "msg_class": "devicereg.get_device_list"
  }, 
  {
-  "msg_class": "devicereg.delete", 
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_num_field", 
    "override_properties": false, 
@@ -461,71 +463,71 @@
    "num_type": "int"
   }, 
   "class": "devicereg", 
-  "msg_type": "command", 
-  "subclass": "delete"
+  "subclass": "delete", 
+  "msg_class": "devicereg.delete"
  }, 
  {
-  "msg_class": "mode.scenario", 
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_text_field", 
    "value_path": "$.command.default.value"
   }, 
   "class": "mode", 
-  "msg_type": "command", 
-  "subclass": "scenario"
+  "subclass": "scenario", 
+  "msg_class": "mode.scenario"
  }, 
  {
-  "msg_class": "binary.lock", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "binary_light", 
    "value_path": "$.event.default.value"
   }, 
   "class": "binary", 
-  "msg_type": "event", 
-  "subclass": "lock"
+  "subclass": "lock", 
+  "msg_class": "binary.lock"
  }, 
  {
-  "msg_class": "binary.lock", 
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value"
   }, 
   "class": "binary", 
-  "msg_type": "command", 
-  "subclass": "lock"
+  "subclass": "lock", 
+  "msg_class": "binary.lock"
  }, 
  {
-  "msg_class": "mode.doorphone", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
   "class": "mode", 
-  "msg_type": "event", 
-  "subclass": "doorphone"
+  "subclass": "doorphone", 
+  "msg_class": "mode.doorphone"
  }, 
  {
-  "msg_class": "devicereg.device_list", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
   "class": "devicereg", 
-  "msg_type": "event", 
-  "subclass": "device_list"
+  "subclass": "device_list", 
+  "msg_class": "devicereg.device_list"
  }, 
  {
-  "msg_class": "config.report", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.properties"
   }, 
   "class": "config", 
-  "msg_type": "event", 
-  "subclass": "report"
+  "subclass": "report", 
+  "msg_class": "config.report"
  }, 
  {
-  "msg_class": "config.get", 
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_num_field", 
    "override_properties": false, 
@@ -533,11 +535,11 @@
    "num_type": "int"
   }, 
   "class": "config", 
-  "msg_type": "command", 
-  "subclass": "get"
+  "subclass": "get", 
+  "msg_class": "config.get"
  }, 
  {
-  "msg_class": "zw_ta.neighbor_update", 
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_num_field", 
    "override_properties": false, 
@@ -545,11 +547,11 @@
    "num_type": "int"
   }, 
   "class": "zw_ta", 
-  "msg_type": "command", 
-  "subclass": "neighbor_update"
+  "subclass": "neighbor_update", 
+  "msg_class": "zw_ta.neighbor_update"
  }, 
  {
-  "msg_class": "net.ping", 
+  "msg_type": "command", 
   "ui_mapping": {
    "count_num_input_path": "$.command.properties.count", 
    "target_num_input_path": "$.command.default.value", 
@@ -561,196 +563,196 @@
    "num_type": "int"
   }, 
   "class": "net", 
-  "msg_type": "command", 
-  "subclass": "ping"
+  "subclass": "ping", 
+  "msg_class": "net.ping"
  }, 
  {
-  "msg_class": "binary.wakeup", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "binary_light", 
    "value_path": "$.event.default.value"
   }, 
   "class": "binary", 
-  "msg_type": "event", 
-  "subclass": "wakeup"
+  "subclass": "wakeup", 
+  "msg_class": "binary.wakeup"
  }, 
  {
-  "msg_class": "zw_ta.dead_node_list", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
   "class": "zw_ta", 
-  "msg_type": "event", 
-  "subclass": "dead_node_list"
+  "subclass": "dead_node_list", 
+  "msg_class": "zw_ta.dead_node_list"
  }, 
  {
-  "msg_class": "level.switch", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "sensor_value", 
    "unit_path": "", 
    "value_path": "$.event.default.value"
   }, 
   "class": "level", 
-  "msg_type": "event", 
-  "subclass": "switch"
+  "subclass": "switch", 
+  "msg_class": "level.switch"
  }, 
  {
-  "msg_class": "zw_ta.routing_info", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
   "class": "zw_ta", 
-  "msg_type": "event", 
-  "subclass": "routing_info"
+  "subclass": "routing_info", 
+  "msg_class": "zw_ta.routing_info"
  }, 
  {
-  "msg_class": "net.ping_report", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "sensor_value", 
    "unit_path": "", 
    "value_path": "$.event.properties.rx_count"
   }, 
   "class": "net", 
-  "msg_type": "event", 
-  "subclass": "ping_report"
+  "subclass": "ping_report", 
+  "msg_class": "net.ping_report"
  }, 
  {
-  "msg_class": "alarm.monitor", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
   "class": "alarm", 
-  "msg_type": "event", 
-  "subclass": "monitor"
+  "subclass": "monitor", 
+  "msg_class": "alarm.monitor"
  }, 
  {
+  "msg_class": "devicereg.update", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.command.default.value"
   }, 
-  "subclass": "update", 
   "class": "devicereg", 
   "msg_type": "command", 
-  "msg_class": "devicereg.update"
+  "subclass": "update"
  }, 
  {
-  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value"
   }, 
-  "class": "binary", 
   "subclass": "switch_get", 
+  "class": "binary", 
+  "msg_type": "command", 
   "msg_class": "binary.switch_get"
  }, 
  {
-  "msg_class": "zw_ta.get_node_info", 
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_num_field", 
    "value_path": "$.command.default.value", 
    "num_type": "int"
   }, 
   "class": "zw_ta", 
-  "msg_type": "command", 
-  "subclass": "get_node_info"
+  "subclass": "request_inclusion_report",
+  "msg_class": "zw_ta.request_inclusion_report"
  }, 
  {
-  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
-  "class": "zw_ta", 
   "subclass": "inclusion_stage", 
+  "class": "zw_ta", 
+  "msg_type": "event", 
   "msg_class": "zw_ta.inclusion_stage"
  }, 
  {
-  "msg_class": "level.battery_get", 
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value"
   }, 
   "class": "level", 
-  "msg_type": "command", 
-  "subclass": "battery_get"
+  "subclass": "battery_get", 
+  "msg_class": "level.battery_get"
  }, 
  {
+  "msg_class": "zw_ta.remove_failed_node", 
   "ui_mapping": {
    "ui_element": "input_num_field", 
    "num_type": "int", 
    "value_path": "$.command.default.value"
   }, 
-  "subclass": "remove_failed_node", 
   "class": "zw_ta", 
   "msg_type": "command", 
-  "msg_class": "zw_ta.remove_failed_node"
+  "subclass": "remove_failed_node"
  }, 
  {
-  "msg_class": "zw_ta.remove_failed_node_report", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
   "class": "zw_ta", 
-  "msg_type": "event", 
-  "subclass": "remove_failed_node_report"
+  "subclass": "remove_failed_node_report", 
+  "msg_class": "zw_ta.remove_failed_node_report"
  }, 
  {
+  "msg_class": "zw_ta.replace_failed_node", 
   "ui_mapping": {
    "ui_element": "input_num_field", 
    "value_path": "$.command.default.value", 
    "num_type": "int"
   }, 
-  "subclass": "replace_failed_node", 
   "class": "zw_ta", 
   "msg_type": "command", 
-  "msg_class": "zw_ta.replace_failed_node"
+  "subclass": "replace_failed_node"
  }, 
  {
-  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_text_field", 
    "value_path": "$.command.default.value"
   }, 
-  "class": "meter", 
   "subclass": "get", 
+  "class": "meter", 
+  "msg_type": "command", 
   "msg_class": "meter.get"
  }, 
  {
-  "msg_class": "mode.power_source", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
   "class": "mode", 
-  "msg_type": "event", 
-  "subclass": "power_source"
+  "subclass": "power_source", 
+  "msg_class": "mode.power_source"
  }, 
  {
+  "msg_class": "zw_ta.request_network_update", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value"
   }, 
-  "subclass": "request_network_update", 
   "class": "zw_ta", 
   "msg_type": "command", 
-  "msg_class": "zw_ta.request_network_update"
+  "subclass": "request_network_update"
  }, 
  {
-  "msg_class": "zw_ta.neighbor_update_report", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
   "class": "zw_ta", 
-  "msg_type": "event", 
-  "subclass": "neighbor_update_report"
+  "subclass": "neighbor_update_report", 
+  "msg_class": "zw_ta.neighbor_update_report"
  }, 
  {
-  "msg_class": "level.basic", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "sensor_value", 
    "override_properties": false, 
@@ -758,10 +760,11 @@
    "value_path": "$.event.default.value"
   }, 
   "class": "level", 
-  "msg_type": "event", 
-  "subclass": "basic"
+  "subclass": "basic", 
+  "msg_class": "level.basic"
  }, 
  {
+  "msg_class": "mode.siren", 
   "ui_mapping": {
    "ui_element": "input_dropdown_field", 
    "value_enum": [
@@ -779,13 +782,11 @@
    ], 
    "value_path": "$.command.default.value"
   }, 
-  "subclass": "siren", 
   "class": "mode", 
   "msg_type": "command", 
-  "msg_class": "mode.siren"
+  "subclass": "siren"
  }, 
  {
-  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_dropdown_field", 
    "value_enum": [
@@ -795,31 +796,33 @@
    ], 
    "value_path": "$.command.default.value"
   }, 
-  "class": "mode", 
   "subclass": "countdown", 
+  "class": "mode", 
+  "msg_type": "command", 
   "msg_class": "mode.countdown"
  }, 
  {
-  "msg_class": "devicereg.version", 
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value"
   }, 
   "class": "devicereg", 
-  "msg_type": "command", 
-  "subclass": "version"
+  "subclass": "version", 
+  "msg_class": "devicereg.version"
  }, 
  {
-  "msg_class": "devicereg.version", 
+  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
   "class": "devicereg", 
-  "msg_type": "event", 
-  "subclass": "version"
+  "subclass": "version", 
+  "msg_class": "devicereg.version"
  }, 
  {
+  "msg_class": "mode.thermostat", 
   "ui_mapping": {
    "ui_element": "input_dropdown_field", 
    "value_enum": [
@@ -841,350 +844,349 @@
    ], 
    "value_path": "$.command.default.value"
   }, 
-  "subclass": "thermostat", 
   "class": "mode", 
   "msg_type": "command", 
-  "msg_class": "mode.thermostat"
- }, 
- {
-  "msg_type": "command", 
-  "ui_mapping": {
-   "ui_element": "toggle_switch", 
-   "value_path": "$.command.default.value"
-  }, 
-  "class": "mode", 
-  "subclass": "thermostat_get", 
-  "msg_class": "mode.thermostat_get"
- }, 
- {
-  "msg_type": "command", 
-  "ui_mapping": {
-   "ui_element": "input_num_field", 
-   "override_properties": true, 
-   "value_path": "$.command.default.value", 
-   "num_type": "int"
-  }, 
-  "class": "level", 
-  "subclass": "basic", 
-  "msg_class": "level.basic"
- }, 
- {
-  "msg_class": "mode.thermostat", 
-  "ui_mapping": {
-   "ui_element": "sensor_value", 
-   "unit_path": "", 
-   "value_path": "$.event.default.value"
-  }, 
-  "class": "mode", 
-  "msg_type": "event", 
   "subclass": "thermostat"
  }, 
  {
   "ui_mapping": {
+   "ui_element": "toggle_switch", 
+   "value_path": "$.command.default.value"
+  }, 
+  "subclass": "thermostat_get", 
+  "class": "mode", 
+  "msg_type": "command", 
+  "msg_class": "mode.thermostat_get"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "input_num_field", 
+   "override_properties": true, 
+   "value_path": "$.command.default.value", 
+   "num_type": "int"
+  }, 
+  "subclass": "basic", 
+  "class": "level", 
+  "msg_type": "command", 
+  "msg_class": "level.basic"
+ }, 
+ {
+  "msg_type": "event", 
+  "ui_mapping": {
    "ui_element": "sensor_value", 
    "unit_path": "", 
    "value_path": "$.event.default.value"
   }, 
-  "subclass": "situation", 
-  "class": "alarm", 
-  "msg_type": "event", 
-  "msg_class": "alarm.situation"
+  "class": "mode", 
+  "subclass": "thermostat", 
+  "msg_class": "mode.thermostat"
  }, 
  {
-  "msg_type": "command", 
+  "msg_class": "alarm.situation", 
+  "ui_mapping": {
+   "ui_element": "sensor_value", 
+   "unit_path": "", 
+   "value_path": "$.event.default.value"
+  }, 
+  "class": "alarm", 
+  "msg_type": "event", 
+  "subclass": "situation"
+ }, 
+ {
   "ui_mapping": {
    "ui_element": "input_num_field", 
    "num_type": "int", 
    "value_path": "$.command.default.value"
   }, 
-  "class": "time", 
   "subclass": "wakeup_interval", 
+  "class": "time", 
+  "msg_type": "command", 
   "msg_class": "time.wakeup_interval"
  }, 
  {
-  "msg_class": "level.thermostat_get", 
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value"
   }, 
   "class": "level", 
-  "msg_type": "command", 
-  "subclass": "thermostat_get"
+  "subclass": "thermostat_get", 
+  "msg_class": "level.thermostat_get"
  }, 
  {
-  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value"
   }, 
-  "class": "blackflow", 
   "subclass": "context_get", 
+  "class": "blackflow", 
+  "msg_type": "command", 
   "msg_class": "blackflow.context_get"
  }, 
  {
-  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.properties"
   }, 
-  "class": "blackflow", 
   "subclass": "context", 
+  "class": "blackflow", 
+  "msg_type": "event", 
   "msg_class": "blackflow.context"
  }, 
  {
-  "msg_class": "blackflow.reload_app", 
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_text_field", 
    "value_path": "$.command.default.value"
   }, 
   "class": "blackflow", 
-  "msg_type": "command", 
-  "subclass": "reload_app"
+  "subclass": "reload_app", 
+  "msg_class": "blackflow.reload_app"
  }, 
  {
+  "msg_class": "blackflow.reload_app_instance", 
   "ui_mapping": {
    "ui_element": "input_text_field", 
    "num_type": "int", 
    "value_path": "$.command.default.value"
   }, 
-  "subclass": "reload_app_instance", 
   "class": "blackflow", 
   "msg_type": "command", 
-  "msg_class": "blackflow.reload_app_instance"
+  "subclass": "reload_app_instance"
  }, 
  {
+  "msg_class": "notification.push", 
   "ui_mapping": {
    "ui_element": "input_text_field", 
    "value_path": "$.command.properties.title"
   }, 
-  "subclass": "push", 
   "class": "notification", 
   "msg_type": "command", 
-  "msg_class": "notification.push"
+  "subclass": "push"
  }, 
  {
-  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_text_field", 
    "value_path": "$.command.default.value"
   }, 
-  "class": "blackflow", 
   "subclass": "load_new_app", 
+  "class": "blackflow", 
+  "msg_type": "command", 
   "msg_class": "blackflow.load_new_app"
  }, 
  {
+  "msg_class": "binary.factory_reset", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
-  "subclass": "factory_reset", 
   "class": "binary", 
   "msg_type": "event", 
-  "msg_class": "binary.factory_reset"
+  "subclass": "factory_reset"
  }, 
  {
-  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value"
   }, 
-  "class": "blackflow", 
   "subclass": "get_apps", 
+  "class": "blackflow", 
+  "msg_type": "command", 
   "msg_class": "blackflow.get_apps"
  }, 
  {
-  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
-  "class": "blackflow", 
   "subclass": "apps", 
+  "class": "blackflow", 
+  "msg_type": "event", 
   "msg_class": "blackflow.apps"
  }, 
  {
-  "msg_class": "blackflow.get_app_instances", 
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value"
   }, 
   "class": "blackflow", 
-  "msg_type": "command", 
-  "subclass": "get_app_instances"
+  "subclass": "get_app_instances", 
+  "msg_class": "blackflow.get_app_instances"
  }, 
  {
-  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
-  "class": "blackflow", 
   "subclass": "app_instances", 
+  "class": "blackflow", 
+  "msg_type": "event", 
   "msg_class": "blackflow.app_instances"
  }, 
  {
-  "msg_class": "blackflow.analytics_get", 
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value"
   }, 
   "class": "blackflow", 
-  "msg_type": "command", 
-  "subclass": "analytics_get"
+  "subclass": "analytics_get", 
+  "msg_class": "blackflow.analytics_get"
  }, 
  {
+  "msg_class": "blackflow.analytics", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.properties.link_counters"
   }, 
-  "subclass": "analytics", 
   "class": "blackflow", 
   "msg_type": "event", 
-  "msg_class": "blackflow.analytics"
+  "subclass": "analytics"
  }, 
  {
-  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "sensor_value", 
    "unit_path": "", 
    "value_path": "$.event.default.value"
   }, 
-  "class": "binary", 
   "subclass": "undefined", 
+  "class": "binary", 
+  "msg_type": "event", 
   "msg_class": "binary.undefined"
  }, 
  {
-  "msg_class": "zw_ta.learn_mode", 
+  "msg_type": "command", 
+  "ui_mapping": {
+   "ui_element": "toggle_switch", 
+   "value_path": "$.command.default.value"
+  }, 
+  "class": "zw_ta", 
+  "subclass": "learn_mode", 
+  "msg_class": "zw_ta.learn_mode"
+ }, 
+ {
+  "msg_class": "zw_ta.controller_shift_mode", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value"
   }, 
   "class": "zw_ta", 
   "msg_type": "command", 
-  "subclass": "learn_mode"
+  "subclass": "controller_shift_mode"
  }, 
  {
   "ui_mapping": {
    "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value"
   }, 
-  "subclass": "controller_shift_mode", 
-  "class": "zw_ta", 
-  "msg_type": "command", 
-  "msg_class": "zw_ta.controller_shift_mode"
- }, 
- {
-  "msg_type": "command", 
-  "ui_mapping": {
-   "ui_element": "toggle_switch", 
-   "value_path": "$.command.default.value"
-  }, 
-  "class": "zw_ta", 
   "subclass": "request_network_update_from_suc", 
+  "class": "zw_ta", 
+  "msg_type": "command", 
   "msg_class": "zw_ta.request_network_update_from_suc"
  }, 
  {
-  "msg_class": "zw_ta.hard_reset", 
+  "msg_type": "command", 
+  "ui_mapping": {
+   "ui_element": "toggle_switch", 
+   "value_path": "$.command.default.value"
+  }, 
+  "class": "zw_ta", 
+  "subclass": "hard_reset", 
+  "msg_class": "zw_ta.hard_reset"
+ }, 
+ {
+  "msg_class": "zw_ta.get_controller_full_info", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value"
   }, 
   "class": "zw_ta", 
   "msg_type": "command", 
-  "subclass": "hard_reset"
+  "subclass": "get_controller_full_info"
  }, 
  {
+  "msg_type": "event", 
+  "ui_mapping": {
+   "ui_element": "free_text", 
+   "value_path": "$.event.default.value"
+  }, 
+  "class": "zw_ta", 
+  "subclass": "controller_full_info", 
+  "msg_class": "zw_ta.controller_full_info"
+ }, 
+ {
+  "msg_class": "zw_ta.reset_controller_to_default", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
    "value_path": "$.command.default.value"
   }, 
-  "subclass": "get_controller_full_info", 
   "class": "zw_ta", 
   "msg_type": "command", 
-  "msg_class": "zw_ta.get_controller_full_info"
+  "subclass": "reset_controller_to_default"
  }, 
  {
-  "msg_class": "zw_ta.controller_full_info", 
+  "msg_class": "zw_ta.reset_controller_to_default", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
   "class": "zw_ta", 
   "msg_type": "event", 
-  "subclass": "controller_full_info"
+  "subclass": "reset_controller_to_default"
  }, 
  {
+  "msg_type": "event", 
   "ui_mapping": {
-   "ui_element": "toggle_switch", 
-   "value_path": "$.command.default.value"
+   "ui_element": "free_text", 
+   "value_path": "$.event.default.value"
   }, 
-  "subclass": "reset_controller_to_default", 
   "class": "zw_ta", 
+  "subclass": "learn_mode", 
+  "msg_class": "zw_ta.learn_mode"
+ }, 
+ {
   "msg_type": "command", 
-  "msg_class": "zw_ta.reset_controller_to_default"
- }, 
- {
-  "ui_mapping": {
-   "ui_element": "free_text", 
-   "value_path": "$.event.default.value"
-  }, 
-  "subclass": "reset_controller_to_default", 
-  "class": "zw_ta", 
-  "msg_type": "event", 
-  "msg_class": "zw_ta.reset_controller_to_default"
- }, 
- {
-  "msg_class": "zw_ta.learn_mode", 
-  "ui_mapping": {
-   "ui_element": "free_text", 
-   "value_path": "$.event.default.value"
-  }, 
-  "class": "zw_ta", 
-  "msg_type": "event", 
-  "subclass": "learn_mode"
- }, 
- {
-  "msg_class": "zw_ta.get_context", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.command.default.value"
   }, 
   "class": "zw_ta", 
-  "msg_type": "command", 
-  "subclass": "get_context"
+  "subclass": "get_context", 
+  "msg_class": "zw_ta.get_context"
  }, 
  {
-  "msg_class": "zw_ta.get_context", 
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.command.default.value"
   }, 
   "class": "zw_ta", 
-  "msg_type": "command", 
-  "subclass": "get_context"
+  "subclass": "get_context", 
+  "msg_class": "zw_ta.get_context"
  }, 
  {
-  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
-  "class": "zw_ta", 
   "subclass": "context", 
+  "class": "zw_ta", 
+  "msg_type": "event", 
   "msg_class": "zw_ta.context"
  }, 
  {
-  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "free_text", 
    "value_path": "$.event.default.value"
   }, 
-  "class": "zw_ta", 
   "subclass": "network_update_status", 
+  "class": "zw_ta", 
+  "msg_type": "event", 
   "msg_class": "zw_ta.network_update_status"
  }, 
  {
-  "msg_class": "zw_ta.selftest", 
+  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_text_field", 
    "override_properties": true, 
@@ -1192,8 +1194,8 @@
    "num_type": "int"
   }, 
   "class": "zw_ta", 
-  "msg_type": "command", 
-  "subclass": "selftest"
+  "subclass": "selftest", 
+  "msg_class": "zw_ta.selftest"
  }, 
  {
   "ui_mapping": {

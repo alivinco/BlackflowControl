@@ -60,7 +60,7 @@
       <div class="form-group">
         <label for="inputProperties" class="col-sm-2 control-label">Override properties</label>
         <div class="col-sm-10">
-          <textarea  name="override_properties" class="form-control" id="inputProperties"  >{{ mapping.override_properties|tojson() }}</textarea>
+          <textarea  name="override_properties" class="form-control" id="inputProperties"  >{%if mapping.override_properties %} {{ mapping.override_properties|tojson() }} {% endif %} </textarea>
         </div>
       </div>
 

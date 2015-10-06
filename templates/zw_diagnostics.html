@@ -10,8 +10,8 @@
 
 <h4>Add / remove a device </h4>
 <div class="btn-group">
-  <button type="button" class="btn btn-default" onclick="start_clusion_mode('zw_inclusion_mode',true)" title = "Inclusion mode" >Add device</button>
-  <button type="button" class="btn btn-default" onclick="start_clusion_mode('zw_exclusion_mode',true)" title = "Exclusion mode" >Remove device</button>
+  <button type="button" class="btn btn-default" onclick="start_clusion_mode('zw_inclusion_mode',true,true)" title = "Inclusion mode" >Add device</button>
+  <button type="button" class="btn btn-default" onclick="start_clusion_mode('zw_exclusion_mode',true,true)" title = "Exclusion mode" >Remove device</button>
 </div>
  <a class="btn btn-default" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Advanced operations</a>
 <div class="collapse" id="collapseExample">
@@ -19,8 +19,11 @@
   <p><button type="button" class="btn btn-success" style="width: 280px" onclick="get_controller_full_info()" title="Full info">Request controller full info</button>
       - The operation gets complete information about controller . The information contains controller Node Id , zwave network Home Id , etc.
   </p>
-  <p><button type="button" class="btn btn-default" style="width: 280px" onclick="learn_mode(true)" title="Learn mode">Include the gateway into another network</button>
-      - The operation is used to add zwave controller into another network . In order to complete the process you need to press "Add device" in another controller.
+  <p><button type="button" class="btn btn-default" style="width: 280px" onclick="start_clusion_mode('zw_inclusion_mode',true,false)" title="Add device non securely">Add device non securely</button>
+      - The same as normal "Add device " but with disabled security. Some devices may behave differently if they were included securely or non-securely.
+  </p>
+  <p><button type="button" class="btn btn-default" style="width: 280px" onclick="learn_mode(true)" title="Learn mode">Learn mode</button>
+      - The operation is used to add/remove zwave controller into/from another network . In order to complete the process you need to press "Add"/"Remove" in another controller.
       WARNING :existing networks will be reseted .
   </p>
   <p><button type="button" class="btn btn-default" style="width: 280px" onclick="controller_shift(true)" title="Controller shift">Set another controller as primary</button>
@@ -72,7 +75,7 @@
                        <td>{{ ctx.msg_queue_size+ctx.task_queue_size }}</td>
                         <td><a href="#" onclick="ping_node({{ ctx.id }})">Ping</a> |
                 {#            <a href="#">Update neighbors list</a> |#}
-                            <a href="#" onclick="get_node_info({{ ctx.id }})" >Request NIF</a> |
+                            <a href="#" onclick="get_node_info({{ ctx.id }})" >Request inclusion report</a> |
                             <a href="#" onclick="nb_update({{ ctx.id }})" >Neighbors rediscovery</a> |
                             <a href="#" onclick="remove_node({{ ctx.id }})" >Remove</a> |
                             <a href="#" onclick="replace_node({{ ctx.id }})" >Replace</a></td>
@@ -86,7 +89,7 @@
                         <td></td>
                         <td><a href="#" onclick="ping_node({{ node }})">Ping</a> |
                 {#            <a href="#">Update neighbors list</a> |#}
-                            <a href="#" onclick="get_node_info({{ node }})" >Request NIF</a> |
+                            <a href="#" onclick="get_node_info({{ node }})" >Request inclusion report</a> |
                             <a href="#" onclick="nb_update({{ node }})" >Neighbors rediscovery</a> |
                             <a href="#" onclick="remove_node({{ node }})" >Remove</a> |
                             <a href="#" onclick="replace_node({{ node }})" >Replace</a></td>

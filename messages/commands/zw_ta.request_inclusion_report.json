@@ -11,7 +11,7 @@
   "default": {
    "value": 5
   }, 
-  "subtype": "get_node_info", 
+  "subtype": "request_inclusion_report",
   "@type": "zw_ta"
  }, 
  "spid": "S-451-12", 
