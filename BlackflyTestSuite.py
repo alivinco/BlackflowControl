@@ -42,7 +42,7 @@ import re
 
 from libs.sync_to_async_msg_converter import SyncToAsyncMsgConverter
 
-from libs.dmapi import zw_ta
+from libs.dmapi import zw_ta,binary
 
 from extensions.auth.ui.controller import mod_auth,login_manager
 from extensions.devicereg.ui import controller as devicereg_ex
@@ -103,7 +103,7 @@ filter_man = FiltersManager()
 # Msg api wrappers message wrapper
 zwapi = zw_ta.ZwTa("app","blackfly","blackfly")
 deviceregapi = libs.dmapi.devicereg.Devicereg("app","blackfly","blackfly")
-
+binaryapi = libs.dmapi.binary.Binary("app","blackfly","blackfly")
 # Injecting objects into extensions
 devicereg_ex.global_context = global_context
 devicereg_ex.mqtt = mqtt
@@ -878,8 +878,8 @@ def zw_manager_api():
 
     elif action == "reset_controller_to_default":
         log.info("Reseting controller to default")
-        msg = zwapi.reset_controller_to_default()
-        response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.reset_controller_to_default")
+        msg = binaryapi.factory_reset()
+        response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="binary.factory_reset")
         jobj = json.dumps(response)
 
     elif action == "network_update":

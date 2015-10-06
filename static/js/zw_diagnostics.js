@@ -357,7 +357,7 @@ function reset_controller_to_default()
       method :"POST",
       data: {action: "reset_controller_to_default"},
       success: function( data ) {
-            $('#ping_node_result').html("<h4>Reset completed with status = "+data.event.default.value+" </h4>")
+            $('#ping_node_result').html("<h4>Reset completed with status = "+data.event.properties.status+" </h4>")
       }
     });
 }

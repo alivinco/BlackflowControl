@@ -58,9 +58,6 @@ class ZwTa(Core):
     def get_controller_full_info(self):
         return self.get_message("command","zw_ta.get_controller_full_info")
 
-    def reset_controller_to_default(self):
-        return self.get_message("command","zw_ta.reset_controller_to_default")
-
     def network_update(self):
         return self.get_message("command","zw_ta.request_network_update_from_suc")
 
