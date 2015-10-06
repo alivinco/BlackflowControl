@@ -9,8 +9,10 @@
 var cy
 var current_controller_mode = ""
 var countdown_timer_obj = null
-function start_clusion_mode(mode,start)
+function start_clusion_mode(mode,start,enable_security)
 {
+    enable_security = typeof enable_security !== 'undefined' ? enable_security : true;
+
     if (mode)current_controller_mode=mode
     else{
         //means inclusion or exclusion stop
@@ -24,7 +26,7 @@ function start_clusion_mode(mode,start)
 
 //    $('#clusion_mode_result').html("Please wait.....")
     if (countdown_timer_obj)clearTimeout(countdown_timer_obj)
-    countdown(30)
+    countdown(60)
 
     if (start==false){
         clearTimeout(countdown_timer_obj)
@@ -41,7 +43,7 @@ function start_clusion_mode(mode,start)
             if (data.event.subtype == "inclusion_report" || data.event.subtype == "exclusion_report")
                 return true
             else return false
-        }, 30000)
+        }, 60000)
         prom.progress(function (data) {
             if (data) $('#clusion_mode_result').html("<h4>Inclusion stage : " + data.event.default.value + "</h4>")
         })
@@ -61,7 +63,8 @@ function start_clusion_mode(mode,start)
       method :"POST",
       data: {
         action:mode,
-        start:start
+        start:start,
+        enable_security:enable_security
       },
       success: function( data ) {
         console.dir(data)
@@ -354,7 +357,7 @@ function reset_controller_to_default()
       method :"POST",
       data: {action: "reset_controller_to_default"},
       success: function( data ) {
-            $('#ping_node_result').html("<h4>Reset completed with status = "+data.event.default.value+" </h4>")
+            $('#ping_node_result').html("<h4>Reset completed with status = "+data.event.properties.status+" </h4>")
       }
     });
 }

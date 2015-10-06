@@ -91,10 +91,6 @@ class MsgCache():
         self.generic_cache = {}
         self.approve_cache = {}
 
-
-
-
-
 if __name__ == "__main__":
     m = MessageManager()
     jobj = json.load(file(os.path.join(m.app_root_path,"messages","events","temperature.json") ))

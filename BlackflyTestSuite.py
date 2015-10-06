@@ -14,6 +14,7 @@ from flask import Flask, Response, redirect, url_for
 from flask import render_template
 from flask import request
 import time
+import operator
 from extensions import devicereg
 import libs
 from libs.dmapi.core import Core
@@ -41,7 +42,7 @@ import re
 
 from libs.sync_to_async_msg_converter import SyncToAsyncMsgConverter
 
-from libs.dmapi import zw_ta
+from libs.dmapi import zw_ta,binary
 
 from extensions.auth.ui.controller import mod_auth,login_manager
 from extensions.devicereg.ui import controller as devicereg_ex
@@ -69,14 +70,17 @@ mod_auth.global_context = global_context
 
 global_context["version"] = msg_man.global_configs["system"]["version"]
 http_server_port = msg_man.global_configs["system"]["http_server_port"]
+# Message cache
 cache = MsgCache(msg_man)
-
+# Timeseries Database
 timeseries = Timeseries(msg_man.global_configs["db"]["db_path"])
 timeseries.init_db()
 timeseries.enable(True)
-# Mqtt initialization
+# Message processing pipeline
 msg_pipeline = MsgPipeline(msg_man,cache,timeseries)
+# Device simulator , which flips events to commands and makes ir possible to simulate devices
 dev_simulator = DeviceSimulator(msg_man)
+# Mqtt Adapter
 mqtt = MqttAdapter(msg_pipeline,msg_man.global_configs["mqtt"]["client_id"])
 mqtt.set_mqtt_params(msg_man.global_configs["mqtt"]["client_id"],msg_man.global_configs["mqtt"]["username"],msg_man.global_configs["mqtt"]["password"],msg_man.global_configs["mqtt"]["global_topic_prefix"],msg_man.global_configs["mqtt"]["enable_sys"])
 mqtt.sub_topic = msg_man.global_configs["mqtt"]["root_topic"]
@@ -89,14 +93,17 @@ except Exception as ex :
   log.error("application can't connect to message broker.")
   log.error(ex)
 
+# Sync async which implement sync service invocation over async
 sync_async_client = SyncToAsyncMsgConverter(mqtt)
 msg_pipeline.set_sync_async_client(sync_async_client)
 
+# Dashboard manager
 dash_man = DashboardManager()
 filter_man = FiltersManager()
-
+# Msg api wrappers message wrapper
 zwapi = zw_ta.ZwTa("app","blackfly","blackfly")
-
+deviceregapi = libs.dmapi.devicereg.Devicereg("app","blackfly","blackfly")
+binaryapi = libs.dmapi.binary.Binary("app","blackfly","blackfly")
 # Injecting objects into extensions
 devicereg_ex.global_context = global_context
 devicereg_ex.mqtt = mqtt
@@ -105,8 +112,6 @@ devicereg_ex.sync_async_client = sync_async_client
 
 blackflow_ex.global_context = global_context
 blackflow_ex.sync_async_client = sync_async_client
-
-deviceregapi = libs.dmapi.devicereg.Devicereg("app","blackfly","blackfly")
 
 @app.route('/')
 def root_page():
@@ -526,7 +531,8 @@ def address_manager():
                 msg_class = msg_class_split[1]
                 str_to_bool = {"True":True,"False":False}
                 record_history = str_to_bool[request.form["record_history"]]
-                msg_man.update_address_mapping(id,request.form["name"],msg_class,msg_type,request.form["address"],override_props,override_value_path,record_history)
+                transport = request.form["transport"]
+                msg_man.update_address_mapping(id,request.form["name"],msg_class,msg_type,request.form["address"],override_props,override_value_path,record_history,transport=transport)
                 log.info("Address mapping successfully updated")
             elif action =="bulk_address_update":
                 msg_man.find_replace_address(request.form["find"],request.form["replace_to"])
@@ -722,7 +728,29 @@ def zw_diagnostics():
     context = sync_async_client.send_sync_msg(zwapi.get_context(),"/ta/zw/commands","/ta/zw/events",correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.context",timeout=5)
     context = context["event"]["properties"]["context"] if context else None
     log.debug("response :"+str(response))
-    return render_template('zw_diagnostics.html',routing_info=routing_info,context=context,global_context=global_context)
+    # routing_info_sorted = sorted(routing_info, key=operator.itemgetter('id'))
+    context_view = []
+    try:
+        for node_id ,nb_list in routing_info.iteritems():
+            for ctx_item in context :
+                if ctx_item["id"] == int(node_id):
+                    ctx_item["nb_list"] = nb_list
+                    context_view.append(ctx_item)
+    except:
+        context_view = None
+    else:
+        try:
+         # Try to extend info with device registry data
+         response = cache.get("devicereg.device_list","/app/devicereg/events")
+         if response:
+            dr_dev_list = response["raw_msg"]["event"]["properties"]["device_list"]["value"]
+            for ctx_dev in context_view:
+                dr_dev_info = filter(lambda dev : int(dev["Address"])==ctx_dev["id"] ,dr_dev_list)[0]
+                ctx_dev["Alias"] = dr_dev_info["Alias"]
+        except Exception as ex:
+            log.info("Context infor can't be extended because of error : %s"%ex)
+
+    return render_template('zw_diagnostics.html',routing_info=routing_info,context=context_view,global_context=global_context)
 
 
 #TODO: That part is depricated and have to be removed .
@@ -759,9 +787,10 @@ def zw_manager_api():
     if action == "zw_inclusion_mode":
         log.info("Setting zwave controller into inclusion mode")
         start =  libs.utils.convert_bool(request.form["start"])
-        msg = zwapi.inclusion_mode(start)
+        enable_security = libs.utils.convert_bool(request.form["enable_security"])
+        msg = zwapi.inclusion_mode(start,enable_security)
         if start:
-            response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.inclusion_report")
+            response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=60,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.inclusion_report")
         else :
             mqtt.publish("/ta/zw/commands",json.dumps(msg),1)
             response = {}
@@ -772,7 +801,7 @@ def zw_manager_api():
         start =  libs.utils.convert_bool(request.form["start"])
         msg = zwapi.exclusion_mode(start)
         if start:
-            response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.exclusion_report")
+            response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=60,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.exclusion_report")
         else :
             mqtt.publish("/ta/zw/commands",json.dumps(msg),1)
             response = {}
@@ -849,8 +878,8 @@ def zw_manager_api():
 
     elif action == "reset_controller_to_default":
         log.info("Reseting controller to default")
-        msg = zwapi.reset_controller_to_default()
-        response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="zw_ta.reset_controller_to_default")
+        msg = binaryapi.factory_reset()
+        response = sync_async_client.send_sync_msg(msg,"/ta/zw/commands","/ta/zw/events",timeout=30,correlation_type="MSG_TYPE",correlation_msg_type="binary.factory_reset")
         jobj = json.dumps(response)
 
     elif action == "network_update":

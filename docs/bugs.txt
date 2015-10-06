@@ -7,3 +7,9 @@ class type . For example it was reported error event first but then it was repor
  },
 
 - global.json update during upgrade.
+
+- on SG installation may fail because of setuptools error . If it happens then delete the files :
+/usr/lib/python2.7/dist-packages/pkg_resources.py
+/usr/lib/python2.7/dist-packages/pkg_resources.pyc
+
+rm /usr/lib/python2.7/dist-packages/pkg_resources.p*

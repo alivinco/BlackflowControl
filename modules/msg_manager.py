@@ -246,9 +246,11 @@ class MessageManager:
                     else:
                         v = int(v)
                 self.set_value_to_msg(msg_template, path, v)
+        if "transport" in address:
+            msg_template["transport"] = address["transport"]
         return msg_template
 
-    def update_address_mapping(self, id, name, msg_class, msg_type, address,override_properties="",override_value_path="",record_history=False,serialize=True):
+    def update_address_mapping(self, id, name, msg_class, msg_type, address,override_properties="",override_value_path="",record_history=False,serialize=True,transport=""):
         key = self.generate_key(msg_class, address)
         if id:
             item = filter(lambda addr: (addr["id"] == id ), self.address_mapping)[0]
@@ -259,10 +261,12 @@ class MessageManager:
             item["override_properties"]=override_properties
             item["override_value_path"]=override_value_path
             item["record_history"] = record_history
+            item["transport"] = transport
+
             log.info("Address mapping updated with " + str(item))
         else :
             new_id = self.get_new_addr_id()
-            self.address_mapping.append({"id":new_id,"msg_class": msg_class, "address": address, "name": name, "msg_type": msg_type,"record_history":record_history, "override_properties":override_properties,"override_value_path":override_value_path,"key": key})
+            self.address_mapping.append({"id":new_id,"msg_class": msg_class, "address": address, "name": name, "msg_type": msg_type,"record_history":record_history, "override_properties":override_properties,"override_value_path":override_value_path,"key": key,"transport":transport})
 
         if serialize :self.serialize_address_mapping()
 
