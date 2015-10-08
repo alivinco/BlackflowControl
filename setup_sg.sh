@@ -28,7 +28,10 @@ then
 else
   echo "The script can't find flask module . It will be installed"
   python scripts/get-pip.py
+  echo "Experimental step.Removing /usr/lib/python2.7/dist-packages/pkg_resources.p*"
+  rm /usr/lib/python2.7/dist-packages/pkg_resources.p*
   pip install Flask
+  echo "If flask installation fails , please run rm /usr/lib/python2.7/dist-packages/pkg_resources.p* command and try run the installation script once again."
 fi
 
 chmod a+x scripts/etc/init.d/blackfly
