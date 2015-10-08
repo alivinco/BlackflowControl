@@ -44,6 +44,21 @@ def app_instances(inst_name):
     log.info("Blackflow Apps")
     msg = blackflowapi.get_app_instances()
     response = sync_async_client.send_sync_msg(msg, "/app/blackflow/%s/commands"%inst_name, "/app/blackflow/%s/events"%inst_name, timeout=10,correlation_msg_type="blackflow.app_instances",correlation_type="MSG_TYPE")
+    app_instance_state = {
+        0:"STOPPED",
+        1:"LOADED",
+        2:"INITIALIZED",
+        3:"RUNNING",
+        4:"PAUSED",
+        5:"STOPPED_WITH_ERROR",
+        6:"PAUSED_WITH_ERROR"
+    }
+
+    def mod_response(item):
+        item["state"] = app_instance_state[item["state"]]
+        return item
+    response["event"]["properties"]["app_instances"] = map(mod_response,response["event"]["properties"]["app_instances"])
+
     return render_template('blackflow/app_instances.html', bf_response=response,inst_name = inst_name, global_context=global_context,format_time = utils.format_iso_time_from_sec)
 
 @blackflow_bp.route('/ui/blackflow/<inst_name>/app_instance_config', methods=["GET"])
