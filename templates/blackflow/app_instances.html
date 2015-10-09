@@ -10,11 +10,13 @@
             border: 1px solid lightgray;
         }
     </style>
+<script src="/static/js/angular.min.js"></script>
 {% endblock %}
 {% block body %}
 </h1>
 <h3>Application instances</h3>
-<div class="container-fluid">
+
+<div ng-app="AppInstances" ng-controller="AppInstancesController" class="container-fluid">
 {% if bf_response %}
 <table class="table table-bordered table-striped table-hover">
    <thead>
@@ -24,7 +26,6 @@
         <th><h6>Instance alias</h6></th>
         <th><h6>Subscribes for</h6></th>
         <th><h6>Publishes to</h6></th>
-        <th><h6>Configured properties</h6></th>
         <th><h6>Status</h6></th>
         <th><h6>Action</h6></th>
         <th><h6>Comments</h6></th>
@@ -51,15 +52,11 @@
             </p>
             {% endfor %}
            </td>
-        <td>
-                {% for key,conf in app.configs.iteritems() %}
-                    <p>{{ key }} : {{ conf }}</p>
-                {% endfor %}
-        </td>
+
         <td>{{ app.state }}</td>
         <td style="min-width: 110px">
             <a href="/ui/blackflow/{{ inst_name }}/app_instance_config?id={{ app.id }}&app_name={{ app.name }}"><span class=" glyphicon glyphicon-cog"/></a>
-            <a><span class=" glyphicon glyphicon-play"/></a>
+            <a ng-click="StartInstance({{ app.id }})"><span class=" glyphicon glyphicon-play"/></a>
             <a><span class=" glyphicon glyphicon-stop"/></a>
             <a><span class=" glyphicon glyphicon-trash"/></a>
         </td>
