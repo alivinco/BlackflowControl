@@ -745,10 +745,12 @@ def zw_diagnostics():
          if response:
             dr_dev_list = response["raw_msg"]["event"]["properties"]["device_list"]["value"]
             for ctx_dev in context_view:
-                dr_dev_info = filter(lambda dev : int(dev["Address"])==ctx_dev["id"] ,dr_dev_list)[0]
-                ctx_dev["Alias"] = dr_dev_info["Alias"]
+                dr_dev_list_f = filter(lambda dev : int(dev["Address"])==ctx_dev["id"] ,dr_dev_list)
+                if len(dr_dev_list_f)>0:
+                    dr_dev_info = dr_dev_list_f[0]
+                    ctx_dev["Alias"] = dr_dev_info["Alias"]
         except Exception as ex:
-            log.info("Context infor can't be extended because of error : %s"%ex)
+            log.info("Context information can't be extended because of error : %s"%ex)
 
     return render_template('zw_diagnostics.html',routing_info=routing_info,context=context_view,global_context=global_context)
 
