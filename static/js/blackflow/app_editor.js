@@ -1,7 +1,7 @@
 /**
  * Created by alivinco on 26/07/15.
  */
-var app = angular.module('blackflow', ['base64']);
+var app = angular.module('AppEditor', ['base64']);
 var editor = ace.edit("editor");
 editor.setTheme("ace/theme/monokai");
 editor.getSession().setMode("ace/mode/python");
@@ -53,3 +53,24 @@ app.controller("AppEditorController",["$scope","$http","$base64",function($scope
 
 }])
 
+
+app.controller("AppDescriptorController",["$scope","$http","$base64",function($scope,$http,$base64){
+    packet = getMessagePacket("command","file","download")
+    packet["command"]["default"]["value"] = app_name+"/"+app_name+".json"
+    $http.post('/api/blackflow/'+bf_inst_name+'/proxy',{"req_type":"sync_response","req_payload":packet,"corr_type":"COR_ID"}).
+        then(function(response) {
+            base64data = response.data.event.properties.bin_data
+            decoded = $base64.decode(base64data);
+            data = angular.fromJson(decoded)
+            console.dir(data)
+            $scope.sub_for = convertDictToKeyValList(data.sub_for)
+            $scope.pub_to = convertDictToKeyValList(data.pub_to)
+            $scope.configs = data.configs
+          }, function(response) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+          });
+    $scope.add_sub = function(){
+        $scope.sub_for.push({"key":"","value":{"topic":""}})
+    }
+}])

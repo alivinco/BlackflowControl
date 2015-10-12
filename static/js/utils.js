@@ -60,3 +60,20 @@ function getMessagePacket(msg_type,msg_class,msg_subclass)
     console.dir(template)
     return template
 }
+
+function convertDictToKeyValList(dict)
+{
+    result = []
+    for (k in dict)
+    {result.push({"key":k,"value":dict[k]})}
+    return result
+}
+function convertKeyValueListToDict(list)
+{
+    result = {}
+    for(item in list)
+    {
+        result[list[item].key] = list[item].value
+    }
+    return result
+}

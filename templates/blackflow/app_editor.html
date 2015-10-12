@@ -12,15 +12,100 @@
 <script src="/static/js/angular.min.js"></script>
 {% endblock %}
 {% block body %}
-<h3>App code editor</h3>
-<div ng-app="blackflow" ng-controller="AppEditorController">
-    <div id="editor">
+<div ng-app="AppEditor">
+<h3>{{ app_name }}</h3>
+<a role="button" data-toggle="collapse" href="#AppInterfaceDiv" > <h4>App interface</h4> </a>
+<div ng-controller="AppDescriptorController" class="collapse" id="AppInterfaceDiv">
+    <form class="form-horizontal" role="form" action="/api/filters" method="POST">
+      <div>
+        <h5>Subscription interfaces:</h5>
+        <div ng-repeat="sub in sub_for" class="form-group form-inline" style="padding-left: 20px" >
+                <div class="col-sm-13 col-md-13 col-lg-13 ">
+                  <input style="width: 170px" type="text"  class="form-control"  ng-model="sub.key" placeholder="Name" >
+                  <input style="width: 100px" type="text"  class="form-control" ng-model="sub.value.dev_type" placeholder="Device type" >
+                  <input style="width: 170px" type="text"  class="form-control"  ng-model="sub.value.msg_type" placeholder="Msg type" >
+                  <select style="width: 70px" type="text"  class="form-control" ng-model="sub.value.adapter" placeholder="Adapter" >
+                      <option value="mqtt">mqtt</option>
+                      <option value="local">local</option>
+                  </select>
 
+                  <input style="width: 270px" type="text"  class="form-control" ng-model="sub.value.topic" placeholder="Default topic" >
+                  <input style="width: 200px" type="text"  class="form-control" ng-model="sub.value.descr" placeholder="Description" >
+
+                  <button  class="btn btn-default" id="add_msg_type" type="button" ng-if="!sub.value.app_def" value="Delete" >
+                   <span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="del_sub($index)"></span>
+                  </button>
+                </div>
+      </div>
+      <div class="form-group">
+                <div class="col-sm-6 col-sm-offset-0">
+                   <button  class="btn btn-default" id="add_msg_type"  value="Info" >
+                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" ></span>
+                  </button>
+                  <button  class="btn btn-default" type="button" ng-click="add_sub()"  >
+                   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                  </button>
+      </div>
+      </div>
+      <h5>Publish interfaces:</h5>
+          <div ng-repeat="pub in pub_to" class="form-group form-inline" style="padding-left: 20px"  >
+                <div class="col-sm-13 col-md-13 col-lg-13 ">
+                  <input style="width: 170px" type="text"  class="form-control" ng-readonly="pub.value.app_def" ng-model="pub.key" placeholder="Name"  >
+                  <input style="width: 100px" type="text"  class="form-control" ng-model="pub.value.dev_type" placeholder="Device type" >
+                  <input style="width: 170px" type="text"  class="form-control"  ng-model="pub.value.msg_type" placeholder="Msg type" >
+                  <select style="width: 70px" type="text"  class="form-control" ng-model="pub.value.adapter" placeholder="Adapter" >
+                      <option value="mqtt">mqtt</option>
+                      <option value="local">local</option>
+                  </select>
+                  <input style="width: 270px" type="text"  class="form-control" ng-model="pub.value.topic" placeholder="Default topic" >
+                  <input style="width: 200px" type="text"  class="form-control" ng-model="pub.value.descr" placeholder="Description" >
+
+                  <button  class="btn btn-default" type="button" id="add_msg_type" ng-if="!pub.value.app_def" value="Delete" ng-click="del_pub($index)">
+                   <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                  </button>
+                </div>
+           </div>
+
+          <div class="form-group">
+              <div class="col-sm-6 col-sm-offset-0">
+                  <button  class="btn btn-default" id="add_msg_type"  value="Info" >
+                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" ></span>
+                  </button>
+                  <button  class="btn btn-default" type="button" ng-click="add_pub()"  >
+                   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                  </button>
+            </div>
+          </div>
+
+      <h5>Configuration interfaces:</h5>
+        <div ng-repeat="conf in configs" class="form-group form-inline"  style="padding-left: 20px">
+                <div class="col-sm-10 col-md-10 col-lg-8">
+                  <input style="width: 350px" type="text"  class="form-control" ng-model="conf" >
+                  <button  class="btn btn-default" ng-click="del_conf($index)">
+                   <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                  </button>
+                </div>
+        </div>
+        <div class="form-group">
+                <div class="col-sm-6 col-sm-offset-0">
+                  <button  class="btn btn-default" type="button" ng-click="add_conf()"  >
+                   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                  </button>
+            </div>
+        </div>
+
+      </div>
+    </form>
+</div>
+<h4>Source code</h4>
+<div ng-controller="AppEditorController">
+    <div id="editor">
     </div>
   <button type="button" ng-click ="save()" class="btn btn-default" >Save</button>
   <button type="button" ng-click ="reload()" class="btn btn-default" >Restart app</button>
 </div>
 
+</div>
 {% endblock %}
 {% block js_scripts %}
 <script src="/static/js/angular-base64.js"></script>
@@ -29,6 +114,6 @@
 <script src="/static/js/utils.js" type="text/javascript" charset="utf-8"></script>
 <script>
   var app_name = "{{ app_name }}"
-  var bf_inst_name = "{{ inst_name }}"
+  var bf_inst_name = "{{ bf_inst_name }}"
 </script>
 {% endblock %}
