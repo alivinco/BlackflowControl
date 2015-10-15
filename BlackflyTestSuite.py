@@ -81,10 +81,11 @@ msg_pipeline = MsgPipeline(msg_man,cache,timeseries)
 # Device simulator , which flips events to commands and makes ir possible to simulate devices
 dev_simulator = DeviceSimulator(msg_man)
 # Mqtt Adapter
-mqtt = MqttAdapter(msg_pipeline,msg_man.global_configs["mqtt"]["client_id"])
+mqtt = MqttAdapter(msg_man.global_configs["mqtt"]["client_id"])
 mqtt.set_mqtt_params(msg_man.global_configs["mqtt"]["client_id"],msg_man.global_configs["mqtt"]["username"],msg_man.global_configs["mqtt"]["password"],msg_man.global_configs["mqtt"]["global_topic_prefix"],msg_man.global_configs["mqtt"]["enable_sys"])
 mqtt.sub_topic = msg_man.global_configs["mqtt"]["root_topic"]
 mqtt.set_global_context(global_context)
+mqtt.set_message_handler(msg_pipeline.get_message_handler())
 try:
   mqtt.connect(msg_man.global_configs["mqtt"]["host"],int(msg_man.global_configs["mqtt"]["port"]))
   mqtt.start()
