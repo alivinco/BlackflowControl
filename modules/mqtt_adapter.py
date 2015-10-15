@@ -13,7 +13,7 @@ log = logging.getLogger("bf_mqtt")
 class MqttAdapter:
 
 
-    def __init__(self, msg_pipeline,client_id="blackfly_test_suite"):
+    def __init__(self,client_id="blackfly_test_suite"):
         """
         Contructor takes single argument which is reference to device registry object .
         :param device_registry:
@@ -24,8 +24,10 @@ class MqttAdapter:
         self.global_context = {}
         self.client_id = client_id
         self.mqtt = mosquitto.Mosquitto(self.client_id, clean_session=True)
-        self.msg_pipeline = msg_pipeline
         self.enable_sys = False
+
+    def set_message_handler(self,on_message_handler):
+        self.on_message = on_message_handler
 
     def set_mqtt_params(self,client_id,username="",password="",topic_prefix="",enable_sys=False):
         self.mqtt._client_id = client_id
@@ -76,25 +78,7 @@ class MqttAdapter:
         if self.topic_prefix:
             msg.topic = msg.topic.replace(self.topic_prefix,"")
         try:
-            if "$SYS" in msg.topic:
-               if self.msg_pipeline:
-                   self.msg_pipeline.process_event(msg.topic,msg.payload)
-
-            # elif "command" in msg.topic:
-            #     log.debug("Command type of message is skipped")
-
-            else :
-                log.info("New message from topic = "+str(msg.topic))
-                log.debug(msg.payload)
-                msg_obj = None
-                if self.msg_pipeline:
-                    try:
-                      msg_obj = json.loads(msg.payload)
-                    except Exception as ex :
-                      log.error("The message can't be recognized as json object and therefore ignored.")
-                    if msg_obj : self.msg_pipeline.process_event(msg.topic,msg_obj)
-                else :
-                    self.on_message(msg.topic,msg.payload)
+            self.on_message(msg.topic,msg.payload)
         except Exception as ex :
             log.error("Exception during messages processing. The message from ropic "+msg.topic+" will be skipped")
             log.error(ex)

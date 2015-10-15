@@ -3,7 +3,6 @@ import time
 from modules.msg_cache import MsgCache
 from modules.msg_manager import MessageManager
 
-
 __author__ = 'alivinco'
 import json, os
 # import configs.log
@@ -21,10 +20,35 @@ class MsgPipeline():
         self.timeseries = timeseries
         self.sync_async_client = None
 
-        #[{"type":"single","event_path":"$.event.type","command_path":"$.event.type","priority":1}]
+        # [{"type":"single","event_path":"$.event.type","command_path":"$.event.type","priority":1}]
 
     def set_sync_async_client(self, sync_async_client):
         self.sync_async_client = sync_async_client
+
+    def get_message_handler(self):
+        return self.on_message
+
+    def on_message(self, topic, payload):
+
+        try:
+            if "$SYS" in topic:
+                # SYStem topic is not JSON formated
+                self.process_event(topic, payload)
+
+            else:
+                log.info("New message from topic = " + str(topic))
+                log.debug(payload)
+                msg_obj = None
+                try:
+                    msg_obj = json.loads(payload)
+                except Exception as ex:
+                    log.error("The message can't be recognized as json object and therefore ignored.")
+                if msg_obj:
+                    self.process_event(topic, msg_obj)
+
+        except Exception as ex:
+            log.error("Exception during messages processing. The message from ropic " + topic + " will be skipped")
+            log.error(ex)
 
     def process_event(self, address, payload):
         """
@@ -66,7 +90,7 @@ class MsgPipeline():
         msg_class = self.__get_msg_class_from_msg(payload)
         msg_type = "command" if "commands" in address else "event"
         if msg_class:
-            msg_class_is_registered = self.__check_msg_class(msg_class,msg_type)
+            msg_class_is_registered = self.__check_msg_class(msg_class, msg_type)
             cache_key = self.msg_man.generate_key(msg_class, address)
             if msg_class_is_registered:
                 addr_is_registered = self.__check_address(address, msg_class)
@@ -120,7 +144,7 @@ class MsgPipeline():
 
         return {"success": False}
 
-    def process_command(self, mqtt, address, payload,id):
+    def process_command(self, mqtt, address, payload, id):
         # push message to cache
         # publish to mqtt
         log.info("New command entered message pipeline")
@@ -129,7 +153,7 @@ class MsgPipeline():
         self.update_static_part_of_message(payload, address)
         mqtt.publish(address, json.dumps(payload), 1)
 
-        exdt = self.__extract_data(address, msg_class, payload,id)
+        exdt = self.__extract_data(address, msg_class, payload, id)
         cache_key = self.msg_man.generate_key(msg_class, address)
         self.cache.put(cache_key, payload, exdt["ui_mapping"], exdt["extracted_values"])
         log.info("Message was saved to cache with key =" + str(cache_key))
@@ -190,22 +214,20 @@ class MsgPipeline():
                 payload["origin"]["@type"] = t[4]
                 payload["origin"]["endp_id"] = t[5]
 
-
     def __check_address(self, address, msg_class):
-        r = filter(lambda map_item: (map_item["address"] == address and map_item["msg_class"] == msg_class ),
+        r = filter(lambda map_item: (map_item["address"] == address and map_item["msg_class"] == msg_class),
                    self.msg_man.address_mapping)
         if len(r) > 0:
             return True
         else:
             return False
 
-    def __check_msg_class(self, msg_class,msg_type="event"):
-        r = filter(lambda map_item: (map_item["msg_class"] == msg_class and map_item["msg_type"] == msg_type ), self.msg_man.msg_class_mapping)
+    def __check_msg_class(self, msg_class, msg_type="event"):
+        r = filter(lambda map_item: (map_item["msg_class"] == msg_class and map_item["msg_type"] == msg_type), self.msg_man.msg_class_mapping)
         if len(r) > 0:
             return True
         else:
             return False
-
 
     def __extract_data(self, address, msg_class, payload, id=None):
         # extract values
@@ -219,9 +241,9 @@ class MsgPipeline():
         extracted_values = {}
         ui_mapping = {}
         key = self.msg_man.generate_key(msg_class, address)
-        if id :
+        if id:
             address_map = self.msg_man.get_address_by_id(id)
-        else :
+        else:
             address_map = self.msg_man.get_address_by_key(key)
 
         try:
@@ -247,7 +269,7 @@ class MsgPipeline():
             extracted_values["dev_id"] = address_map["id"]
             extracted_values["record_history"] = address_map["record_history"]
         except Exception as ex:
-            #default value
+            # default value
             ui_mapping["ui_element"] = {"ui_element": "free_text", "value_path": "$.event.value"}
             log.error("Can't extract ui mapping data")
             log.exception(ex)
@@ -258,7 +280,6 @@ class MsgPipeline():
 
         if exdt["extracted_values"]["record_history"]:
             self.timeseries.insert_msg_history(exdt["extracted_values"]["dev_id"], msg_class, address, payload)
-
 
     def __update_timeseries(self, exdt):
         try:

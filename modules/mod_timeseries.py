@@ -37,7 +37,6 @@ class Timeseries():
     def cleanup(self):
         self.conn.close()
 
-
     def insert(self, dev_id, value, precision=None):
         try:
 
