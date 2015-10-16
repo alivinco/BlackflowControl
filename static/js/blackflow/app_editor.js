@@ -11,6 +11,22 @@ app.config(['$interpolateProvider', function($interpolateProvider) {
   $interpolateProvider.endSymbol(']}');
 }]);
 
+function serializeDescriptor(orig_descriptor,sub_for,pub_to,configs)
+{
+    descr_new = {}
+    sub_for_new  = []
+    pub_to_new  = []
+    configs_new  = []
+    angular.copy(sub_for,sub_for_new)
+    angular.copy(pub_to,pub_to_new)
+    angular.copy(configs,configs_new)
+    angular.copy(orig_descriptor,descr_new)
+    descr_new.sub_for = convertKeyValueListToDict(sub_for_new)
+    descr_new.pub_to = convertKeyValueListToDict(pub_to_new)
+    descr_new.configs = configs_new
+    return descr_new
+}
+
 
 app.controller("AppEditorController",["$scope","$http","$base64",function($scope,$http,$base64){
     packet = getMessagePacket("command","file","download")
@@ -62,7 +78,7 @@ app.controller("AppDescriptorController",["$scope","$http","$base64",function($s
             base64data = response.data.event.properties.bin_data
             decoded = $base64.decode(base64data);
             data = angular.fromJson(decoded)
-            console.dir(data)
+            $scope.original_descriptor = data
             $scope.sub_for = convertDictToKeyValList(data.sub_for)
             $scope.pub_to = convertDictToKeyValList(data.pub_to)
             $scope.configs = data.configs
@@ -70,7 +86,27 @@ app.controller("AppDescriptorController",["$scope","$http","$base64",function($s
             // called asynchronously if an error occurs
             // or server returns response with an error status.
           });
-    $scope.add_sub = function(){
-        $scope.sub_for.push({"key":"","value":{"topic":""}})
+    $scope.save_descriptor = function() {
+        descr = serializeDescriptor($scope.original_descriptor,$scope.sub_for,$scope.pub_to,$scope.configs)
+        console.dir($scope.configs)
+        //console.dir(descr)
+    }
+    $scope.add_sub = function() {
+        $scope.sub_for.push({"key": "", "value": {"adapter": "mqtt", "msg_type": "", "dev_type": "", "descr": ""}})
+    }
+    $scope.del_sub = function(index){
+        $scope.sub_for.splice(index,1)
+    }
+    $scope.add_pub = function() {
+        $scope.pub_to.push({"key": "", "value": {"adapter": "mqtt", "msg_type": "", "dev_type": "", "descr": ""}})
+    }
+    $scope.del_pub = function(index){
+        $scope.pub_to.splice(index,1)
+    }
+    $scope.add_conf = function(){
+        $scope.configs.push("")
+    }
+    $scope.del_conf = function(index){
+        $scope.configs.splice(index,1)
     }
 }])
