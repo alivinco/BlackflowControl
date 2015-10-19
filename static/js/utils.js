@@ -77,3 +77,12 @@ function convertKeyValueListToDict(list)
     }
     return result
 }
+
+function convertListToKeyValueList(simple_list)
+{
+    result = []
+    for (k in simple_list)
+    {result.push({"value":simple_list[k]})}
+    return result
+
+}

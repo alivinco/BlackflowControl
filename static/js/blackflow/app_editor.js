@@ -23,7 +23,7 @@ function serializeDescriptor(orig_descriptor,sub_for,pub_to,configs)
     angular.copy(orig_descriptor,descr_new)
     descr_new.sub_for = convertKeyValueListToDict(sub_for_new)
     descr_new.pub_to = convertKeyValueListToDict(pub_to_new)
-    descr_new.configs = configs_new
+    descr_new.configs = convertListToKeyValueList(configs_new)
     return descr_new
 }
 
@@ -81,7 +81,7 @@ app.controller("AppDescriptorController",["$scope","$http","$base64",function($s
             $scope.original_descriptor = data
             $scope.sub_for = convertDictToKeyValList(data.sub_for)
             $scope.pub_to = convertDictToKeyValList(data.pub_to)
-            $scope.configs = data.configs
+            $scope.configs = convertListToKeyValueList(data.configs)
           }, function(response) {
             // called asynchronously if an error occurs
             // or server returns response with an error status.
@@ -104,7 +104,7 @@ app.controller("AppDescriptorController",["$scope","$http","$base64",function($s
         $scope.pub_to.splice(index,1)
     }
     $scope.add_conf = function(){
-        $scope.configs.push("")
+        $scope.configs.push({"value":""})
     }
     $scope.del_conf = function(index){
         $scope.configs.splice(index,1)

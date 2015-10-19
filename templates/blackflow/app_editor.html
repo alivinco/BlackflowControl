@@ -78,9 +78,9 @@
           </div>
 
       <h5>Configuration interfaces:</h5>
-        <div ng-repeat="conf in configs track by $index" class="form-group form-inline"  style="padding-left: 20px">
+        <div ng-repeat="conf in configs" class="form-group form-inline"  style="padding-left: 20px">
                 <div class="col-sm-10 col-md-10 col-lg-8">
-                  <input style="width: 350px" type="text"  class="form-control" ng-model="conf" >
+                  <input style="width: 350px" type="text"  class="form-control" ng-model="conf.value" >
                   <button  class="btn btn-default" ng-click="del_conf($index)">
                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                   </button>
