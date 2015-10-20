@@ -23,7 +23,7 @@ function serializeDescriptor(orig_descriptor,sub_for,pub_to,configs)
     angular.copy(orig_descriptor,descr_new)
     descr_new.sub_for = convertKeyValueListToDict(sub_for_new)
     descr_new.pub_to = convertKeyValueListToDict(pub_to_new)
-    descr_new.configs = convertListToKeyValueList(configs_new)
+    descr_new.configs = convertKeyValueListToList(configs_new)
     return descr_new
 }
 
@@ -88,7 +88,16 @@ app.controller("AppDescriptorController",["$scope","$http","$base64",function($s
           });
     $scope.save_descriptor = function() {
         descr = serializeDescriptor($scope.original_descriptor,$scope.sub_for,$scope.pub_to,$scope.configs)
-        console.dir($scope.configs)
+        console.dir(descr)
+        bin_data =  $base64.encode(angular.toJson(descr));
+        packet = getMessagePacket("command","file","upload")
+        packet.command.properties = {"name":app_name+"/"+app_name+".json","type":"python","bin_data":bin_data}
+        $http.post("/api/blackflow/"+bf_inst_name+"/proxy",{"req_type":"one_way","req_payload":packet}).
+        then(function(response) {
+            alert("Changes were saved")
+          }, function(response) {
+             alert("Error")
+          });
         //console.dir(descr)
     }
     $scope.add_sub = function() {

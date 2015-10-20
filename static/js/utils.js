@@ -86,3 +86,12 @@ function convertListToKeyValueList(simple_list)
     return result
 
 }
+function convertKeyValueListToList(klist)
+{
+    result = []
+    for(item in klist)
+    {
+        result.push(klist[item].value)
+    }
+    return result
+}
