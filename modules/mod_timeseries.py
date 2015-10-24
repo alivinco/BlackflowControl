@@ -31,6 +31,7 @@ class Timeseries():
         # check if tables exists , if not create one
         timeseries_table = "create table if not exists timeseries (timestamp integer , dev_id integer , value real )"
         msg_history_table = "create table if not exists msg_history (timestamp integer , dev_id,msg_class text,address text , msg blob )"
+        # alerts_table = "create table if not exists alerts (timestamp integer ,severity_level INTEGER , type text,address text, value text , msg blob )"
         self.conn.execute(timeseries_table)
         self.conn.execute(msg_history_table)
 

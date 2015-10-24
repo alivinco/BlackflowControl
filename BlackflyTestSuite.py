@@ -911,6 +911,23 @@ def msg_history():
     # history = json.dumps(ts)
     return render_template('msg_history.html',history=history,global_context=global_context)
 
+@app.route('/ui/alerts',methods=["GET","POST"])
+@login_required
+def alerts():
+    log.info("Msg history")
+
+    # dev_id = request.args.get("dev_id",None)
+    # # 0
+    # start = int(request.args.get("start",0))
+    # # 2504836694
+    # end = int(request.args.get("stop",3504836694))
+    #
+    # history = timeseries.get_msg_history(dev_id,start,end)
+    alerts = []
+    # history = json.dumps(ts)
+    return render_template('alerts.html',alerts=alerts,global_context=global_context)
+
+
 @app.route('/ui/tools',methods=["POST","GET"])
 @login_required
 def tools():
