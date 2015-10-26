@@ -6,6 +6,13 @@
 {% block body %}
 </h1>
 <h3>Installed apps</h3>
+<div class="btn-group">
+  <button type="button" onclick="window.location.href='/ui/address_map/0'" class="btn btn-default">Create new app</button>
+  <button type="button" disabled class="btn btn-default" onclick="open_bulk_address_update()">Upload new app</button>
+  <button type="button" disabled class="btn btn-default"onclick="open_bulk_address_delete()" >Download from remote</button>
+</div>
+    <br/>
+    <br/>
 <div class="container-fluid">
 {% if bf_response %}
 <table class="table table-bordered table-striped table-hover">
@@ -21,7 +28,10 @@
    <tbody>
    {%  for app in bf_response.event.properties.apps %}
     <tr>
-        <td >{{ app.name }}</td>
+        <td >
+            <h5>{{ app.name }}</h5>
+            <p><small>{{ app.description }}</small></p>
+        </td>
 
         <td ><ul>
             {% for key,sub_item in app.sub_for.iteritems() %}

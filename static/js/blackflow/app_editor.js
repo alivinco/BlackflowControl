@@ -91,7 +91,7 @@ app.controller("AppDescriptorController",["$scope","$http","$base64",function($s
         console.dir(descr)
         bin_data =  $base64.encode(angular.toJson(descr));
         packet = getMessagePacket("command","file","upload")
-        packet.command.properties = {"name":app_name+"/"+app_name+".json","type":"python","bin_data":bin_data}
+        packet.command.properties = {"name":app_name+"/"+app_name+".json","type":"python","post_save_action":"reload_desc","bin_data":bin_data}
         $http.post("/api/blackflow/"+bf_inst_name+"/proxy",{"req_type":"one_way","req_payload":packet}).
         then(function(response) {
             alert("Changes were saved")
