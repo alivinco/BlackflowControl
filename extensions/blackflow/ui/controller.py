@@ -73,7 +73,9 @@ def app_instance_config(inst_name):
 @login_required
 def blackflow_proxy(inst_name):
     """
-    The method is a proxy between javascript client and MQTT
+    The method is a proxy between javascript client and MQTT.
+    Proxy support 2 types of request : one_way and sync_response
+    corr_type should be - "MSG_TYPE","COR_ID" . Where MSG_TYPE - message correlated by message type , COR_ID - correlated by cor_id property.
 
     """
     # supported types : one_way , sync_response

@@ -4,12 +4,13 @@
 <link rel="stylesheet" href="/static/css/custom_icons.css">
 {% endblock %}
 {% block body %}
+<div ng-app="AppsList" ng-controller="AppsListController">
 </h1>
 <h3>Installed apps</h3>
 <div class="btn-group">
-  <button type="button" onclick="window.location.href='/ui/address_map/0'" class="btn btn-default">Create new app</button>
-  <button type="button" disabled class="btn btn-default" onclick="open_bulk_address_update()">Upload new app</button>
-  <button type="button" disabled class="btn btn-default"onclick="open_bulk_address_delete()" >Download from remote</button>
+  <button type="button" data-toggle="modal" data-target="#create_new_app_modal" class="btn btn-default">Create new app</button>
+  <button type="button" disabled class="btn btn-default" onclick="">Upload new app</button>
+  <button type="button" disabled class="btn btn-default"onclick="" >Download from remote</button>
 </div>
     <br/>
     <br/>
@@ -29,7 +30,7 @@
    {%  for app in bf_response.event.properties.apps %}
     <tr>
         <td >
-            <h5>{{ app.name }}</h5>
+            <h5>{{ app.name }} v.{{ app.version }}</h5>
             <p><small>{{ app.description }}</small></p>
         </td>
 
@@ -66,8 +67,8 @@
             </ul>
         </td>
          <td style="min-width: 110px">
-            <a href="/ui/blackflow/{{ bf_inst_name }}/app_instance_config?app_name={{ app.name }}"><h4><span class=" glyphicon glyphicon-plus-sign"/></h4></a>
-            <a href="/ui/blackflow/{{ bf_inst_name }}/app_editor?app_name={{ app.name }}"><h4><span class=" glyphicon glyphicon-pencil" /></h4></a>
+            <a href="/ui/blackflow/{{ bf_inst_name }}/app_instance_config?app_name={{ app.name }}_{{ app.version }}"><h4><span class=" glyphicon glyphicon-plus-sign"/></h4></a>
+            <a href="/ui/blackflow/{{ bf_inst_name }}/app_editor?app_name={{ app.name }}_{{ app.version }}"><h4><span class=" glyphicon glyphicon-pencil" /></h4></a>
             <a><h4><span class=" glyphicon glyphicon-refresh"/></h4></a>
             <a><h4><span class=" glyphicon glyphicon-trash"/></h4></a>
         </td>
@@ -77,17 +78,58 @@
 </table>
 
 {% else %}
-<h4>Device registry is not responding . Please check if device registry process is up and running and try again</h4>
+<h4>Blackflow is not responding.</h4>
 {% endif %}
 </div>
 
+{#Modal dialog #}
+<div class="modal fade" id="create_new_app_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Create new application</h4>
+      </div>
+      <br/>
+      <div >
+            <form class="form-horizontal" role="form" >
+              <input type="hidden" name="action" value="bulk_address_update" />
+              <div class="form-group">
+                <label for="inputName" class="col-sm-3 control-label">Name</label>
+                <div class="col-sm-6">
+                  <input type="text" name="find" class="form-control" id="inputName" ng-model="app_name" placeholder="" value="">
+                </div>
+              </div>
 
+              <div class="form-group">
+                <label for="inputAddress" class="col-sm-3 control-label">Version</label>
+                <div class="col-sm-6">
+                  <input type="text" name="replace_to" class="form-control" id="inputAddress" ng-model="app_version" value="">
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-default" ng-click="init_new_app()">Create</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 {% endblock %}
 {% block js_scripts %}
     <script>
       var mode = "normal"
+      var bf_inst_name = "{{ bf_inst_name }}"
     </script>
+
+    <script src="/static/js/angular.min.js"></script>
     <script src="/static/js/stupidtable.min.js"></script>
+    <script src="/static/js/utils.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/js/blackflow/apps.js"></script>
+
 {#    <script src="/static/js/dr_device_browser.js"></script>#}
 
 {% endblock %}
