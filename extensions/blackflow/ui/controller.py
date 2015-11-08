@@ -1,4 +1,5 @@
 from extensions.blackflow.app_graph_manager import AppGraphManager
+from libs.utils import split_app_full_name
 
 __author__ = 'alivinco'
 import json
@@ -114,27 +115,30 @@ def app_editor_ui(inst_name):
 def app_instance_config_api(inst_name):
     log.info("Blackflow App instance configurator")
     inst_id = int(request.args.get("id",0))
-    app_name = request.args.get("app_name","")
+    app_full_name = request.args.get("app_name","")
+    app_name ,version = split_app_full_name(app_full_name)
+    # app_name =
     msg = blackflowapi.get_apps()
+    # getting list of application manifests
     response = sync_async_client.send_sync_msg(msg, "/app/blackflow/%s/commands"%inst_name, "/app/blackflow/%s/events"%inst_name, timeout=5,correlation_msg_type="blackflow.apps",correlation_type="MSG_TYPE")
-    app_def = filter(lambda app:app["name"]==app_name,response["event"]["properties"]["apps"])[0]
-    #query for instance
+    app_manifest = filter(lambda app:app["name"]==app_name and app["version"]==version,response["event"]["properties"]["apps"])[0]
+    # getting a list of instance configurations
     msg = blackflowapi.get_app_instances()
     all_app_instances = sync_async_client.send_sync_msg(msg, "/app/blackflow/%s/commands"%inst_name, "/app/blackflow/%s/events"%inst_name, timeout=5,correlation_msg_type="blackflow.app_instances",correlation_type="MSG_TYPE")
     if inst_id :
         app_instance = filter(lambda inst:inst["id"]==inst_id,all_app_instances["event"]["properties"]["app_instances"])[0]
         for key,sub in app_instance["sub_for"].iteritems():
-            if key in app_def["sub_for"] :sub["app_def"] = app_def["sub_for"][key]
+            if key in app_manifest["sub_for"] :sub["app_def"] = app_manifest["sub_for"][key]
         for key,pub in  app_instance["pub_to"].iteritems():
-            if key in app_def["pub_to"] : pub["app_def"] = app_def["pub_to"][key]
+            if key in app_manifest["pub_to"] : pub["app_def"] = app_manifest["pub_to"][key]
     else:
-        app_instance = {"id":None,"name":app_name,"alias":"","sub_for":{},"pub_to":{},"configs":{},"comments":""}
-        for key , sub in app_def["sub_for"].iteritems():
+        app_instance = {"id":None,"app_full_name":app_full_name,"alias":"","sub_for":{},"pub_to":{},"configs":{},"comments":""}
+        for key , sub in app_manifest["sub_for"].iteritems():
             topic = sub["topic"] if "topic" in sub else ""
             app_instance["sub_for"][key] = {"topic":topic,"app_def":sub}
-        for key , pub in app_def["pub_to"].iteritems():
+        for key , pub in app_manifest["pub_to"].iteritems():
             app_instance["pub_to"][key] = {"topic":"","app_def":pub}
-        for conf in app_def["configs"]:
+        for conf in app_manifest["configs"]:
             app_instance["configs"][conf] = ""
 
     result_json = json.dumps(app_instance)

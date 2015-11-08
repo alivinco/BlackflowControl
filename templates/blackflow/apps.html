@@ -67,10 +67,10 @@
             </ul>
         </td>
          <td style="min-width: 110px">
-            <a href="/ui/blackflow/{{ bf_inst_name }}/app_instance_config?app_name={{ app.name }}_{{ app.version }}"><h4><span class=" glyphicon glyphicon-plus-sign"/></h4></a>
-            <a href="/ui/blackflow/{{ bf_inst_name }}/app_editor?app_name={{ app.name }}_{{ app.version }}"><h4><span class=" glyphicon glyphicon-pencil" /></h4></a>
-            <a><h4><span class=" glyphicon glyphicon-refresh"/></h4></a>
-            <a><h4><span class=" glyphicon glyphicon-trash"/></h4></a>
+            <a href="/ui/blackflow/{{ bf_inst_name }}/app_instance_config?app_name={{ app.name }}_v{{ app.version }}"><h4><span class=" glyphicon glyphicon-plus-sign"/></h4></a>
+            <a href="/ui/blackflow/{{ bf_inst_name }}/app_editor?app_name={{ app.name }}_v{{ app.version }}"><h4><span class=" glyphicon glyphicon-pencil" /></h4></a>
+            <a><h4><span class=" glyphicon glyphicon-refresh" ng-click=reload("{{ app.name }}_v{{ app.version }}") /></h4></a>
+            <a><h4><span class=" glyphicon glyphicon-trash" ng-click=delete_app("{{ app.name }}_v{{ app.version }}") /></h4></a>
         </td>
     </tr>
    {% endfor %}
@@ -110,7 +110,7 @@
 
               <div class="modal-footer">
                 <button type="submit" class="btn btn-default" ng-click="init_new_app()">Create</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default"  data-dismiss="modal">Close</button>
               </div>
             </form>
       </div>

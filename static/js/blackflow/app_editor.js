@@ -27,10 +27,15 @@ function serializeDescriptor(orig_descriptor,sub_for,pub_to,configs)
     return descr_new
 }
 
+function get_app_class_name(app_name)
+{
+    return app_name.match(/\w+(?=_v)/g);
+
+}
 
 app.controller("AppEditorController",["$scope","$http","$base64",function($scope,$http,$base64){
     packet = getMessagePacket("command","file","download")
-    packet["command"]["default"]["value"] = app_name+"/"+app_name+".py"
+    packet["command"]["default"]["value"] = app_name+"/"+get_app_class_name(app_name)+".py"
     $http.post('/api/blackflow/'+bf_inst_name+'/proxy',{"req_type":"sync_response","req_payload":packet,"corr_type":"COR_ID"}).
         then(function(response) {
             base64data = response.data.event.properties.bin_data
@@ -44,8 +49,9 @@ app.controller("AppEditorController",["$scope","$http","$base64",function($scope
     $scope.save = function (){
         src = editor.getValue()
         bin_data =  $base64.encode(src);
+        app_class_name = get_app_class_name(app_name)
         packet = getMessagePacket("command","file","upload")
-        packet.command.properties = {"name":app_name+"/"+app_name+".py","type":"python","bin_data":bin_data}
+        packet.command.properties = {"name":app_name+"/"+app_class_name+".py","type":"python","bin_data":bin_data}
         $http.post("/api/blackflow/"+bf_inst_name+"/proxy",{"req_type":"one_way","req_payload":packet}).
         then(function(response) {
             alert("Changes were saved")
@@ -55,7 +61,7 @@ app.controller("AppEditorController",["$scope","$http","$base64",function($scope
     }
     $scope.reload = function (){
         packet = getMessagePacket("command","blackflow","reload_app")
-        packet.command.default.value = app_name
+        packet.command.default.value =app_name
         $http.post("/api/blackflow/"+bf_inst_name+"/proxy",{"req_type":"sync_response","req_payload":packet,"corr_type":"COR_ID"}).
         then(function(response) {
            if (response.data.event.default.value)
@@ -72,7 +78,7 @@ app.controller("AppEditorController",["$scope","$http","$base64",function($scope
 
 app.controller("AppDescriptorController",["$scope","$http","$base64",function($scope,$http,$base64){
     packet = getMessagePacket("command","file","download")
-    packet["command"]["default"]["value"] = app_name+"/"+app_name+".json"
+    packet["command"]["default"]["value"] = app_name+"/manifest.json"
     $http.post('/api/blackflow/'+bf_inst_name+'/proxy',{"req_type":"sync_response","req_payload":packet,"corr_type":"COR_ID"}).
         then(function(response) {
             base64data = response.data.event.properties.bin_data
@@ -91,7 +97,7 @@ app.controller("AppDescriptorController",["$scope","$http","$base64",function($s
         console.dir(descr)
         bin_data =  $base64.encode(angular.toJson(descr));
         packet = getMessagePacket("command","file","upload")
-        packet.command.properties = {"name":app_name+"/"+app_name+".json","type":"python","post_save_action":"reload_desc","bin_data":bin_data}
+        packet.command.properties = {"name":app_name+"/manifest.json","type":"python","post_save_action":"reload_manifest","bin_data":bin_data}
         $http.post("/api/blackflow/"+bf_inst_name+"/proxy",{"req_type":"one_way","req_payload":packet}).
         then(function(response) {
             alert("Changes were saved")

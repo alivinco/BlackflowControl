@@ -35,7 +35,7 @@
    {%  for app in bf_response.event.properties.app_instances %}
     <tr>
         <td >{{ app.id }}</td>
-        <td >{{ app.name }}</td>
+        <td >{{ app.app_full_name }}</td>
         <td >{{ app.alias }}</td>
         <td >
             {% for key,value in app.sub_for.iteritems() %}
@@ -55,7 +55,7 @@
 
         <td>{{ app.state }}</td>
         <td style="min-width: 110px">
-            <a href="/ui/blackflow/{{ bf_inst_name }}/app_instance_config?id={{ app.id }}&app_name={{ app.name }}"><span class=" glyphicon glyphicon-cog"/></a>
+            <a href="/ui/blackflow/{{ bf_inst_name }}/app_instance_config?id={{ app.id }}&app_name={{ app.app_full_name }}"><span class=" glyphicon glyphicon-cog"/></a>
             <a ><span ng-click="controlAppInstance({{ app.id }},'START')" class=" glyphicon glyphicon-play"/></a>
             <a ng-click="controlAppInstance({{ app.id }},'PAUSE')"><span class=" glyphicon glyphicon-pause"/></a>
             <a ng-click="controlAppInstance({{ app.id }},'STOP')"><span class=" glyphicon glyphicon-stop"/></a>
