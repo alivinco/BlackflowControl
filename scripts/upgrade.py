@@ -8,6 +8,8 @@ def update_address_mapping():
     app_root_path = os.getcwd()
     addr_path = os.path.join(app_root_path, "configs", "address_mapping.json")
     jobj = json.load(file(addr_path))
+    template_path = os.path.join(app_root_path, "scripts","configs", "address_mapping.json")
+    template_jobj = json.load(file(template_path))
     counter = 1
     for item in jobj :
         if not("id" in item):
@@ -16,6 +18,9 @@ def update_address_mapping():
             print "updated"
         if not("record_history" in item):
             item["record_history"]=False
+    mandatory_msg_types = ["zw_ta.inclusion_stage@.ta.zw.events","error.status_code@.ta.zw.events"]
+    
+
 
 
     f = open(addr_path, "w")

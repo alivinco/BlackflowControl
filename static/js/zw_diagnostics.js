@@ -9,6 +9,21 @@
 var cy
 var current_controller_mode = ""
 var countdown_timer_obj = null
+var operation_start_time = 0
+
+function get_server_info()
+{
+    return $.ajax({
+      url: "/api/get_server_info",
+      method :"GET",
+      error:function(err)
+      {
+          alert("Error while getting server info.")
+      }
+    });
+
+}
+
 function start_clusion_mode(mode,start,enable_security)
 {
     enable_security = typeof enable_security !== 'undefined' ? enable_security : true;
@@ -30,6 +45,7 @@ function start_clusion_mode(mode,start,enable_security)
 
     if (start==false){
         clearTimeout(countdown_timer_obj)
+        clearInterval(history_timer)
         $('#clusion_mode_result').html("<h4>Stopped</h4>")
         $('#start_mode_modal').modal('hide')
 
@@ -37,52 +53,44 @@ function start_clusion_mode(mode,start,enable_security)
          $('#clusion_mode_result').html("")
         $('#start_mode_modal').modal('show')
     }
+    get_server_info().then(function(data){
 
-    if (start) {
-        prom = pool_messages_from_server("/ta/zw/events", "", function (data) {
-            if (data.event.subtype == "inclusion_report" || data.event.subtype == "exclusion_report")
-                return true
-            else return false
-        }, 60000)
-        prom.progress(function (data) {
-            if (data) $('#clusion_mode_result').html("<h4>Inclusion stage : " + data.event.default.value + "</h4>")
-        })
-        prom.done(function (data) {
-            if(current_controller_mode == "zw_inclusion_mode")
-            {
-                new_dev = data.event.properties.inclusion_report.value.device
-                $('#clusion_mode_result').html("<h4>Device with node id ="+new_dev.id+" was added to the network</h4>")
-            }else {
-                removed_dev = data.event.default.value
-                $('#clusion_mode_result').html("<h4>Device with node id ="+removed_dev+" was removed from the network</h4>")
-            }
-        })
-    }
-     $.ajax({
-      url: "/api/zw_manager",
-      method :"POST",
-      data: {
-        action:mode,
-        start:start,
-        enable_security:enable_security
-      },
-      success: function( data ) {
         console.dir(data)
-        clearTimeout(countdown_timer_obj)
-        if (data)
-        {
-            if (data.event)
-                if(current_controller_mode == "zw_inclusion_mode")
-                {
-                    new_dev = data.event.properties.inclusion_report.value.device
-                    $('#clusion_mode_result').html("<h4>Device with node id ="+new_dev.id+" was added to the network</h4>")
-                }else {
-                    removed_dev = data.event.default.value
-                    $('#clusion_mode_result').html("<h4>Device with node id ="+removed_dev+" was removed from the network</h4>")
-                }
+        operation_start_time = data.time_milis
+
+        if (start) {
+           history_timer = pull_history_from_server(true)
+
         }
-      }
-    });
+
+         $.ajax({
+          url: "/api/zw_manager",
+          method :"POST",
+          data: {
+            action:mode,
+            start:start,
+            enable_security:enable_security
+          },
+          success: function( data ) {
+            console.dir(data)
+            clearTimeout(countdown_timer_obj)
+            clearInterval(history_timer)
+            pull_history_from_server(false)
+            if (data)
+            {
+                if (data.event)
+                    if(current_controller_mode == "zw_inclusion_mode")
+                    {
+                        new_dev = data.event.properties.inclusion_report.value.device
+                        $('#clusion_mode_result').html("<p><h4>Device with node id ="+new_dev.id+" was added to the network</h4></p>")
+                    }else {
+                        removed_dev = data.event.default.value
+                        $('#clusion_mode_result').html("<p><h4>Device with node id ="+removed_dev+" was removed from the network</h4></p>")
+                    }
+            }
+          }
+        });
+    })
     //clusion_mode_result
 
 }
@@ -127,6 +135,47 @@ function pool_messages_from_server(topic,msg_type,stop_msg_resolver,timeout)
        do_request()
        if (timeout) setTimeout(function(){isTimeout=true},timeout)
        return def.promise()
+}
+// log output mutex , to prevent several callbacks to write to the same log output.
+function pull_history_from_server(auto_pool)
+{
+
+       var def = $.Deferred();
+       var isTimeout = false
+       var startTime = Math.floor(operation_start_time / 1000)
+
+       function do_request() {
+           stopTime = Math.floor(Date.now() / 1000)+5000
+           var prom = $.ajax({
+               url: "/api/get_msg_history",
+               method: "GET",
+               data: {start: startTime},
+           });
+           global_pool_request_xhr = prom
+           prom.done(function (data) {
+               if (data.length>0)  {
+                   $('#clusion_log').html("")
+                   $.each(data, function (index, value) {
+                         event = JSON.parse(value.msg).event
+                         if (event.subtype!="inclusion_report") {
+                             if (event.subtype=="status_code") {
+                                 $('#clusion_log').append("<p><h5>" + index + ". ERROR: " + event.properties.error + "</h5></p>")
+                             }else{
+                                 $('#clusion_log').append("<p><h5>" + index + ". " + event.default.value + "</h5></p>")
+                             }
+                         }
+                   })
+               }
+
+           })
+       }
+       time = null
+       if (auto_pool)
+           {timer = setInterval(do_request,1000)}
+       else
+           {do_request()}
+
+       return timer
 }
 
 function test_pool()

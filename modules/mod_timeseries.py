@@ -230,20 +230,20 @@ class Timeseries():
         finally:
             self.lock.release()
 
-    def get_msg_history(self, dev_id=None, start=0, end=0, result_type="dict",rowid=None):
+    def get_msg_history(self, dev_id=None, start=0, end=0, result_type="dict",rowid=None,sort="desc"):
         self.lock.acquire()
         c = self.conn.cursor()
 
         if rowid :
             iter = c.execute(
-                "select dev_id,timestamp,msg_class,address,msg ,rowid from msg_history where rowid=? order by timestamp desc ",
+                "select dev_id,timestamp,msg_class,address,msg ,rowid from msg_history where rowid=? order by timestamp %s"%sort,
                 (rowid,))
         elif dev_id:
             iter = c.execute(
-                "select dev_id,timestamp,msg_class,address,msg ,rowid from msg_history where dev_id = ? and timestamp > ? and timestamp < ? order by timestamp desc",
-                (dev_id, start, end))
+                "select dev_id,timestamp,msg_class,address,msg ,rowid from msg_history where dev_id = ? and timestamp > ? and timestamp < ? order by timestamp %s"%sort,
+                (dev_id, start, end , ))
         else:
-            iter = c.execute("select dev_id,timestamp,msg_class,address,msg,rowid from msg_history where  timestamp > ? and timestamp < ? order by timestamp desc",
+            iter = c.execute("select dev_id,timestamp,msg_class,address,msg,rowid from msg_history where  timestamp > ? and timestamp < ? order by timestamp %s"%sort,
                              (start, end))
 
         result = []

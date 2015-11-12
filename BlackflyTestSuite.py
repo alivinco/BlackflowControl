@@ -19,7 +19,7 @@ from extensions import devicereg
 import libs
 from libs.dmapi.core import Core
 from libs.flask_login import LoginManager, login_required
-from libs.utils import convert_bool
+from libs.utils import convert_bool, format_iso_time_from_sec
 from mappings.msg_class_to_zw import get_msg_class_by_capabilities
 import modules
 from modules.mod_dashboards import DashboardManager
@@ -911,6 +911,31 @@ def msg_history():
     # history = json.dumps(ts)
     return render_template('msg_history.html',history=history,global_context=global_context)
 
+@app.route('/api/get_msg_history',methods=["GET","POST"])
+@login_required
+def get_msg_history_api():
+    log.info("Msg history")
+
+    dev_id = request.args.get("dev_id",None)
+    # 0
+    start = int(request.args.get("start",0))
+    # 2504836694
+    end = int(request.args.get("stop",3504836694))
+
+    history = timeseries.get_msg_history(dev_id,start,end,sort="asc")
+    # history = json.dumps(ts)
+    jobj = json.dumps(history)
+    return Response(response=jobj, mimetype='application/json')
+
+@app.route('/api/get_server_info',methods=["GET","POST"])
+@login_required
+def get_server_info_api():
+    log.info("Server info")
+    time_in_milis = int(time.time()*1000)
+    info = {"time_milis":time_in_milis,"iso_time":format_iso_time_from_sec(time.time())}
+    jobj = json.dumps(info)
+    return Response(response=jobj, mimetype='application/json')
+
 @app.route('/ui/alerts',methods=["GET","POST"])
 @login_required
 def alerts():
@@ -1004,7 +1029,7 @@ def mqtt_client():
     if request.method == "GET":
         payload =   {"origin": {"@id": "blackfly", "@type": "app"},
                      "uuid": str(uuid.uuid4()),
-                     "creation_time": int(time.time()) * 1000,
+                     "creation_time": int(time.time()*1000) ,
                      "command": {"default": {"value": "__fill_me__" },"subtype": "__fill_me__","@type": "__fill_me__"},
                      "spid": "SP1",
                      "@context": "http://context.smartly.no"
