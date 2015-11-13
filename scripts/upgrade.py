@@ -17,7 +17,6 @@ def update_address_mapping():
         if not("record_history" in item):
             item["record_history"]=False
 
-
     f = open(addr_path, "w")
     f.write(json.dumps(jobj, indent=True))
     f.close()
@@ -46,7 +45,7 @@ def update_global_config():
     if not ("use_default_class_lookup" in jobj):
         jobj["use_default_class_lookup"]=True
     if "system" in jobj:
-        jobj["system"]["version"]="1.5.1"
+        jobj["system"]["version"]="1.5.2"
         jobj["mqtt"]["enable_sys"]=False
         jobj["system"]["http_server_port"]=5000
         jobj["system"]["distro_server_uri"]="http://lego.fiicha.net/blackfly"

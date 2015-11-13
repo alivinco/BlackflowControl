@@ -31,6 +31,7 @@ class Timeseries():
         # check if tables exists , if not create one
         timeseries_table = "create table if not exists timeseries (timestamp integer , dev_id integer , value real )"
         msg_history_table = "create table if not exists msg_history (timestamp integer , dev_id,msg_class text,address text , msg blob )"
+        # alerts_table = "create table if not exists alerts (timestamp integer ,severity_level INTEGER , type text,address text, value text , msg blob )"
         self.conn.execute(timeseries_table)
         self.conn.execute(msg_history_table)
 
@@ -76,7 +77,6 @@ class Timeseries():
         finally:
             self.lock.release()
 
-
     def delete_msg_history(self,del_type=None, row_id=None ,dev_id=None):
 
         if del_type:
@@ -102,7 +102,6 @@ class Timeseries():
             finally:
                 self.lock.release()
 
-
     def do_rotation(self):
         """
         The method performs database analysis and if number of datapoints for certain device is bigger then
@@ -121,7 +120,6 @@ class Timeseries():
                     "delete from timeseries where rowid in (select rowid from timeseries where dev_id = ? order by timestamp asc LIMIT ?);",
                     (dev_id_to_clean, self.rows_to_delete_per_cleanup))
                 self.conn.commit()
-
 
     def get(self, dev_id, start, end, result_type="dict" ):
         self.lock.acquire()
@@ -229,20 +227,20 @@ class Timeseries():
         finally:
             self.lock.release()
 
-    def get_msg_history(self, dev_id=None, start=0, end=0, result_type="dict",rowid=None):
+    def get_msg_history(self, dev_id=None, start=0, end=0, result_type="dict",rowid=None,sort="desc"):
         self.lock.acquire()
         c = self.conn.cursor()
 
         if rowid :
             iter = c.execute(
-                "select dev_id,timestamp,msg_class,address,msg ,rowid from msg_history where rowid=? order by timestamp desc ",
+                "select dev_id,timestamp,msg_class,address,msg ,rowid from msg_history where rowid=? order by timestamp %s"%sort,
                 (rowid,))
         elif dev_id:
             iter = c.execute(
-                "select dev_id,timestamp,msg_class,address,msg ,rowid from msg_history where dev_id = ? and timestamp > ? and timestamp < ? order by timestamp desc",
-                (dev_id, start, end))
+                "select dev_id,timestamp,msg_class,address,msg ,rowid from msg_history where dev_id = ? and timestamp > ? and timestamp < ? order by timestamp %s"%sort,
+                (dev_id, start, end , ))
         else:
-            iter = c.execute("select dev_id,timestamp,msg_class,address,msg,rowid from msg_history where  timestamp > ? and timestamp < ? order by timestamp desc",
+            iter = c.execute("select dev_id,timestamp,msg_class,address,msg,rowid from msg_history where  timestamp > ? and timestamp < ? order by timestamp %s"%sort,
                              (start, end))
 
         result = []
@@ -260,9 +258,6 @@ class Timeseries():
         c.close()
         self.lock.release()
         return result
-
-
-
 
 if __name__ == "__main__":
     import logging.config

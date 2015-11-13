@@ -46,6 +46,7 @@ then
  cp /tmp/configs/global.json configs/
  cp /tmp/configs/filters.json configs/
  cp /tmp/configs/dashboards.json configs/
+ cp /tmp/configs/msg_to_log_mapping.json configs/
 #cp /tmp/configs/msg_class_mapping.json configs/
  cp -r /tmp/events messages/
  if [ -e "/tmp/configs/filters.json" ];
@@ -60,6 +61,12 @@ then
     else
         cp  scripts/configs/users.json configs/
  fi
+ if [ -e "/tmp/configs/msg_to_log_mapping.json" ];
+    then
+        cp /tmp/configs/msg_to_log_mapping.json configs/
+    else
+        cp  scripts/configs/msg_to_log_mapping.json configs/
+ fi
  echo "Running update script"
  python scripts/upgrade.py
 else
@@ -67,6 +74,7 @@ else
  cp  scripts/configs/address_mapping.json configs/
  cp  scripts/configs/filters.json configs/
  cp  scripts/configs/users.json configs/
+ cp  scripts/configs/msg_to_log_mapping.json configs/
 fi
 
 echo "Updating global.json config file"

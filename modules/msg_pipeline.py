@@ -89,6 +89,10 @@ class MsgPipeline():
         addr_is_registered = False
         msg_class = self.__get_msg_class_from_msg(payload)
         msg_type = "command" if "commands" in address else "event"
+
+        exdt = self.__extract_data(address, msg_class, payload)
+        self.__record_history(exdt,msg_type, address, msg_class, payload)
+
         if msg_class:
             msg_class_is_registered = self.__check_msg_class(msg_class, msg_type)
             cache_key = self.msg_man.generate_key(msg_class, address)
@@ -101,8 +105,6 @@ class MsgPipeline():
 
         if addr_is_registered:
             # combination of message class and address is registered within the system system
-            exdt = self.__extract_data(address, msg_class, payload)
-            self.__record_history(exdt, address, msg_class, payload)
             self.__update_timeseries(exdt)
             self.cache.put(cache_key, payload, exdt["ui_mapping"], exdt["extracted_values"])
             log.info("Message class = " + msg_class + " and address = " + address + " are known to the system")
@@ -245,9 +247,7 @@ class MsgPipeline():
             address_map = self.msg_man.get_address_by_id(id)
         else:
             address_map = self.msg_man.get_address_by_key(key)
-
         try:
-
             # ui_mapping = address_map["ui_mapping"]
             ui_mapping = self.msg_man.get_msg_class_by_key(key)["ui_mapping"]
             override_path = ""
@@ -271,15 +271,23 @@ class MsgPipeline():
         except Exception as ex:
             # default value
             ui_mapping["ui_element"] = {"ui_element": "free_text", "value_path": "$.event.value"}
+            extracted_values["dev_id"] = 0
+            extracted_values["record_history"] = False
             log.error("Can't extract ui mapping data")
             log.exception(ex)
 
         return {"ui_mapping": ui_mapping, "extracted_values": extracted_values}
 
-    def __record_history(self, exdt, address, msg_class, payload):
+    def __record_history(self, exdt,msg_type , address, msg_class, payload):
 
+        ex_msg_class = "%s.%s"%(msg_type,msg_class)
         if exdt["extracted_values"]["record_history"]:
-            self.timeseries.insert_msg_history(exdt["extracted_values"]["dev_id"], msg_class, address, payload)
+            self.timeseries.insert_msg_history(exdt["extracted_values"]["dev_id"], ex_msg_class, address, payload)
+        else:
+            ex_msg_class = "%s.%s"%(msg_type,msg_class)
+            msg_to_log = filter(lambda row:(row["msg_class"] == "*" or row["msg_class"] == ex_msg_class) and (row["address"] == "*" or row["address"] == address), self.msg_man.msg_to_log_mapping)
+            if len(msg_to_log)>0:
+                self.timeseries.insert_msg_history(0, ex_msg_class, address, payload)
 
     def __update_timeseries(self, exdt):
         try:
