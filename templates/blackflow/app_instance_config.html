@@ -12,104 +12,121 @@
 <br/>
 {#<div class="container-fluid">#}
  <div ng-app="blackflow" ng-controller="AppConfigController">
-  <form class="form-horizontal" role="form" action="/api/filters" method="POST">
   <div>
     <div >
       <h4>Application instance configurator</h4>
     </div>
     <div >
-      <div class="form-group">
+      <div class="form-group row">
                 <label for="spid_input"  class="col-sm-2 control-label">Application</label>
                 <div class="col-sm-5">
-                  <input type="text" name="spid" readonly ng-model="inst_config.name" class="form-control" id="spid_input" >
+                  <input type="text" name="spid" readonly ng-model="inst_config.app_full_name" class="form-control" id="spid_input" >
                 </div>
       </div>
-      <div class="form-group">
+      <div class="form-group row">
                 <label for="topic_input" class="col-sm-2 control-label">Instance name</label>
                 <div class="col-sm-5">
                   <input type="text" name="topic" class="form-control" ng-model="inst_config.alias">
                 </div>
       </div>
-      <div class="form-group form-inline" >
-                <label class="col-sm-2 control-label">App subscribes for:</label>
-                <div class="col-sm-6"></div>
-      </div>
-      <div ng-repeat="sub in sub_for" class="form-group form-inline" >
-                <label for="msg_type_input__1" class="col-sm-2 control-label"></label>
-                <div class="col-sm-10 col-md-10 col-lg-8">
-                  <input style="width: 170px" type="text"  class="form-control" ng-readonly="sub.value.app_def" ng-model="sub.key" placeholder="type" >
-                  <input style="width: 350px" type="text"  class="form-control" ng-model="sub.value.topic" placeholder="subtype" >
-                  <button  class="btn btn-default" id="add_msg_type"  value="Info" >
-                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" ></span>
-                  </button>
-                  <button  class="btn btn-default" id="add_msg_type" type="button" ng-if="!sub.value.app_def" value="Delete" >
-                   <span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="del_sub($index)"></span>
-                  </button>
-                </div>
-      </div>
-      <div class="form-group">
-                <div class="col-sm-6 col-sm-offset-2">
-                  <button  class="btn btn-default" type="button" ng-click="add_sub()"  >
-                   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                  </button>
-                </div>
-      </div>
-      <div class="form-group form-inline" >
-                <label class="col-sm-2 control-label">App publishes msg to:</label>
-                <div class="col-sm-6"></div>
-      </div>
-       <div ng-repeat="pub in pub_to" class="form-group form-inline" >
-                <label for="msg_subtype_input_2" class="col-sm-2 control-label"></label>
-                <div class="col-sm-10 col-md-10 col-lg-8">
-                  <input style="width: 170px" type="text"  class="form-control" ng-readonly="pub.value.app_def" ng-model="pub.key"  >
-                  <input style="width: 350px" type="text"  class="form-control" ng-model="pub.value.topic"  >
-                  <button  class="btn btn-default" id="add_msg_type"  value="Info" >
-                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" ></span>
-                  </button>
-                  <button  class="btn btn-default" type="button" id="add_msg_type" ng-if="!pub.value.app_def" value="Delete" ng-click="del_pub($index)">
-                   <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                  </button>
-                </div>
-      </div>
-       <div class="form-group">
-                <div class="col-sm-6 col-sm-offset-2">
-                  <button  class="btn btn-default" type="button" ng-click="add_pub()">
-                   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                  </button>
-                </div>
-      </div>
-      <div class="form-group form-inline" >
-                <label class="col-sm-2 control-label">App configurations</label>
-                <div class="col-sm-6"></div>
-      </div>
-      <div ng-repeat="conf in configs" class="form-group form-inline"  class="col-sm-7">
-                <label for="msg_subtype_input_2" class="col-sm-2 control-label"></label>
-                <div class="col-sm-10 col-md-10 col-lg-8">
-                  <input style="width: 170px" type="text"  class="form-control" ng-model="conf.key" >
-                  <input style="width: 350px" type="text"  class="form-control" ng-model="conf.value" >
-                  <button  class="btn btn-default" ng-click="del_conf($index)">
-                   <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                  </button>
-                </div>
-      </div>
-       <div class="form-group">
-                <div class="col-sm-6 col-sm-offset-2">
-                  <button  class="btn btn-default" type="button" ng-click="add_conf()">
-                   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                  </button>
-                </div>
-      </div>
       <div>
-          <div class="form-group">
+          <div class="form-group row">
           <label for="collection_name_input" class="col-sm-2 control-label">Comments</label>
             <div class="col-sm-6">
                <input type="text" name="collection_name" class="form-control" id="collection_name_input" ng-model="inst_config.comments">
             </div>
           </div>
       </div>
+      <ul class="nav nav-tabs" role="tablist">
+            <li class="active" ><a href="#app_sub_tab" role="tab" data-toggle="tab">Subscribe</a></li>
+            <li ><a href="#app_pub_tab" role="tab" data-toggle="tab">Publish</a></li>
+            <li  ><a href="#time_trigger_tab" role="tab" data-toggle="tab">Time trigger</a></li>
+            <li ><a href="#app_config_tab" role="tab" data-toggle="tab">Configs</a></li>
+      </ul>
+      <div class="tab-content">
+
+      </br>
+      <div class="tab-pane active" id="app_sub_tab">
+          <div ng-repeat="sub in sub_for" class="form-group form-inline row" >
+                    <div class="col-sm-10 col-md-10 col-lg-8">
+                      <input style="width: 170px" type="text"  class="form-control" ng-readonly="sub.value.app_def" ng-model="sub.key" placeholder="type" >
+                      <input style="width: 350px" type="text"  class="form-control" ng-model="sub.value.topic" placeholder="subtype" >
+                      <button  class="btn btn-default" id="add_msg_type"  value="Info" >
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" ></span>
+                      </button>
+                      <button  class="btn btn-default" id="add_msg_type" type="button" ng-if="!sub.value.app_def" value="Delete" >
+                       <span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="del_sub($index)"></span>
+                      </button>
+                    </div>
+          </div>
+          <div class="form-group row">
+                    <div class="col-sm-6">
+                      <button  class="btn btn-default" type="button" ng-click="add_sub()"  >
+                       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                      </button>
+                    </div>
+          </div>
+      </div>
+      <div class="tab-pane" id="app_pub_tab">
+           <div ng-repeat="pub in pub_to" class="form-group form-inline row" >
+                    <div class="col-sm-10 col-md-10 col-lg-8">
+                      <input style="width: 170px" type="text"  class="form-control" ng-readonly="pub.value.app_def" ng-model="pub.key"  >
+                      <input style="width: 350px" type="text"  class="form-control" ng-model="pub.value.topic"  >
+                      <button  class="btn btn-default" id="add_msg_type"  value="Info" >
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" ></span>
+                      </button>
+                      <button  class="btn btn-default" type="button" id="add_msg_type" ng-if="!pub.value.app_def" value="Delete" ng-click="del_pub($index)">
+                       <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                      </button>
+                    </div>
+          </div>
+           <div class="form-group row">
+                    <div class="col-sm-6">
+                      <button  class="btn btn-default" type="button" ng-click="add_pub()">
+                       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                      </button>
+                    </div>
+          </div>
+      </div>
+       <div class="tab-pane" id="time_trigger_tab">
+          <div  class="form-group form-inline row" >
+                    <div class="col-sm-10 col-md-10 col-lg-8">
+                      <select style="width: 90px" type="text"  class="form-control" placeholder="Adapter" >
+                          <option value="mqtt">Interval</option>
+                          <option value="local">Cron</option>
+                      </select>
+                      <input style="width: 170px" type="text"  class="form-control" ng-readonly="sub.value.app_def" ng-model="sub.key" placeholder="type" >
+                      <input style="width: 350px" type="text"  class="form-control" ng-model="sub.value.topic" placeholder="subtype" >
+                      <button  class="btn btn-default" id="add_msg_type"  value="Info" >
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" ></span>
+                      </button>
+                      <button  class="btn btn-default" id="add_msg_type" type="button" ng-if="!sub.value.app_def" value="Delete" >
+                       <span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="del_sub($index)"></span>
+                      </button>
+                    </div>
+          </div>
+      </div>
+      <div class="tab-pane " id="app_config_tab">
+          <div ng-repeat="conf in configs" class="form-group form-inline row"  class="col-sm-7">
+                    <div class="col-sm-10 col-md-10 col-lg-8">
+                      <input style="width: 170px" type="text"  class="form-control" ng-model="conf.key" >
+                      <input style="width: 350px" type="text"  class="form-control" ng-model="conf.value" >
+                      <button  class="btn btn-default" ng-click="del_conf($index)">
+                       <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                      </button>
+                    </div>
+          </div>
+           <div class="form-group row">
+                    <div class="col-sm-6 col-sm-offset-2">
+                      <button  class="btn btn-default" type="button" ng-click="add_conf()">
+                       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                      </button>
+                    </div>
+          </div>
+      </div>
+      </div>
       <div>
           <div class="form-group">
-          <label for="collection_name_input" class="col-sm-2 control-label"></label>
             <div class="col-sm-6">
                <button type="button" ng-click ="update()" class="btn btn-default" >Save</button>
                <button type="button" ng-click ="restart()" class="btn btn-default" >Restart instance</button>
@@ -118,64 +135,11 @@
       </div>
     </div>
   </div>
-  </form>
 
 {#<pre>master = {[inst_config | json]}</pre>#}
 {#<pre>master = {[sub_for | json]}</pre>#}
 </div>
 {#Add service modal dialog #}
-<div class="modal fade" id="add_service_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Add service</h4>
-      </div>
-      <br/>
-      <div >
-            <form class="form-horizontal" role="form" action="/api/dashboard" method="POST">
-              <input type="hidden" name="action" value="add_service_to_dashboard" />
-              <input type="hidden" name="group_id" value="0" id="service_modal_group_id" />
-              <input type="hidden" name="dashboard_id" value="{{ dashboard_id }}" />
-              <div class="form-group">
-                <label for="inputName" class="col-sm-4 control-label">Service</label>
-                <div class="col-sm-6">
-                   <select name="service_id" id="inputMsgClass" class="form-control">
-                     {% for item in address_list|sort(attribute='name') %}
-                        <option value="{{ item.id }}" >{{ item.name }} -> {{ item.address }}</option>
-                     {% endfor %}
-                  </select>
-                </div>
-              </div>
-             <div class="form-group">
-                <label for="inputName" class="col-sm-4 control-label">Service name</label>
-                <div class="col-sm-6">
-                  <input type="text" name="service_name" class="form-control" id="inputName" placeholder="" value="">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputName" class="col-sm-4 control-label">X Position</label>
-                <div class="col-sm-6">
-                  <input type="text" name="position_x" class="form-control" id="inputName" placeholder="" value="auto">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputName" class="col-sm-4 control-label">Y Position</label>
-                <div class="col-sm-6">
-                  <input type="text" name="position_y" class="form-control" id="inputName" placeholder="" value="auto">
-                </div>
-              </div>
-
-              <div class="modal-footer">
-                <button type="submit" class="btn btn-default">Save</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
-            </form>
-      </div>
-    </div>
-  </div>
-</div>
-
 
 {% endblock %}
 {% block js_scripts %}
