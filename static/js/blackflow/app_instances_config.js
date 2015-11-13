@@ -8,6 +8,17 @@ app.config(['$interpolateProvider', function($interpolateProvider) {
   $interpolateProvider.endSymbol(']}');
 }]);
 
+app.filter('range', function() {
+  return function(input, total) {
+    total = parseInt(total);
+
+    for (var i=0; i<total; i++) {
+      input.push(i);
+    }
+
+    return input;
+  };
+});
 
 function getInstConfigRequest(inst_config_orig,sub_for,pub_to,configs)
 {
@@ -23,6 +34,7 @@ function getInstConfigRequest(inst_config_orig,sub_for,pub_to,configs)
     inst_config.pub_to = convertKeyValueListToDict(pub_to_new)
     inst_config.configs = convertKeyValueListToDict(configs_new)
     inst_config.comments = inst_config_orig.comments
+    //inst_config.schedules = inst_config_orig.schedules
     // cleaning up unneeded fields
     for (i in inst_config.sub_for)
     {
@@ -43,6 +55,9 @@ app.controller("AppConfigController",function($scope,$http){
         $scope.sub_for = convertDictToKeyValList(data.sub_for)
         $scope.pub_to = convertDictToKeyValList(data.pub_to)
         $scope.configs = convertDictToKeyValList(data.configs)
+        if (!data.schedules)
+           data.schedules = []
+        $scope.schedules = data.schedules
 
     });
     $scope.update = function (){
@@ -83,6 +98,15 @@ app.controller("AppConfigController",function($scope,$http){
     }
     $scope.del_conf = function(index){
         $scope.configs.splice(index,1)
+    }
+    $scope.add_schedule = function(trigger_type)
+    {
+        $scope.schedules.push({trigger_type:trigger_type})
+    }
+    $scope.del_schedule = function(index)
+    {
+        console.log(index)
+        $scope.schedules.splice(index,1)
     }
     $scope.restart = function (){
         packet = getMessagePacket("command","blackflow","reload_app_instance")
