@@ -8,8 +8,6 @@ def update_address_mapping():
     app_root_path = os.getcwd()
     addr_path = os.path.join(app_root_path, "configs", "address_mapping.json")
     jobj = json.load(file(addr_path))
-    template_path = os.path.join(app_root_path, "scripts","configs", "address_mapping.json")
-    template_jobj = json.load(file(template_path))
     counter = 1
     for item in jobj :
         if not("id" in item):
@@ -18,10 +16,6 @@ def update_address_mapping():
             print "updated"
         if not("record_history" in item):
             item["record_history"]=False
-    mandatory_msg_types = ["zw_ta.inclusion_stage@.ta.zw.events","error.status_code@.ta.zw.events"]
-    
-
-
 
     f = open(addr_path, "w")
     f.write(json.dumps(jobj, indent=True))
@@ -51,7 +45,7 @@ def update_global_config():
     if not ("use_default_class_lookup" in jobj):
         jobj["use_default_class_lookup"]=True
     if "system" in jobj:
-        jobj["system"]["version"]="1.5.1"
+        jobj["system"]["version"]="1.5.2"
         jobj["mqtt"]["enable_sys"]=False
         jobj["system"]["http_server_port"]=5000
         jobj["system"]["distro_server_uri"]="http://lego.fiicha.net/blackfly"

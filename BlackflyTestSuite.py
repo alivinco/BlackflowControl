@@ -300,7 +300,7 @@ def msg_class_ui(msg_type,msg_class):
            else:
               log.info("Updating class mapping "+str(msg_class_obj))
 
-           msg_man.serialize_class_mapping()
+           msg_man.serialize_mapping("msg_class_mapping")
         else :
            msg_man.reload_all_mappings()
 
@@ -389,7 +389,7 @@ def settings_ui():
          msg_man.global_configs["db"]["db_path"] = request.form["db_path"]
          mqtt.set_mqtt_params(request.form["mqtt_client_id"],request.form["mqtt_username"],request.form["mqtt_password"],request.form["mqtt_global_topic_prefix"],msg_man.global_configs["mqtt"]["enable_sys"])
 
-         msg_man.serialize_global_config()
+         msg_man.serialize_mapping("global")
 
          log.info("Global config was successfully updated")
          log.info("New values are mqtt host = "+request.form["mqtt_host"]+" port = "+request.form["mqtt_port"]+" root topic = "+request.form["mqtt_root_topic"]+" client id="+request.form["mqtt_client_id"])
@@ -1076,7 +1076,7 @@ def work_session():
         if "start_fresh" in request.form:
             start_fresh = True
         msg_man.global_configs["mqtt"]["global_topic_prefix"] = gateway_id
-        msg_man.serialize_global_config()
+        msg_man.serialize_mapping("global")
         mqtt.set_mqtt_params(msg_man.global_configs["mqtt"]["client_id"],msg_man.global_configs["mqtt"]["username"],msg_man.global_configs["mqtt"]["password"],msg_man.global_configs["mqtt"]["global_topic_prefix"],msg_man.global_configs["mqtt"]["enable_sys"])
         mqtt.stop()
         mqtt.start()

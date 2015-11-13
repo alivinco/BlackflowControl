@@ -77,7 +77,6 @@ class Timeseries():
         finally:
             self.lock.release()
 
-
     def delete_msg_history(self,del_type=None, row_id=None ,dev_id=None):
 
         if del_type:
@@ -103,7 +102,6 @@ class Timeseries():
             finally:
                 self.lock.release()
 
-
     def do_rotation(self):
         """
         The method performs database analysis and if number of datapoints for certain device is bigger then
@@ -122,7 +120,6 @@ class Timeseries():
                     "delete from timeseries where rowid in (select rowid from timeseries where dev_id = ? order by timestamp asc LIMIT ?);",
                     (dev_id_to_clean, self.rows_to_delete_per_cleanup))
                 self.conn.commit()
-
 
     def get(self, dev_id, start, end, result_type="dict" ):
         self.lock.acquire()
@@ -261,9 +258,6 @@ class Timeseries():
         c.close()
         self.lock.release()
         return result
-
-
-
 
 if __name__ == "__main__":
     import logging.config
