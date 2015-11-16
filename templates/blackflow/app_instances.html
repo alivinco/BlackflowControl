@@ -35,7 +35,7 @@
    {%  for app in bf_response.event.properties.app_instances %}
     <tr>
         <td >{{ app.id }}</td>
-        <td >{{ app.app_full_name }}</td>
+        <td ><a href="/ui/blackflow/{{ bf_inst_name }}/app_editor?app_name={{ app.app_full_name }}">{{ app.app_full_name }}</a></td>
         <td >{{ app.alias }}</td>
         <td >
             {% for key,value in app.sub_for.iteritems() %}

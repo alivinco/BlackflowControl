@@ -6,6 +6,10 @@ function get_node_shape(alias)
         shape = "box"
         color = "Orange"
     }
+    else if(alias.indexOf("local:time_scheduler") > -1){
+      shape = "box"
+      color = "RosyBrown"
+    }
     else if(alias.indexOf("local:") > -1){
       shape = "box"
       color = "Salmon"

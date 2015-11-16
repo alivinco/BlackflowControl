@@ -91,25 +91,24 @@
        <div class="tab-pane" id="time_trigger_tab">
           <div ng-repeat="sh in schedules" class="form-group form-inline row" >
                     <div class="col-sm-10 col-md-10 col-lg-10">
-                      <input style="width: 170px" type="text"  class="form-control" readonly ng-model="sh.trigger_type"  >
+                      <input style="width: 70px" type="text"  class="form-control" readonly ng-model="sh.trigger_type"  >
+                      <input style="width: 140px" type="text"  class="form-control"  ng-model="sh.name"  >
                       <span ng-if="sh.trigger_type=='interval'" >
-                          <input style="width: 70px" type="text"  class="form-control" ng-model="sh.weeks" placeholder="weeks" >
-                          <input style="width: 70px" type="text"  class="form-control" ng-model="sh.days" placeholder="days" >
-                          <input style="width: 70px" type="text"  class="form-control" ng-model="sh.hours" placeholder="hours" >
-                          <input style="width: 80px" type="text"  class="form-control" ng-model="sh.minutes" placeholder="minutes" >
-                          <input style="width: 80px" type="text"  class="form-control" ng-model="sh.seconds" placeholder="seconds" >
+                          <input style="width: 70px" type="number"  class="form-control" ng-model="sh.weeks" placeholder="weeks" >
+                          <input style="width: 70px" type="number"  class="form-control" ng-model="sh.days" placeholder="days" >
+                          <input style="width: 70px" type="number"  class="form-control" ng-model="sh.hours" placeholder="hours" >
+                          <input style="width: 80px" type="number"  class="form-control" ng-model="sh.minutes" placeholder="minutes" >
+                          <input style="width: 80px" type="number"  class="form-control" ng-model="sh.seconds" placeholder="seconds" >
                       </span>
                       <span ng-if="sh.trigger_type=='cron'" >
                           <input style="width: 70px" type="text"  class="form-control" ng-model="sh.year" placeholder="year" >
-                          <select style="width: 70px" class="form-control" ng-model="sh.month"  >
+                          <select style="width: 70px" class="form-control" ng-model="sh.month" ng-options="n+1 for n in []|range:12"  >
                             <option value="">month</option>
-                            <option ng-repeat="n in [] | range:12" value="{[$index+1]}">{[$index+1]}</option>
                           </select>
-                          <select style="width: 70px" class="form-control" ng-model="sh.day"  >
+                          <select style="width: 70px" class="form-control" ng-model="sh.day" ng-options="n+1 for n in []|range:31" >
                             <option value="">day</option>
-                            <option ng-repeat="n in [] | range:31" value="{[$index+1]}">{[$index+1]}</option>
                           </select>
-                          <select style="width: 70px" class="form-control" ng-model="sh.week"  >
+                          <select style="width: 70px" class="form-control" ng-model="sh.week" ng-options="n+1 for n in []|range:53" >
                             <option value="">week</option>
                             <option ng-repeat="n in [] | range:53" value="{[$index+1]}">{[$index+1]}</option>
                           </select>
@@ -123,9 +122,9 @@
                               <option value="sat">Saturday</option>
                               <option value="sun">Sunday</option>
                           </select>
-                          <input style="width: 70px" type="text"  class="form-control" ng-model="sh.hour" placeholder="hour" >
-                          <input style="width: 70px" type="text"  class="form-control" ng-model="sh.minute" placeholder="minute" >
-                          <input style="width: 85px" type="text"  class="form-control" ng-model="sh.second" placeholder="second" >
+                          <input style="width: 70px" type="number" min="0" max="23" class="form-control" ng-model="sh.hour" placeholder="hour" >
+                          <input style="width: 70px" type="number" min="0" max="59" class="form-control" ng-model="sh.minute" placeholder="minute" >
+                          <input style="width: 85px" type="number" min="0" max="59" class="form-control" ng-model="sh.second" placeholder="second" >
 
                       </span>
                       <button  class="btn btn-default"  value="Info" >
@@ -140,6 +139,7 @@
 
                     <div class="col-sm-6">
                       <select style="width: 110px" type="text" ng-model="trigger_type"  class="form-control" placeholder="Adapter" >
+                          <option value="">Type</option>
                           <option value="interval">Interval</option>
                           <option value="cron">Cron</option>
                       </select>
@@ -179,7 +179,7 @@
     </div>
   </div>
 
-<pre>master = {[schedules | json]}</pre>
+{#<pre>master = {[schedules | json]}</pre>#}
 {#<pre>master = {[sub_for | json]}</pre>#}
 </div>
 {#Add service modal dialog #}

@@ -11,6 +11,14 @@ class AppGraphManager():
         self.edges = []
         # -------PUBLISH-NODES-----------------------------------------------------
         for app_inst in self.app_instances:
+
+            if "schedules" in app_inst :
+                app_inst["schedules"] = True if len(app_inst["schedules"]) > 0 else False
+                if app_inst["schedules"] :
+                    new_id = self.__add_unknown_node("local:time_scheduler")
+                    edge = {"to": app_inst["id"], "from": new_id}
+                    if not (edge in self.edges): self.edges.append(edge)
+
             self.nodes.append(app_inst)
             for key, pub_to in app_inst["pub_to"].iteritems():
                 # list_of_target_ids = self.__get_target_app_ids_by_pub_topic(pub_to)
