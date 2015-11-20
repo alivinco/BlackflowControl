@@ -1,0 +1,10 @@
+https://hub.docker.com/r/jwilder/nginx-proxy/
+docker pull jwilder/nginx-proxy
+
+docker run -d -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock:ro jwilder/nginx-proxy
+
+on blackfly run need to set :
+docker run -e VIRTUAL_HOST=bfinst1 -t .....
+
+docker run --name blackfly2 -p 5001:5000 -d -e VIRTUAL_HOST=bfinst2  blackfly_deb
+
