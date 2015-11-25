@@ -1,17 +1,1 @@
-{
- "origin": {
-  "@id": "blackfly", 
-  "@type": "app"
- }, 
- "uuid": "79b30f1f-9065-48fb-aef5-11dbc5def6a0", 
- "creation_time": 1438249165000, 
- "command": {
-  "default": {
-   "value": true
-  }, 
-  "subtype": "get_context", 
-  "@type": "zw_ta"
- }, 
- "spid": "SP1", 
- "@context": "http://context.smartly.no"
-}
+{"origin": {"@id": "blackfly", "vendor": "blackfly", "@type": "app", "location": "NA"}, "uuid": "e1017377-34b9-44aa-872d-cc88e6072018", "creation_time": 1448369989000, "command": {"default": {"value": true}, "subtype": "get_context", "@type": "zw_ta", "target": ""}, "spid": "SP1", "@context": "http://context.smartly.no"}

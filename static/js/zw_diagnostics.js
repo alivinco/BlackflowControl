@@ -81,8 +81,9 @@ function start_clusion_mode(mode,start,enable_security)
                 if (data.event)
                     if(current_controller_mode == "zw_inclusion_mode")
                     {
-                        new_dev = data.event.properties.inclusion_report.value.device
-                        $('#clusion_mode_result').html("<p><h4>Device with node id ="+new_dev.id+" was added to the network</h4></p>")
+                        new_dev = data.event.properties.inclusion_report.value
+                        $('#clusion_mode_result').html("<p><h4>Device with node id ="+new_dev.device.id+" was added to the network</h4></p>")
+                        $('#clusion_mode_status').html("<p>Report is complete = "+data.event.properties.is_complete+". Critical errors = "+data.event.properties.critical_errors+" </p>")
                     }else {
                         removed_dev = data.event.default.value
                         $('#clusion_mode_result').html("<p><h4>Device with node id ="+removed_dev+" was removed from the network</h4></p>")
@@ -251,7 +252,8 @@ function get_node_info(node_id)
       method :"POST",
       data: {action: "get_node_info",node_id:node_id},
       success: function( data ) {
-            $('#ping_node_result').html("<pre>"+JSON.stringify(data.event.properties.inclusion_report.value,null,2)+"</pre>")
+          html_r = "<pre>"+JSON.stringify(data.event.properties.inclusion_report.value,null,2)+"</pre>"
+          $('#ping_node_result').html(html_r+"<p>Report is complet = "+data.event.properties.is_complete+" , Critical errors = "+data.event.properties.critical_errors+" </p>")
       }
     });
 }

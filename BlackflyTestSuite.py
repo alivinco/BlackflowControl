@@ -259,8 +259,16 @@ def msg_class_mapping_ui():
         else :
             item["class"] = ""
             item["subclass"] = item["msg_class"]
+    mode = request.args.get("mode","")
+    if not mode:
+        mode = "template_update_mode_on" if msg_pipeline.get_mode("msg_template_update_mode") else "template_update_mode_off"
+    else :
+        if mode == "template_update_mode_on":
+            msg_pipeline.set_mode("msg_template_update_mode", True)
+        if mode == "template_update_mode_off":
+            msg_pipeline.set_mode("msg_template_update_mode", False)
 
-    return render_template('msg_class_mapping.html', mapping=mapping,global_context=global_context)
+    return render_template('msg_class_mapping.html', mapping=mapping,global_context=global_context,mode=mode)
 
 @app.route('/ui/msg_class/<msg_type>/<msg_class>',methods=["POST","GET"])
 @login_required
