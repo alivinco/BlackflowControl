@@ -11,7 +11,7 @@ function load_logs()
 {
     console.log("submitting form")
 
-    $.post( "/ui/logviewer", $( "#log_viewer_form" ).serialize(),function(data){
+    $.post( root_uri+"/ui/logviewer", $( "#log_viewer_form" ).serialize(),function(data){
         console.log("ok")
         $("#log_output").html(data)
     } );

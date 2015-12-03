@@ -1,6 +1,6 @@
 {% extends "base_layout_wide.html" %}
 {% block css_scripts %}
- <link href="/static/css/bootstrap-slider.min.css" rel="stylesheet">
+ <link href="{{ global_context.root_uri }}/static/css/bootstrap-slider.min.css" rel="stylesheet">
 <style >
 .movable { min-height: 120px;min-width: 220px}
 .movable_div { min-height: 120px}
@@ -38,8 +38,8 @@
                           <div class="panel-heading">
 
                              <a href="javascript:open_update_service_dialog({{ group.id}},{{ item.id }},'{% if item.dash_grid_map.service_name %} {{ item.dash_grid_map.service_name }}  {% else %} {{ item.name }} {% endif %}')"> <span class="pull-right glyphicon glyphicon-cog"></span></a>
-                              <a href="/ui/timeseries/chart/{{ item.id }}"> <span class="pull-right glyphicon glyphicon-stats">&nbsp;</span></a>
-                              <a href="/ui/timeseries/table/{{ item.id }}/0/2004836694"> <span class="pull-right glyphicon glyphicon-th-list">&nbsp;</span></a>
+                              <a href="{{ global_context.root_uri }}/ui/timeseries/chart/{{ item.id }}"> <span class="pull-right glyphicon glyphicon-stats">&nbsp;</span></a>
+                              <a href="{{ global_context.root_uri }}/ui/timeseries/table/{{ item.id }}/0/2004836694"> <span class="pull-right glyphicon glyphicon-th-list">&nbsp;</span></a>
 
                              <h3 class="panel-title"> {% if item.dash_grid_map.service_name %} {{ item.dash_grid_map.service_name }}  {% else %} {{ item.name }} {% endif %} </h3>
                           </div>
@@ -86,7 +86,7 @@
       </div>
       <br/>
       <div >
-            <form class="form-horizontal" role="form" action="/api/dashboard" method="POST">
+            <form class="form-horizontal" role="form" action="{{ global_context.root_uri }}/api/dashboard" method="POST">
               <input type="hidden" name="action" value="add_service_to_dashboard" />
               <input type="hidden" name="group_id" value="0" id="service_modal_group_id" />
               <input type="hidden" name="dashboard_id" value="{{ dashboard_id }}" />
@@ -139,7 +139,7 @@
       </div>
       <br/>
       <div >
-            <form class="form-horizontal" role="form" action="/api/dashboard" method="POST">
+            <form class="form-horizontal" role="form" action="{{ global_context.root_uri }}/api/dashboard" method="POST">
 
               <div class="form-group">
                 <label for="serviceName" class="col-sm-4 control-label">Service name</label>
@@ -169,7 +169,7 @@
       </div>
       <br/>
       <div >
-            <form class="form-horizontal" role="form" action="/api/dashboard" method="POST">
+            <form class="form-horizontal" role="form" action="{{ global_context.root_uri }}/api/dashboard" method="POST">
               <input type="hidden" name="action" value="update_group" />
               <input type="hidden" name="group_id" id="group_id" value="-1" />
               <input type="hidden" name="dashboard_id" value="{{ dashboard_id }}" />
@@ -210,9 +210,9 @@
       var mode = "normal"
       var dashboard_id = "{{ dashboard_id }}"
     </script>
-    <script src="/static/js/bootstrap-slider.min.js"></script>
-    <script src="/static/js/ui_elements_handler.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/bootstrap-slider.min.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/ui_elements_handler.js"></script>
 
-    <script src="/static/js/dashboard.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/dashboard.js"></script>
 
 {% endblock %}

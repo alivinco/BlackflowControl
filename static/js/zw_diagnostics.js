@@ -14,7 +14,7 @@ var operation_start_time = 0
 function get_server_info()
 {
     return $.ajax({
-      url: "/api/get_server_info",
+      url: root_uri+"/api/get_server_info",
       method :"GET",
       error:function(err)
       {
@@ -64,7 +64,7 @@ function start_clusion_mode(mode,start,enable_security)
         }
 
          $.ajax({
-          url: "/api/zw_manager",
+          url: root_uri+"/api/zw_manager",
           method :"POST",
           data: {
             action:mode,
@@ -110,7 +110,7 @@ function pool_messages_from_server(topic,msg_type,stop_msg_resolver,timeout)
 
        function do_request() {
            var prom = $.ajax({
-               url: "/api/wait_for_msg",
+               url: root_uri+"/api/wait_for_msg",
                method: "GET",
                data: {topic: topic, correlation_type: cor_type, msg_type: msg_type, timeout: 35},
            });
@@ -148,7 +148,7 @@ function pull_history_from_server(auto_pool)
        function do_request() {
            stopTime = Math.floor(Date.now() / 1000)+5000
            var prom = $.ajax({
-               url: "/api/get_msg_history",
+               url: root_uri+"/api/get_msg_history",
                method: "GET",
                data: {start: startTime},
            });
@@ -206,7 +206,7 @@ function remove_node(node_id)
     $('#ping_node_modal').modal('show')
     $('#ping_node_result').html("<h4> Operation in progress , please wait. </h4>")
     $.ajax({
-      url: "/api/zw_manager",
+      url: root_uri+"/api/zw_manager",
       method :"POST",
       data: {action: "remove_failed_node",node_id:node_id},
       success: function( data ) {
@@ -233,7 +233,7 @@ function replace_node(node_id)
     $('#ping_node_modal').modal('show')
     $('#ping_node_result').html("<h4> Operation in progress , please wait. </h4>")
     $.ajax({
-      url: "/api/zw_manager",
+      url: root_uri+"/api/zw_manager",
       method :"POST",
       data: {action: "replace_failed_node",node_id:node_id},
       success: function( data ) {
@@ -248,7 +248,7 @@ function get_node_info(node_id)
     $('#ping_node_modal').modal('show')
     $('#ping_node_result').html("<h4> Operation in progress , please wait. </h4>")
     $.ajax({
-      url: "/api/zw_manager",
+      url: root_uri+"/api/zw_manager",
       method :"POST",
       data: {action: "get_node_info",node_id:node_id},
       success: function( data ) {
@@ -278,7 +278,7 @@ function nb_update(node_id)
         })
 
     $.ajax({
-      url: "/api/zw_manager",
+      url: root_uri+"/api/zw_manager",
       method :"POST",
       data: {action: "neighbor_update",node_id:node_id},
       success: function( data ) {
@@ -297,7 +297,7 @@ function learn_mode(start)
       $('#learn_mode_modal').modal('hide')
   }
   $.ajax({
-      url: "/api/zw_manager",
+      url: root_uri+"/api/zw_manager",
       method :"POST",
       data: {action: "learn_mode",start:start},
       success: function( data ) {
@@ -330,7 +330,7 @@ function controller_shift(start)
         })
 
     $.ajax({
-      url: "/api/zw_manager",
+      url: root_uri+"/api/zw_manager",
       method :"POST",
       data: {action: "controller_shift_mode",start:start},
       success: function( data ) {
@@ -344,7 +344,7 @@ function ping_node(node_id)
     $('#ping_node_modal').modal('show')
     $('#ping_node_result').html("<h4> Ping in progress , please wait. </h4>")
     $.ajax({
-      url: "/api/zw_manager",
+      url: root_uri+"/api/zw_manager",
       method :"POST",
       data: {action: "ping_node",node_id:node_id},
       success: function( data ) {
@@ -362,7 +362,7 @@ function hard_reset()
     $('#ping_node_modal').modal('show')
     $('#ping_node_result').html("<h4> Reseting zwave module </h4>")
     $.ajax({
-      url: "/api/zw_manager",
+      url: root_uri+"/api/zw_manager",
       method :"POST",
       data: {action: "hard_reset"},
       success: function( data ) {
@@ -376,7 +376,7 @@ function get_controller_full_info()
     $('#ping_node_modal').modal('show')
     $('#ping_node_result').html("<h4> Requesting information from zwave module.</h4>")
     $.ajax({
-      url: "/api/zw_manager",
+      url: root_uri+"/api/zw_manager",
       method :"POST",
       data: {action: "get_controller_full_info"},
       success: function( data ) {
@@ -390,7 +390,7 @@ function network_update()
     $('#ping_node_modal').modal('show')
     $('#ping_node_result').html("<h4> Requesting network update from SUC.</h4>")
     $.ajax({
-      url: "/api/zw_manager",
+      url: root_uri+"/api/zw_manager",
       method :"POST",
       data: {action: "network_update"},
       success: function( data ) {
@@ -404,7 +404,7 @@ function reset_controller_to_default()
     $('#ping_node_modal').modal('show')
     $('#ping_node_result').html("<h4> Reseting controller to default .</h4>")
     $.ajax({
-      url: "/api/zw_manager",
+      url: root_uri+"/api/zw_manager",
       method :"POST",
       data: {action: "reset_controller_to_default"},
       success: function( data ) {
@@ -417,7 +417,7 @@ function load_network_graph_data()
 {
 
     $.ajax({
-      url: "/api/zw_manager",
+      url: root_uri+"/api/zw_manager",
       method :"POST",
       data: {
         action: "get_network_graph"

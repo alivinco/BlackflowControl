@@ -3,7 +3,7 @@
 {% block body %}
 
     <div>
-    <form action="/api/msg_history"   method="POST" style="display:inline">
+    <form action="{{ global_context.root_uri }}/api/msg_history"   method="POST" style="display:inline">
         <input type="hidden" name="action" value="delete_all"/>
         <button type="submit"  class="btn btn-default">Delete all</button>
     </form>
@@ -13,12 +13,12 @@
          <pre>{{msg.msg}}</pre>
          <div  >
 
-            <form action="/api/msg_history"   method="POST" style="display:inline">
+            <form action="{{ global_context.root_uri }}/api/msg_history"   method="POST" style="display:inline">
                 <input type="hidden" name="id" value="{{ msg.id }}"/>
                 <input type="hidden" name="action" value="resend"/>
                 <button type="submit"  class="btn btn-default">Resend</button>
             </form>
-            <form action="/api/msg_history"  method="POST" style="display:inline">
+            <form action="{{ global_context.root_uri }}/api/msg_history"  method="POST" style="display:inline">
                 <input type="hidden" name="id" value="{{ msg.id }}"/>
                 <input type="hidden" name="action" value="delete"/>
                 <button type="submit" class="btn btn-default">Delete</button>
