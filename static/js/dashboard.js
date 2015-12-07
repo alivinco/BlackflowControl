@@ -21,7 +21,7 @@
 function dashboard_api(data,execute_on_success)
 {
     $.ajax({
-      url: "/api/dashboard",
+      url: root_uri+"/api/dashboard",
       type: 'POST',
 //      contentType: 'application/json; charset=utf-8',
       data: data,

@@ -23,7 +23,7 @@ function open_update_dr_field_modal(device_id,field_name,value)
 function execute_devreg_cmd(cmd,device_id,redirect)
 {
     $.ajax({
-      url: "/api/dr_browser",
+      url: root_uri+"/api/dr_browser",
       method :"POST",
       data: {action: cmd,device_id:device_id},
       success: function( data ) {

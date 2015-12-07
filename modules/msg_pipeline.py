@@ -19,8 +19,18 @@ class MsgPipeline():
         self.cache = cache
         self.timeseries = timeseries
         self.sync_async_client = None
+        # the overwrites message templates .
+        self.msg_template_update_mode = False
 
         # [{"type":"single","event_path":"$.event.type","command_path":"$.event.type","priority":1}]
+
+    def set_mode(self,mode_name,value):
+        if mode_name == "msg_template_update_mode":
+            log.info("Msg template update mode is enabled = %s"%value)
+            self.msg_template_update_mode = value
+
+    def get_mode(self,name):
+        return self.msg_template_update_mode
 
     def set_sync_async_client(self, sync_async_client):
         self.sync_async_client = sync_async_client
@@ -108,17 +118,22 @@ class MsgPipeline():
             self.__update_timeseries(exdt)
             self.cache.put(cache_key, payload, exdt["ui_mapping"], exdt["extracted_values"])
             log.info("Message class = " + msg_class + " and address = " + address + " are known to the system")
+            if self.msg_template_update_mode:
+                self.msg_man.save_template(msg_type, msg_class,json.dumps(payload))
             return {"success": True, "code": 0}
 
         # elif (not addr_is_registered and msg_class_is_registered) or (addr_is_registered and msg_class and not msg_class_is_registered) :
-        elif (not addr_is_registered and msg_class_is_registered):
+        elif not addr_is_registered and msg_class_is_registered:
             # the address is not known to the system but message class is known OR
-            # the address is know but msg_class is not know to the system , for example when the same address can produce several events like error report and temperature readings
+            # the address is know but msg_class is not know to the system , for example when the same address can produce several events
+            # like error report and temperature readings
             # let's add the address to the mapping
             self.msg_man.add_address_to_mapping(address, msg_class)
             exdt = self.__extract_data(address, msg_class, payload)
             self.__update_timeseries(exdt)
             self.cache.put(cache_key, payload, exdt["ui_mapping"], exdt["extracted_values"])
+            if self.msg_template_update_mode:
+                self.msg_man.save_template(msg_type, msg_class,json.dumps(payload))
             log.info(
                 "Address " + address + " or message class doesn't exist in mapping file .It will be added automatically ")
             return {"success": True, "code": 1, "text": "New address has been registered :" + address}

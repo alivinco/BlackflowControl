@@ -10,7 +10,7 @@ function remove_address(dev_id)
 {
 obj = {"cmd":"remove","id":dev_id}
     $.ajax({
-      url: "../api/address_manager",
+      url: root_uri+"/api/address_manager",
       type: 'PUT',
       contentType: 'application/json; charset=utf-8',
       data:  JSON.stringify(obj),

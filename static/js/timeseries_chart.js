@@ -19,7 +19,7 @@ $(function () {
 //        timezoneOffset:2
         }
     });
-    $.getJSON('/api/timeseries/get/'+device_id+'/0/2004836694/array', function (data) {
+    $.getJSON(root_uri+'/api/timeseries/get/'+device_id+'/0/2004836694/array', function (data) {
         // Create the chart
         $('#chart_container').highcharts('StockChart', {
 

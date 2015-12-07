@@ -1,7 +1,7 @@
 {% extends "base_layout.html" %}
 {% block li_dr_registry %}class="active"{% endblock %}
 {% block css_scripts %}
-<link rel="stylesheet" href="/static/css/custom_icons.css">
+<link rel="stylesheet" href="{{ global_context.root_uri }}/static/css/custom_icons.css">
 {% endblock %}
 {% block body %}
 </h1>
@@ -74,7 +74,7 @@
         </td>
 
         <td style="min-width: 100px">
-            <a href="javascript:execute_devreg_cmd('init_device',{{ device.Id }},'/ui/inter_console?filter=/dev/{{ device.CommunicationTechnology }}/{{ device.Address }}/&mode=normal')"><h4 class="glyphicon glyphicon-fullscreen"></h4></a>
+            <a href="javascript:execute_devreg_cmd('init_device',{{ device.Id }},'{{ global_context.root_uri }}/ui/inter_console?filter=/dev/{{ device.CommunicationTechnology }}/{{ device.Address }}/&mode=normal')"><h4 class="glyphicon glyphicon-fullscreen"></h4></a>
             <a target="_blank" href="{{ configs.smartly.sdc_uri }}/live/SDC/GetDeviceList?HashCode={{ device.HashCode }}"><h4 class=" glyphicon glyphicon-info-sign"></h4></a>
             <a href="javascript:execute_devreg_cmd('delete',{{ device.Id }} ,'')"><h4 class="pull-right glyphicon glyphicon-trash">&nbsp;</h4></a>
         </td>
@@ -105,7 +105,7 @@
                         <td>{% if endp.Support %} <h5 class="pull-right glyphicon glyphicon-ok">&nbsp;</h5>{% else %} <h5 class="pull-right glyphicon glyphicon-remove">&nbsp;</h5> {% endif %}</td>
                         <td>{% if endp.Control %} <h5 class="pull-right glyphicon glyphicon-ok">&nbsp;</h5>{% else %} <h5 class="pull-right glyphicon glyphicon-remove">&nbsp;</h5> {% endif %}</td>
                         <td>{{ endp.SecurityLevel }}</td>
-                        <td><a href="/ui/inter_console?filter={{ endp.Uri }}&mode=normal">{{ endp.Uri }}</a></td>
+                        <td><a href="{{ global_context.root_uri }}/ui/inter_console?filter={{ endp.Uri }}&mode=normal">{{ endp.Uri }}</a></td>
                         <td><small>{{ endp.Capabilities }}</small></td>
                         <td>{{ endp.Property }}</td></tr>
                    {% endfor %}
@@ -139,7 +139,7 @@
                   </tbody>
 
               </table>
-               <form class="form-inline" action="/api/dr_browser" method="post">
+               <form class="form-inline" action="{{ global_context.root_uri }}/api/dr_browser" method="post">
                   <div class="form-group" placeholder="Type">
                       <select name = "config_type"  class="form-control">
                           <option value="config">Configuration</option>
@@ -192,7 +192,7 @@
       </div>
       <br/>
       <div >
-            <form class="form-horizontal" role="form" action="/api/dr_browser" method="POST">
+            <form class="form-horizontal" role="form" action="{{ global_context.root_uri }}/api/dr_browser" method="POST">
               <input type="hidden" name="action" value="field_update" />
               <input type="hidden" id = "field_name" name="field_name" value="" />
               <input type="hidden" id = "device_id" name="device_id" value="" />

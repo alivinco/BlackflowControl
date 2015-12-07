@@ -1,6 +1,6 @@
 {% extends "base_layout.html" %}
 {% block css_scripts %}
-    <link href="/static/css/bootstrap-slider.min.css" rel="stylesheet">
+    <link href="{{ global_context.root_uri }}/static/css/bootstrap-slider.min.css" rel="stylesheet">
 {% endblock %}
 {% block li_inter_console %}class="active"{% endblock %}
 {% block body %}
@@ -41,7 +41,7 @@
                   </button>
                   <ul class="dropdown-menu" role="menu">
         {#            <li><a href="#">Edit</a></li>#}
-                    <li><a href="/api/filters?action=delete&id={{ filter.id }}">Delete</a></li>
+                    <li><a href="{{ global_context.root_uri }}/api/filters?action=delete&id={{ filter.id }}">Delete</a></li>
                   </ul>
                 </div>
                 </form>
@@ -70,13 +70,13 @@
       <tr>
        <td> {{ item.name }}  </td>
        <td> {{ item.msg_type }} </td>
-       <td><a onclick="location.href ='/ui/msg_class/{{ item.msg_type }}/{{ item.msg_class }}'">{{ item.msg_class }}</a> </td>
-       <td> <a href="/ui/address_map/{{ item.id }}">{{ item.address }}</a> </td>
+       <td><a onclick="location.href ='{{ global_context.root_uri }}/ui/msg_class/{{ item.msg_type }}/{{ item.msg_class }}'">{{ item.msg_class }}</a> </td>
+       <td> <a href="{{ global_context.root_uri }}/ui/address_map/{{ item.id }}">{{ item.address }}</a> </td>
        {% if mode == "normal" %} <td  > <div style="min-width: 100px" id="{{ item.key }}_msg_time" style="width: 70px">{{ cache_item.timestamp_iso }}</div> </td>{% endif %}
        <td><div style="width: 60px">
-           <a href="../api/get_last_raw_msg/{{item.key}}" target="_blank">Last msg</a>
-           <div> <a href="../ui/timeseries/table/{{item.id}}/0/2004836694" target="_self">Log</a> </div>
-           <div> <a href="../ui/timeseries/chart/{{item.id}}" target="_self">Chart</a> </div>
+           <a href="{{ global_context.root_uri }}/api/get_last_raw_msg/{{item.key}}" target="_blank">Last msg</a>
+           <div> <a href="{{ global_context.root_uri }}/ui/timeseries/table/{{item.id}}/0/2004836694" target="_self">Log</a> </div>
+           <div> <a href="{{ global_context.root_uri }}/ui/timeseries/chart/{{item.id}}" target="_self">Chart</a> </div>
            </div>
        </td>
        <td style="width: 200px">
@@ -119,7 +119,7 @@
       </div>
       <div class="modal-body">
 
-          <form class="form-horizontal" role="form" action="/api/filters" method="POST">
+          <form class="form-horizontal" role="form" action="{{ global_context.root_uri }}/api/filters" method="POST">
               <input type="hidden" name="action" value="upsert" />
               <div class="form-group">
                 <label for="inputName" class="col-sm-3 control-label">Name</label>
@@ -177,9 +177,9 @@
     <script>
       var mode = "{{ mode }}"
     </script>
-    <script src="/static/js/stupidtable.min.js"></script>
-    <script src="/static/js/bootstrap-slider.min.js"></script>
-    <script src="/static/js/ui_elements_handler.js"></script>
-    <script src="/static/js/inter_console.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/stupidtable.min.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/bootstrap-slider.min.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/ui_elements_handler.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/inter_console.js"></script>
 
 {% endblock %}

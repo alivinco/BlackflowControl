@@ -10,7 +10,7 @@
     <li ><a href="#services_tab" role="tab" data-toggle="tab">Services</a></li>
     <li ><a href="#logs_tab" role="tab" data-toggle="tab">Logs</a></li>
 
-    <li ><a href="/ui/updates" role="tab" >Updates</a></li>§        §
+    <li ><a href="{{ global_context.root_uri }}/ui/updates" role="tab" >Updates</a></li>§        §
 </ul>
 
 <div class="tab-content">
@@ -19,29 +19,29 @@
     <br/>
     <h4>Blackfly sitemap</h4>
     <ul >
-            <li><a href="/ui/inter_console">Interactive console</a></li>
-            <li><a href="/ui/address_mapping">Service configurator</a></li>
-            <li><a href="/ui/msg_class_mapping">Msg Api browser </a></li>
-            <li><a href="/ui/dr_browser">Device registry </a></li>
-            <li><a href="/ui/device_templates">Device Api browser </a></li>
-            <li><a href="/ui/msg_types_for_approval">New msg class approval</a></li>
-            <li><a href="/ui/msg_history">Message history</a></li>
-            <li><a href="/ui/zw_diagnostics">Zwave tools</a></li>
-            <li><a href="/ui/mqtt_client">Mqtt client</a></li>
-            <li><a href="/ui/timeseries/timeline/0/0">Event timeline</a></li>
-            <li><a href="/ui/auth_manager">User manager</a></li>
+            <li><a href="{{ global_context.root_uri }}/ui/inter_console">Interactive console</a></li>
+            <li><a href="{{ global_context.root_uri }}/ui/address_mapping">Service configurator</a></li>
+            <li><a href="{{ global_context.root_uri }}/ui/msg_class_mapping">Msg Api browser </a></li>
+            <li><a href="{{ global_context.root_uri }}/ui/dr_browser">Device registry </a></li>
+            <li><a href="{{ global_context.root_uri }}/ui/device_templates">Device Api browser </a></li>
+            <li><a href="{{ global_context.root_uri }}/ui/msg_types_for_approval">New msg class approval</a></li>
+            <li><a href="{{ global_context.root_uri }}/ui/msg_history">Message history</a></li>
+            <li><a href="{{ global_context.root_uri }}/ui/zw_diagnostics">Zwave tools</a></li>
+            <li><a href="{{ global_context.root_uri }}/ui/mqtt_client">Mqtt client</a></li>
+            <li><a href="{{ global_context.root_uri }}/ui/timeseries/timeline/0/0">Event timeline</a></li>
+            <li><a href="{{ global_context.root_uri }}/ui/auth_manager">User manager</a></li>
 
           </ul>
     <h4>Blackflow</h4>
     <ul>
-        <li><a href="/ui/blackflow/context">App context viewer</a></li>
-        <li><a href="/ui/blackflow/apps">Apps</a></li>
-        <li><a href="/ui/blackflow/app_instances">Application instances</a></li>
+        <li><a href="{{ global_context.root_uri }}/ui/blackflow/context">App context viewer</a></li>
+        <li><a href="{{ global_context.root_uri }}/ui/blackflow/apps">Apps</a></li>
+        <li><a href="{{ global_context.root_uri }}/ui/blackflow/app_instances">Application instances</a></li>
     </ul>
     <h4>Hidden links</h4>
     <ul>
-        <li><a href="/ui/cache">Cache viewer</a></li>
-        <li><a href="/ui/device_templates">Device api browser</a></li>
+        <li><a href="{{ global_context.root_uri }}/ui/cache">Cache viewer</a></li>
+        <li><a href="{{ global_context.root_uri }}/ui/device_templates">Device api browser</a></li>
     </ul>
 
 </div>
@@ -124,7 +124,7 @@
 
 <div class="tab-pane" id="logs_tab">
     <br/>
-    <form id="log_viewer_form" class="form-horizontal" role="form" action="/ui/logviewer" method="post">
+    <form id="log_viewer_form" class="form-horizontal" role="form" action="{{ global_context.root_uri }}/ui/logviewer" method="post">
       <input type="hidden" name="action" value="tail_log">
       <div class="form-group">
         <label for="service_name_id" class="col-sm-2 control-label">Tail log</label>
@@ -170,5 +170,5 @@
 
 {% endblock %}
 {% block js_scripts %}
-<script src="/static/js/tools.js"></script>
+<script src="{{ global_context.root_uri }}/static/js/tools.js"></script>
 {% endblock %}

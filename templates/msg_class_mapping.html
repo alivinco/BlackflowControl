@@ -3,7 +3,12 @@
 {% block body %}
 </h1>
 <h3>Message classes</h3>
-<button type="button" onclick="window.location.href='/ui/msg_types_for_approval'" class="btn btn-default">New msg class approval</button>
+<button type="button" onclick="window.location.href='{{ global_context.root_uri }}/ui/msg_types_for_approval'" class="btn btn-default">New msg class approval</button>
+{% if mode== 'template_update_mode_on' %}
+    <button type="button" onclick="window.location.href='{{ global_context.root_uri }}/ui/msg_class_mapping?mode=template_update_mode_off'" class="btn btn-default">Turn Off msg template update mode</button>
+{% else %}
+    <button type="button" onclick="window.location.href='{{ global_context.root_uri }}/ui/msg_class_mapping?mode=template_update_mode_on'" class="btn btn-default">Turn On msg template update mode</button>
+{% endif %}
 <div class="container-fluid">
 
 <div class="table-responsive">
@@ -24,7 +29,7 @@
        <td> {{ item.subclass }} </td>
        <td> {{ item.msg_type }} </td>
        <td> {{ item.ui_mapping.ui_element }}</td>
-       <td> <a href="/ui/msg_class/{{ item.msg_type }}/{{ item.msg_class }}">open</a> </td>
+       <td> <a href="{{ global_context.root_uri }}/ui/msg_class/{{ item.msg_type }}/{{ item.msg_class }}">open</a> </td>
 
       </tr>
       {% endfor %}
@@ -53,7 +58,7 @@
 
 {% endblock %}
 {% block js_scripts %}
-    <script src="/static/js/stupidtable.min.js"></script>
-    <script src="/static/js/address_mapping.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/stupidtable.min.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/address_mapping.js"></script>
 
 {% endblock %}

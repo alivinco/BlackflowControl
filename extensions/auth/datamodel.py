@@ -54,12 +54,10 @@ class UserManager:
         self.users_path = os.path.join(self.app_root_path, "configs", "users.json")
         self.load_from_storage()
 
-
     def load_from_storage(self):
         jobj  = json.load(file(self.users_path))
         for user in jobj:
             self.users[user["username"]] = User(user["username"],user["password"])
-
 
     def serialize_to_storage(self):
         ser_obj = []

@@ -17,7 +17,7 @@ function load_data()
 {
 
     $.ajax({
-      url: "/api/get_msg_from_cache/all",
+      url: root_uri+"/api/get_msg_from_cache/all",
 //      data: {
 //        zipcode: 97201
 //      },
@@ -66,7 +66,7 @@ function send_command(id,key,ui_type,value)
     if(!obj) obj = {"msg_key":key,"user_params":{"value":val},"mode":mode,"id":id}
     console.dir(obj)
     $.ajax({
-      url: "/api/send_command",
+      url: root_uri+"/api/send_command",
       type: 'POST',
       contentType: 'application/json; charset=utf-8',
       data:  JSON.stringify(obj),

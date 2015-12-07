@@ -4,7 +4,7 @@
 </h1>
 <h3>Service configurator </h3>
 <div class="btn-group">
-  <button type="button" onclick="window.location.href='/ui/address_map/0'" class="btn btn-default">Add new service</button>
+  <button type="button" onclick="window.location.href='{{ global_context.root_uri }}/ui/address_map/0'" class="btn btn-default">Add new service</button>
   <button type="button" class="btn btn-default" onclick="open_bulk_address_update()">Bulk address update</button>
   <button type="button" class="btn btn-default"onclick="open_bulk_address_delete()" >Bulk delete</button>
 </div>
@@ -35,7 +35,7 @@
        <td> {{ item.msg_type }} </td>
        <td > {{ item.address }} </td>
        <td > {{ item.record_history }} </td>
-       <td> <a onclick="location.href='/ui/address_map/{{ item.id }}'">edit</a>   |   <a href="#" onclick="remove_address('{{ item.id }}')" >delete</a>   </td>
+       <td> <a onclick="location.href='{{ global_context.root_uri }}/ui/address_map/{{ item.id }}'">edit</a>   |   <a href="#" onclick="remove_address('{{ item.id }}')" >delete</a>   </td>
 
       </tr>
       {% endfor %}
@@ -54,7 +54,7 @@
       </div>
       <br/>
       <div >
-            <form class="form-horizontal" role="form" action="/api/address_manager" method="POST">
+            <form class="form-horizontal" role="form" action="{{ global_context.root_uri }}/api/address_manager" method="POST">
               <input type="hidden" name="action" value="bulk_address_update" />
               <div class="form-group">
                 <label for="inputName" class="col-sm-3 control-label">Find</label>
@@ -90,7 +90,7 @@
       </div>
       <br/>
       <div >
-            <form class="form-horizontal" role="form" action="/api/address_manager" method="POST">
+            <form class="form-horizontal" role="form" action="{{ global_context.root_uri }}/api/address_manager" method="POST">
               <input type="hidden" name="action" value="bulk_address_delete" />
               <div class="form-group">
                 <label for="inputName" class="col-sm-3 control-label">Address or part of address</label>
@@ -111,7 +111,7 @@
 
 {% endblock %}
 {% block js_scripts %}
-    <script src="/static/js/stupidtable.min.js"></script>
-    <script src="/static/js/address_mapping.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/stupidtable.min.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/address_mapping.js"></script>
 
 {% endblock %}
