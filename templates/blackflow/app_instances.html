@@ -1,8 +1,8 @@
 {% extends "blackflow/base_layout_blackflow.html" %}
 {% block li_dr_registry %}class="active"{% endblock %}
 {% block css_scripts %}
-<link rel="stylesheet" href="/static/css/custom_icons.css">
-<link href="/static/visjs/dist/vis.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ global_context.root_uri }}/static/css/custom_icons.css">
+<link href="{{ global_context.root_uri }}/static/visjs/dist/vis.css" rel="stylesheet" type="text/css">
     <style type="text/css">
         #app_instances_graph_div {
             width: 100%;
@@ -10,7 +10,7 @@
             border: 1px solid lightgray;
         }
     </style>
-<script src="/static/js/angular.min.js"></script>
+<script src="{{ global_context.root_uri }}/static/js/angular.min.js"></script>
 {% endblock %}
 {% block body %}
 </h1>
@@ -35,7 +35,7 @@
    {%  for app in bf_response.event.properties.app_instances %}
     <tr>
         <td >{{ app.id }}</td>
-        <td ><a href="/ui/blackflow/{{ bf_inst_name }}/app_editor?app_name={{ app.app_full_name }}">{{ app.app_full_name }}</a></td>
+        <td ><a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_editor?app_name={{ app.app_full_name }}">{{ app.app_full_name }}</a></td>
         <td >{{ app.alias }}</td>
         <td >
             {% for key,value in app.sub_for.iteritems() %}
@@ -55,7 +55,7 @@
 
         <td>{{ app.state }}</td>
         <td style="min-width: 110px">
-            <a href="/ui/blackflow/{{ bf_inst_name }}/app_instance_config?id={{ app.id }}&app_name={{ app.app_full_name }}"><span class=" glyphicon glyphicon-cog"/></a>
+            <a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_instance_config?id={{ app.id }}&app_name={{ app.app_full_name }}"><span class=" glyphicon glyphicon-cog"/></a>
             <a ><span ng-click="controlAppInstance({{ app.id }},'START')" class=" glyphicon glyphicon-play"/></a>
             <a ng-click="controlAppInstance({{ app.id }},'PAUSE')"><span class=" glyphicon glyphicon-pause"/></a>
             <a ng-click="controlAppInstance({{ app.id }},'STOP')"><span class=" glyphicon glyphicon-stop"/></a>
@@ -79,7 +79,7 @@
     <script>
       var bf_inst_name = "{{ bf_inst_name }}"
     </script>
-    <script src="/static/js/stupidtable.min.js"></script>
-     <script src="/static/js/utils.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/static/js/blackflow/app_instances.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/stupidtable.min.js"></script>
+     <script src="{{ global_context.root_uri }}/static/js/utils.js" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ global_context.root_uri }}/static/js/blackflow/app_instances.js"></script>
 {% endblock %}

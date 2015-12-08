@@ -1,7 +1,7 @@
 {% extends "blackflow/base_layout_blackflow.html" %}
 {% block li_dr_registry %}class="active"{% endblock %}
 {% block css_scripts %}
-<link rel="stylesheet" href="/static/css/custom_icons.css">
+<link rel="stylesheet" href="{{ global_context.root_uri }}/static/css/custom_icons.css">
 {% endblock %}
 {% block body %}
 </h1>
@@ -40,7 +40,7 @@
     <script>
       var mode = "normal"
     </script>
-    <script src="/static/js/stupidtable.min.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/stupidtable.min.js"></script>
 {#    <script src="/static/js/dr_device_browser.js"></script>#}
 
 {% endblock %}

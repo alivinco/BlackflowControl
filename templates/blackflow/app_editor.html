@@ -2,21 +2,21 @@
 {% block li_dr_registry %}class="active"{% endblock %}
 {% block css_scripts %}
 
-<link rel="stylesheet" href="/static/css/custom_icons.css">
+<link rel="stylesheet" href="{{ global_context.root_uri }}/static/css/custom_icons.css">
   <style type="text/css" media="screen">
     #editor {
         position: relative;
         height: 80vh;
     }
 </style>
-<script src="/static/js/angular.min.js"></script>
+<script src="{{ global_context.root_uri }}/static/js/angular.min.js"></script>
 {% endblock %}
 {% block body %}
 <div ng-app="AppEditor">
 <h3>{{ app_name }}</h3>
 <a role="button" data-toggle="collapse" href="#AppInterfaceDiv" > <h4>App interface</h4> </a>
 <div ng-controller="AppDescriptorController" class="collapse" id="AppInterfaceDiv">
-    <form class="form-horizontal" role="form" action="/api/filters" method="POST">
+    <form class="form-horizontal" role="form" action="{{ global_context.root_uri }}/api/filters" method="POST">
       <div>
         <h5>Application short description:</h5>
         <div  class="form-group form-inline"  style="padding-left: 20px">
@@ -116,10 +116,10 @@
 </div>
 {% endblock %}
 {% block js_scripts %}
-<script src="/static/js/angular-base64.js"></script>
-<script src="/static/js/ace/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
-<script src="/static/js/blackflow/app_editor.js" type="text/javascript" charset="utf-8"></script>
-<script src="/static/js/utils.js" type="text/javascript" charset="utf-8"></script>
+<script src="{{ global_context.root_uri }}/static/js/angular-base64.js"></script>
+<script src="{{ global_context.root_uri }}/static/js/ace/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="{{ global_context.root_uri }}/static/js/blackflow/app_editor.js" type="text/javascript" charset="utf-8"></script>
+<script src="{{ global_context.root_uri }}/static/js/utils.js" type="text/javascript" charset="utf-8"></script>
 <script>
   var app_name = "{{ app_name }}"
   var bf_inst_name = "{{ bf_inst_name }}"

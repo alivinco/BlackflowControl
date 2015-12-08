@@ -1,7 +1,7 @@
 {% extends "blackflow/base_layout_blackflow.html" %}
 {% block li_dr_registry %}class="active"{% endblock %}
 {% block css_scripts %}
-<link rel="stylesheet" href="/static/css/custom_icons.css">
+<link rel="stylesheet" href="{{ global_context.root_uri }}/static/css/custom_icons.css">
 {% endblock %}
 {% block body %}
 <div ng-app="AppsList" ng-controller="AppsListController">
@@ -67,8 +67,8 @@
             </ul>
         </td>
          <td style="min-width: 110px">
-            <a href="/ui/blackflow/{{ bf_inst_name }}/app_instance_config?app_name={{ app.name }}_v{{ app.version }}"><h4><span class=" glyphicon glyphicon-plus-sign"/></h4></a>
-            <a href="/ui/blackflow/{{ bf_inst_name }}/app_editor?app_name={{ app.name }}_v{{ app.version }}"><h4><span class=" glyphicon glyphicon-pencil" /></h4></a>
+            <a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_instance_config?app_name={{ app.name }}_v{{ app.version }}"><h4><span class=" glyphicon glyphicon-plus-sign"/></h4></a>
+            <a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_editor?app_name={{ app.name }}_v{{ app.version }}"><h4><span class=" glyphicon glyphicon-pencil" /></h4></a>
             <a><h4><span class=" glyphicon glyphicon-refresh" ng-click=reload("{{ app.name }}_v{{ app.version }}") /></h4></a>
             <a><h4><span class=" glyphicon glyphicon-trash" ng-click=delete_app("{{ app.name }}_v{{ app.version }}") /></h4></a>
         </td>
@@ -125,10 +125,10 @@
       var bf_inst_name = "{{ bf_inst_name }}"
     </script>
 
-    <script src="/static/js/angular.min.js"></script>
-    <script src="/static/js/stupidtable.min.js"></script>
-    <script src="/static/js/utils.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/static/js/blackflow/apps.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/angular.min.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/stupidtable.min.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/utils.js" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ global_context.root_uri }}/static/js/blackflow/apps.js"></script>
 
 {#    <script src="/static/js/dr_device_browser.js"></script>#}
 

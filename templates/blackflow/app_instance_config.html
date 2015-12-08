@@ -1,11 +1,11 @@
 {% extends "blackflow/base_layout_blackflow.html" %}
 {% block css_scripts %}
- <link href="/static/css/bootstrap-slider.min.css" rel="stylesheet">
+ <link href="{{ global_context.root_uri }}/static/css/bootstrap-slider.min.css" rel="stylesheet">
 <style >
 .movable { min-height: 120px;min-width: 220px}
 .movable_div { min-height: 120px}
 </style>
-<script src="/static/js/angular.min.js"></script>
+<script src="{{ global_context.root_uri }}/static/js/angular.min.js"></script>
 {% endblock %}
 {% block body %}
 
@@ -191,7 +191,7 @@
     var app_name = "{{ app_name }}"
     var bf_inst_name = "{{ bf_inst_name }}"
     </script>
-    <script src="/static/js/utils.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/static/js/blackflow/app_instances_config.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/utils.js" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ global_context.root_uri }}/static/js/blackflow/app_instances_config.js"></script>
 
 {% endblock %}

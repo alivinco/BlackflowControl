@@ -67,7 +67,7 @@ function showAnalytics(data)
 function loadGraph()
 {
     data = []
-    return  $.getJSON('/api/blackflow/'+bf_inst_name+'/app_instances_graph',data, function (data) {
+    return  $.getJSON(root_uri+'/api/blackflow/'+bf_inst_name+'/app_instances_graph',data, function (data) {
         instancesGraphData = transformData(data)
         instancesGraph.setData(instancesGraphData)
         //console.log(nodeAliasToIdLookup("mqtt:/dev/serial/99/bin_switch/commands"))
@@ -78,7 +78,7 @@ function loadGraph()
 function loadAnalytics()
 {
     data = []
-    $.getJSON('/api/blackflow/'+bf_inst_name+'/analytics',data, function (data) {
+    $.getJSON(root_uri+'/api/blackflow/'+bf_inst_name+'/analytics',data, function (data) {
 
         for (i in data.link_counters)
         {
