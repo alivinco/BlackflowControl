@@ -94,11 +94,19 @@ def dr_browser_api():
             msg = deviceregapi.delete(device_id)
             sync_async_client.send_sync_msg(msg, "/app/devicereg/commands", "/app/devicereg/events", timeout=2)
         elif action == "init_device":
-            msg = deviceregapi.get_device_by_id(int(device_id))
-            device = sync_async_client.send_sync_msg(msg, "/app/devicereg/commands", "/app/devicereg/events",
-                                                     timeout=10)
-            services = device["event"]["properties"]["device_list"]["value"][0]["EndPoint"]
-            device_alias = device["event"]["properties"]["device_list"]["value"][0]["Alias"]
-            msg_man.generate_address_mappings_for_services(services, device_alias)
+            device_id = int(device_id)
+            msg = deviceregapi.get_device_by_id(device_id)
+            device = sync_async_client.send_sync_msg(msg, "/app/devicereg/commands", "/app/devicereg/events",timeout=10)
+            if len(device["event"]["properties"]["device_list"]["value"])>1:
+                log.warn("Old device registry . You need to upgrade to newer version.")
+            device = filter(lambda dev:dev["Id"] == device_id ,device["event"]["properties"]["device_list"]["value"])
+            if len(device) > 0:
+                services = device[0]["EndPoint"]
+                device_alias = device[0]["Alias"]
+                msg_man.generate_address_mappings_for_services(services, device_alias)
+                response_status = {"status": "ok"}
+            else:
+                log.warn("Empty response from device registry")
+                response_status = {"status": "error", "description": "Empty response from device registry"}
 
-        return Response(response=json.dumps({"status": "ok"}), mimetype='application/json')
+        return Response(response=json.dumps(response_status), mimetype='application/json')
