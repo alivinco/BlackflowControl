@@ -285,7 +285,7 @@ class MsgPipeline():
             extracted_values["record_history"] = address_map["record_history"]
         except Exception as ex:
             # default value
-            ui_mapping["ui_element"] = {"ui_element": "free_text", "value_path": "$.event.value"}
+            ui_mapping = {"ui_element": "free_text", "value_path": "$.event.value"}
             extracted_values["dev_id"] = 0
             extracted_values["record_history"] = False
             log.error("Can't extract ui mapping data")
