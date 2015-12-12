@@ -28,6 +28,7 @@
    </thead>
    <tbody>
    {%  for app in bf_response.event.properties.apps %}
+       {% set app_full_name = app.developer+"_n"+app.name+"_v"+app.version %}
     <tr>
         <td >
             <h5>{{ app.name }} v.{{ app.version }}</h5>
@@ -67,10 +68,10 @@
             </ul>
         </td>
          <td style="min-width: 110px">
-            <a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_instance_config?app_name={{ app.name }}_v{{ app.version }}"><h4><span class=" glyphicon glyphicon-plus-sign"/></h4></a>
-            <a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_editor?app_name={{ app.name }}_v{{ app.version }}"><h4><span class=" glyphicon glyphicon-pencil" /></h4></a>
-            <a><h4><span class=" glyphicon glyphicon-refresh" ng-click=reload("{{ app.name }}_v{{ app.version }}") /></h4></a>
-            <a><h4><span class=" glyphicon glyphicon-trash" ng-click=delete_app("{{ app.name }}_v{{ app.version }}") /></h4></a>
+            <a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_instance_config?app_name={{ app_full_name }}"><h4><span class=" glyphicon glyphicon-plus-sign"/></h4></a>
+            <a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_editor?app_name={{ app_full_name }}"><h4><span class=" glyphicon glyphicon-pencil" /></h4></a>
+            <a><h4><span class=" glyphicon glyphicon-refresh" ng-click=reload("{{ app_full_name }}") /></h4></a>
+            <a><h4><span class=" glyphicon glyphicon-trash" ng-click=delete_app("{{ app_full_name }}") /></h4></a>
         </td>
     </tr>
    {% endfor %}

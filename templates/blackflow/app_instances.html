@@ -22,7 +22,7 @@
    <thead>
       <tr>
         <th><h6>Id</h6></th>
-        <th><h6>App name</h6></th>
+{#        <th><h6>App name</h6></th>#}
         <th><h6>Instance alias</h6></th>
         <th><h6>Subscribes for</h6></th>
         <th><h6>Publishes to</h6></th>
@@ -35,8 +35,10 @@
    {%  for app in bf_response.event.properties.app_instances %}
     <tr>
         <td >{{ app.id }}</td>
-        <td ><a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_editor?app_name={{ app.app_full_name }}">{{ app.app_full_name }}</a></td>
-        <td >{{ app.alias }}</td>
+{#        <td ></td>#}
+        <td >{{ app.alias }}
+             <a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_editor?app_name={{ app.app_full_name }}">App:{{ app.app_full_name }}</a>
+        </td>
         <td >
             {% for key,value in app.sub_for.iteritems() %}
             <p style="min-width: 300px">

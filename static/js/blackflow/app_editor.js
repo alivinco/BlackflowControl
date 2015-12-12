@@ -29,7 +29,7 @@ function serializeDescriptor(orig_descriptor,sub_for,pub_to,configs)
 
 function get_app_class_name(app_name)
 {
-    return app_name.match(/\w+(?=_v)/g);
+    return String(app_name.match(/(?=_n)\w+(?=_v)/g)).replace("_n","");
 
 }
 

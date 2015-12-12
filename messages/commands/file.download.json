@@ -1,17 +1,18 @@
 {
  "origin": {
   "@id": "blackfly", 
+  "vendor": "blackfly", 
   "@type": "app"
  }, 
- "uuid": "a423f2a2-ab03-4f8a-9be4-2ea1a212d72d", 
- "creation_time": 1439661559000, 
+ "creation_time": 1449919060408, 
  "command": {
   "default": {
-   "value": "AlarmApp/AlarmApp.py"
+   "value": "alivinco_nPushnotificator_v1/alivinco_nPushnotificator.py"
   }, 
   "subtype": "download", 
-  "@type": "file"
+  "@type": "file", 
+  "properties": {}
  }, 
- "spid": "SP1", 
- "@context": "http://context.smartly.no"
+ "uuid": "ba5f4723-7ee3-48ce-9435-1633b9be7967", 
+ "spid": ""
 }
