@@ -72,6 +72,21 @@ app.controller("AppEditorController",["$scope","$http","$base64",function($scope
              alert("Error")
           });
     }
+    $scope.upload_to_app_store = function (){
+        packet = getMessagePacket("command","app_store","upload_app")
+        packet.command.default.value = app_name
+        $http.post(root_uri+"/api/blackflow/"+bf_inst_name+"/proxy",{"req_type":"sync_response","req_payload":packet,"corr_type":"COR_ID"}).
+        then(function(response) {
+            console.dir(response.data)
+            if(response.data.event.default.value == 200){
+              alert("App was uploaded successfully.")
+            } else {
+              alert("Something went wrong")
+            }
+          }, function(response) {
+             alert("Error")
+          });
+    }
 
 }])
 
