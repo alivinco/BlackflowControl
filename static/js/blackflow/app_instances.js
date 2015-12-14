@@ -34,5 +34,7 @@ app.controller("AppInstancesController",["$scope","$http",function($scope,$http)
           });
     }
 
+    $scope.deleteApp
+
 }])
 

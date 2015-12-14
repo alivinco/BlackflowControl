@@ -9,7 +9,7 @@ app.config(['$interpolateProvider', function($interpolateProvider) {
 }]);
 
 
-app.controller("AppStoreController",["$scope","$http",function($scope,$http){
+app.controller("AppStoreController",["$scope","$http","$filter",function($scope,$http,$filter){
 
     $scope.loadData = function () {
         $http.get('http://localhost:8080/bfhub/api/apps').
@@ -20,8 +20,25 @@ app.controller("AppStoreController",["$scope","$http",function($scope,$http){
             // or server returns response with an error status.
         });
     }
-     $scope.loadData()
+    $scope.loadData()
+    $scope.openAppExtendedInfoModal = function(index){
+        //$scope.selected_app = $filter('filter',$scope.asData,{"id":app_id})
+        $scope.selected_app = $scope.asData[index]
+        console.dir($scope.selected_app)
+        $('#app_extended_info_modal').modal("show")
+    }
 
+    $scope.deleteApp = function(){
+        $http.delete('http://localhost:8080/bfhub/api/apps/'+$scope.selected_app.id).
+        then(function (response) {
+            $('#app_extended_info_modal').modal("hide")
+            $scope.loadData()
+        }, function (response) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+            alert("Error")
+        });
+    }
 
 }])
 

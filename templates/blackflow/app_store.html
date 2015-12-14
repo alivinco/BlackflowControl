@@ -27,13 +27,12 @@
         <th><h6>Tags</h6></th>
         <th><h6>Rating</h6></th>
         <th><h6>Downloads</h6></th>
-        <th><h6>Action</h6></th>
         <th><h6>Updated</h6></th>
       </tr>
    </thead>
    <tbody>
 
-    <tr ng-repeat="app in asData">
+    <tr ng-repeat="app in asData" ng-click="openAppExtendedInfoModal($index)">
         <td >{[ app.app_name ]}</td>
         <td >{[ app.version ]}</td>
         <td >{[ app.developer ]}</td>
@@ -41,12 +40,60 @@
         <td >{[ app.tags ]}</td>
         <td >{[ app.rating ]}</td>
         <td >{[ app.downloads ]}</td>
-        <td >Open</td>
         <td >{[ app.updated ]}</td>
     </tr>
 
   <tbody>
 </table>
+
+
+{#Modal dialog #}
+<div class="modal fade" id="app_extended_info_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Create new application</h4>
+      </div>
+      <br/>
+      <div >
+            <form class="form-horizontal" role="form" >
+              <div class="form-group">
+                <label for="inputName" class="col-sm-3 control-label">Unique id</label>
+                <div class="col-sm-6">
+                  <input type="text" name="find" readonly class="form-control" id="inputName" ng-model="selected_app.id" placeholder="" value="">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputName" class="col-sm-3 control-label">Name</label>
+                <div class="col-sm-6">
+                  <input type="text" readonly name="find" class="form-control" id="inputName" ng-model="selected_app.app_name" placeholder="" value="">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputName" class="col-sm-3 control-label">Developer</label>
+                <div class="col-sm-6">
+                  <input type="text" name="find" readonly class="form-control" id="inputName" ng-model="selected_app.developer" placeholder="" value="">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="inputAddress" class="col-sm-3 control-label">Version</label>
+                <div class="col-sm-6">
+                  <input type="text" readonly name="replace_to" class="form-control" id="inputAddress" ng-model="selected_app.version" value="">
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-default" ng-click="saveApp()">Save</button>
+                <button type="submit" class="btn btn-default" ng-click="deleteApp()">Delete</button>
+                <button type="button" class="btn btn-default"  data-dismiss="modal">Close</button>
+              </div>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 </div>
 {% endblock %}
