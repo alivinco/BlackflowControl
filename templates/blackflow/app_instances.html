@@ -37,7 +37,7 @@
         <td >{{ app.id }}</td>
 {#        <td ></td>#}
         <td >{{ app.alias }}
-             <a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_editor?app_name={{ app.app_full_name }}">App:{{ app.app_full_name }}</a>
+           <p><small><a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_editor?app_name={{ app.app_full_name }}">App:{{ app.app_full_name }}</a></small></p>
         </td>
         <td >
             {% for key,value in app.sub_for.iteritems() %}

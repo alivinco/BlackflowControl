@@ -99,6 +99,8 @@ def init_app_components():
 
     global_context["version"] = msg_man.global_configs["system"]["version"]
     global_context["root_uri"] = root_uri
+    global_context["app_store_api_url"] = msg_man.global_configs["app_store"]["api_url"]
+    global_context["app_store_username"] = msg_man.global_configs["app_store"]["username"]
     http_server_port = msg_man.global_configs["system"]["http_server_port"]
     # Message cache
     cache = MsgCache(msg_man)

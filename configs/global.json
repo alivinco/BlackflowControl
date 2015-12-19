@@ -51,7 +51,12 @@
   "client_id": "blackfly_test_suite_5", 
   "password": "blackfly_test", 
   "port": "1883"
- }, 
+ },
+ "app_store":{
+    "api_url":"http://lego.fiicha.net/bfhub/api",
+    "username":"alivinco",
+    "password":""
+  },
  "defaults": {
   "event_value_path_for_new_class": "$.event.default.value", 
   "cmd_value_path_for_new_class": "$.command.default.value"

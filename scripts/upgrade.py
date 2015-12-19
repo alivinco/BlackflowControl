@@ -52,6 +52,12 @@ def update_global_config():
         jobj["system"]["ui_security_disabled"]=False
         jobj["system"]["platform"]="sg"
 
+    if not ("app_store" in jobj):
+        jobj["app_store"]={ "api_url":"http://lego.fiicha.net/bfhub/api",
+                            "username":"alivinco",
+                            "password":""
+                          }
+
 
     else :
         print "******************* YOUR EXISTING BLACKFLY INSTALLATION IS TOO OLD.PLEASE DELETE EXISTING INSTALLATION AND RUN INSTALLATION AGAIN ******************"

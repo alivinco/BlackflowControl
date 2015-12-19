@@ -12,18 +12,21 @@
    <thead>
       <tr>
         <th><h6>Var name</h6></th>
-        <th><h6>Updated by</h6></th>
-        <th style="width:140px"><h6>Updated at</h6></th>
         <th><h6>Value</h6></th>
+        <th><h6>Updated by</h6></th>
+        <th style="width:160px"><h6>Updated at</h6></th>
+        <th style="width:100px"><h6>Persisted</h6></th>
+
       </tr>
    </thead>
    <tbody>
    {%  for key,var in bf_response.event.properties.iteritems() %}
     <tr>
         <td >{{ key }}</td>
+        <td>{{ var.value }}</td>
         <td>{{ var.src_type }}.{{ var.src_name }}</td>
         <td><small>{{ format_time(var.timestamp) }}</small></td>
-        <td>{{ var.value }}</td>
+        <td>{{ var.persisted }}</td>
     </tr>
    {% endfor %}
   <tbody>

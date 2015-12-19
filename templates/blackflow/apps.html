@@ -8,9 +8,7 @@
 </h1>
 <h3>Installed apps</h3>
 <div class="btn-group">
-  <button type="button" data-toggle="modal" data-target="#create_new_app_modal" class="btn btn-default">Create new app</button>
-  <button type="button" disabled class="btn btn-default" onclick="">Upload new app</button>
-  <button type="button" disabled class="btn btn-default"onclick="" >Download from remote</button>
+  <button type="button" class="btn btn-default" ng-click = "open_new_app_modal()">Create new app</button>
 </div>
     <br/>
     <br/>
@@ -95,17 +93,24 @@
       <div >
             <form class="form-horizontal" role="form" >
               <input type="hidden" name="action" value="bulk_address_update" />
+
               <div class="form-group">
                 <label for="inputName" class="col-sm-3 control-label">Name</label>
                 <div class="col-sm-6">
-                  <input type="text" name="find" class="form-control" id="inputName" ng-model="app_name" placeholder="" value="">
+                  <input type="text"  class="form-control"  ng-model="app_name" placeholder="" value="">
                 </div>
               </div>
 
               <div class="form-group">
                 <label for="inputAddress" class="col-sm-3 control-label">Version</label>
                 <div class="col-sm-6">
-                  <input type="text" name="replace_to" class="form-control" id="inputAddress" ng-model="app_version" value="">
+                  <input type="number"  class="form-control"  ng-model="app_version" value="">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputAddress" class="col-sm-3 control-label">Developer</label>
+                <div class="col-sm-6">
+                  <input type="text"  class="form-control"  ng-model="app_developer" value="">
                 </div>
               </div>
 
@@ -124,6 +129,7 @@
     <script>
       var mode = "normal"
       var bf_inst_name = "{{ bf_inst_name }}"
+      var app_developer = "{{ global_context.app_store_username }}"
     </script>
 
     <script src="{{ global_context.root_uri }}/static/js/angular.min.js"></script>

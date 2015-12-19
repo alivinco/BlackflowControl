@@ -27,19 +27,21 @@
         <th><h6>Tags</h6></th>
         <th><h6>Rating</h6></th>
         <th><h6>Downloads</h6></th>
+        <th><h6>Public</h6></th>
         <th><h6>Updated</h6></th>
       </tr>
    </thead>
    <tbody>
 
     <tr ng-repeat="app in asData" ng-click="openAppExtendedInfoModal($index)">
-        <td >{[ app.app_name ]}</td>
+        <td >{[ app.app_name ]} <p> <small>{[app.short_description]}</small></p></td>
         <td >{[ app.version ]}</td>
         <td >{[ app.developer ]}</td>
-        <td >{[ app.categories ]}</td>
+        <td >{[ app.categories[0] ]}</td>
         <td >{[ app.tags ]}</td>
         <td >{[ app.rating ]}</td>
         <td >{[ app.downloads ]}</td>
+        <td >{[ app.public ]}</td>
         <td >{[ app.updated ]}</td>
     </tr>
 
@@ -83,10 +85,23 @@
                   <input type="text" readonly name="replace_to" class="form-control" id="inputAddress" ng-model="selected_app.version" value="">
                 </div>
               </div>
-
+              <div class="form-group">
+                <label for="inputAddress" class="col-sm-3 control-label">Short description</label>
+                <div class="col-sm-6">
+                  <input type="text" name="replace_to" class="form-control" id="inputAddress" ng-model="selected_app.short_description" value="">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputAddress" class="col-sm-3 control-label">Categories</label>
+                <div class="col-sm-6">
+                  <input type="text" name="replace_to" class="form-control" id="inputAddress" ng-model="selected_app.categories[0]" value="">
+                </div>
+              </div>
               <div class="modal-footer">
-                <button type="submit" class="btn btn-default" ng-click="saveApp()">Save</button>
-                <button type="submit" class="btn btn-default" ng-click="deleteApp()">Delete</button>
+                  <button type="button" class="btn btn-danger pull-left" ng-click="deleteApp()">Delete</button>
+                <button type="button" class="btn btn-success" ng-click="installApp()">Install</button>
+                <button type="button" class="btn btn-default" ng-click="downloadApp()">Download</button>
+                <button type="button" class="btn btn-default" ng-click="saveApp()">Save</button>
                 <button type="button" class="btn btn-default"  data-dismiss="modal">Close</button>
               </div>
             </form>
@@ -100,6 +115,7 @@
 {% block js_scripts %}
     <script>
       var bf_inst_name = "{{ bf_inst_name }}"
+      var app_store_api = "{{ global_context.app_store_api_url }}"
     </script>
     <script src="{{ global_context.root_uri }}/static/js/stupidtable.min.js"></script>
      <script src="{{ global_context.root_uri }}/static/js/utils.js" type="text/javascript" charset="utf-8"></script>

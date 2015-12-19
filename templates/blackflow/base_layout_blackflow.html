@@ -70,14 +70,14 @@
                     <label class="tree-toggle nav-header">Apps</label>
                     <ul class="nav tree">
                         <li><a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/apps" class="glyphicon glyphicon-list-alt"> Installed </a></li>
-                        <li><a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_store" class="glyphicon glyphicon-list-alt"> App store </a></li>
                         <li><a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_instances" class="glyphicon glyphicon-list-alt"> Instances</a></li>
-                        <li><a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_instances_graph" class="glyphicon glyphicon-list-alt"> Instances graph</a></li>
+                        <li><a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_store" class="glyphicon glyphicon-list-alt"> App store </a></li>
                     </ul>
                 </li>
                 <li>
                     <label class="tree-toggle nav-header">Analytics</label>
                     <ul class="nav tree">
+                       <li><a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_instances_graph" class="glyphicon glyphicon-list-alt"> Instances graph</a></li>
                        <li  {% block li_msg_history %} {% endblock %}><a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/context" class="glyphicon glyphicon-export"> Context </a></li>
                        <li  {% block li_msg_timeline %} {% endblock %}><a href="{{ global_context.root_uri }}/ui/timeseries/{{ bf_inst_name }}/timeline/0/0" class="glyphicon glyphicon-time" > Event timeline</a>
                     </ul>

@@ -64,10 +64,14 @@ app.controller("AppConfigController",function($scope,$http){
         packet = getMessagePacket("command","blackflow","configure_app_instance")
         req = getInstConfigRequest($scope.inst_config,$scope.sub_for,$scope.pub_to,$scope.configs)
         packet.command.properties = req
-        $http.post(root_uri+"/api/blackflow/"+bf_inst_name+"/proxy",{"req_type":"one_way","req_payload":packet}).
+        $http.post(root_uri+"/api/blackflow/"+bf_inst_name+"/proxy",{"req_type":"sync_response","corr_type":"COR_ID","req_payload":packet}).
         then(function(response) {
             //window.location = "/ui/blackflow/app_instances"
-            alert("Changes were saved.")
+            if(!inst_id){
+               inst_id = parseInt(response.data.event.properties.text)
+               $scope.inst_config.id = inst_id
+               alert("New instance id = "+inst_id)
+            }
           }, function(response) {
             // called asynchronously if an error occurs
             // or server returns response with an error status.
