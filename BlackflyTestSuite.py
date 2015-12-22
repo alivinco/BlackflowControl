@@ -80,6 +80,7 @@ def init_app_components():
     msg_man = MessageManager()
     # Injecting root uri prefix
     mod_auth.url_prefix = root_uri
+    login_manager.login_view ="%s/ui/login"%root_uri
     devicereg_ex.devreg_bp.url_prefix = root_uri
     blackflow_ex.blackflow_bp.url_prefix = root_uri
     # Flask init
