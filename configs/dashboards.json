@@ -2,6 +2,12 @@
  "dash1": {
   "layout_type": "grid", 
   "grid_map": {
+   "239": {
+    "y": 1, 
+    "x": 1, 
+    "group": 0, 
+    "service_name": "Anything"
+   }, 
    "287": {
     "y": 1, 
     "x": 1, 
@@ -14,9 +20,9 @@
    {
     "y_size": 2, 
     "x_size": 3, 
-    "description": "Default", 
+    "id": 0, 
     "name": "Default", 
-    "id": 0
+    "description": "Default"
    }
   ]
  }
