@@ -1,2 +1,2 @@
 #!/bin/sh
-docker build -t blackfly ../../
+docker build -t alivinco/blackfly -f ./Dockerfile ../../
