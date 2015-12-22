@@ -7,7 +7,7 @@ __author__ = 'alivinco'
 global_context = {}
 mod_auth = Blueprint('mod_auth', __name__)
 login_manager = LoginManager()
-login_manager.login_view ="/ui/login"
+# login_manager.login_view ="%s/ui/login"%mod_auth.url_prefix
 
 
 # user = User("shurik","test")
@@ -42,7 +42,7 @@ def login():
 
                 next = flask.request.args.get('next')
 
-                return flask.redirect(next or "/ui/index")
+                return flask.redirect(next or url_for("index"))
 
     return render_template('auth/login.html',global_context=global_context)
 
