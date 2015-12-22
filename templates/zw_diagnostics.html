@@ -1,7 +1,7 @@
 {% extends "base_layout.html" %}
 {% block li_zw_diganostics %}class="active"{% endblock %}
 {% block css_scripts %}
-<link rel="stylesheet" href="/static/css/custom_icons.css">
+<link rel="stylesheet" href="{{ global_context.root_uri }}/static/css/custom_icons.css">
 {% endblock %}
 {% block body %}
 </h1>
@@ -43,7 +43,7 @@
 
 <br/>
 <h4>Zwave mesh routing information</h4>
-<a href="/ui/zw_diagnostics?action=refresh_routing_info" class="btn btn-default " role="button">Refresh routing info from zwave module</a>
+<a href="{{ global_context.root_uri }}/ui/zw_diagnostics?action=refresh_routing_info" class="btn btn-default " role="button">Refresh routing info from zwave module</a>
 
 <div class="table-responsive">
  <table id="addr_map_table" class="table table-striped">
@@ -62,7 +62,7 @@
     {% if context %}
             {% for ctx in context|sort(attribute="id") %}
                     <tr>
-                        <td><a href="/ui/inter_console?filter=/dev/zw/{{ ctx.id }}&mode=normal">{{ ctx.id }}</a></td>
+                        <td><a href="{{ global_context.root_uri }}/ui/inter_console?filter=/dev/zw/{{ ctx.id }}&mode=normal">{{ ctx.id }}</a></td>
                         <td>{{ ctx.Alias }}</td>
                         <td>{{ ctx.nb_list }}</td>
                         <td>
@@ -84,7 +84,7 @@
     {% else %}
         {%  for node , nb in routing_info.iteritems() %}
                     <tr>
-                        <td><a href="/ui/inter_console?filter=/dev/zw/{{ node }}&mode=normal">{{ node }}</a></td>
+                        <td><a href="{{ global_context.root_uri }}/ui/inter_console?filter=/dev/zw/{{ node }}&mode=normal">{{ node }}</a></td>
                         <td>{{ nb }}</td>
                         <td></td>
                         <td><a href="#" onclick="ping_node({{ node }})">Ping</a> |
@@ -201,9 +201,9 @@
     <script>
       var mode = "normal"
     </script>
-    <script src="/static/js/cytoscapelib/cola.v3.min.js"></script>
-    <script src="/static/js/cytoscape.min.js"></script>
-    <script src="/static/js/zw_diagnostics.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/cytoscapelib/cola.v3.min.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/cytoscape.min.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/zw_diagnostics.js"></script>
 
 
 {% endblock %}

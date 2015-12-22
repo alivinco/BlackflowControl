@@ -2,7 +2,7 @@ import json
 
 __author__ = 'alivinco'
 import logging
-from flask import render_template, Blueprint, request, Response
+from flask import render_template, Blueprint, request, Response, url_for
 from libs.flask_login import LoginManager, login_required
 from libs.dmapi import devicereg
 from flask import Response, redirect
@@ -12,10 +12,9 @@ from libs.dmapi import association
 log = logging.getLogger("bf_web")
 
 # the variables should be set by main app
-global_context = None
+global_context = {}
 sync_async_client = None
 msg_man = None
-
 devreg_bp = Blueprint('devicereg_bp', __name__)
 login_manager = LoginManager()
 login_manager.login_view = "/ui/login"
@@ -51,7 +50,7 @@ def dr_browser_api():
             msg = deviceregapi.update({"Id": device_id}, {field_name: field_value})
             log.info(msg)
             sync_async_client.send_sync_msg(msg, "/app/devicereg/commands", "/app/devicereg/events", timeout=2)
-            return redirect("/ui/dr_browser")
+            return redirect(url_for(".dr_browser"))
 
         elif action == "config_set" or action == "config_get":
             config_type = request.form["config_type"]
@@ -88,7 +87,7 @@ def dr_browser_api():
 
             log.info("Configuration command of type = %s , name = %s , value = %s value was sent" % (
                 config_type, config_name, config_value))
-            return redirect("/ui/dr_browser")
+            return redirect(url_for(".dr_browser"))
 
         elif action == "delete":
             msg = deviceregapi.delete(device_id)

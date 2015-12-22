@@ -1,17 +1,18 @@
 from extensions.auth.datamodel import UserManager
-
-__author__ = 'alivinco'
-from flask import render_template, Blueprint, request
+from flask import render_template, Blueprint, request , url_for
 import flask
 from libs.flask_login import LoginManager, login_user, logout_user, login_required
+__author__ = 'alivinco'
 
+global_context = {}
 mod_auth = Blueprint('mod_auth', __name__)
 login_manager = LoginManager()
-login_manager.login_view = "/ui/login"
-global_context = None
+# login_manager.login_view ="%s/ui/login"%mod_auth.url_prefix
+
 
 # user = User("shurik","test")
 um = UserManager()
+
 
 @login_manager.user_loader
 def user_loader(user_id):
@@ -41,9 +42,10 @@ def login():
 
                 next = flask.request.args.get('next')
 
-                return flask.redirect(next or "/ui/index")
+                return flask.redirect(next or url_for("index"))
 
     return render_template('auth/login.html',global_context=global_context)
+
 
 @mod_auth.route('/ui/auth_manager', methods=['GET', 'POST'])
 @login_required
@@ -57,8 +59,9 @@ def auth_manager():
 
     return render_template('auth/auth_manager.html',global_context=global_context,users=um.users)
 
+
 @mod_auth.route('/ui/logout', methods=['GET'])
 def logout():
     # user = current_user
     logout_user()
-    return flask.redirect("/ui/login")
+    return flask.redirect(url_for(".login"))

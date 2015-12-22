@@ -67,8 +67,8 @@
 
     <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-default">Save</button>
-        <button type="button" onclick="location.href = '/sys/mqtt_ctrl/start'" class="btn btn-default">Connect to broker</button>
-        <button type="button" onclick="location.href = '/sys/mqtt_ctrl/stop'" class="btn btn-default">Disconnect from broker</button>
+        <button type="button" onclick="location.href = '{{ global_context.root_uri }}/sys/mqtt_ctrl/start'" class="btn btn-default">Connect to broker</button>
+        <button type="button" onclick="location.href = '{{ global_context.root_uri }}/sys/mqtt_ctrl/stop'" class="btn btn-default">Disconnect from broker</button>
         <button type="button" onclick="window.history.back()" class="btn btn-default">Cancel</button>
     </div>
   </div>
@@ -80,8 +80,8 @@
 
 {% endblock %}
 {% block js_scripts %}
-    <script src="/static/js/stupidtable.min.js"></script>
-    <script src="/static/js/msg_class.js"></script>
-    <script src="/static/js/utils.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/stupidtable.min.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/msg_class.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/utils.js"></script>
 
 {% endblock %}

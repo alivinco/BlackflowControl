@@ -17,7 +17,7 @@ data = [{content: "SG inclusion",
 function loadTimelineData()
 {
     data = get_filter()
-    $.getJSON('/api/timeseries/timeline',data, function (data) {
+    $.getJSON(root_uri+'/api/timeseries/timeline',data, function (data) {
 
         items.clear()
         groups = []
@@ -48,7 +48,7 @@ function loadTimelineData()
             }
             console.dir(temp_groups)
             for (gi in temp_groups) {
-                groups.push({id: temp_groups[gi].id, content: '<a href="/ui/timeseries/chart/'+temp_groups[gi].id+'" target="blank">'+temp_groups[gi].name+'</a>'})
+                groups.push({id: temp_groups[gi].id, content: '<a href="'+root_uri+'/ui/timeseries/chart/'+temp_groups[gi].id+'" target="blank">'+temp_groups[gi].name+'</a>'})
             }
 
             //items.add(events)

@@ -5,7 +5,7 @@
 <h3>Service configurator</h3>
 <div class="container-fluid">
 
-<form class="form-horizontal" role="form" action="/api/address_manager" method="POST">
+<form class="form-horizontal" role="form" action="{{ global_context.root_uri }}/api/address_manager" method="POST">
   <input type="hidden" name="action" value="update_address_mapping"/>
   <div class="form-group">
     <label for="inputName" class="col-sm-2 control-label">Name</label>
@@ -90,8 +90,8 @@
 </pre>
 {% endblock %}
 {% block js_scripts %}
-    <script src="/static/js/stupidtable.min.js"></script>
-    <script src="/static/js/msg_class.js"></script>
-    <script src="/static/js/utils.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/stupidtable.min.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/msg_class.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/utils.js"></script>
 
 {% endblock %}

@@ -2,7 +2,7 @@
 {% block li_inter_console %}class="active"{% endblock %}
 {% block body %}
 </h1>
-<h3>Log <a href="/ui/timeseries/chart/{{ device_info.device_id }}"> <span class="pull-right glyphicon glyphicon-stats">&nbsp;</span></a></h3>
+<h3>Log <a href="{{ global_context.root_uri }}/ui/timeseries/chart/{{ device_info.device_id }}"> <span class="pull-right glyphicon glyphicon-stats">&nbsp;</span></a></h3>
 <h5>{{ ts|length }} items has been logged</h5>
 <form action="" method="post">
  <input type="hidden" name="action" value="delete_all"/>
@@ -35,7 +35,7 @@
 
 {% endblock %}
 {% block js_scripts %}
-    <script src="/static/js/stupidtable.min.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/stupidtable.min.js"></script>
 
 
 {% endblock %}

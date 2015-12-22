@@ -1,6 +1,6 @@
 {% extends "base_layout.html" %}
 {% block css_scripts %}
-    <link href="/static/visjs/dist/vis.css" rel="stylesheet" type="text/css">
+    <link href="{{ global_context.root_uri }}/static/visjs/dist/vis.css" rel="stylesheet" type="text/css">
 
 {% endblock %}
 {% block li_msg_timeline %}class="active"{% endblock %}
@@ -35,6 +35,6 @@
 
 {% endblock %}
 {% block js_scripts %}
-    <script src="/static/visjs/dist/vis.js"></script>
-    <script src="/static/js/timeline.js"></script>
+    <script src="{{ global_context.root_uri }}/static/visjs/dist/vis.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/timeline.js"></script>
 {% endblock %}

@@ -2,5 +2,13 @@
  {
   "username": "admin", 
   "password": "pbkdf2:sha1:1000$9SkrNK1w$5978c00041e9f12e3232540eb7130c35a7fa1ebe"
+ }, 
+ {
+  "username": "user", 
+  "password": "pbkdf2:sha1:1000$CeMDtmV0$5bb784317dacd62640df158f5be40b33c501f686"
+ }, 
+ {
+  "username": "shurik", 
+  "password": "pbkdf2:sha1:1000$pU6HGcvx$41f0a115d66fe164ae915b2c55252dbbd19450a7"
  }
 ]

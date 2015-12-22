@@ -108,7 +108,7 @@
 
 {% endblock %}
 {% block js_scripts %}
-    <script src="/static/js/stupidtable.min.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/stupidtable.min.js"></script>
     <script type="text/javascript">
     $(function() {
         $("#inter_console_table").stupidtable();
