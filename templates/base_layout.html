@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>BlackflyIOT </title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="{{ global_context.root_uri }}/static/css/bootstrap.min.css">
     <!-- Custom styles for this template -->
-    <link href="{{ global_context.root_uri }}/static/css/base_layout.css" rel="stylesheet">
+{#    <link href="{{ global_context.root_uri }}/static/css/base_layout.css" rel="stylesheet">#}
     {% block css_scripts %}
     {% endblock %}
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -18,33 +18,64 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!-- Angulr -->
+     <link rel="stylesheet" href="{{ global_context.root_uri }}/static/angulr/libs/assets/animate.css/animate.css" type="text/css" />
+     <link rel="stylesheet" href="{{ global_context.root_uri }}/static/angulr/libs/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
+     <link rel="stylesheet" href="{{ global_context.root_uri }}/static/angulr/libs/assets/simple-line-icons/css/simple-line-icons.css" type="text/css" />
+     <link rel="stylesheet" href="{{ global_context.root_uri }}/static/angulr/libs/jquery/bootstrap/dist/css/bootstrap.css" type="text/css" />
+
+     <link rel="stylesheet" href="{{ global_context.root_uri }}/static/angulr/html/css/font.css" type="text/css" />
+     <link rel="stylesheet" href="{{ global_context.root_uri }}/static/angulr/html/css/app.css" type="text/css" />
 </head>
 <body>
+<div class="app app-header-fixed ">
+<header id="header" class="app-header navbar" role="menu">
+        <!-- navbar header -->
+      <div class="navbar-header bg-dark">
+        <button class="pull-right visible-xs dk" ui-toggle-class="show" target=".navbar-collapse">
+          <i class="glyphicon glyphicon-cog"></i>
+        </button>
+        <button class="pull-right visible-xs" ui-toggle-class="off-screen" target=".app-aside" ui-scroll="app">
+          <i class="glyphicon glyphicon-align-justify"></i>
+        </button>
+        <!-- brand -->
+        <a href="#/" class="navbar-brand text-lt">
+          <i class="fa fa-btc"></i>
+          <img src="{{ global_context.root_uri }}/static/angulr/html/img/logo.png" alt="." class="hide">
+          <span class="hidden-folded m-l-xs">
+             BlackflyIOT
+          </span>
 
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{{ global_context.root_uri }}/ui/index">BlackflyIOT
-                <small> v{{ global_context.version }} is {{ global_context.mqtt_conn_status }}</small>
-            </a>
+        </a>
+        <!-- / brand -->
+      </div>
+      <!-- / navbar header -->
+
+      <div class="collapse pos-rlt navbar-collapse box-shadow bg-white-only">
+          <!-- buttons -->
+        <div class="nav navbar-nav hidden-xs">
+          <a href="#" class="btn no-shadow navbar-btn" ui-toggle-class="app-aside-folded" target=".app">
+            <i class="fa fa-dedent fa-fw text"></i>
+            <i class="fa fa-indent fa-fw text-active"></i>
+          </a>
 
         </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
+        <!-- / buttons -->
+            <ul class="nav navbar-nav hidden-sm">
                 {#            <li><a href="#">Dashboard</a></li>#}
                 <li><a href="{{ global_context.root_uri }}/ui/dashboard/dash1">Dashboards</a></li>
                 <li><a href="{{ global_context.root_uri }}/ui/work_session">Session</a></li>
                 <li><a href="{{ global_context.root_uri }}/ui/settings">Settings</a></li>
-                <li><a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Tools
-                    <span class="caret"></span></a>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" >
+                      <i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
+                      <span >Tools</span>
+                      <span class="caret"></span>
+                    </a>
 
                     <ul class="dropdown-menu" role="menu">
+                        <li><a href="{{ global_context.root_uri }}/ui/index">System status</a></li>
                         <li><a href="{{ global_context.root_uri }}/ui/mqtt_broker_monitor">Broker monitoring</a></li>
                         <li><a href="{{ global_context.root_uri }}/ui/mqtt_client">Mqtt simple client</a></li>
                         <li><a href="{{ global_context.root_uri }}/ui/tools">Other tools</a></li>
@@ -52,71 +83,146 @@
 
                 </li>
 
+
                 <li><a href="{{ global_context.root_uri }}/ui/help/main">Help</a></li>
-                <li><a href="{{ global_context.root_uri }}/ui/logout">Logout</a></li>
             </ul>
+             <!-- nabar right -->
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+              <i class="icon-bell fa-fw"></i>
+              <span class="visible-xs-inline">Notifications</span>
+              <span class="badge badge-sm up bg-danger pull-right-xs">{% if global_context.mqtt_conn_status != "online" %} {{ global_context.mqtt_conn_status }} {% endif %}</span>
+            </a>
+            <!-- dropdown -->
+            <div class="dropdown-menu w-xl animated fadeInUp">
+              <div class="panel bg-white">
+                <div class="panel-heading b-light bg-light">
+                  <strong>You have <span>0</span> notifications</strong>
+                </div>
 
+              </div>
+            </div>
+            <!-- / dropdown -->
+          </li>
+
+          <li class="dropdown">
+            <a href="#" data-toggle="dropdown" class="dropdown-toggle clear" data-toggle="dropdown">
+              <span class="hidden-sm hidden-md">Admin</span> <b class="caret"></b>
+            </a>
+            <!-- dropdown -->
+            <ul class="dropdown-menu animated fadeInRight w">
+              <li>
+                <a ui-sref="app.page.profile">Profile</a>
+              </li>
+
+              <li class="divider"></li>
+              <li>
+                <a href="{{ global_context.root_uri }}/ui/logout">Logout</a>
+              </li>
+            </ul>
+            <!-- / dropdown -->
+          </li>
+        </ul>
         </div>
-    </div>
-</div>
 
-<div class="container-fluid">
-    <div class="row">
-        <div  class="sidebar">
-            <ul  class="nav nav-sidebar">
-                <li>
-                    <label class="tree-toggle nav-header">Services</label>
-                    <ul class="nav tree">
-                        <li {% block li_inter_console %} {% endblock %} ><a href="{{ global_context.root_uri }}/ui/inter_console" class="glyphicon glyphicon-globe"> Explore</a></li>
-                        <li {% block li_address_mapping %}{% endblock %}><a href="{{ global_context.root_uri }}/ui/address_mapping" class="glyphicon glyphicon-cog" > Configure</a> </li>
-                        <li {% block li_msg_types %} {% endblock %}><a href="{{ global_context.root_uri }}/ui/msg_class_mapping" class="glyphicon glyphicon-book"> Message API</a>
-                        </li>
-                    </ul>
+</header>
 
-                </li>
-                <li>
-                    <label class="tree-toggle nav-header">Apps</label>
-                    <ul class="nav tree">
-                        <li><a href="{{ global_context.root_uri }}/ui/dr_browser" class="glyphicon glyphicon-list-alt"> Device registry</a></li>
-                    </ul>
-                </li>
-                {#            <li  {% block li_type_approval %} {% endblock %}><a href="/ui/msg_types_for_approval">New msg class approval</a></li>#}
-                <li>
-                    <label class="tree-toggle nav-header">TA</label>
-                    <ul class="nav tree">
-                        <li  {% block li_zw_diganostics %} {% endblock %}><a href="{{ global_context.root_uri }}/ui/zw_diagnostics" class="glyphicon glyphicon-hdd"> Zwave</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <label class="tree-toggle nav-header">Analytics</label>
-                    <ul class="nav tree">
-                     <li  {% block li_msg_history %} {% endblock %}><a href="{{ global_context.root_uri }}/ui/msg_history" class="glyphicon glyphicon-export"> Message log</a></li>
-                     <li  {% block li_msg_timeline %} {% endblock %}><a href="{{ global_context.root_uri }}/ui/timeseries/timeline/0/0" class="glyphicon glyphicon-time" > Event timeline</a>
-                    </ul>
-                </li>
+<aside id="aside" class="app-aside hidden-xs bg-dark">
+    <div class="aside-wrap">
+        <div  class="navi-wrap">
+        <nav ui-nav class="navi clearfix">
+            <ul  class="nav">
+              <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                <span>Services</span>
+              </li>
+              <li {% block li_inter_console %} {% endblock %} >
+                  <a href="{{ global_context.root_uri }}/ui/inter_console">
+                      <i class="glyphicon glyphicon-globe"></i><span>Explore</span>
+                  </a>
+              </li>
+              <li {% block li_address_mapping %}{% endblock %}>
+                  <a href="{{ global_context.root_uri }}/ui/address_mapping" >
+                  <i class="glyphicon glyphicon-cog"></i><span>Configure</span>
+                  </a>
+              </li>
+              <li {% block li_msg_types %} {% endblock %}>
+                  <a href="{{ global_context.root_uri }}/ui/msg_class_mapping" >
+                      <i class="glyphicon glyphicon-book"></i><span>Message API</span>
+                  </a>
+              </li>
+              <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                <span>Apps</span>
+              </li>
+              <li >
+                  <a href="{{ global_context.root_uri }}/ui/dr_browser"  >
+                      <i class="glyphicon glyphicon-list-alt"></i><span>Device registry</span>
+                  </a>
+              </li>
+              <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                <span>Tech Adapters</span>
+              </li>
+              <li {% block li_zw_diganostics %} {% endblock %}>
+                  <a href="{{ global_context.root_uri }}/ui/zw_diagnostics" >
+                      <i class="glyphicon glyphicon-hdd"></i><span>Zwave</span>
+                  </a>
+              </li>
+              <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                <span>Analytics</span>
+              </li>
+              <li {% block li_msg_history %} {% endblock %}>
+                  <a href="{{ global_context.root_uri }}/ui/msg_history" >
+                      <i class="glyphicon glyphicon-export"></i><span>Message log</span>
+                  </a>
+              </li>
+              <li {% block li_msg_timeline %} {% endblock %}>
+                  <a href="{{ global_context.root_uri }}/ui/timeseries/timeline/0/0" >
+                      <i class="glyphicon glyphicon-time"></i><span>Event timeline</span>
+                  </a>
+              </li>
 
-                </li>
             </ul>
+        </nav>
 
             {#          <ul class="nav nav-sidebar">#}
             {#            <li><a href="">Nav item again</a></li>#}
             {#          </ul>#}
         </div>
 
-        <div style="margin-left:140px" class=" col-xs-8 col-sm-9  col-md-10 main">
 
-            {% block body %}
-            {% endblock %}
+    </div>
+</aside>
+
+<div id="content" class="app-content" role="main">
+  	<div class="app-content-body ">
+
+        <div class="wrapper-md">
+                {% block body %}
+                {% endblock %}
         </div>
     </div>
 </div>
+
+</div>
+{# Angulr #}
+<script src="{{ global_context.root_uri }}/static/angulr/libs/jquery/jquery/dist/jquery.js"></script>
+<script src="{{ global_context.root_uri }}/static/angulr/libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
+<script src="{{ global_context.root_uri }}/static/angulr/html/js/ui-load.js"></script>
+<script src="{{ global_context.root_uri }}/static/angulr/html/js/ui-jp.config.js"></script>
+<script src="{{ global_context.root_uri }}/static/angulr/html/js/ui-jp.js"></script>
+<script src="{{ global_context.root_uri }}/static/angulr/html/js/ui-nav.js"></script>
+<script src="{{ global_context.root_uri }}/static/angulr/html/js/ui-toggle.js"></script>
+<script src="{{ global_context.root_uri }}/static/angulr/html/js/ui-client.js"></script>
+
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>#}
-<script src="{{ global_context.root_uri }}/static/js/jquery.min.js"></script>
+{#<script src="{{ global_context.root_uri }}/static/js/jquery.min.js"></script>#}
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 {#   <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>#}
-<script src="{{ global_context.root_uri }}/static/js/bootstrap.min.js"></script>
-<script src="{{ global_context.root_uri }}/static/js/base_layout.js"></script>
+{#<script src="{{ global_context.root_uri }}/static/js/bootstrap.min.js"></script>#}
+{#<script src="{{ global_context.root_uri }}/static/js/base_layout.js"></script>#}
+
+
 <script>
     var root_uri = "{{ global_context.root_uri }}"
 </script>
