@@ -205,6 +205,10 @@
 
 </div>
 {# Angulr #}
+<script>
+    var root_uri = "{{ global_context.root_uri }}"
+    var jp_static_pref = root_uri+"/static/angulr"
+</script>
 <script src="{{ global_context.root_uri }}/static/angulr/libs/jquery/jquery/dist/jquery.js"></script>
 <script src="{{ global_context.root_uri }}/static/angulr/libs/jquery/bootstrap/dist/js/bootstrap.js"></script>
 <script src="{{ global_context.root_uri }}/static/angulr/html/js/ui-load.js"></script>
@@ -223,9 +227,7 @@
 {#<script src="{{ global_context.root_uri }}/static/js/base_layout.js"></script>#}
 
 
-<script>
-    var root_uri = "{{ global_context.root_uri }}"
-</script>
+
 {% block js_scripts %}
 {% endblock %}
 </body>
