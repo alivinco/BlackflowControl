@@ -5,37 +5,42 @@
 {% endblock %}
 {% block body %}
 </h1>
-<h3>Device registry explorer </h3>
-<div class="container-fluid">
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+      Device registry browser
+    </div>
+    <div>
 {% if dr_response %}
-<table class="table table-bordered table-striped table-hover">
+<div class="table-responsive">
+<table class = "table table-striped b-t b-light">
    <thead>
       <tr>
-        <th><h6>Id</h6></th>
-        <th><h6>Integr. Id</h6></th>
-        <th><h6>Address</h6></th>
+        <th data-breakpoints="xs">Id</th>
+        <th>Integr. Id</th>
+        <th>Address</th>
 
-        <th><h6>Name</h6></th>
-        <th><h6>Alias</h6></th>
-        <th><h6>Components</h6></th>
-        <th><h6>Comm Tech</h6></th>
-        <th style="min-width: 230px"><h6>Product info</h6></th>
-        <th style="min-width: 110px" ><h6>Version</h6></th>
-        <th><h6>Status</h6></th>
+        <th>Name</th>
+        <th>Alias</th>
+        <th>Components</th>
+        <th>Comm Tech</th>
+        <th style="min-width: 230px">Product info</th>
+        <th style="min-width: 110px" >Version</th>
+        <th>Status</th>
 
-        <th style="min-width: 80px"><h6>First Use Date</h6></th>
-        <th style="min-width: 80px"><h6>Last Update</h6></th>
-        <th><h6>Security</h6></th>
-        <th style="min-width: 130px"><h6>Power descriptor</h6></th>
-        <th><h6>Action</h6></th>
-        <th><h6>Last Error Msg</h6></th>
+        <th data-breakpoints="xs sm md" style="min-width: 80px">First Use Date</th>
+        <th style="min-width: 80px">Last Update</th>
+        <th>Security</th>
+        <th style="min-width: 130px">Power descriptor</th>
+        <th style="min-width: 110px">Action</th>
+        <th data-breakpoints="xs sm md" data-title="DOB">Last Error Msg</th>
       </tr>
    </thead>
    <tbody>
    {% if dr_response.event.properties.device_list.value %}
    {%  for device in dr_response.event.properties.device_list.value %}
-       <tr>
-        <td rowspan="2" >{{ device.Id }}</td>
+       <tr data-expanded="true">
+        <td rowspan="2" data-breakpoints="xs sm md" >{{ device.Id }}</td>
         <td>{{ device.IntegrationId }}</td>
         <td>{{ device.Address }}</td>
 
@@ -177,9 +182,11 @@
 {% endif %}
   <tbody>
 </table>
+</div>
 {% else %}
 <h4>Device registry is not responding . Please check if device registry process is up and running and try again</h4>
 {% endif %}
+    </div>
 </div>
 
 {#Modal dialog #}
@@ -219,7 +226,7 @@
     <script>
       var mode = "normal"
     </script>
-    <script src="/static/js/stupidtable.min.js"></script>
+{#    <script src="/static/js/stupidtable.min.js"></script>#}
     <script src="/static/js/ui_elements_handler.js"></script>
     <script src="/static/js/dr_device_browser.js"></script>
 

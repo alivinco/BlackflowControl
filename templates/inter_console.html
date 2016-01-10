@@ -10,7 +10,7 @@
 
 <div class="container-fluid">
 <div class="row">
- <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+ <div >
     <form class="form-inline" role="form" method="get" action="inter_console" enctype="text/plain" >
       <div class="form-group">
         <input type="text" class="form-control" size="50" id="filter_field" name="filter" value="{{ filter_value }}" placeholder="address"/>
@@ -50,13 +50,16 @@
 
 </div>
 </br>
-<div class="row">
-<div class="table ">
- <table id = "inter_console_table" class="table table-striped">
+<div class="panel panel-default">
+    <div class="panel-heading">
+      Services
+    </div>
+ <div class="table-responsive">
+ <table id = "inter_console_table" class="table table-striped b-t b-light">
      <thead>
                     <tr>
                       <th>Sevice name</th>
-                      <th data-sort="string">type (↑↓)</th>
+{#                      <th data-sort="string">type (↑↓)</th>#}
                       <th data-sort="string">msg class (↑↓)</th>
                       <th data-sort="string">address (↑↓)</th>
                     {% if mode == "normal" %}  <th data-sort="date" data-sort-value="">last msg</th>{% endif %}
@@ -69,7 +72,7 @@
      {% set cache_item = cache.get_by_key(item.key) %}
       <tr>
        <td> {{ item.name }}  </td>
-       <td> {{ item.msg_type }} </td>
+{#       <td> {{ item.msg_type }} </td>#}
        <td><a onclick="location.href ='{{ global_context.root_uri }}/ui/msg_class/{{ item.msg_type }}/{{ item.msg_class }}'">{{ item.msg_class }}</a> </td>
        <td> <a href="{{ global_context.root_uri }}/ui/address_map/{{ item.id }}">{{ item.address }}</a> </td>
        {% if mode == "normal" %} <td  > <div style="min-width: 100px" id="{{ item.key }}_msg_time" style="width: 70px">{{ cache_item.timestamp_iso }}</div> </td>{% endif %}
@@ -88,9 +91,11 @@
      </tbody>
 
  </table>
+ </div>
 </div>
 </div>
-</div>
+
+    </div>
 {#Modal dialog #}
 <div class="modal fade" id="free_text_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
