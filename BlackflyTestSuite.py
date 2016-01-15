@@ -7,7 +7,6 @@
 # The software provided as is without any support .
 # Package dependencies : Flask framework , jsonpath
 import sys
-sys.path.append("./libs")
 import json
 import uuid
 import datetime

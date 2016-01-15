@@ -1,10 +1,6 @@
 import datetime
-import json
 import logging
-import sys
-sys.path.append("./../libs")
 from influxdb import InfluxDBClient
-import time
 __author__ = 'aleksandrsl'
 
 log = logging.getLogger("bf_influxdb")
@@ -47,8 +43,16 @@ class InfluxDbTimeseries():
         :param value: value
         :param precision:
         """
-        try:
+        value_str = None
+        if isinstance(value,str):
+            value_str = value
+            value = 1.0
+        elif isinstance(value,bool):
+            value = float(value)
+        elif isinstance(value,int):
+            value = float(value)
 
+        try:
             if self.is_enabled:
                 # timestamp = int(time.time()*1000)
                 dp = [
@@ -63,7 +67,8 @@ class InfluxDbTimeseries():
                             },
                             # "time": timestamp,
                             "fields": {
-                                "value": value
+                                "value": value,
+                                "value_str":value_str
                             }
                         }
                     ]
@@ -111,5 +116,8 @@ if __name__ == "__main__":
     logging.config.dictConfig(configs.log.config)
     t = InfluxDbTimeseries("192.168.99.100",8086,db_name="blackfly")
     t.init_db()
-    print t.insert("t1,","/ta/zw/2/sen_temp/1/event","sen_temp","level.sensor","3",21.5)
+    print t.insert("t1,","/ta/zw/2/sen_temp/1/event","sen_temp","sensor.temp","3",10.5)
+    # print t.insert("t1,","/ta/zw/3/lvl_switch/1/event","lvl_switch","level.switch","4",50)
+    # print t.insert("t1,","/ta/zw/4/bin_switch/1/event","bin_switch","binary.switch","5",False)
+    # print t.insert("t1,","/app/status/event","app","app.status","6","ok")
 
