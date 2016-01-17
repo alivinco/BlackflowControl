@@ -18,8 +18,9 @@ import time
 # from extensions import devicereg
 import libs
 # from libs.dmapi.core import Core
+
 from libs.flask_login import LoginManager, login_required
-from libs.utils import convert_bool, format_iso_time_from_sec
+from libs.utils import format_iso_time_from_sec , gen_sid
 from mappings.msg_class_to_zw import get_msg_class_by_capabilities
 # import modules
 from modules.mod_dashboards import DashboardManager
@@ -107,8 +108,22 @@ def init_app_components():
     timeseries = Timeseries(msg_man.global_configs["db"]["db_path"])
     timeseries.init_db()
     timeseries.enable(True)
+    # Check and init application/service ID (sid)
+    if not msg_man.global_configs["system"]["sid"]:
+        # the id is base on MAC address , which means it may not be unique
+        sid = utils.gen_sid()
+        msg_man.global_configs["system"]["sid"] = sid
+        msg_man.serialize_mapping("global")
+
     # Message processing pipeline
     msg_pipeline = MsgPipeline(msg_man, cache, timeseries)
+    # Influx DB
+    if msg_man.global_configs["influxdb"]["enabled"]:
+        from modules.mod_influxdb import InfluxDbTimeseries
+        influxdb = InfluxDbTimeseries(msg_man.global_configs["influxdb"]["host"],msg_man.global_configs["influxdb"]["port"],msg_man.global_configs["influxdb"]["username"],
+                                      msg_man.global_configs["influxdb"]["password"],msg_man.global_configs["influxdb"]["host"])
+        influxdb.init_db()
+        msg_pipeline.set_mod_influx(influxdb)
     # Device simulator , which flips events to commands and makes ir possible to simulate devices
     dev_simulator = DeviceSimulator(msg_man)
     # Mqtt Adapter

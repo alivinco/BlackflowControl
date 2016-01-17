@@ -1,6 +1,8 @@
+import base64
 import time
 
 import datetime
+import uuid
 
 __author__ = 'alivinco'
 
@@ -21,3 +23,8 @@ def format_iso_time_from_sec(time_in_sec):
     t = time.localtime(time_in_sec)
     return time.strftime("%Y-%m-%d %H:%M:%S", t)
 
+
+def gen_sid():
+    # r_uuid = base64.urlsafe_b64encode(uuid.uuid4().bytes)
+    # return r_uuid.replace('=', '')
+    return hex(uuid.getnode()).replace("0x","")
