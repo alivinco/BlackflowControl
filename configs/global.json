@@ -13,7 +13,7 @@
   "platform": "sg", 
   "ui_security_disabled": false, 
   "version": "1.5.3", 
-  "sid": "0x3c15c2d4eeae"
+  "sid": ""
  }, 
  "msg_class_lookup_path": [
   {
@@ -54,11 +54,11 @@
   "port": "1883"
  }, 
  "influxdb": {
-  "username": "", 
-  "enabled": false, 
-  "host": "", 
+  "enabled": false,
+  "host": "192.168.99.100",
   "db_name": "blackfly", 
-  "password": "", 
+  "username": "root",
+  "password": "root",
   "port": 8086
  }, 
  "defaults": {

@@ -111,17 +111,17 @@ def init_app_components():
     # Check and init application/service ID (sid)
     if not msg_man.global_configs["system"]["sid"]:
         # the id is base on MAC address , which means it may not be unique
-        sid = utils.gen_sid()
+        sid = gen_sid()
         msg_man.global_configs["system"]["sid"] = sid
         msg_man.serialize_mapping("global")
 
     # Message processing pipeline
-    msg_pipeline = MsgPipeline(msg_man, cache, timeseries)
+    msg_pipeline = MsgPipeline(msg_man, cache, timeseries,sid=msg_man.global_configs["system"]["sid"])
     # Influx DB
     if msg_man.global_configs["influxdb"]["enabled"]:
         from modules.mod_influxdb import InfluxDbTimeseries
         influxdb = InfluxDbTimeseries(msg_man.global_configs["influxdb"]["host"],msg_man.global_configs["influxdb"]["port"],msg_man.global_configs["influxdb"]["username"],
-                                      msg_man.global_configs["influxdb"]["password"],msg_man.global_configs["influxdb"]["host"])
+                                      msg_man.global_configs["influxdb"]["password"],msg_man.global_configs["influxdb"]["db_name"])
         influxdb.init_db()
         msg_pipeline.set_mod_influx(influxdb)
     # Device simulator , which flips events to commands and makes ir possible to simulate devices

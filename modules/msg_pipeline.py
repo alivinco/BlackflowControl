@@ -120,7 +120,7 @@ class MsgPipeline():
         if addr_is_registered:
             # combination of message class and address is registered within the system system
             if self.mod_influx:
-                self.__insert_influxdb(address, msg_type, exdt, payload)
+                self.__insert_influxdb(address, msg_type, msg_class, exdt, payload)
             else:
                 self.__update_timeseries(exdt)
 
@@ -139,7 +139,7 @@ class MsgPipeline():
             self.msg_man.add_address_to_mapping(address, msg_class)
             exdt = self.__extract_data(address, msg_class, payload)
             if self.mod_influx:
-                self.__insert_influxdb(address, msg_type, exdt, payload)
+                self.__insert_influxdb(address, msg_type, msg_class, exdt, payload)
             else:
                 self.__update_timeseries(exdt)
             self.cache.put(cache_key, payload, exdt["ui_mapping"], exdt["extracted_values"])
@@ -331,11 +331,12 @@ class MsgPipeline():
         except Exception as ex:
             log.debug(ex)
 
-    def __insert_influxdb(self, address, msg_type, extd, msg):
+    def __insert_influxdb(self, address, msg_type, msg_class, extd, msg):
         try:
             dev_type = msg["origin"]["@type"]
         except:
             dev_type = "None"
+        msg_type = "%s.%s"%(msg_type,msg_class)
         if self.mod_influx:
             self.mod_influx.insert(self.sid, address, dev_type, msg_type, extd["extracted_values"]["dev_id"], extd["extracted_values"]["value"], precision=None)
 
