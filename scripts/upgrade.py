@@ -22,6 +22,7 @@ def update_address_mapping():
     f.close()
     print "saved"
 
+
 def get_address_mapping_id():
     app_root_path = os.getcwd()
     addr_path = os.path.join(app_root_path, "configs", "address_mapping.json")
@@ -30,6 +31,7 @@ def get_address_mapping_id():
     r = sorted(jobj,key = lambda item:item["id"])[-1]["id"]
 
     print r
+
 
 def update_global_config():
     print "updating global.json"
@@ -51,7 +53,7 @@ def update_global_config():
         jobj["system"]["distro_server_uri"]="http://lego.fiicha.net/blackfly"
         jobj["system"]["ui_security_disabled"]=False
         jobj["system"]["platform"]="sg"
-
+        jobj["system"]["sid"] = ""
 
     else :
         print "******************* YOUR EXISTING BLACKFLY INSTALLATION IS TOO OLD.PLEASE DELETE EXISTING INSTALLATION AND RUN INSTALLATION AGAIN ******************"
@@ -59,9 +61,19 @@ def update_global_config():
     if not "smartly" in jobj:
         jobj["smartly"]={"sdc_uri":"https://prov-stg.service.smartly.no"}
 
+    if not "influxdb" in jobj:
+        jobj["influxdb"] = {"enabled": False,
+                              "host": "localhost",
+                              "db_name": "blackfly",
+                              "username": "root",
+                              "password": "root",
+                              "port": 8086
+                            }
+
     f = open(addr_path, "w")
     f.write(json.dumps(jobj, indent=True))
     f.close()
+
 
 def update_cmd_class_mapping ():
     print "updating msg_class_mapping.json"
@@ -75,6 +87,7 @@ def update_cmd_class_mapping ():
     f = open(addr_path, "w")
     f.write(json.dumps(jobj, indent=True))
     f.close()
+
 
 def update_db():
     app_root_path = os.getcwd()

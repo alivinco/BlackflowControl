@@ -338,7 +338,7 @@ class MsgPipeline():
             dev_type = "None"
         msg_type = "%s.%s"%(msg_type,msg_class)
         if self.mod_influx:
-            self.mod_influx.insert(self.sid, address, dev_type, msg_type, extd["extracted_values"]["dev_id"], extd["extracted_values"]["value"], precision=None)
+            self.mod_influx.insert(address, dev_type, msg_type, extd["extracted_values"]["dev_id"], extd["extracted_values"]["value"], precision=None)
 
 if __name__ == "__main__":
     m = MessageManager()

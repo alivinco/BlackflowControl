@@ -54,6 +54,7 @@ msg_man = None
 
 cache = None
 timeseries = None
+influxdb = None
 msg_pipeline = None
 mqtt = None
 sync_async_client = None
@@ -72,7 +73,7 @@ def init_app_components():
     # uri root prefix
     global root_uri, http_server_port
     global app, global_context
-    global msg_man, cache, timeseries, msg_pipeline, mqtt, sync_async_client, dev_simulator
+    global msg_man, cache, timeseries,influxdb, msg_pipeline, mqtt, sync_async_client, dev_simulator
     global filter_man, zwapi, deviceregapi, binaryapi, dash_man
 
     logging.config.dictConfig(configs.log.config)
@@ -84,6 +85,14 @@ def init_app_components():
     login_manager.login_view ="%s/ui/login"%root_uri
     devicereg_ex.devreg_bp.url_prefix = root_uri
     blackflow_ex.blackflow_bp.url_prefix = root_uri
+    # Check and init application/service ID (sid)
+    if not msg_man.global_configs["system"]["sid"]:
+        # the id is base on MAC address , which means it may not be unique
+        sid = gen_sid()
+        msg_man.global_configs["system"]["sid"] = sid
+        msg_man.serialize_mapping("global")
+    else:
+        sid = msg_man.global_configs["system"]["sid"]
     # Flask init
     app = Flask(__name__)
     app.secret_key = '\x94&J\x8f\xe2+\x93Hr\xdd\xb8\x15./\xd0\x13\xf0\x88\x15f\x8f`\xec\xcd'
@@ -108,20 +117,14 @@ def init_app_components():
     timeseries = Timeseries(msg_man.global_configs["db"]["db_path"])
     timeseries.init_db()
     timeseries.enable(True)
-    # Check and init application/service ID (sid)
-    if not msg_man.global_configs["system"]["sid"]:
-        # the id is base on MAC address , which means it may not be unique
-        sid = gen_sid()
-        msg_man.global_configs["system"]["sid"] = sid
-        msg_man.serialize_mapping("global")
 
     # Message processing pipeline
-    msg_pipeline = MsgPipeline(msg_man, cache, timeseries,sid=msg_man.global_configs["system"]["sid"])
+    msg_pipeline = MsgPipeline(msg_man, cache, timeseries,sid=sid)
     # Influx DB
     if msg_man.global_configs["influxdb"]["enabled"]:
         from modules.mod_influxdb import InfluxDbTimeseries
         influxdb = InfluxDbTimeseries(msg_man.global_configs["influxdb"]["host"],msg_man.global_configs["influxdb"]["port"],msg_man.global_configs["influxdb"]["username"],
-                                      msg_man.global_configs["influxdb"]["password"],msg_man.global_configs["influxdb"]["db_name"])
+                                      msg_man.global_configs["influxdb"]["password"],msg_man.global_configs["influxdb"]["db_name"], sid=sid)
         influxdb.init_db()
         msg_pipeline.set_mod_influx(influxdb)
     # Device simulator , which flips events to commands and makes ir possible to simulate devices
@@ -406,7 +409,10 @@ def init_controllers():
                 timeseries.delete_all_for_dev(int(dev_id))
                 log.info("All lot items for device with id = %s were deleted" % dev_id)
 
-        result = timeseries.get(dev_id, start_time, end_time)
+        if msg_man.global_configs["influxdb"]["enabled"]:
+            result = influxdb.get(dev_id, start_time, end_time,limit=10000)
+        else :
+            result = timeseries.get(dev_id, start_time, end_time)
         device_info = {"device_id": dev_id}
         return render_template('timeseries_table.html', ts=result, global_context=global_context, device_info=device_info)
 
@@ -725,7 +731,13 @@ def init_controllers():
     @app.route(root_uri + '/api/timeseries/get/<dev_id>/<start>/<end>/<result_type>')
     @login_required
     def get_timeseries(dev_id, start, end, result_type):
-        ts = timeseries.get(int(dev_id), int(start), int(end), result_type)
+        serv_id = int(dev_id)
+        start = int(start)
+        end = int(end)
+        if msg_man.global_configs["influxdb"]["enabled"]:
+            ts = influxdb.get(serv_id, start, end,limit=10000, result_type=result_type)
+        else :
+            ts = timeseries.get(serv_id, start, end, result_type)
         jobj = json.dumps(ts)
         return Response(response=jobj, mimetype='application/json')
 
