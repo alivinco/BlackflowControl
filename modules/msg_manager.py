@@ -258,7 +258,7 @@ class MessageManager:
             item["override_value_path"] = override_value_path
             item["record_history"] = record_history
             item["transport"] = transport
-
+            item["key"] = key
             log.info("Address mapping updated with " + str(item))
         else:
             new_id = self.get_new_addr_id()

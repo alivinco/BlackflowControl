@@ -14,15 +14,19 @@ log = logging.getLogger("bf_msg_pipeline")
 class MsgPipeline():
     address_check = {"not_registered": 0, "registered": 1, "registered_with_class": 2}
 
-    def __init__(self, msg_man, cache, timeseries=None):
+    def __init__(self, msg_man, cache, timeseries=None, sid=None):
         self.msg_man = msg_man
         self.cache = cache
         self.timeseries = timeseries
         self.sync_async_client = None
         # the overwrites message templates .
         self.msg_template_update_mode = False
+        self.mod_influx = None
+        self.sid = sid
 
         # [{"type":"single","event_path":"$.event.type","command_path":"$.event.type","priority":1}]
+    def set_mod_influx(self,mod_influx):
+        self.mod_influx = mod_influx
 
     def set_mode(self,mode_name,value):
         if mode_name == "msg_template_update_mode":
@@ -115,7 +119,11 @@ class MsgPipeline():
 
         if addr_is_registered:
             # combination of message class and address is registered within the system system
-            self.__update_timeseries(exdt)
+            if self.mod_influx:
+                self.__insert_influxdb(address, msg_type, msg_class, exdt, payload)
+            else:
+                self.__update_timeseries(exdt)
+
             self.cache.put(cache_key, payload, exdt["ui_mapping"], exdt["extracted_values"])
             log.info("Message class = " + msg_class + " and address = " + address + " are known to the system")
             if self.msg_template_update_mode:
@@ -130,7 +138,10 @@ class MsgPipeline():
             # let's add the address to the mapping
             self.msg_man.add_address_to_mapping(address, msg_class)
             exdt = self.__extract_data(address, msg_class, payload)
-            self.__update_timeseries(exdt)
+            if self.mod_influx:
+                self.__insert_influxdb(address, msg_type, msg_class, exdt, payload)
+            else:
+                self.__update_timeseries(exdt)
             self.cache.put(cache_key, payload, exdt["ui_mapping"], exdt["extracted_values"])
             if self.msg_template_update_mode:
                 self.msg_man.save_template(msg_type, msg_class,json.dumps(payload))
@@ -305,6 +316,10 @@ class MsgPipeline():
                 self.timeseries.insert_msg_history(0, ex_msg_class, address, payload)
 
     def __update_timeseries(self, exdt):
+        """
+        Inserts datapoint into embedded sqllight based db
+        :param exdt:
+        """
         try:
             value = exdt["extracted_values"]["value"]
             if isinstance(value, (int, float, bool)):
@@ -316,6 +331,14 @@ class MsgPipeline():
         except Exception as ex:
             log.debug(ex)
 
+    def __insert_influxdb(self, address, msg_type, msg_class, extd, msg):
+        try:
+            dev_type = msg["origin"]["@type"]
+        except:
+            dev_type = "None"
+        msg_type = "%s.%s"%(msg_type,msg_class)
+        if self.mod_influx:
+            self.mod_influx.insert(address, dev_type, msg_type, extd["extracted_values"]["dev_id"], extd["extracted_values"]["value"], precision=None)
 
 if __name__ == "__main__":
     m = MessageManager()

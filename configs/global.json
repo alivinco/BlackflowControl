@@ -9,10 +9,11 @@
  }, 
  "system": {
   "http_server_port": 5000, 
+  "distro_server_uri": "http://lego.fiicha.net/blackfly", 
   "platform": "sg", 
   "ui_security_disabled": false, 
-  "version": "1.5.3",
-  "distro_server_uri": "http://lego.fiicha.net/blackfly"
+  "version": "1.5.4",
+  "sid": ""
  }, 
  "msg_class_lookup_path": [
   {
@@ -56,7 +57,15 @@
     "api_url":"http://lego.fiicha.net/bfhub/api",
     "username":"alivinco",
     "password":""
-  },
+  }, 
+ "influxdb": {
+  "enabled": false,
+  "host": "192.168.99.100",
+  "db_name": "blackfly", 
+  "username": "root",
+  "password": "root",
+  "port": 8086
+ }, 
  "defaults": {
   "event_value_path_for_new_class": "$.event.default.value", 
   "cmd_value_path_for_new_class": "$.command.default.value"

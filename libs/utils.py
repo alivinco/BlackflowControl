@@ -1,8 +1,16 @@
+import base64
 import time
 
 import datetime
+import uuid
+try:
+    import pyrfc3339
+    import pytz
+except :
+    pass
 
 __author__ = 'alivinco'
+
 
 def get_next_id(values):
     next_id = 0
@@ -10,8 +18,9 @@ def get_next_id(values):
         if item["id"]>next_id:next_id = item["id"]
     return next_id + 1
 
+
 def convert_bool(str):
-    if str=="true":
+    if str == "true" or str == "True":
         return True
     else:
         return False
@@ -34,5 +43,20 @@ def split_app_full_name(app_full_name):
 def compose_app_full_name(app_name,version):
     return "%s_v%s"%(app_name,version)
 
-if __name__ == '__main__':
+
+def gen_sid():
+    # r_uuid = base64.urlsafe_b64encode(uuid.uuid4().bytes)
+    # return r_uuid.replace('=', '')
+    return hex(uuid.getnode()).replace("0x","")
+
+
+def rfc3339_to_unix_time(rfc3339_str):
+    dt = pyrfc3339.parse(rfc3339_str,True)
+    t = (dt - datetime.datetime(1970,1,1,tzinfo=pytz.utc)).total_seconds()
+    return int(t*1000)
+
+
+if __name__ == "__main__":
+    dt = rfc3339_to_unix_time("2016-01-18T12:49:51.372Z")
+    print dt
     print split_app_full_name("alivinco_nPullCordSirenApp_v1")
