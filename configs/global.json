@@ -12,7 +12,7 @@
   "distro_server_uri": "http://lego.fiicha.net/blackfly", 
   "platform": "sg", 
   "ui_security_disabled": false, 
-  "version": "1.5.3", 
+  "version": "1.5.4",
   "sid": ""
  }, 
  "msg_class_lookup_path": [
