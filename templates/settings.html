@@ -8,6 +8,13 @@
 <div class="panel-body">
 <form class="form-horizontal" role="form" action="" method="post">
   <div class="form-group">
+    <label for="mqtt_host_input" class="col-sm-2 control-label">App/Service ID (SID)</label>
+    <div class="col-sm-10">
+      <input type="text" name="system_sid" class="form-control" id="mqtt_host_input" placeholder="" value="{{ cfg.system.sid }}">
+    </div>
+  </div>
+    <div class="line line-dashed b-b line-lg pull-in"></div>
+  <div class="form-group">
     <label for="mqtt_host_input" class="col-sm-2 control-label">host</label>
     <div class="col-sm-10">
       <input type="text" name="mqtt_host" class="form-control" id="mqtt_host_input" placeholder="" value="{{ cfg.mqtt.host }}">
@@ -54,16 +61,59 @@
    <div class="form-group">
     <label for="enable_sys_input" class="col-sm-2 control-label">Enable broker minitoring</label>
     <div class="col-sm-10">
-      <input type="text" name="enable_sys" class="form-control" id="enable_sys_input"  value="{{ cfg.mqtt.enable_sys }}">
+      <select name="enable_sys" class="form-control">
+         <option value="True" {% if cfg.mqtt.enable_sys %} selected {% endif %}>True</option>
+         <option value="False"{% if not cfg.mqtt.enable_sys %} selected {% endif %}>False</option>
+      </select>
     </div>
   </div>
+    <div class="line line-dashed b-b line-lg pull-in"></div>
   <div class="form-group">
     <label for="db_path_input" class="col-sm-2 control-label">History db file path</label>
     <div class="col-sm-10">
       <input type="text" name="db_path" class="form-control" id="db_path_input"  value="{{ cfg.db.db_path }}">
     </div>
   </div>
-
+  <div class="line line-dashed b-b line-lg pull-in"></div>
+    <div class="form-group">
+    <label  class="col-sm-2 control-label">Influx db enabled</label>
+    <div class="col-sm-10">
+      <select name="influx_enabled" class="form-control">
+         <option value="True" {% if cfg.influxdb.enabled %} selected {% endif %}>True</option>
+         <option value="False"{% if not cfg.influxdb.enabled %} selected {% endif %}>False</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label  class="col-sm-2 control-label"> influx hostname</label>
+    <div class="col-sm-10">
+      <input type="text" name="influx_host" class="form-control" id="db_path_input"  value="{{ cfg.influxdb.host }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label  class="col-sm-2 control-label"> influx port</label>
+    <div class="col-sm-10">
+      <input type="number" name="influx_port" class="form-control" id="db_path_input"  value="{{ cfg.influxdb.port }}">
+    </div>
+  </div>
+   <div class="form-group">
+    <label  class="col-sm-2 control-label"> influx username</label>
+    <div class="col-sm-10">
+      <input type="text" name="influx_username" class="form-control" value="{{ cfg.influxdb.username }}">
+    </div>
+  </div>
+   <div class="form-group">
+    <label  class="col-sm-2 control-label"> influx password</label>
+    <div class="col-sm-10">
+      <input type="password" name="influx_password" class="form-control"  value="{{ cfg.influxdb.password }}">
+    </div>
+  </div>
+   <div class="form-group">
+    <label  class="col-sm-2 control-label"> influx db name</label>
+    <div class="col-sm-10">
+      <input type="text" name="influx_db_name" class="form-control"  value="{{ cfg.influxdb.db_name }}">
+    </div>
+  </div>
   <div class="form-group">
 
     <div class="col-sm-offset-2 col-sm-10">

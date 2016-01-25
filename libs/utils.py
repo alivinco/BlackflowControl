@@ -3,13 +3,14 @@ import time
 
 import datetime
 import uuid
-import pyrfc3339
 try:
+    import pyrfc3339
     import pytz
 except :
     pass
 
 __author__ = 'alivinco'
+
 
 def get_next_id(values):
     next_id = 0
@@ -19,7 +20,7 @@ def get_next_id(values):
 
 
 def convert_bool(str):
-    if str=="true":
+    if str == "true" or str == "True":
         return True
     else:
         return False

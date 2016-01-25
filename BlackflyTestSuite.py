@@ -20,7 +20,7 @@ import libs
 # from libs.dmapi.core import Core
 
 from libs.flask_login import LoginManager, login_required
-from libs.utils import format_iso_time_from_sec , gen_sid
+from libs.utils import format_iso_time_from_sec , gen_sid, convert_bool
 from mappings.msg_class_to_zw import get_msg_class_by_capabilities
 # import modules
 from modules.mod_dashboards import DashboardManager
@@ -441,6 +441,8 @@ def init_controllers():
     @login_required
     def settings_ui():
         if request.method == 'POST':
+            msg_man.global_configs["system"]["sid"] = request.form["system_sid"]
+
             msg_man.global_configs["mqtt"]["host"] = request.form["mqtt_host"]
             msg_man.global_configs["mqtt"]["port"] = request.form["mqtt_port"]
             msg_man.global_configs["mqtt"]["root_topic"] = request.form["mqtt_root_topic"]
@@ -448,10 +450,14 @@ def init_controllers():
             msg_man.global_configs["mqtt"]["username"] = request.form["mqtt_username"]
             msg_man.global_configs["mqtt"]["password"] = request.form["mqtt_password"]
             msg_man.global_configs["mqtt"]["global_topic_prefix"] = request.form["mqtt_global_topic_prefix"]
-            if request.form["enable_sys"] == "True":
-                msg_man.global_configs["mqtt"]["enable_sys"] = True
-            else:
-                msg_man.global_configs["mqtt"]["enable_sys"] = False
+            msg_man.global_configs["mqtt"]["enable_sys"] = convert_bool(request.form["enable_sys"])
+
+            msg_man.global_configs["influxdb"]["enabled"] = convert_bool(request.form["influx_enabled"])
+            msg_man.global_configs["influxdb"]["host"] = request.form["influx_host"]
+            msg_man.global_configs["influxdb"]["port"] = int(request.form["influx_port"])
+            msg_man.global_configs["influxdb"]["username"] = request.form["influx_username"]
+            msg_man.global_configs["influxdb"]["password"] = request.form["influx_password"]
+            msg_man.global_configs["influxdb"]["db_name"] = request.form["influx_db_name"]
 
             msg_man.global_configs["db"]["db_path"] = request.form["db_path"]
             mqtt.set_mqtt_params(request.form["mqtt_client_id"], request.form["mqtt_username"], request.form["mqtt_password"], request.form["mqtt_global_topic_prefix"],
