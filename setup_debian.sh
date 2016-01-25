@@ -34,6 +34,7 @@ else
   python scripts/get-pip.py
   pip install Flask
 fi
+pip install influxdb
 
 echo "Copying init scripts"
 chmod a+x scripts/etc/init.d/blackfly_debian
