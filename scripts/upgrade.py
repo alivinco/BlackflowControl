@@ -58,10 +58,10 @@ def update_global_config():
     else :
         print "******************* YOUR EXISTING BLACKFLY INSTALLATION IS TOO OLD.PLEASE DELETE EXISTING INSTALLATION AND RUN INSTALLATION AGAIN ******************"
 
-    if not "smartly" in jobj:
+    if not ("smartly" in jobj):
         jobj["smartly"]={"sdc_uri":"https://prov-stg.service.smartly.no"}
 
-    if not "influxdb" in jobj:
+    if not ("influxdb" in jobj):
         jobj["influxdb"] = {"enabled": False,
                               "host": "localhost",
                               "db_name": "blackfly",

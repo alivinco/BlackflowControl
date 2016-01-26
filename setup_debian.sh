@@ -35,6 +35,7 @@ else
   pip install Flask
 fi
 pip install influxdb
+pip install pyRFC3339
 
 echo "Copying init scripts"
 chmod a+x scripts/etc/init.d/blackfly_debian
