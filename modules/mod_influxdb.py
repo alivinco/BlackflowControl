@@ -2,7 +2,7 @@ import datetime
 import logging
 from influxdb import InfluxDBClient
 
-from utils import rfc3339_to_unix_time
+from libs.utils import rfc3339_to_unix_time
 
 __author__ = 'aleksandrsl'
 
@@ -47,18 +47,23 @@ class InfluxDbTimeseries():
         :param value: value
         :param precision:
         """
+
         value_str = None
-        if isinstance(value,str):
+        if isinstance(value,str) or isinstance(value,unicode):
             value_str = value
             value = 1.0
         elif isinstance(value,bool):
             value = float(value)
         elif isinstance(value,int):
             value = float(value)
+        elif isinstance(value,float):
+            pass
+        else:
+            value_str = str(value)
+            value = 1.0
 
         try:
             if self.is_enabled:
-                # timestamp = int(time.time()*1000)
                 dp = [
                         {
                             "measurement": "generic_ts",

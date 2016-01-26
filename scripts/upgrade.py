@@ -54,21 +54,18 @@ def update_global_config():
         jobj["system"]["ui_security_disabled"]=False
         jobj["system"]["platform"]="sg"
         jobj["system"]["sid"] = ""
+    else :
+        print "******************* YOUR EXISTING BLACKFLY INSTALLATION IS TOO OLD.PLEASE DELETE EXISTING INSTALLATION AND RUN INSTALLATION AGAIN ******************"
 
     if not ("app_store" in jobj):
         jobj["app_store"]={ "api_url":"http://lego.fiicha.net/bfhub/api",
                             "username":"alivinco",
                             "password":""
                           }
-
-
-    else :
-        print "******************* YOUR EXISTING BLACKFLY INSTALLATION IS TOO OLD.PLEASE DELETE EXISTING INSTALLATION AND RUN INSTALLATION AGAIN ******************"
-
-    if not "smartly" in jobj:
+    if not ("smartly" in jobj):
         jobj["smartly"]={"sdc_uri":"https://prov-stg.service.smartly.no"}
 
-    if not "influxdb" in jobj:
+    if not ("influxdb" in jobj):
         jobj["influxdb"] = {"enabled": False,
                               "host": "localhost",
                               "db_name": "blackfly",
