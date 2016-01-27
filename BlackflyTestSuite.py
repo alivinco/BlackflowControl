@@ -137,8 +137,11 @@ def init_app_components():
     mqtt.set_global_context(global_context)
     mqtt.set_message_handler(msg_pipeline.get_message_handler())
     try:
-        mqtt.connect(msg_man.global_configs["mqtt"]["host"], int(msg_man.global_configs["mqtt"]["port"]))
-        mqtt.start()
+        if mqtt.connect(msg_man.global_configs["mqtt"]["host"], int(msg_man.global_configs["mqtt"]["port"])):
+            mqtt.start()
+        else:
+            global_context['mqtt_conn_status'] = "offline"
+            log.error("application can't connect to message broker.")
     except Exception as ex:
         global_context['mqtt_conn_status'] = "offline"
         log.error("application can't connect to message broker.")
@@ -194,10 +197,16 @@ def init_controllers():
         if command == "start":
 
             try:
-                mqtt.connect(msg_man.global_configs["mqtt"]["host"], int(msg_man.global_configs["mqtt"]["port"]))
-                mqtt.sub_topic = msg_man.global_configs["mqtt"]["root_topic"]
-                mqtt.start()
-                status = "Connected to broker"
+                if global_context['mqtt_conn_status']=="offline" or global_context['mqtt_conn_status']=="reconnecting":
+                    if mqtt.connect(msg_man.global_configs["mqtt"]["host"], int(msg_man.global_configs["mqtt"]["port"])):
+                        mqtt.sub_topic = msg_man.global_configs["mqtt"]["root_topic"]
+                        mqtt.start()
+                        status = "Connected to broker."
+                    else :
+                        status = "Can't connect to broker."
+                else:
+                    log.info("The system is already connected to mqtt broker.")
+                    status = "Start command was skiped . The system is already connected to mqtt broker."
             except Exception as ex:
                 log.error("Can't connect to server because of error:")
                 log.error(ex)

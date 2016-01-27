@@ -50,8 +50,9 @@
         <div class="col-sm-10">
           <select name="transport" id="inputType" class="form-control">
                <option {% if mapping.transport == "" %}selected="selected"{% endif %} value="" >None</option>
-               <option {% if mapping.transport == "AES-128" %}selected="selected"{% endif %} value="AES-128" >AES-128</option>
-               <option {% if mapping.transport == "crc16" %}selected="selected"{% endif %} value="crc16" >CRC-16</option>
+               <option {% if mapping.transport == "secure" %}selected="selected"{% endif %} value="secure" >SECURE</option>
+               <option {% if mapping.transport == "reliable" %}selected="selected"{% endif %} value="reliable" >RELIABLE</option>
+               <option {% if mapping.transport == "mac" %}selected="selected"{% endif %} value="mac" >MAC</option>
           </select>
         </div>
   </div>
