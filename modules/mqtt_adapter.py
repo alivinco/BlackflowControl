@@ -21,6 +21,7 @@ class MqttAdapter:
         self.retry_delay = retry_delay
         self._retry_counter = 0
         self._max_retry_attempts = max_retry_attempt
+        self._thread = None
         self.sub_topic = "/#"
         self.topic_prefix = ""
         self.global_context = {}
@@ -128,6 +129,10 @@ class MqttAdapter:
         log.info("do nothing and skipp the message")
 
     def _loop_start(self):
+        if self._thread:
+            if self._thread.isAlive():
+                log.warn("Thread is already running . Only one thread loop is allowed")
+                return None
         self._thread_terminate = False
         self._thread = threading.Thread(target=self._thread_main)
         self._thread.daemon = True
@@ -141,7 +146,6 @@ class MqttAdapter:
         self._thread = None
         self.global_context['mqtt_conn_status'] = "offline"
         log.info("Loop stopped")
-
 
     def _thread_main(self):
         rc = 0
@@ -179,7 +183,7 @@ class MqttAdapter:
                     log.exception(err)
                     self.global_context['mqtt_conn_status'] = "offline"
                     log.error("Non recoverable error. Shutting down the adapter")
-                    run = False
+                    self._thread_terminate = True
 
 
     def start(self):
