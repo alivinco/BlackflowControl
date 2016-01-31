@@ -56,12 +56,13 @@ def update_global_config():
         jobj["system"]["sid"] = ""
     else :
         print "******************* YOUR EXISTING BLACKFLY INSTALLATION IS TOO OLD.PLEASE DELETE EXISTING INSTALLATION AND RUN INSTALLATION AGAIN ******************"
-
-    if not ("app_store" in jobj):
+	
+	if not ("app_store" in jobj):
         jobj["app_store"]={ "api_url":"http://lego.fiicha.net/bfhub/api",
                             "username":"alivinco",
                             "password":""
                           }
+	
     if not ("smartly" in jobj):
         jobj["smartly"]={"sdc_uri":"https://prov-stg.service.smartly.no"}
 
