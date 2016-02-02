@@ -1,0 +1,24 @@
+{
+ "origin": {
+  "endp_id": "1", 
+  "@id": "9", 
+  "@type": "dev_sys"
+ }, 
+ "uuid": "4e1fa3f1-144d-49a0-9bf3-16a6a3fe9ad4", 
+ "creation_time": 1454432959621, 
+ "spid": "UNDEFINED", 
+ "@context": "http://context.smartly.no", 
+ "event": {
+  "subtype": "group_info", 
+  "@type": "association", 
+  "properties": {
+   "groups": [
+    {
+     "profile": "AGI_PROFILE_GENERAL.AGI_GENERAL_LIFELINE", 
+     "id": 1
+    }
+   ]
+  }
+ }, 
+ "transport": "secure"
+}
