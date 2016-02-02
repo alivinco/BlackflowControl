@@ -121,6 +121,16 @@ def app_editor_ui(inst_name):
 def app_store_ui(inst_name):
     return render_template('blackflow/app_store.html',bf_inst_name=inst_name, global_context=global_context, format_time=utils.format_iso_time_from_sec)
 
+@blackflow_bp.route('/ui/blackflow/<inst_name>/containers', methods=["GET"])
+@login_required
+def containers_ui(inst_name):
+    return render_template('blackflow/containers.html',bf_inst_name=inst_name, global_context=global_context, format_time=utils.format_iso_time_from_sec)
+
+
+@blackflow_bp.route('/api/blackflow/<inst_name>/containers', methods=["GET"])
+@login_required
+def containers_api(inst_name):
+    response = sync_async_client.send_sync_msg(msg, "/app/blackflow/%s/commands"%inst_name, "/app/blackflow/%s/events"%inst_name, timeout=5,correlation_msg_type="blackflow.apps",correlation_type="MSG_TYPE")
 
 @blackflow_bp.route('/api/blackflow/<inst_name>/app_instance_config', methods=["GET"])
 @login_required
