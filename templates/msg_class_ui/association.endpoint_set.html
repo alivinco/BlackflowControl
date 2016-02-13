@@ -1,0 +1,10 @@
+<div id="{{ item.key }}">
+   <div class="input-group">
+      <input id="group_id_input" type="text"  class="form-control" placeholder="Group id">
+      <input id="device_id_input" type="text"  class="form-control" placeholder="Device id">
+      <input id="endpoint_id_input" type="text"  class="form-control" placeholder="Endpoint id">
+      <span class="input-group-btn">
+         <button class="btn btn-default"  onclick="send_command({{ item.id }},'{{ item.key }}','msg_class_ui',''); return false" type="button">Set</button>
+      </span>
+   </div>
+</div>

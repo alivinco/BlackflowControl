@@ -236,8 +236,9 @@ def init_controllers():
             else:
                 mapping = msg_man.generate_linked_mapping(msg_man.msg_class_mapping, msg_man.address_mapping)
             if filter_value:
-                p = re.compile(filter_value, re.IGNORECASE)
-                mapping = filter(lambda item: (p.search(item["address"])), mapping)
+                # p = re.compile(filter_value, re.IGNORECASE)
+                # mapping = filter(lambda item: (p.search(item["address"])), mapping)
+                mapping = FiltersManager.filter(filter_value,mapping)
 
             saved_filters = filter_man.get_filters("inter_console")
 

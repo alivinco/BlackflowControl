@@ -13,7 +13,7 @@
  <div >
     <form class="form-inline" role="form" method="get" action="inter_console" enctype="text/plain" >
       <div class="form-group">
-        <input type="text" class="form-control" size="50" id="filter_field" name="filter" value="{{ filter_value }}" placeholder="address"/>
+        <input type="text" class="form-control" size="50" id="filter_field" name="filter" value="{{ filter_value }}" placeholder="address:/dev/zw/10/ and msg_class:association"/>
         <input type="hidden" name="mode" value="{{ mode }}"/>
       </div>
        <button type="submit" class="btn btn-default">Filter</button>
@@ -162,7 +162,17 @@
         <h4 class="modal-title" id="myModalLabel">Filtering help</h4>
       </div>
       <div class="modal-body">
-         Filtering field supports regular expression syntax .Here are some examples:
+         Filtering field supports regular expression syntax and you can filter by multiple columns at once.
+         <p>Here are simple rules you need to follow:</p>
+         <ul>
+             <li>Use " and " as query separator</li>
+             <li>Put column name prefix in front of query in order to apply query only the column. Supported prefixes :
+                  <ul><li>name:</li><li>msg_class:</li><li>address:</li></ul>
+             </li>
+             <li>If no prefix specified then query will be executed against address (default) column </li>
+         </ul>
+         <p><b>Examples:</b></p>
+         <p>msg_class:association.endpoint and address:/dev/zw/10/</p>
          <p>/dev/zw/6/ - returns all sensors for device numeber 6</p>
          <p> (sen_temp|sen_humidity) - returns all devices which are either sen_temp or sen_humidity </p>
          <p> zw/\d*/(sen_temp|sen_humidity) - returns any zwave devices which has sen_temp or sen_humidity sensors  </p>
