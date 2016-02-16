@@ -194,6 +194,29 @@
   </div>
 </div>
 
+{# Controller full info modal dialog #}
+<div class="modal fade" id="controller_full_info_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="mode_header">Zwave advanced info</h4>
+      </div>
+      <div class="modal-body">
+      <h5> Network role : <span id="network_role"></span> </h5>
+      <h5> Home id : <span id="home_id"></span> </h5>
+      <h5> Node id : <span id="node_id"></span> </h5>
+      <div id="full_info_result">
+
+      </div>
+      </div>
+      <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       </div>
+    </div>
+  </div>
+</div>
+
 
 
 {% endblock %}

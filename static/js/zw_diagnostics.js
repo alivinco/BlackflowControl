@@ -373,14 +373,17 @@ function hard_reset()
 
 function get_controller_full_info()
 {
-    $('#ping_node_modal').modal('show')
-    $('#ping_node_result').html("<h4> Requesting information from zwave module.</h4>")
+    $('#controller_full_info_modal').modal('show')
+    $('#full_info_result').html("<h4> Requesting information from zwave module.</h4>")
     $.ajax({
       url: root_uri+"/api/zw_manager",
       method :"POST",
       data: {action: "get_controller_full_info"},
       success: function( data ) {
-            $('#ping_node_result').html("<pre>"+JSON.stringify(data.event.properties,null,2)+"</pre>")
+            $('#network_role').html(data.event.properties.network_role)
+            $('#home_id').html(data.event.properties.home_id)
+            $('#node_id').html(data.event.properties.node_id)
+            $('#full_info_result').html("<pre>"+JSON.stringify(data.event.properties,null,2)+"</pre>")
       }
     });
 }
