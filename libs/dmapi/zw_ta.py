@@ -64,4 +64,6 @@ class ZwTa(Core):
     def get_context(self):
         return self.get_message("command","zw_ta.get_context")
 
+    def re_interview_network(self):
+        return self.get_message("command","zw_ta.re_interview_network")
 

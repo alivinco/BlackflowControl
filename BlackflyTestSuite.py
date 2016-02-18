@@ -918,6 +918,12 @@ def init_controllers():
             mqtt.publish("/ta/zw/commands", json.dumps(msg), 1)
             jobj = json.dumps({})
 
+        elif action == "re_interview_network":
+            start = libs.utils.convert_bool(request.form["start"])
+            msg = zwapi.re_interview_network()
+            mqtt.publish("/ta/zw/commands", json.dumps(msg), 1)
+            jobj = json.dumps({})
+
         elif action == "ping_node":
             node_id = int(request.form["node_id"])
             msg = zwapi.net_ping(node_id)

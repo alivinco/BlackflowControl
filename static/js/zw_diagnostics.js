@@ -10,6 +10,7 @@ var cy
 var current_controller_mode = ""
 var countdown_timer_obj = null
 var operation_start_time = 0
+var history_timer
 
 function get_server_info()
 {
@@ -138,11 +139,13 @@ function pool_messages_from_server(topic,msg_type,stop_msg_resolver,timeout)
        return def.promise()
 }
 // log output mutex , to prevent several callbacks to write to the same log output.
-function pull_history_from_server(auto_pool)
+function pull_history_from_server(auto_pool,output_element,skip_inclusion_report)
 {
+       skip_inclusion_report = typeof skip_inclusion_report !== 'undefined' ? skip_inclusion_report : true;
+       output_element = typeof output_element !== 'undefined' ? output_element : "#clusion_log";
 
-       var def = $.Deferred();
-       var isTimeout = false
+       //var def = $.Deferred();
+       //var isTimeout = false
        var startTime = Math.floor(operation_start_time / 1000)
 
        function do_request() {
@@ -155,15 +158,18 @@ function pull_history_from_server(auto_pool)
            global_pool_request_xhr = prom
            prom.done(function (data) {
                if (data.length>0)  {
-                   $('#clusion_log').html("")
+                   $(output_element).html("")
                    $.each(data, function (index, value) {
                          event = JSON.parse(value.msg).event
                          if (event.subtype!="inclusion_report") {
                              if (event.subtype=="status_code") {
-                                 $('#clusion_log').append("<p><h5>" + index + ". ERROR: " + event.properties.error + "</h5></p>")
+                                 $(output_element).append("<p><h5>" + index + ". ERROR: " + event.properties.error + "</h5></p>")
                              }else{
-                                 $('#clusion_log').append("<p><h5>" + index + ". " + event.default.value + "</h5></p>")
+                                 $(output_element).append("<p><h5>" + index + ". " + event.default.value + "</h5></p>")
                              }
+                         }else if (!skip_inclusion_report){
+                             html_r = "<pre>"+JSON.stringify(event.properties.inclusion_report.value,null,2)+"</pre>"
+                             $(output_element).append(html_r+"<p>Report is complet = "+event.properties.is_complete+" , Critical errors = "+event.properties.critical_errors+" </p>")
                          }
                    })
                }
@@ -175,7 +181,6 @@ function pull_history_from_server(auto_pool)
            {timer = setInterval(do_request,1000)}
        else
            {do_request()}
-
        return timer
 }
 
@@ -305,6 +310,39 @@ function learn_mode(start)
       }
     });
 }
+
+function re_interview_network(start)
+{
+  if (start) {
+        $('#log_output').html("...")
+        $('#log_modal').modal('show')
+    }else {
+      $('#log_output').html("...")
+      $('#log_modal').modal('hide')
+  }
+
+  if (start) {
+      $.ajax({
+          url: root_uri + "/api/zw_manager",
+          method: "POST",
+          data: {action: "re_interview_network", start: start},
+          success: function (data) {
+              clearInterval(history_timer)
+              get_server_info().then(function (data) {
+                  console.dir(data)
+                  operation_start_time = data.time_milis
+                  if (start) {
+                      history_timer = pull_history_from_server(true,'#log_output',false)
+
+                  }
+              })
+          }
+      });
+  }else {
+      clearInterval(history_timer)
+  }
+}
+
 
 function controller_shift(start)
 {

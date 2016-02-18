@@ -32,6 +32,9 @@
   <p><button type="button" class="btn btn-default" style="width: 280px" onclick="network_update()" title="Controller shift">Request network update</button>
       - The operation is used to request network update from SUC or primary controller.
   </p>
+  <p><button type="button" class="btn btn-default" style="width: 280px" onclick="re_interview_network(true)" title="Reinterview the network">Reinterview the network</button>
+      - The operation is used to perform interview of all nodes within the network.Operation will generate a lot of traffic .
+  </p>
   <p><button type="button" class="btn btn-warning" style="width: 280px" onclick="hard_reset()" title="Hard reset">Controller hard reset</button>
       - The operation is used to to restart Zwave module . The operation will NOT reset zwave network .
   </p>
@@ -54,6 +57,7 @@
         <td>Neighbors</td>
         <td>Power source</td>
         <td>Queue</td>
+        <td>Interviewed</td>
         <td>action</td>
     </tr>
   </thead>
@@ -73,6 +77,7 @@
                               {% endif %}
                         </td>
                        <td>{{ ctx.msg_queue_size+ctx.task_queue_size }}</td>
+                       <td>{{ ctx.interviewed }}</td>
                         <td><a href="#" onclick="ping_node({{ ctx.id }})">Ping</a> |
                 {#            <a href="#">Update neighbors list</a> |#}
                             <a href="#" onclick="get_node_info({{ ctx.id }})" >Request inclusion report</a> |
@@ -189,6 +194,25 @@
       </div>
       <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       </div>
+    </div>
+  </div>
+</div>
+
+{#Modal dialog #}
+<div class="modal fade" id="log_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="mode_header">Log</h4>
+      </div>
+
+      <br/>
+      <div id="log_output" class="modal-body">
+      </div>
+      <div class="modal-footer">
+            <button type="button" class="btn btn-default" onclick="re_interview_network(false)">Close</button>
        </div>
     </div>
   </div>
