@@ -2,5 +2,8 @@
   {"msg_class":"event.error.status_code","address":"*","tag":["zwave","alert"]},
   {"msg_class":"event.zw_ta.inclusion_stage","address":"/ta/zw/events","tag":["zwave"]},
   {"msg_class":"event.zw_ta.inclusion_report","address":"/ta/zw/events","tag":["zwave"]},
-  {"msg_class":"event.zw_ta.exclusion_report","address":"/ta/zw/events","tag":["zwave"]}
+  {"msg_class":"event.zw_ta.exclusion_report","address":"/ta/zw/events","tag":["zwave"]},
+  {"msg_class":"event.zw_ta.network_update_status","address":"/ta/zw/events","tag":["zwave"]},
+  {"msg_class":"event.zw_ta.learn_mode","address":"/ta/zw/events","tag":["zwave"]},
+  {"msg_class":"event.zw_ta.hard_reset","address":"/ta/zw/events","tag":["zwave"]}
 ]

@@ -249,8 +249,8 @@
   "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "msg_class_ui", 
-   "properties_are_key_value": true, 
-   "num_type": "int", 
+   "properties_are_key_value": true,
+   "num_type": "int",
    "override_properties": true
   }, 
   "class": "config", 

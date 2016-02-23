@@ -73,7 +73,7 @@ function start_clusion_mode(mode,start,enable_security)
             enable_security:enable_security
           },
           success: function( data ) {
-            console.dir(data)
+            //console.dir(data)
             clearTimeout(countdown_timer_obj)
             clearInterval(history_timer)
             pull_history_from_server(false)
@@ -235,15 +235,15 @@ function remove_node(node_id)
 
 function replace_node(node_id)
 {
-    $('#ping_node_modal').modal('show')
-    $('#ping_node_result').html("<h4> Operation in progress , please wait. </h4>")
+    $('#start_mode_modal').modal('show')
+    $("#mode_header").html("Replace failed")
     $.ajax({
       url: root_uri+"/api/zw_manager",
       method :"POST",
       data: {action: "replace_failed_node",node_id:node_id},
       success: function( data ) {
-         $('#ping_node_result').html("<h4>Now put new device into inclusion mode . </h4>")
-         setTimeout(function () { $('#ping_node_modal').modal('hide'); }, 5000);
+         pull_history_from_server(false)
+
       }
     });
 }

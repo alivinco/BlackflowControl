@@ -82,8 +82,8 @@
                 {#            <a href="#">Update neighbors list</a> |#}
                             <a href="#" onclick="get_node_info({{ ctx.id }})" >Request inclusion report</a> |
                             <a href="#" onclick="nb_update({{ ctx.id }})" >Neighbors rediscovery</a> |
-                            <a href="#" onclick="remove_node({{ ctx.id }})" >Remove</a> |
-                            <a href="#" onclick="replace_node({{ ctx.id }})" >Replace</a></td>
+                            <a href="#" onclick="remove_node({{ ctx.id }})" >Remove failed</a> |
+                            <a href="#" onclick="replace_node({{ ctx.id }})" >Replace failed</a></td>
                     </tr>
             {% endfor %}
     {% else %}
