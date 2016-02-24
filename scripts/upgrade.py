@@ -47,7 +47,7 @@ def update_global_config():
     if not ("use_default_class_lookup" in jobj):
         jobj["use_default_class_lookup"]=True
     if "system" in jobj:
-        jobj["system"]["version"]="1.5.4"
+        jobj["system"]["version"]="1.5.5"
         jobj["mqtt"]["enable_sys"]=False
         jobj["system"]["http_server_port"]=5000
         jobj["system"]["distro_server_uri"]="http://lego.fiicha.net/blackfly"

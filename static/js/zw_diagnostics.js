@@ -160,16 +160,21 @@ function pull_history_from_server(auto_pool,output_element,skip_inclusion_report
                if (data.length>0)  {
                    $(output_element).html("")
                    $.each(data, function (index, value) {
-                         event = JSON.parse(value.msg).event
-                         if (event.subtype!="inclusion_report") {
-                             if (event.subtype=="status_code") {
-                                 $(output_element).append("<p><h5>" + index + ". ERROR: " + event.properties.error + "</h5></p>")
-                             }else{
-                                 $(output_element).append("<p><h5>" + index + ". " + event.default.value + "</h5></p>")
+                         // we are interested only in events .
+                         jobj = JSON.parse(value.msg)
+                         if (jobj.hasOwnProperty("event"))
+                         {
+                             event = JSON.parse(value.msg).event
+                             if (event.subtype != "inclusion_report") {
+                                 if (event.subtype == "status_code") {
+                                     $(output_element).append("<p><h5>" + index + ". ERROR: " + event.properties.error + "</h5></p>")
+                                 } else {
+                                     $(output_element).append("<p><h5>" + index + ". " + event.default.value + "</h5></p>")
+                                 }
+                             } else if (!skip_inclusion_report) {
+                                 html_r = "<pre>" + JSON.stringify(event.properties.inclusion_report.value, null, 2) + "</pre>"
+                                 $(output_element).append(html_r + "<p>Report is complete = " + event.properties.is_complete + " , Critical errors = " + event.properties.critical_errors + " </p>")
                              }
-                         }else if (!skip_inclusion_report){
-                             html_r = "<pre>"+JSON.stringify(event.properties.inclusion_report.value,null,2)+"</pre>"
-                             $(output_element).append(html_r+"<p>Report is complet = "+event.properties.is_complete+" , Critical errors = "+event.properties.critical_errors+" </p>")
                          }
                    })
                }
@@ -233,19 +238,30 @@ function remove_node(node_id)
     });
 }
 
-function replace_node(node_id)
+function replace_node(start,node_id)
 {
-    $('#start_mode_modal').modal('show')
-    $("#mode_header").html("Replace failed")
-    $.ajax({
-      url: root_uri+"/api/zw_manager",
-      method :"POST",
-      data: {action: "replace_failed_node",node_id:node_id},
-      success: function( data ) {
-         pull_history_from_server(false)
+    if (start) {
+        $("#replace_failed_log_output").html("<p><h5>Please wait</h5></p>")
+        $('#replace_failed_modal').modal('show')
+        clearInterval(history_timer)
+                get_server_info().then(function (data) {
+                    console.dir(data)
+                    operation_start_time = data.time_milis
+                    history_timer = pull_history_from_server(true,'#replace_failed_log_output',false)
+                })
+        $.ajax({
+            url: root_uri + "/api/zw_manager",
+            method: "POST",
+            data: {action: "replace_failed_node", node_id: node_id},
+            success: function (data) {
 
-      }
-    });
+
+            }
+        });
+    }else {
+        clearInterval(history_timer)
+        $('#replace_failed_modal').modal('hide')
+    }
 }
 
 function get_node_info(node_id)
@@ -442,14 +458,14 @@ function network_update()
 
 function reset_controller_to_default()
 {
-    $('#ping_node_modal').modal('show')
-    $('#ping_node_result').html("<h4> Reseting controller to default .</h4>")
+    $('#factory_reset_modal').modal('show')
+    $('#factory_reset_result').html("<h4> Reseting controller to default .</h4>")
     $.ajax({
       url: root_uri+"/api/zw_manager",
       method :"POST",
       data: {action: "reset_controller_to_default"},
       success: function( data ) {
-            $('#ping_node_result').html("<h4>Reset completed with status = "+data.event.properties.status+" </h4>")
+            $('#factory_reset_result').html("<h4>Reset completed with status = "+data.event.properties.status+" </h4>")
       }
     });
 }

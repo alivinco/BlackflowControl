@@ -3,8 +3,8 @@
   "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
-   "override_properties": true, 
-   "value_path": "$.command.default.value"
+   "value_path": "$.command.default.value", 
+   "override_properties": true
   }, 
   "class": "zw_ta", 
   "subclass": "inclusion_mode", 
@@ -24,8 +24,8 @@
   "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
-   "override_properties": true, 
-   "value_path": "$.command.default.value"
+   "value_path": "$.command.default.value", 
+   "override_properties": true
   }, 
   "class": "zw_ta", 
   "subclass": "get_dead_node_list", 
@@ -35,8 +35,8 @@
   "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
-   "override_properties": true, 
-   "value_path": "$.command.default.value"
+   "value_path": "$.command.default.value", 
+   "override_properties": true
   }, 
   "class": "zw_ta", 
   "subclass": "get_routing_info", 
@@ -46,8 +46,8 @@
   "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "value_path": "$.command.default.value[0]", 
-   "num_type": "int"
+   "num_type": "int", 
+   "value_path": "$.command.default.value[0]"
   }, 
   "class": "zw_ta", 
   "subclass": "make_nodes_alive", 
@@ -57,8 +57,8 @@
   "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
-   "value_path": "$.command.default.value", 
-   "override_properties": true
+   "override_properties": true, 
+   "value_path": "$.command.default.value"
   }, 
   "class": "zw_ta", 
   "subclass": "exclusion_mode", 
@@ -78,9 +78,9 @@
   "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "float", 
+   "override_properties": true, 
    "value_path": "$.command.default.value", 
-   "override_properties": true
+   "num_type": "float"
   }, 
   "class": "level", 
   "subclass": "thermostat", 
@@ -235,9 +235,9 @@
  {
   "ui_mapping": {
    "ui_element": "slider", 
-   "override_properties": true, 
+   "num_type": "int", 
    "value_path": "$.command.default.value", 
-   "num_type": "int"
+   "override_properties": true
   }, 
   "msg_type": "command", 
   "msg_class": "level.switch", 
@@ -249,9 +249,9 @@
   "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "msg_class_ui", 
-   "properties_are_key_value": true,
-   "num_type": "int",
-   "override_properties": true
+   "properties_are_key_value": true, 
+   "override_properties": true, 
+   "num_type": "int"
   }, 
   "class": "config", 
   "subclass": "set", 
@@ -261,9 +261,9 @@
   "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "int", 
+   "override_properties": false, 
    "value_path": "$.command.properties.group.value", 
-   "override_properties": false
+   "num_type": "int"
   }, 
   "class": "association", 
   "subclass": "get", 
@@ -273,9 +273,9 @@
   "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
-   "num_type": "int", 
+   "override_properties": false, 
    "value_path": "$.command.default.value", 
-   "override_properties": false
+   "num_type": "int"
   }, 
   "class": "association", 
   "subclass": "groups_get", 
@@ -352,8 +352,8 @@
    "device_id_num_input_path": "$.command.properties.devices.value[0]", 
    "ui_element": "msg_class_ui", 
    "group_id_num_input_path": "$.command.properties.group.value", 
-   "num_type": "int", 
-   "override_properties": true
+   "override_properties": true, 
+   "num_type": "int"
   }, 
   "class": "association", 
   "subclass": "set", 
@@ -365,8 +365,8 @@
    "device_id_num_input_path": "$.command.properties.devices.value[0]", 
    "ui_element": "msg_class_ui", 
    "group_id_num_input_path": "$.command.properties.group.value", 
-   "num_type": "int", 
-   "override_properties": true
+   "override_properties": true, 
+   "num_type": "int"
   }, 
   "class": "association", 
   "subclass": "delete", 
@@ -446,9 +446,9 @@
   "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "toggle_switch", 
-   "num_type": "int", 
+   "override_properties": true, 
    "value_path": "$.command.default.value", 
-   "override_properties": true
+   "num_type": "int"
   }, 
   "class": "devicereg", 
   "subclass": "get_device_list", 
@@ -458,9 +458,9 @@
   "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "int", 
+   "override_properties": false, 
    "value_path": "$.command.default.value", 
-   "override_properties": false
+   "num_type": "int"
   }, 
   "class": "devicereg", 
   "subclass": "delete", 
@@ -530,9 +530,9 @@
   "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "int", 
+   "override_properties": false, 
    "value_path": "$.command.default.value[0]", 
-   "override_properties": false
+   "num_type": "int"
   }, 
   "class": "config", 
   "subclass": "get", 
@@ -542,9 +542,9 @@
   "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "int", 
+   "override_properties": false, 
    "value_path": "$.command.default.value[0]", 
-   "override_properties": false
+   "num_type": "int"
   }, 
   "class": "zw_ta", 
   "subclass": "neighbor_update", 
@@ -556,11 +556,11 @@
    "count_num_input_path": "$.command.properties.count", 
    "target_num_input_path": "$.command.default.value", 
    "power_level_input_path": "$.command.properties.power_level", 
-   "value_path": "$.command.default.value[0]", 
-   "route_input_path": "$.command.properties.route", 
    "ui_element": "msg_class_ui", 
-   "num_type": "int", 
-   "override_properties": true
+   "route_input_path": "$.command.properties.route", 
+   "value_path": "$.command.default.value[0]", 
+   "override_properties": true, 
+   "num_type": "int"
   }, 
   "class": "net", 
   "subclass": "ping", 
@@ -652,8 +652,8 @@
   "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "int", 
-   "value_path": "$.command.default.value"
+   "value_path": "$.command.default.value", 
+   "num_type": "int"
   }, 
   "class": "zw_ta", 
   "subclass": "request_inclusion_report", 
@@ -683,8 +683,8 @@
   "msg_class": "zw_ta.remove_failed_node", 
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "value_path": "$.command.default.value", 
-   "num_type": "int"
+   "num_type": "int", 
+   "value_path": "$.command.default.value"
   }, 
   "class": "zw_ta", 
   "msg_type": "command", 
@@ -704,8 +704,8 @@
   "msg_class": "zw_ta.replace_failed_node", 
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "int", 
-   "value_path": "$.command.default.value"
+   "value_path": "$.command.default.value", 
+   "num_type": "int"
   }, 
   "class": "zw_ta", 
   "msg_type": "command", 
@@ -755,9 +755,9 @@
   "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "sensor_value", 
+   "override_properties": false, 
    "unit_path": "", 
-   "value_path": "$.event.default.value", 
-   "override_properties": false
+   "value_path": "$.event.default.value"
   }, 
   "class": "level", 
   "subclass": "basic", 
@@ -861,9 +861,9 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "int", 
+   "override_properties": true, 
    "value_path": "$.command.default.value", 
-   "override_properties": true
+   "num_type": "int"
   }, 
   "subclass": "basic", 
   "class": "level", 
@@ -895,8 +895,8 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "value_path": "$.command.default.value", 
-   "num_type": "int"
+   "num_type": "int", 
+   "value_path": "$.command.default.value"
   }, 
   "subclass": "wakeup_interval", 
   "class": "time", 
@@ -947,8 +947,8 @@
   "msg_class": "blackflow.reload_app_instance", 
   "ui_mapping": {
    "ui_element": "input_text_field", 
-   "value_path": "$.command.default.value", 
-   "num_type": "int"
+   "num_type": "int", 
+   "value_path": "$.command.default.value"
   }, 
   "class": "blackflow", 
   "msg_type": "command", 
@@ -1189,9 +1189,9 @@
   "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_text_field", 
-   "num_type": "int", 
+   "override_properties": true, 
    "value_path": "$.command.default.value", 
-   "override_properties": true
+   "num_type": "int"
   }, 
   "class": "zw_ta", 
   "subclass": "selftest", 
@@ -1230,8 +1230,8 @@
  {
   "ui_mapping": {
    "ui_element": "toggle_switch", 
-   "override_properties": false, 
-   "value_path": "$.command.default.value"
+   "value_path": "$.command.default.value", 
+   "override_properties": false
   }, 
   "subclass": "basic_get", 
   "class": "level", 
@@ -1252,9 +1252,9 @@
   "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "sensor_value", 
-   "override_properties": false, 
    "unit_path": "", 
-   "value_path": "$.event.properties.number_of_groups.value"
+   "value_path": "$.event.properties.number_of_groups.value", 
+   "override_properties": false
   }, 
   "class": "association", 
   "subclass": "number_of_groups", 
@@ -1264,9 +1264,9 @@
   "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "num_type": "int", 
+   "override_properties": false, 
    "value_path": "$.command.default.value", 
-   "override_properties": false
+   "num_type": "int"
   }, 
   "class": "association", 
   "subclass": "group_name_get", 
@@ -1276,9 +1276,9 @@
   "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "sensor_value", 
+   "override_properties": false, 
    "unit_path": "", 
-   "value_path": "$.event.properties.name", 
-   "override_properties": false
+   "value_path": "$.event.properties.name"
   }, 
   "class": "association", 
   "subclass": "group_name", 
@@ -1288,9 +1288,9 @@
   "msg_class": "association.group_info_get", 
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "override_properties": false, 
+   "num_type": "int", 
    "value_path": "$.command.default.value", 
-   "num_type": "int"
+   "override_properties": false
   }, 
   "class": "association", 
   "msg_type": "command", 
@@ -1299,8 +1299,8 @@
  {
   "ui_mapping": {
    "ui_element": "free_text", 
-   "value_path": "$.event.properties.groups", 
-   "override_properties": false
+   "override_properties": false, 
+   "value_path": "$.event.properties.groups"
   }, 
   "subclass": "group_info", 
   "class": "association", 
@@ -1310,8 +1310,8 @@
  {
   "ui_mapping": {
    "ui_element": "free_text", 
-   "override_properties": false, 
-   "value_path": "$.event.properties.commands"
+   "value_path": "$.event.properties.commands", 
+   "override_properties": false
   }, 
   "subclass": "group_command_list", 
   "class": "association", 
@@ -1321,9 +1321,9 @@
  {
   "ui_mapping": {
    "ui_element": "input_num_field", 
-   "override_properties": false, 
+   "num_type": "int", 
    "value_path": "$.command.default.value", 
-   "num_type": "int"
+   "override_properties": false
   }, 
   "subclass": "group_command_list_get", 
   "class": "association", 
@@ -1335,8 +1335,8 @@
    "endpoint_id_input_path": "$.command.properties.devices.[0].endpoint", 
    "device_id_input_path": "$.command.properties.devices.[0].device", 
    "group_id_input_path": "$.command.properties.group", 
-   "value_path": "$.command.default.value", 
    "ui_element": "msg_class_ui", 
+   "value_path": "$.command.default.value", 
    "override_properties": false
   }, 
   "subclass": "endpoint_set", 
@@ -1348,8 +1348,8 @@
   "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_text_field", 
-   "value_path": "$.command.default.value", 
-   "override_properties": false
+   "override_properties": false, 
+   "value_path": "$.command.default.value"
   }, 
   "class": "association", 
   "subclass": "endpoint_get", 
@@ -1359,8 +1359,8 @@
   "msg_class": "association.endpoint_report", 
   "ui_mapping": {
    "ui_element": "free_text", 
-   "value_path": "$.event.properties", 
-   "override_properties": false
+   "override_properties": false, 
+   "value_path": "$.event.properties"
   }, 
   "class": "association", 
   "msg_type": "event", 
@@ -1371,13 +1371,34 @@
   "ui_mapping": {
    "endpoint_id_input_path": "$.command.properties.devices.[0].endpoint", 
    "ui_element": "msg_class_ui", 
+   "group_id_input_path": "$.command.properties.group", 
    "device_id_input_path": "$.command.properties.devices.[0].device", 
-   "value_path": "$.command.default.value", 
-   "group_id_input_path": "$.command.properties.group"
+   "value_path": "$.command.default.value"
   }, 
   "class": "association", 
   "subclass": "endpoint_delete", 
   "msg_class": "association.endpoint_delete"
+ }, 
+ {
+  "msg_class": "zw_ta.re_interview_network", 
+  "ui_mapping": {
+   "ui_element": "toggle_switch", 
+   "value_path": "$.command.default.value", 
+   "override_properties": false
+  }, 
+  "class": "zw_ta", 
+  "msg_type": "command", 
+  "subclass": "re_interview_network"
+ }, 
+ {
+  "msg_type": "event", 
+  "ui_mapping": {
+   "ui_element": "free_text", 
+   "value_path": "$.event.default.value"
+  }, 
+  "class": "zw_ta", 
+  "subclass": "replace_failed_report", 
+  "msg_class": "zw_ta.replace_failed_report"
  }, 
  {
   "ui_mapping": {
@@ -1386,6 +1407,6 @@
    "value_path": "$.command.default.value"
   }, 
   "msg_type": "command", 
-  "msg_class": "zw_ta.re_interview_network"
+  "msg_class": "devicereg.delete_all"
  }
 ]

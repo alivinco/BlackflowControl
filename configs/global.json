@@ -12,7 +12,7 @@
   "distro_server_uri": "http://lego.fiicha.net/blackfly", 
   "platform": "sg", 
   "ui_security_disabled": false, 
-  "version": "1.5.4",
+  "version": "1.5.5",
   "sid": ""
  }, 
  "msg_class_lookup_path": [
@@ -54,11 +54,11 @@
   "port": "1883"
  }, 
  "influxdb": {
-  "enabled": false,
-  "host": "192.168.99.100",
+  "username": "root", 
+  "enabled": false, 
+  "host": "192.168.99.100", 
   "db_name": "blackfly", 
-  "username": "root",
-  "password": "root",
+  "password": "root", 
   "port": 8086
  }, 
  "defaults": {
