@@ -59,6 +59,7 @@ msg_pipeline = None
 mqtt = None
 sync_async_client = None
 dev_simulator = None
+zw_tools = None
 
 dash_man = None
 filter_man = None
@@ -74,12 +75,13 @@ def init_app_components():
     global root_uri, http_server_port
     global app, global_context
     global msg_man, cache, timeseries,influxdb, msg_pipeline, mqtt, sync_async_client, dev_simulator
-    global filter_man, zwapi, deviceregapi, binaryapi, dash_man
+    global filter_man, zwapi, deviceregapi, binaryapi, dash_man , zw_tools
 
     logging.config.dictConfig(configs.log.config)
     log.info("Checking firewall configuration")
     log.info(Tools.open_port_in_firewall())
     msg_man = MessageManager()
+    zw_tools = ZwaveTools(msg_man)
     # Injecting root uri prefix
     mod_auth.url_prefix = root_uri
     login_manager.login_view ="%s/ui/login"%root_uri
@@ -120,6 +122,7 @@ def init_app_components():
 
     # Message processing pipeline
     msg_pipeline = MsgPipeline(msg_man, cache, timeseries,sid=sid)
+    msg_pipeline.add_external_handler(zw_tools.on_message)
     # Influx DB
     if msg_man.global_configs["influxdb"]["enabled"]:
         from modules.mod_influxdb import InfluxDbTimeseries
@@ -954,7 +957,7 @@ def init_controllers():
             # getting network infor from cache
             response = cache.get("zw_ta.routing_info", "/ta/zw/events")
             routing_info = response["raw_msg"]["event"]["properties"]
-            graph = ZwaveTools().get_network_graph(routing_info)
+            graph = zw_tools.get_network_graph(routing_info)
             jobj = json.dumps(graph)
 
         elif action == "neighbor_update":
@@ -968,7 +971,7 @@ def init_controllers():
         elif action == "hard_reset":
             log.info("Controller hard reset")
             msg = zwapi.hard_reset()
-            response = sync_async_client.send_sync_msg(msg, "/ta/zw/commands", "/ta/zw/events", timeout=30, correlation_type="MSG_TYPE",
+            response = sync_async_client.send_sync_msg(msg, "/ta/zw/commands", "/ta/zw/events", timeout=60, correlation_type="MSG_TYPE",
                                                        correlation_msg_type="error.status_code")
             jobj = json.dumps(response)
 
@@ -982,14 +985,14 @@ def init_controllers():
         elif action == "reset_controller_to_default":
             log.info("Reseting controller to default")
             msg = binaryapi.factory_reset()
-            response = sync_async_client.send_sync_msg(msg, "/ta/zw/commands", "/ta/zw/events", timeout=30, correlation_type="MSG_TYPE",
+            response = sync_async_client.send_sync_msg(msg, "/ta/zw/commands", "/ta/zw/events", timeout=60, correlation_type="MSG_TYPE",
                                                        correlation_msg_type="binary.factory_reset")
             jobj = json.dumps(response)
 
         elif action == "network_update":
             log.info("Requesting network update from suc.")
             msg = zwapi.network_update()
-            response = sync_async_client.send_sync_msg(msg, "/ta/zw/commands", "/ta/zw/events", timeout=5, correlation_type="MSG_TYPE",
+            response = sync_async_client.send_sync_msg(msg, "/ta/zw/commands", "/ta/zw/events", timeout=30, correlation_type="MSG_TYPE",
                                                        correlation_msg_type="zw_ta.network_update_status")
             jobj = json.dumps(response)
 

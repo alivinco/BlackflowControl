@@ -1,6 +1,6 @@
 __author__ = 'alivinco'
 
-import networkx as nx
+# import networkx as nx
 
 class ZwNetworkDiagnostics():
 
