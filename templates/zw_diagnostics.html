@@ -32,6 +32,9 @@
   <p><button type="button" class="btn btn-default" style="width: 280px" onclick="network_update()" title="Controller shift">Request network update</button>
       - The operation is used to request network update from SUC or primary controller.
   </p>
+  <p><button type="button" class="btn btn-default" style="width: 280px" onclick="re_interview_network(true)" title="Reinterview the network">Reinterview the network</button>
+      - The operation is used to perform interview of all nodes within the network.Operation will generate a lot of traffic .
+  </p>
   <p><button type="button" class="btn btn-warning" style="width: 280px" onclick="hard_reset()" title="Hard reset">Controller hard reset</button>
       - The operation is used to to restart Zwave module . The operation will NOT reset zwave network .
   </p>
@@ -54,6 +57,7 @@
         <td>Neighbors</td>
         <td>Power source</td>
         <td>Queue</td>
+        <td>Interviewed</td>
         <td>action</td>
     </tr>
   </thead>
@@ -73,12 +77,13 @@
                               {% endif %}
                         </td>
                        <td>{{ ctx.msg_queue_size+ctx.task_queue_size }}</td>
+                       <td>{{ ctx.interviewed }}</td>
                         <td><a href="#" onclick="ping_node({{ ctx.id }})">Ping</a> |
                 {#            <a href="#">Update neighbors list</a> |#}
                             <a href="#" onclick="get_node_info({{ ctx.id }})" >Request inclusion report</a> |
                             <a href="#" onclick="nb_update({{ ctx.id }})" >Neighbors rediscovery</a> |
-                            <a href="#" onclick="remove_node({{ ctx.id }})" >Remove</a> |
-                            <a href="#" onclick="replace_node({{ ctx.id }})" >Replace</a></td>
+                            <a href="#" onclick="remove_node({{ ctx.id }})" >Remove failed</a> |
+                            <a href="#" onclick="replace_node(true,{{ ctx.id }})" >Replace failed</a></td>
                     </tr>
             {% endfor %}
     {% else %}
@@ -107,8 +112,10 @@
    </div>
  </div>
 </div>
-
-
+<br>
+<div class="row">
+ You may include a Z-Wave Plus compatible device that is not promoted by Smartly for use in this application. While the device should work as expected the device may or may not support all of the features of the smartly recommended device.
+</div>
 {#Modal dialog #}
 <div class="modal fade" id="start_mode_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -160,7 +167,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="mode_header">Controller shift</h4>
+        <h4 class="modal-title" id="mode_header">Learn mode</h4>
       </div>
 
       <br/>
@@ -186,6 +193,88 @@
 
       <br/>
       <div id="ping_node_result" class="modal-body">
+      </div>
+      <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       </div>
+    </div>
+  </div>
+</div>
+
+{#Modal dialog #}
+<div class="modal fade" id="factory_reset_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="mode_header"></h4>
+      </div>
+
+      <br/>
+      <div id="factory_reset_result" class="modal-body">
+      </div>
+      <div id="factory_reset_result" class="modal-body">
+          <a href="/blackfly/ui/inter_console?filter=msg_class%3Adevicereg.delete_all&mode=normal" style="color: red" > Click here to RESET Device Registry </a>
+      </div>
+      <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       </div>
+    </div>
+  </div>
+</div>
+
+{#Modal dialog #}
+<div class="modal fade" id="log_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="mode_header">Log</h4>
+      </div>
+
+      <br/>
+      <div id="log_output" class="modal-body">
+      </div>
+      <div class="modal-footer">
+            <button type="button" class="btn btn-default" onclick="re_interview_network(false)">Close</button>
+       </div>
+    </div>
+  </div>
+</div>
+
+{#Modal dialog #}
+<div class="modal fade" id="replace_failed_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="mode_header">Replace failed node</h4>
+      </div>
+
+      <br/>
+      <div id="replace_failed_log_output" class="modal-body">
+      </div>
+      <div class="modal-footer">
+            <button type="button" class="btn btn-default" onclick="replace_node(false,null)">Close</button>
+       </div>
+    </div>
+  </div>
+</div>
+
+{# Controller full info modal dialog #}
+<div class="modal fade" id="controller_full_info_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="mode_header">Zwave advanced info</h4>
+      </div>
+      <div class="modal-body">
+      <h5> Network role : <span id="network_role"></span> </h5>
+      <h5> Home id : <span id="home_id"></span> </h5>
+      <h5> Node id : <span id="node_id"></span> </h5>
+      <div id="full_info_result">
+
+      </div>
       </div>
       <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

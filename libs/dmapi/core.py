@@ -5,6 +5,7 @@ import time
 
 __author__ = 'alivinco'
 
+
 class Core():
 
     def __init__(self,type="NA",id="NA",vendor="NA",location="NA"):

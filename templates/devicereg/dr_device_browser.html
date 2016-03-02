@@ -144,25 +144,10 @@
                   </tbody>
 
               </table>
-               <form class="form-inline" action="{{ global_context.root_uri }}/api/dr_browser" method="post">
-                  <div class="form-group" placeholder="Type">
-                      <select name = "config_type"  class="form-control">
-                          <option value="config">Configuration</option>
-                          <option value="assoc">Association</option>
-                      </select>
-                  </div>
-                  <div class="form-group">
-                          <input  name ="config_name" type="text" class="form-control" placeholder="Config or group id" >
-                  </div>
-                  <div class="form-group">
-                          <input name ="config_value" type="text" class="form-control" placeholder="Value" >
-                          <input name ="config_topic" type="hidden" value="/dev/{{ device.CommunicationTechnology }}/{{ device.Address }}/dev_sys/1/commands" >
-{#                          <input name ="action" type="hidden" value="config_set" >#}
-                          <input name ="device_id" type="hidden" value="{{ device.Id }}" >
-                  </div>
-                          <button class="btn btn-default"  type="submit" name="action" value="config_set">Set</button>
-                          <button class="btn btn-default"  type="submit" name="action" value="config_get">Get</button>
-              </form>
+              <div class="form-group">
+               <button class="btn btn-default"  type="button" onclick="open_prop_manager('/dev/{{ device.CommunicationTechnology }}/{{ device.Address }}/dev_sys/1/commands')" >Manage properties</button>
+              </div>
+
           </div>
 
         </div>
@@ -215,6 +200,60 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               </div>
             </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{#Modal dialog #}
+<div class="modal fade" id="prop_manager_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Property manager</h4>
+      </div>
+      <div class="modal-body">
+             <form class="form-inline" action="{{ global_context.root_uri }}/api/dr_browser" method="post">
+                  <h5>Configuration</h5>
+                  <div class="form-group">
+                          <input  name ="config_name" type="text" class="form-control" placeholder="Id" >
+                  </div>
+                  <div class="form-group">
+                          <select name="config_size" class="form-control" placeholder="size" >
+                            <option value="">size</option>
+                            <option value="">auto</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="4">4</option>
+                          </select>
+                  </div>
+                  <div class="form-group">
+                          <input name ="config_value" type="text" class="form-control" placeholder="value" >
+                          <input id = "config_topic_id" name ="config_topic" type="hidden" value="" >
+                          <input name ="config_type" type="hidden" value="config" >
+                          <input name ="device_id" type="hidden" value="" >
+                  </div>
+                          <button class="btn btn-default"  type="submit" name="action" value="config_set">Set</button>
+                          <button class="btn btn-default"  type="submit" name="action" value="config_get">Get</button>
+              </form>
+              <h5>Association</h5>
+              <form class="form-inline" action="{{ global_context.root_uri }}/api/dr_browser" method="post">
+                  <div class="form-group">
+                          <input  name ="assoc_group" type="text" class="form-control" placeholder="group id" >
+                  </div>
+                  <div class="form-group">
+                          <input  name ="assoc_endpoint" size="5" type="text" class="form-control" placeholder="endp" >
+                  </div>
+                  <div class="form-group">
+                          <input name ="assoc_device" type="text" class="form-control" placeholder="device" >
+                          <input id = "assoc_topic_id" name ="config_topic" type="hidden" value="" >
+                          <input name ="config_type" type="hidden" value="assoc" >
+                          <input name ="device_id" type="hidden" value="" >
+                  </div>
+                          <button class="btn btn-default"  type="submit" name="action" value="assoc_set">Set</button>
+                          <button class="btn btn-default"  type="submit" name="action" value="assoc_get">Get</button>
+              </form>
       </div>
     </div>
   </div>

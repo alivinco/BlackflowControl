@@ -126,7 +126,9 @@ function update_elements(msg_cache)
         }else if(ui_type=="sensor_value")
         {
 //            console.log("sensor value:"+msg_cache[k_item].extracted_values.value)
-            $("#"+jq_elector(ui_element_id)).html("<h3>"+msg_cache[k_item].extracted_values.value+"<small>"+ msg_cache[k_item].extracted_values.unit+"</small></h3>")
+            unit = ""
+            if (msg_cache[k_item].extracted_values.unit) unit = msg_cache[k_item].extracted_values.unit
+            $("#"+jq_elector(ui_element_id)).html("<h3>"+msg_cache[k_item].extracted_values.value+"<small>"+ unit+"</small></h3>")
 //            console.dir($("#"+jq_elector(ui_element_id)))
         }
 

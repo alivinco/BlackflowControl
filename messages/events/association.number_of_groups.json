@@ -1,0 +1,21 @@
+{
+ "origin": {
+  "endp_id": "1", 
+  "@id": "9", 
+  "@type": "dev_sys"
+ }, 
+ "uuid": "6aaf4af0-3c0e-4e1a-a9d8-5f2462e511bf", 
+ "creation_time": 1454431217674, 
+ "spid": "UNDEFINED", 
+ "@context": "http://context.smartly.no", 
+ "event": {
+  "subtype": "number_of_groups", 
+  "@type": "association", 
+  "properties": {
+   "number_of_groups": {
+    "value": 5
+   }
+  }
+ }, 
+ "transport": "secure"
+}

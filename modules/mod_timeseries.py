@@ -237,10 +237,10 @@ class Timeseries():
                 (rowid,))
         elif dev_id:
             iter = c.execute(
-                "select dev_id,timestamp,msg_class,address,msg ,rowid from msg_history where dev_id = ? and timestamp > ? and timestamp < ? order by timestamp %s"%sort,
+                "select dev_id,timestamp,msg_class,address,msg ,rowid from msg_history where dev_id = ? and timestamp >= ? and timestamp <= ? order by timestamp %s"%sort,
                 (dev_id, start, end , ))
         else:
-            iter = c.execute("select dev_id,timestamp,msg_class,address,msg,rowid from msg_history where  timestamp > ? and timestamp < ? order by timestamp %s"%sort,
+            iter = c.execute("select dev_id,timestamp,msg_class,address,msg,rowid from msg_history where  timestamp >= ? and timestamp <= ? order by timestamp %s"%sort,
                              (start, end))
 
         result = []

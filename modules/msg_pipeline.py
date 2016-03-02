@@ -23,8 +23,12 @@ class MsgPipeline():
         self.msg_template_update_mode = False
         self.mod_influx = None
         self.sid = sid
+        self.external_handlers = []
 
-        # [{"type":"single","event_path":"$.event.type","command_path":"$.event.type","priority":1}]
+    def add_external_handler(self,func):
+        self.external_handlers.append(func)
+
+    # [{"type":"single","event_path":"$.event.type","command_path":"$.event.type","priority":1}]
     def set_mod_influx(self,mod_influx):
         self.mod_influx = mod_influx
 
@@ -106,6 +110,8 @@ class MsgPipeline():
 
         exdt = self.__extract_data(address, msg_class, payload)
         self.__record_history(exdt,msg_type, address, msg_class, payload)
+
+        self.call_external_handlers(address,payload,msg_type,msg_class)
 
         if msg_class:
             msg_class_is_registered = self.__check_msg_class(msg_class, msg_type)
@@ -224,6 +230,11 @@ class MsgPipeline():
                         "__get_msg_class_from_msg : class can't be extracted from msg because of error :" + str(ex))
 
         return None
+
+    def call_external_handlers(self,topic,msg_obj,msg_type,msg_class):
+
+        for ex_handler in self.external_handlers:
+            ex_handler(topic,msg_obj,msg_type,msg_class)
 
     def update_static_part_of_message(self, payload, topic="/dev/default"):
         payload["origin"]["@type"] = "app"

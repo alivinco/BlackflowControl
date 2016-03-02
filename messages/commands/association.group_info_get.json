@@ -1,0 +1,17 @@
+{
+ "origin": {
+  "@id": "blackfly", 
+  "@type": "app"
+ }, 
+ "uuid": "c2743be0-b330-44aa-aa85-553c1ceac7e8", 
+ "creation_time": 1454432715952, 
+ "command": {
+  "default": {
+   "value": 1
+  }, 
+  "subtype": "group_info_get", 
+  "@type": "association"
+ }, 
+ "spid": "SP1", 
+ "@context": "http://context.smartly.no"
+}

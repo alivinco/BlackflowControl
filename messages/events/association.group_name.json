@@ -1,0 +1,22 @@
+{
+ "origin": {
+  "endp_id": "1", 
+  "@id": "9", 
+  "@type": "dev_sys"
+ }, 
+ "uuid": "f3ebe36e-6178-4efc-9074-d4dd95c42dac", 
+ "creation_time": 1454431597183, 
+ "spid": "UNDEFINED", 
+ "@context": "http://context.smartly.no", 
+ "event": {
+  "default": {
+   "value": 1
+  }, 
+  "subtype": "group_name", 
+  "@type": "association", 
+  "properties": {
+   "name": "Lifeline\u0000"
+  }
+ }, 
+ "transport": "secure"
+}

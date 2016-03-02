@@ -88,5 +88,17 @@
   "id": 8,
   "transport": "",
   "override_properties": ""
+ },
+ {
+  "key": "devicereg.delete_all@.app.devicereg.commands",
+  "override_properties": "",
+  "override_value_path": "",
+  "name": "devicereg.delete_all",
+  "msg_type": "command",
+  "msg_class": "devicereg.delete_all",
+  "address": "/app/devicereg/commands",
+  "record_history": false,
+  "id": 9,
+  "group_name": ""
  }
 ]

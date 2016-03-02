@@ -213,11 +213,17 @@ class MessageManager:
                     if "prop_int_value" in params:
                         value = int(params["prop_int_value"])
                     elif k == "prop_float_value":
-                        value = int(params["prop_float_value"])
+                        value = float(params["prop_float_value"])
                     else:
                         value = params["prop_str_value"]
+                    # TODO: Temp fix , has to be replaced with something more generic
+                    if "prop_size" in params:
+                        if params["prop_size"] and params["prop_size"]!= "auto":
+                            size = int(params["prop_size"])
+                            msg_template["command"]["properties"][v] = {"value": value,"size":size}
+                    else :
+                        msg_template["command"]["properties"][v] = {"value": value}
 
-                    msg_template["command"]["properties"][v] = {"value": value}
             else:
                 if "override_properties" in address:
                     if address["override_properties"]:

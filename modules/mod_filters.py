@@ -1,3 +1,5 @@
+import re
+
 __author__ = 'alivinco'
 import os ,json
 
@@ -38,6 +40,30 @@ class FiltersManager:
         f = open(self.filters_file_path, "w")
         f.write(json.dumps(self.filters, indent=True))
         f.close()
+
+    @staticmethod
+    def filter(filter_value,mapping):
+
+        filters = filter_value.split(" and ")
+        columns = ("name","msg_class","address")
+        for fltr in filters:
+            # name:power
+            is_prefixed = False
+            for col in columns:
+                # check if filter expression if prefixed with column name
+                prefix_split = fltr.split(col+":")
+                if len(prefix_split) > 1:
+                    # filter expression is prefixed with column name
+                    p = re.compile(prefix_split[1], re.IGNORECASE)
+                    mapping = filter(lambda item: (p.search(item[col])), mapping)
+                    is_prefixed = True
+
+            if not is_prefixed:
+                # filter expression is not prefixed with column , applying filtering to address column
+                p = re.compile(prefix_split[0], re.IGNORECASE)
+                mapping = filter(lambda item: (p.search(item["address"])), mapping)
+
+        return mapping
 
 if __name__ == "__main__":
     t = FiltersManager()

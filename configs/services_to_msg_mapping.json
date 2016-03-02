@@ -16,6 +16,8 @@
  "mod_siren":{"events":[],
               "commands":["mode.countdown","mode.siren"]},
  "dev_sys":{"events":["association.groups","association.report","net.ping_report","config.report"],
-            "commands":["association.get","association.get_groups","association.set","association.delete","config.get","config.set","net.ping"]}
+            "commands":["association.get","association.groups_get","association.group_name_get","association.group_info_get","association.group_command_list_get",
+              "association.set","association.delete","config.get","config.set","net.ping",
+              "association.endpoint_set","association.endpoint_get","endpoint_delete"]}
 
 }

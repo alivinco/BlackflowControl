@@ -18,7 +18,12 @@ function open_update_dr_field_modal(device_id,field_name,value)
     $("#dr_field_update_modal").modal('show')
 }
 
-
+function open_prop_manager(topic)
+{
+    $("#assoc_topic_id").val(topic)
+    $("#config_topic_id").val(topic)
+    $("#prop_manager_modal").modal('show')
+}
 
 function execute_devreg_cmd(cmd,device_id,redirect)
 {
