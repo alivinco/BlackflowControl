@@ -1,3 +1,7 @@
+import uuid
+
+import time
+
 __author__ = 'aleksandrsl'
 from shutil import copyfile
 from libs.simple_jsonpath import SimpleJsonPath
@@ -60,9 +64,25 @@ class MessageManager:
         f.close()
         log.info("New template was saved to file = " + path)
 
+    def delete_template(self, msg_type, msg_class_name):
+        path = os.path.join(self.app_root_path, "messages", msg_type + "s", msg_class_name + ".json")
+        os.remove(path)
+        log.info("New template was saved to file = " + path)
+
     def get_msg_clas_by_name(self, msg_type, msg_class_name):
-        return filter(lambda map_item: (map_item["msg_class"] == msg_class_name and map_item["msg_type"] == msg_type),
-                      self.msg_class_mapping)[0]
+        try:
+            return filter(lambda map_item: (map_item["msg_class"] == msg_class_name and map_item["msg_type"] == msg_type),
+                          self.msg_class_mapping)[0]
+        except:
+            return None
+
+    def delete_msg_class(self,msg_type,msg_class_name):
+        msg_class = self.get_msg_clas_by_name(msg_type,msg_class_name)
+        log.info("Msg class %s will be removed"%msg_class)
+        self.msg_class_mapping.remove(msg_class)
+        self.serialize_mapping("msg_class_mapping")
+        self.delete_template(msg_type,msg_class_name)
+        log.info("Msg class %s was deleted"%msg_class_name)
 
     def get_msg_class_by_key(self, msg_key):
         split_str = msg_key.split("@")
@@ -96,6 +116,15 @@ class MessageManager:
         # let's serialize the updated structure
         # f = open(self.msg_class_mapping_file_path,"w")
         json.dump(self.msg_class_mapping, open(self.msg_class_mapping_file_path, "w"), indent=True)
+
+    def get_empty_template(self):
+        return {"origin": {"@id": "blackfly", "@type": "app"},
+                       "uuid": str(uuid.uuid4()),
+                       "creation_time": int(time.time() * 1000),
+                       "command": {"default": {"value": "__fill_me__"}, "subtype": "__fill_me__", "@type": "__fill_me__"},
+                       "spid": "SP1",
+                       }
+
 
     def load_template_by_key(self, msg_key):
         msg_class = msg_key.split("@")[0]

@@ -319,8 +319,12 @@ def init_controllers():
     def msg_class_mapping_ui():
         msg_man.reload_all_mappings()
 
-        mapping = list(msg_man.msg_class_mapping)
+        msg_type_filter = request.args.get("msg_type_filter", "")
+        msg_class_filter = request.args.get("msg_class_filter", "")
+        context_filter = request.args.get("context_filter", "")
 
+        mapping = msg_man.msg_class_mapping
+        # splitting msg_class into class and subclass
         for item in mapping:
             if "." in item["msg_class"]:
                 sp = item["msg_class"].split(".")
@@ -330,6 +334,30 @@ def init_controllers():
                 item["class"] = ""
                 item["subclass"] = item["msg_class"]
         mode = request.args.get("mode", "")
+
+        dd_lists = dict()
+        dd_lists["msg_class"] = list(set(map(lambda item: item["class"],mapping)))
+        dd_lists["context"] = list(set(map(lambda item: item["context"] if "context" in item else None,mapping)))
+
+        filtered_mapping = msg_man.msg_class_mapping
+        if msg_type_filter:
+            filtered_mapping = filter(lambda item : item["msg_type"] == msg_type_filter ,filtered_mapping)
+        if msg_class_filter:
+            filtered_mapping = filter(lambda item : "%s."%msg_class_filter in item["msg_class"] ,filtered_mapping)
+        if context_filter:
+            def context_filter_func(item):
+                if "context" in item:
+                    if item["context"] == context_filter:
+                        return True
+                    else :
+                        False
+                else :
+                    return False
+            filtered_mapping = filter(context_filter_func,filtered_mapping)
+
+        mapping = list(filtered_mapping)
+
+
         if not mode:
             mode = "template_update_mode_on" if msg_pipeline.get_mode("msg_template_update_mode") else "template_update_mode_off"
         else:
@@ -338,61 +366,95 @@ def init_controllers():
             if mode == "template_update_mode_off":
                 msg_pipeline.set_mode("msg_template_update_mode", False)
 
-        return render_template('msg_class_mapping.html', mapping=mapping, global_context=global_context, mode=mode)
+        return render_template('msg_class_mapping.html', mapping=mapping , dd_lists = dd_lists , global_context=global_context, mode=mode)
 
     @app.route(root_uri + '/ui/msg_class/<msg_type>/<msg_class>', methods=["POST", "GET"])
     @login_required
     def msg_class_ui(msg_type, msg_class):
         try:
-            if request.method == 'POST':
-                class_name = request.form["class"]
-                msg_type = request.form["type"]
-                over_props = True if "override_properties" in request.form else False
-                msg_class_obj = msg_man.get_msg_clas_by_name(msg_type, class_name)
-                ui_el = request.form["ui_element"]
-                is_new_class = False
-
-                if not msg_class_obj:
-                    is_new_class = True
-                    msg_class_obj = {"ui_mapping": {
+            msg_class_obj_tmpl = {"ui_mapping": {
                         "ui_element": "",
                         "value_path": "",
                         "override_properties": False
                     },
                         "msg_type": "",
                         "msg_class": "",
-                        "override_properties": False
+                        "override_properties": False,
+                        "context":"",
+                        "short_description":"",
+                        "description":"",
+                        "tags":""
                     }
-                msg_class_obj["ui_mapping"]["override_properties"] = over_props
-                msg_class_obj["ui_mapping"]["ui_element"] = ui_el
-                msg_class_obj["ui_mapping"]["value_path"] = request.form["ui_value_path"]
-                if ui_el == "sensor_value":
-                    um = msg_class_obj["ui_mapping"]
-                    um["unit_path"] = request.form["ui_unit_path"]
-                elif ui_el == "input_num_field":
-                    msg_class_obj["ui_mapping"]["num_type"] = request.form["ui_num_type"]
+            if request.method == 'POST':
+                action = request.form["action"]
+                if action == "save":
+                    context = request.form["context"]
+                    short_description = request.form["short_description"]
+                    description = request.form["description"]
+                    msg_class = request.form["msg_class"]
+                    msg_type = request.form["msg_type"]
+                    # version = request.form["version"]
+                    if msg_class and msg_type :
+                        tags = request.form["tags"]
+                        over_props = True if "override_properties" in request.form else False
+                        ui_el = request.form["ui_element"]
+                        msg_class_obj = msg_man.get_msg_clas_by_name(msg_type, msg_class)
+                        is_new_class = False
+                        if not msg_class_obj:
+                            is_new_class = True
+                            msg_class_obj = msg_class_obj_tmpl
+                        msg_class_obj["msg_class"] = msg_class
+                        msg_class_obj["msg_type"] = msg_type
+                        msg_class_obj["ui_mapping"]["override_properties"] = over_props
+                        msg_class_obj["ui_mapping"]["ui_element"] = ui_el
+                        msg_class_obj["ui_mapping"]["value_path"] = request.form["ui_value_path"]
+                        msg_class_obj["context"] = context
+                        msg_class_obj["description"] = description
+                        msg_class_obj["short_description"] = short_description
+                        msg_class_obj["tags"] = tags
+                        # msg_class_obj["version"] = version
 
-                if is_new_class:
-                    log.info("Adding new message class to mapping ; " + str(msg_class_obj))
-                    msg_man.msg_class_mapping.append(msg_class)
-                else:
-                    log.info("Updating class mapping " + str(msg_class_obj))
+                        if ui_el == "sensor_value":
+                            um = msg_class_obj["ui_mapping"]
+                            um["unit_path"] = request.form["ui_unit_path"]
+                        elif ui_el == "input_num_field":
+                            msg_class_obj["ui_mapping"]["num_type"] = request.form["ui_num_type"]
+
+                        if is_new_class:
+                            log.info("Adding new message class to mapping ; " + str(msg_class_obj))
+                            msg_man.msg_class_mapping.append(msg_class_obj)
+                        else:
+                            log.info("Updating class mapping " + str(msg_class_obj))
+
+                        msg_template = request.form["msg_template"]
+                        msg_man.save_template(msg_type,msg_class,msg_template)
+                    else:
+                        log.info("Message type and message class are not specified.Save operation was skipped.")
+
+                elif action == "delete":
+                    msg_class = request.form["msg_class"]
+                    msg_type = request.form["msg_type"]
+                    msg_man.delete_msg_class(msg_type,msg_class)
+                    msg_man.serialize_mapping("msg_class_mapping")
+                    return redirect(url_for("msg_class_mapping_ui"))
 
                 msg_man.serialize_mapping("msg_class_mapping")
-            else:
+
+            elif request.method == "GET":
                 msg_man.reload_all_mappings()
+                msg_class_obj = msg_man.get_msg_clas_by_name(msg_type, msg_class)
+
+                if not msg_class_obj :
+                    msg_class_obj = msg_class_obj_tmpl
 
         except Exception as ex:
             log.error(ex)
+        msg_template = msg_man.get_msg_class_template_by_name(msg_type, msg_class)
+        if not msg_template:
+            log.debug("The system can't find the template.Loading empty template")
+            msg_template = msg_man.get_empty_template()
+        msg_template = json.dumps(msg_template,indent=True)
 
-        msg_class_obj = msg_man.get_msg_clas_by_name(msg_type, msg_class)
-
-        try:
-            msg_template = json.dumps(msg_man.get_msg_class_template_by_name(msg_type, msg_class), indent=True)
-        except Exception as ex:
-            log.error("The system can't find the template.")
-            log.exception(ex)
-            msg_template = "The system can't find the template.Please add template first"
         return render_template('msg_class.html', msg_class=msg_class_obj, msg_template=msg_template, global_context=global_context)
 
     @app.route(root_uri + '/ui/cache')
@@ -1136,7 +1198,7 @@ def init_controllers():
                        "creation_time": int(time.time() * 1000),
                        "command": {"default": {"value": "__fill_me__"}, "subtype": "__fill_me__", "@type": "__fill_me__"},
                        "spid": "SP1",
-                       "@context": "http://context.smartly.no"
+                       "@context": ""
                        }
             payload = json.dumps(payload, indent=True)
             return render_template('mqtt_client.html', global_context=global_context, address=address, payload=payload, status=status)
