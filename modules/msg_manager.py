@@ -76,6 +76,36 @@ class MessageManager:
         except:
             return None
 
+    def msg_class_filter(self,msg_class_mapping,filter_name,value):
+        """
+        The method filter out message class mapping by applying named filters . Several call can be piped .
+        :param msg_class_mapping:
+        :param filter_name:
+        :param value:
+        :return:
+        """
+        if filter_name == "tags":
+            def tags_filter_func(item):
+                if "tags" in item:
+                    if value in item["tags"] :
+                        return True
+                    else :
+                        False
+                else :
+                    return False
+            return filter(tags_filter_func , msg_class_mapping)
+
+    def get_msg_class_tags(self):
+        """
+        Returns unique set of tags
+        :return:
+        """
+        tags = list()
+        for item in self.msg_class_mapping :
+            if "tags" in item:
+                tags.extend(item["tags"].split(" "))
+        return list(set(tags))
+
     def delete_msg_class(self,msg_type,msg_class_name):
         msg_class = self.get_msg_clas_by_name(msg_type,msg_class_name)
         log.info("Msg class %s will be removed"%msg_class)

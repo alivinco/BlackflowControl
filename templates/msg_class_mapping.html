@@ -37,6 +37,13 @@
             <option value="{{ item }}">{{ item }}</option>
             {% endfor %}
         </select>
+        <select name="tags_filter" class="form-control">
+            <option value="">Tags</option>
+            <option value="">------------</option>
+            {% for item in dd_lists.tags %}
+            <option value="{{ item }}">{{ item }}</option>
+            {% endfor %}
+        </select>
       </div>
        <button type="submit" class="btn btn-default">Filter</button>
     </form>
@@ -50,6 +57,7 @@
                       <th data-sort="string" >Message class (↑↓)</th>
                       <th>message sub class </th>
                       <th data-sort="string">type (↑↓)</th>
+                      <th >tags</th>
                       <th data-sort="string" >Author (↑↓)</th>
                       <th> ui element </th>
                       <th>action</th>
@@ -61,6 +69,7 @@
        <td> {{ item.class }}  </td>
        <td> {{ item.subclass }} </td>
        <td> {{ item.msg_type }} </td>
+       <td style="max-width: 70px"> <small> {{ item.tags }} </small></td>
        <td> {{ item.context }}  </td>
        <td> {{ item.ui_mapping.ui_element }}</td>
        <td> <a href="{{ global_context.root_uri }}/ui/msg_class/{{ item.msg_type }}/{{ item.msg_class }}">open</a> </td>

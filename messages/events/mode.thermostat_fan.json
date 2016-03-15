@@ -1,18 +1,18 @@
 {
  "origin": {
   "endp_id": "1", 
-  "@id": "86", 
-  "@type": "lvl_thermostat"
+  "@id": "5", 
+  "@type": "mod_thermostat_fan"
  }, 
- "uuid": "17cb1e4e-556d-4793-b69a-1fb0221f3799", 
- "creation_time": 1433350018, 
+ "uuid": "45fbe8cf-7ac3-45a2-b870-56ff23ed6b97", 
+ "creation_time": 1457968509078, 
  "spid": "UNDEFINED", 
  "@context": "http://context.smartly.no", 
  "event": {
   "default": {
-   "value": "off"
+   "value": "low"
   }, 
-  "subtype": "thermostat", 
+  "subtype": "thermostat_fan", 
   "@type": "mode", 
   "properties": {}
  }

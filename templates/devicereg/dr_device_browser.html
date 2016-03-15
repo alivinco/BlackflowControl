@@ -112,7 +112,12 @@
                         <td>{{ endp.SecurityLevel }}</td>
                         <td><a href="{{ global_context.root_uri }}/ui/inter_console?filter={{ endp.Uri }}&mode=normal">{{ endp.Uri }}</a></td>
                         <td><small>{{ endp.Capabilities }}</small></td>
-                        <td>{{ endp.Property }}</td></tr>
+                        <td><ul>
+                        {% for prop in endp.Property %}
+                            <li>{{ prop.Key }}:{{ prop.Value }}</li>
+                        {% endfor %}
+                         </ul>
+                        </td>
                    {% endfor %}
                   </tbody>
 

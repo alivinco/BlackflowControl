@@ -1,23 +1,23 @@
 {
-    "@context": "http://smartly.no/context",
-    "origin": {
-        "@type": "app",
-        "@id": "smartly_ios",
-        "vendor": "Sensio"
-    },
-    "command": {
-        "@type": "level",
-        "subtype": "thermostat",
-        "default": {
-            "value": 23.0,
-            "unit": "C"
-        },
-        "properties": {
-            "setpoint_type":"heating"
-        },
-        "target": "/dev/zw/16/lvl_thermostat/1/events"
-    },
-    "creation_time": 1385815582,
-    "uuid": "86f93c70-6c47-4cfc-91eb-30d3b069e417",
-    "spid": "S-451-12"
+ "origin": {
+  "vendor": "Sensio", 
+  "@id": "smartly_ios", 
+  "@type": "app"
+ }, 
+ "uuid": "86f93c70-6c47-4cfc-91eb-30d3b069e417", 
+ "creation_time": 1385815582, 
+ "command": {
+  "default": {
+   "unit": "C", 
+   "value": 23.0
+  }, 
+  "subtype": "thermostat", 
+  "target": "/dev/zw/16/lvl_thermostat/1/events", 
+  "@type": "level", 
+  "properties": {
+   "setpoint_type": "heating"
+  }
+ }, 
+ "spid": "S-451-12", 
+ "@context": "http://smartly.no/context"
 }

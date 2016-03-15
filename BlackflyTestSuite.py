@@ -322,6 +322,7 @@ def init_controllers():
         msg_type_filter = request.args.get("msg_type_filter", "")
         msg_class_filter = request.args.get("msg_class_filter", "")
         context_filter = request.args.get("context_filter", "")
+        tags_filter = request.args.get("tags_filter", "")
 
         mapping = msg_man.msg_class_mapping
         # splitting msg_class into class and subclass
@@ -338,12 +339,15 @@ def init_controllers():
         dd_lists = dict()
         dd_lists["msg_class"] = list(set(map(lambda item: item["class"],mapping)))
         dd_lists["context"] = list(set(map(lambda item: item["context"] if "context" in item else None,mapping)))
+        dd_lists["tags"] = msg_man.get_msg_class_tags()
 
         filtered_mapping = msg_man.msg_class_mapping
         if msg_type_filter:
             filtered_mapping = filter(lambda item : item["msg_type"] == msg_type_filter ,filtered_mapping)
         if msg_class_filter:
             filtered_mapping = filter(lambda item : "%s."%msg_class_filter in item["msg_class"] ,filtered_mapping)
+        if tags_filter:
+            filtered_mapping = msg_man.msg_class_filter(filtered_mapping,"tags",tags_filter)
         if context_filter:
             def context_filter_func(item):
                 if "context" in item:
@@ -1198,7 +1202,6 @@ def init_controllers():
                        "creation_time": int(time.time() * 1000),
                        "command": {"default": {"value": "__fill_me__"}, "subtype": "__fill_me__", "@type": "__fill_me__"},
                        "spid": "SP1",
-                       "@context": ""
                        }
             payload = json.dumps(payload, indent=True)
             return render_template('mqtt_client.html', global_context=global_context, address=address, payload=payload, status=status)
