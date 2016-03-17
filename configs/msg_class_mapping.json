@@ -531,26 +531,35 @@
   "msg_class": "devicereg.device_list"
  }, 
  {
-  "msg_type": "event", 
   "ui_mapping": {
    "ui_element": "free_text", 
-   "value_path": "$.event.properties"
+   "value_path": "$.event.properties", 
+   "override_properties": false
   }, 
-  "class": "config", 
+  "description": "A device can use the message to report actual configuration values . Normally the event is response to config.get command", 
+  "msg_type": "event", 
+  "tags": "systemair", 
+  "msg_class": "config.report", 
   "subclass": "report", 
-  "msg_class": "config.report"
+  "context": "smartly", 
+  "short_description": "Configuration report", 
+  "class": "config"
  }, 
  {
-  "msg_type": "command", 
   "ui_mapping": {
    "ui_element": "input_num_field", 
    "override_properties": false, 
    "value_path": "$.command.default.value[0]", 
    "num_type": "int"
   }, 
-  "class": "config", 
+  "description": "The only parameters is configuration identifier .", 
+  "msg_type": "command", 
+  "msg_class": "config.get", 
+  "tags": "systemair", 
   "subclass": "get", 
-  "msg_class": "config.get"
+  "context": "smartly", 
+  "short_description": "The message requests to report configuration value . ", 
+  "class": "config"
  }, 
  {
   "msg_type": "command", 
@@ -880,10 +889,10 @@
   }, 
   "description": "", 
   "msg_type": "command", 
-  "tags": "systemair", 
+  "tags": "systemair danfos smartly", 
   "msg_class": "mode.thermostat_get", 
   "subclass": "thermostat_get", 
-  "context": "", 
+  "context": "smartly", 
   "short_description": "", 
   "class": "mode"
  }, 
@@ -1476,8 +1485,10 @@
   "msg_type": "event", 
   "tags": "systemair ventilation", 
   "msg_class": "mode.thermostat_fan", 
+  "subclass": "thermostat_fan", 
   "context": "smartly", 
-  "short_description": ""
+  "short_description": "", 
+  "class": "mode"
  }, 
  {
   "ui_mapping": {
@@ -1489,7 +1500,35 @@
   "msg_type": "command", 
   "msg_class": "mode.thermostat_fan_get", 
   "tags": "systemair ventilation", 
+  "subclass": "thermostat_fan_get", 
   "context": "smartly", 
-  "short_description": "Query for thermostat fan mode"
+  "short_description": "Query for thermostat fan mode", 
+  "class": "mode"
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "free_text", 
+   "value_path": "$.command.default.value", 
+   "override_properties": false
+  }, 
+  "description": "Command to request a device to respond with last notification message of given type . Zwave specific msg . \r\nproperties.type - decimal number representing zwave notification type . Check zwave docs for more info.\r\nproperties.event - decimal number representing zwave event type . Check zwave docs for more info .\r\nAddress example : /dev/zw/5/dev_sys/1/commands", 
+  "msg_type": "command", 
+  "tags": "systemair", 
+  "msg_class": "zw_ta.notification_get", 
+  "context": "smarlty", 
+  "short_description": ""
+ }, 
+ {
+  "ui_mapping": {
+   "ui_element": "free_text", 
+   "override_properties": false, 
+   "value_path": "$.event.default.value"
+  }, 
+  "description": "The message is used to report different failures , software , hardware , etc . \r\nDefault value indicates whether alarm was reported of seized . \r\nproperties.event - tells what type of failure \r\nproperties.code - manufacturer specific code", 
+  "msg_type": "event", 
+  "msg_class": "alarm.failure", 
+  "tags": "systemair", 
+  "context": "smartly", 
+  "short_description": ""
  }
 ]

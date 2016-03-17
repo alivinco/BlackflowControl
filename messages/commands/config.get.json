@@ -1,21 +1,21 @@
 {
- "@context" : "http://smartly.no/context",
- "origin" :
-   {
-     "@type" : "app",
-     "@id" : "smartly_ios",
-     "vendor" : "Sensio"
-   },
- "command" :
-   {
-      "@type" : "config",
-      "subtype" : "get",
-      "default" : {
-                  "value" : ["1"]
-                  },
-      "target" : "/dev/zw/2/dev_sys/1/commands"
-    },
- "creation_time" : 1385815582,
- "uuid" : "86f93c70-6c47-4cfc-91eb-30d3b069e417",
- "spid" : "S-451-12"
+ "origin": {
+  "@id": "smartly_ios", 
+  "vendor": "Sensio", 
+  "@type": "app"
+ }, 
+ "uuid": "86f93c70-6c47-4cfc-91eb-30d3b069e417", 
+ "creation_time": 1385815582, 
+ "command": {
+  "default": {
+   "value": [
+    "1"
+   ]
+  }, 
+  "subtype": "get", 
+  "@type": "config", 
+  "target": "/dev/zw/2/dev_sys/1/commands"
+ }, 
+ "spid": "S-451-12", 
+ "@context": "http://smartly.no/context"
 }
