@@ -313,10 +313,19 @@ function learn_mode(start)
 {
   if (start) {
         $('#learn_mode_result').html("<h4>Operation is in progress.</h4>")
+        $('#learn_log_output').html("")
         $('#learn_mode_modal').modal('show')
-    }else {
-      $('#learn_mode_modal').modal('hide')
-  }
+
+        clearInterval(history_timer)
+                get_server_info().then(function (data) {
+                    console.dir(data)
+                    operation_start_time = data.time_milis
+                    history_timer = pull_history_from_server(true,'#learn_log_output',false)
+                })
+   }else {
+          clearInterval(history_timer)
+          $('#learn_mode_modal').modal('hide')
+   }
   $.ajax({
       url: root_uri+"/api/zw_manager",
       method :"POST",

@@ -17,13 +17,13 @@
 <div class="collapse" id="collapseExample">
   <div class="well">
   <p><button type="button" class="btn btn-success" style="width: 280px" onclick="get_controller_full_info()" title="Full info">Request controller full info</button>
-      - The operation gets complete information about controller . The information contains controller Node Id , zwave network Home Id , etc.
+      - The operation gets complete information about controller . The information contains controller Node Id , Z-Wave network Home Id , etc.
   </p>
   <p><button type="button" class="btn btn-default" style="width: 280px" onclick="start_clusion_mode('zw_inclusion_mode',true,false)" title="Add device non securely">Add device non securely</button>
       - The same as normal "Add device " but with disabled security. Some devices may behave differently if they were included securely or non-securely.
   </p>
   <p><button type="button" class="btn btn-default" style="width: 280px" onclick="learn_mode(true)" title="Learn mode">Learn mode</button>
-      - The operation is used to add/remove zwave controller into/from another network . In order to complete the process you need to press "Add"/"Remove" in another controller.
+      - The operation is used to add/remove Z-Wave controller into/from another network . In order to complete the process you need to press "Add"/"Remove" in another controller.
       WARNING :existing networks will be reseted .
   </p>
   <p><button type="button" class="btn btn-default" style="width: 280px" onclick="controller_shift(true)" title="Controller shift">Set another controller as primary</button>
@@ -36,17 +36,17 @@
       - The operation is used to perform interview of all nodes within the network.Operation will generate a lot of traffic .
   </p>
   <p><button type="button" class="btn btn-warning" style="width: 280px" onclick="hard_reset()" title="Hard reset">Controller hard reset</button>
-      - The operation is used to to restart Zwave module . The operation will NOT reset zwave network .
+      - The operation is used to to restart Z-Wave module . The operation will NOT reset Z-Wave network .
   </p>
   <p><button type="button" class="btn btn-danger"  onclick="reset_controller_to_default()" title="Reset to default">Reset to default</button>
-      - !!!DANGER!!!! The operation will delete entire Zwave network and will assign new home ID.
+      - !!!DANGER!!!! The operation will delete entire Z-Wave network and will assign new home ID.
   </p>
   </div>
 </div>
 
 <br/>
 <h4>Z-Wave mesh routing information</h4>
-<a href="{{ global_context.root_uri }}/ui/zw_diagnostics?action=refresh_routing_info" class="btn btn-default " role="button">Refresh routing info from zwave module</a>
+<a href="{{ global_context.root_uri }}/ui/zw_diagnostics?action=refresh_routing_info" class="btn btn-default " role="button">Refresh routing info from Z-Wave module</a>
 
 <div class="table-responsive">
  <table id="addr_map_table" class="table table-striped">
@@ -173,7 +173,9 @@
       <br/>
       <div class="modal-body">
         <div id="learn_mode_result" ></div>
+        <div id="learn_log_output" class="modal-body"></div>
       </div>
+
       <div class="modal-footer">
                 <button type="button" class="btn btn-default" onclick="learn_mode(false)" >Stop</button>
 {#                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>#}
@@ -266,7 +268,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="mode_header">Zwave advanced info</h4>
+        <h4 class="modal-title" id="mode_header">Z-Wave advanced info</h4>
       </div>
       <div class="modal-body">
       <h5> Network role : <span id="network_role"></span> </h5>
