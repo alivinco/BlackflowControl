@@ -1,0 +1,18 @@
+{
+ "origin": {
+  "@id": "blackfly", 
+  "vendor": "blackfly", 
+  "@type": "app"
+ }, 
+ "creation_time": 1449963122217, 
+ "command": {
+  "default": {
+   "value": "alivinco_nDoorLock_v1"
+  }, 
+  "subtype": "upload_app", 
+  "@type": "app_store", 
+  "properties": {}
+ }, 
+ "uuid": "f673560c-3279-4601-a3b4-fb48c0bd5e93", 
+ "spid": ""
+}

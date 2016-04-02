@@ -1,0 +1,18 @@
+{
+ "origin": {
+  "@id": "blackfly", 
+  "vendor": "blackfly", 
+  "@type": "app"
+ }, 
+ "creation_time": 1449959588182, 
+ "command": {
+  "default": {
+   "value": "alivinco_nAppStoreTester_v1.1"
+  }, 
+  "subtype": "delete_app", 
+  "@type": "blackflow", 
+  "properties": {}
+ }, 
+ "uuid": "797c23f3-29e7-4e51-85b9-63eb9614a5bb", 
+ "spid": ""
+}

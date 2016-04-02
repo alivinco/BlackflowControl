@@ -1,7 +1,8 @@
-{% extends "blackflow/base_layout_blackflow.html" %}
+{#{% extends "blackflow/base_layout_blackflow.html" %}#}
+{% extends "base_layout.html" %}
 {% block li_dr_registry %}class="active"{% endblock %}
 {% block css_scripts %}
-<link rel="stylesheet" href="/static/css/custom_icons.css">
+<link rel="stylesheet" href="{{ global_context.root_uri }}/static/css/custom_icons.css">
 {% endblock %}
 {% block body %}
 </h1>
@@ -12,18 +13,21 @@
    <thead>
       <tr>
         <th><h6>Var name</h6></th>
-        <th><h6>Updated by</h6></th>
-        <th style="width:140px"><h6>Updated at</h6></th>
         <th><h6>Value</h6></th>
+        <th><h6>Updated by</h6></th>
+        <th style="width:160px"><h6>Updated at</h6></th>
+        <th style="width:100px"><h6>Persisted</h6></th>
+
       </tr>
    </thead>
    <tbody>
    {%  for key,var in bf_response.event.properties.iteritems() %}
     <tr>
         <td >{{ key }}</td>
+        <td>{{ var.value }}</td>
         <td>{{ var.src_type }}.{{ var.src_name }}</td>
         <td><small>{{ format_time(var.timestamp) }}</small></td>
-        <td>{{ var.value }}</td>
+        <td>{{ var.persisted }}</td>
     </tr>
    {% endfor %}
   <tbody>
@@ -40,7 +44,7 @@
     <script>
       var mode = "normal"
     </script>
-    <script src="/static/js/stupidtable.min.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/stupidtable.min.js"></script>
 {#    <script src="/static/js/dr_device_browser.js"></script>#}
 
 {% endblock %}

@@ -1,8 +1,9 @@
-{% extends "blackflow/base_layout_blackflow.html" %}
+{#{% extends "blackflow/base_layout_blackflow.html" %}#}
+{% extends "base_layout.html" %}
 {% block li_dr_registry %}class="active"{% endblock %}
 {% block css_scripts %}
-<link rel="stylesheet" href="/static/css/custom_icons.css">
-<link href="/static/visjs/dist/vis.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ global_context.root_uri }}/static/css/custom_icons.css">
+<link href="{{ global_context.root_uri }}/static/visjs/dist/vis.css" rel="stylesheet" type="text/css">
     <style type="text/css">
         #app_instances_graph_div {
             width: 80vw;
@@ -23,9 +24,10 @@
 {% endblock %}
 {% block js_scripts %}
     <script>
-      var mode = "normal"
+      var bf_inst_name = "{{ bf_inst_name }}"
+
     </script>
-    <script src="/static/js/stupidtable.min.js"></script>
-    <script src="/static/visjs/dist/vis.js"></script>
-    <script src="/static/js/blackflow/app_instances_graph.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/stupidtable.min.js"></script>
+    <script src="{{ global_context.root_uri }}/static/visjs/dist/vis.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/blackflow/app_instances_graph.js"></script>
 {% endblock %}

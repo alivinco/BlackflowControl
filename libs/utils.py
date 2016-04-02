@@ -31,6 +31,19 @@ def format_iso_time_from_sec(time_in_sec):
     return time.strftime("%Y-%m-%d %H:%M:%S", t)
 
 
+def split_app_full_name(app_full_name):
+    delim_name = app_full_name.find("_n")
+    developer = app_full_name[:delim_name]
+    delim_version = app_full_name.find("_v")
+    app_name = app_full_name[delim_name+2:delim_version]
+    version = app_full_name[delim_version + 2:]
+    return developer, app_name, version
+
+
+def compose_app_full_name(app_name,version):
+    return "%s_v%s"%(app_name,version)
+
+
 def gen_sid():
     # r_uuid = base64.urlsafe_b64encode(uuid.uuid4().bytes)
     # return r_uuid.replace('=', '')
@@ -46,3 +59,4 @@ def rfc3339_to_unix_time(rfc3339_str):
 if __name__ == "__main__":
     dt = rfc3339_to_unix_time("2016-01-18T12:49:51.372Z")
     print dt
+    print split_app_full_name("alivinco_nPullCordSirenApp_v1")

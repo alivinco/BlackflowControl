@@ -1,0 +1,23 @@
+{
+ "origin": {
+  "@id": "blackfly", 
+  "vendor": "blackfly", 
+  "@type": "app"
+ }, 
+ "creation_time": 1449927988693, 
+ "command": {
+  "default": {
+   "value": ""
+  }, 
+  "subtype": "upload", 
+  "@type": "file", 
+  "properties": {
+   "type": "python", 
+   "name": "alivinco_nVersionTest_v1.1/manifest.json", 
+   "bin_data": "eyJkZXNjcmlwdGlvbiI6IkJsYWJsYSBkYWRzZmEiLCJzdWJfZm9yIjp7fSwidmVyc2lvbiI6IjEuMSIsImNvbmZpZ3MiOltdLCJkZXZlbG9wZXIiOiJhbGl2aW5jbyIsInB1Yl90byI6e30sIm5hbWUiOiJWZXJzaW9uVGVzdCJ9", 
+   "post_save_action": "reload_manifest"
+  }
+ }, 
+ "uuid": "b71b022f-3b83-49d8-b4f7-0139d546056f", 
+ "spid": ""
+}

@@ -1,6 +1,6 @@
 #!/bin/sh
 cd /tmp
-curl -O http://lego.fiicha.net/blackfly/blackfly.tar.gz
+curl -O http://lego.fiicha.net/zmarlin/blackfly.tar.gz
 rm -r BlackflyTestSuite
 tar -zxvf blackfly.tar.gz
 cd BlackflyTestSuite/

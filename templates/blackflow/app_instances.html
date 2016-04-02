@@ -1,8 +1,9 @@
-{% extends "blackflow/base_layout_blackflow.html" %}
+{#{% extends "blackflow/base_layout_blackflow.html" %}#}
+{% extends "base_layout.html" %}
 {% block li_dr_registry %}class="active"{% endblock %}
 {% block css_scripts %}
-<link rel="stylesheet" href="/static/css/custom_icons.css">
-<link href="/static/visjs/dist/vis.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ global_context.root_uri }}/static/css/custom_icons.css">
+<link href="{{ global_context.root_uri }}/static/visjs/dist/vis.css" rel="stylesheet" type="text/css">
     <style type="text/css">
         #app_instances_graph_div {
             width: 100%;
@@ -10,56 +11,61 @@
             border: 1px solid lightgray;
         }
     </style>
+<script src="{{ global_context.root_uri }}/static/js/angular.min.js"></script>
 {% endblock %}
 {% block body %}
 </h1>
 <h3>Application instances</h3>
-<div class="container-fluid">
+
+<div ng-app="AppInstances" ng-controller="AppInstancesController" class="container-fluid">
 {% if bf_response %}
 <table class="table table-bordered table-striped table-hover">
    <thead>
       <tr>
         <th><h6>Id</h6></th>
-        <th><h6>App name</h6></th>
+{#        <th><h6>App name</h6></th>#}
         <th><h6>Instance alias</h6></th>
         <th><h6>Subscribes for</h6></th>
         <th><h6>Publishes to</h6></th>
-        <th><h6>Configured properties</h6></th>
         <th><h6>Status</h6></th>
-        <th><h6>Description</h6></th>
+        <th><h6>Action</h6></th>
+        <th><h6>Comments</h6></th>
       </tr>
    </thead>
    <tbody>
    {%  for app in bf_response.event.properties.app_instances %}
     <tr>
         <td >{{ app.id }}</td>
-        <td >{{ app.name }}</td>
-        <td >{{ app.alias }}</td>
-        <td ><ul>
+{#        <td ></td>#}
+        <td >{{ app.alias }}
+           <p><small><a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_editor?app_name={{ app.app_full_name }}">App:{{ app.app_full_name }}</a></small></p>
+        </td>
+        <td >
             {% for key,value in app.sub_for.iteritems() %}
-            <li style="min-width: 300px">
+            <p style="min-width: 300px">
                 <h6>{{ key }}:{{ value.topic }}</h6>
-            </li>
+            </p>
             {% endfor %}
-           </ul>
-        </td>
-        <td><ul>
-            {% for key,value in app.pub_to.iteritems() %}
-            <li style="min-width: 300px">
-                <div><h6>{{ key }} : {{ value.topic }}</h6></div>
-            </li>
-            {% endfor %}
-           </ul></td>
-        <td>
-            <ul>
-                {% for key,conf in app.configs.iteritems() %}
-                    <li>{{ key }} : {{ conf }}</li>
-                {% endfor %}
-            </ul>
-        </td>
-        <td>Running</td>
-        <td>
 
+        </td>
+        <td>
+            {% for key,value in app.pub_to.iteritems() %}
+            <p style="min-width: 300px">
+                <div><h6>{{ key }} : {{ value.topic }}</h6></div>
+            </p>
+            {% endfor %}
+           </td>
+
+        <td>{{ app.state }}</td>
+        <td style="min-width: 110px">
+            <a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_instance_config?id={{ app.id }}&app_name={{ app.app_full_name }}"><span class=" glyphicon glyphicon-cog"/></a>
+            <a ><span ng-click="controlAppInstance({{ app.id }},'START')" class=" glyphicon glyphicon-play"/></a>
+            <a ng-click="controlAppInstance({{ app.id }},'PAUSE')"><span class=" glyphicon glyphicon-pause"/></a>
+            <a ng-click="controlAppInstance({{ app.id }},'STOP')"><span class=" glyphicon glyphicon-stop"/></a>
+            <a ng-click="deleteAppInstance({{ app.id }})"><span class=" glyphicon glyphicon-trash"/></a>
+        </td>
+        <td>
+           {{ app.comments }}
         </td>
     </tr>
    {% endfor %}
@@ -74,7 +80,9 @@
 {% endblock %}
 {% block js_scripts %}
     <script>
-      var mode = "normal"
+      var bf_inst_name = "{{ bf_inst_name }}"
     </script>
-    <script src="/static/js/stupidtable.min.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/stupidtable.min.js"></script>
+     <script src="{{ global_context.root_uri }}/static/js/utils.js" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ global_context.root_uri }}/static/js/blackflow/app_instances.js"></script>
 {% endblock %}

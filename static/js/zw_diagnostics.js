@@ -147,7 +147,7 @@ function pull_history_from_server(auto_pool,output_element,skip_inclusion_report
        //var def = $.Deferred();
        //var isTimeout = false
        var startTime = Math.floor(operation_start_time / 1000)
-
+       $('#clusion_log').html("")
        function do_request() {
            stopTime = Math.floor(Date.now() / 1000)+5000
            var prom = $.ajax({

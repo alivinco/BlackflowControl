@@ -37,7 +37,8 @@
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
 {#            <li><a href="#">Dashboard</a></li>#}
-            <li><a href="{{ global_context.root_uri }}/ui/inter_console">Interactive console</a></li>
+            <li><a href="{{ global_context.root_uri }}/ui/inter_console">Services</a></li>
+			<li><a href="{{ global_context.root_uri }}/ui/blackflow/default/app_instances">Apps</a></li>
             <li><a href="{{ global_context.root_uri }}/ui/work_session">Session</a></li>
             <li><a href="{{ global_context.root_uri }}/ui/settings">Settings</a></li>
             <li><a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false" >Tools <span class="caret"></span></a>
@@ -67,6 +68,9 @@
    </div>
  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>#}
+   <script>
+    var root_uri = "{{ global_context.root_uri }}"
+   </script>
    <script src="{{ global_context.root_uri }}/static/js/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
 {#   <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>#}

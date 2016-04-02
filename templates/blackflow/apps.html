@@ -1,11 +1,18 @@
-{% extends "blackflow/base_layout_blackflow.html" %}
+{#{% extends "blackflow/base_layout_blackflow.html" %}#}
+{% extends "base_layout.html" %}
 {% block li_dr_registry %}class="active"{% endblock %}
 {% block css_scripts %}
-<link rel="stylesheet" href="/static/css/custom_icons.css">
+<link rel="stylesheet" href="{{ global_context.root_uri }}/static/css/custom_icons.css">
 {% endblock %}
 {% block body %}
+<div ng-app="AppsList" ng-controller="AppsListController">
 </h1>
 <h3>Installed apps</h3>
+<div class="btn-group">
+  <button type="button" class="btn btn-default" ng-click = "open_new_app_modal()">Create new app</button>
+</div>
+    <br/>
+    <br/>
 <div class="container-fluid">
 {% if bf_response %}
 <table class="table table-bordered table-striped table-hover">
@@ -15,12 +22,17 @@
         <th><h6>Subscribes for</h6></th>
         <th><h6>Publishes to</h6></th>
         <th><h6>Configurable properties</h6></th>
+        <th><h6>Actions</h6></th>
       </tr>
    </thead>
    <tbody>
    {%  for app in bf_response.event.properties.apps %}
+       {% set app_full_name = app.developer+"_n"+app.name+"_v"+app.version %}
     <tr>
-        <td >{{ app.name }}</td>
+        <td >
+            <h5>{{ app.name }} v.{{ app.version }}</h5>
+            <p><small>{{ app.description }}</small></p>
+        </td>
 
         <td ><ul>
             {% for key,sub_item in app.sub_for.iteritems() %}
@@ -54,23 +66,78 @@
                 {% endfor %}
             </ul>
         </td>
+         <td style="min-width: 110px">
+            <a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_instance_config?app_name={{ app_full_name }}"><h4><span class=" glyphicon glyphicon-plus-sign"/></h4></a>
+            <a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_editor?app_name={{ app_full_name }}"><h4><span class=" glyphicon glyphicon-pencil" /></h4></a>
+            <a><h4><span class=" glyphicon glyphicon-refresh" ng-click=reload("{{ app_full_name }}") /></h4></a>
+            <a><h4><span class=" glyphicon glyphicon-trash" ng-click=delete_app("{{ app_full_name }}") /></h4></a>
+        </td>
     </tr>
    {% endfor %}
   <tbody>
 </table>
 
 {% else %}
-<h4>Device registry is not responding . Please check if device registry process is up and running and try again</h4>
+<h4>Blackflow is not responding.</h4>
 {% endif %}
 </div>
 
+{#Modal dialog #}
+<div class="modal fade" id="create_new_app_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Create new application</h4>
+      </div>
+      <br/>
+      <div >
+            <form class="form-horizontal" role="form" >
+              <input type="hidden" name="action" value="bulk_address_update" />
 
+              <div class="form-group">
+                <label for="inputName" class="col-sm-3 control-label">Name</label>
+                <div class="col-sm-6">
+                  <input type="text"  class="form-control"  ng-model="app_name" placeholder="" value="">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="inputAddress" class="col-sm-3 control-label">Version</label>
+                <div class="col-sm-6">
+                  <input type="number"  class="form-control"  ng-model="app_version" value="">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputAddress" class="col-sm-3 control-label">Developer</label>
+                <div class="col-sm-6">
+                  <input type="text"  class="form-control"  ng-model="app_developer" value="">
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-default" ng-click="init_new_app()">Create</button>
+                <button type="button" class="btn btn-default"  data-dismiss="modal">Close</button>
+              </div>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 {% endblock %}
 {% block js_scripts %}
     <script>
       var mode = "normal"
+      var bf_inst_name = "{{ bf_inst_name }}"
+      var app_developer = "{{ global_context.app_store_username }}"
     </script>
-    <script src="/static/js/stupidtable.min.js"></script>
+
+    <script src="{{ global_context.root_uri }}/static/js/angular.min.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/stupidtable.min.js"></script>
+    <script src="{{ global_context.root_uri }}/static/js/utils.js" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ global_context.root_uri }}/static/js/blackflow/apps.js"></script>
+
 {#    <script src="/static/js/dr_device_browser.js"></script>#}
 
 {% endblock %}
