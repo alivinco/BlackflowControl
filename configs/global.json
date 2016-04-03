@@ -1,55 +1,19 @@
 {
- "use_default_class_lookup": true, 
- "smartly": {
-  "sdc_uri": "https://prov-stg.service.smartly.no"
- }, 
- "db": {
-  "timeseries_enabled": true, 
-  "db_path": "timeseries.db"
- }, 
  "system": {
-  "http_server_port": 5000, 
+  "http_server_port": 5001,
   "distro_server_uri": "http://lego.fiicha.net/blackfly", 
   "platform": "sg", 
   "ui_security_disabled": false, 
   "version": "1.5.5",
   "sid": ""
  }, 
- "msg_class_lookup_path": [
-  {
-   "priority": 1, 
-   "path": "$.event.type", 
-   "type": "single"
-  }, 
-  {
-   "priority": 1, 
-   "path": "$.command.name", 
-   "type": "single"
-  }, 
-  {
-   "priority": 1, 
-   "path": [
-    "$.event.@type", 
-    "$.event.subtype"
-   ], 
-   "type": "multiple"
-  }, 
-  {
-   "priority": 1, 
-   "path": [
-    "$.command.@type", 
-    "$.command.subtype"
-   ], 
-   "type": "multiple"
-  }
- ], 
  "mqtt": {
   "username": "blackfly_test", 
   "root_topic": "/#", 
   "enable_sys": false, 
   "global_topic_prefix": "", 
   "host": "localhost", 
-  "client_id": "blackfly_test_suite_5", 
+  "client_id": "blackflowctrl",
   "password": "blackfly_test", 
   "port": "1883"
  },
@@ -57,17 +21,6 @@
     "api_url":"http://lego.fiicha.net/bfhub/api",
     "username":"alivinco",
     "password":""
-  }, 
- "influxdb": {
-  "username": "root", 
-  "enabled": false, 
-  "host": "192.168.99.100", 
-  "db_name": "blackfly", 
-  "password": "root", 
-  "port": 8086
- }, 
- "defaults": {
-  "event_value_path_for_new_class": "$.event.default.value", 
-  "cmd_value_path_for_new_class": "$.command.default.value"
- }
+  },
+ "log_dir": "./"
 }

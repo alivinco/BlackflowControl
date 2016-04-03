@@ -4,7 +4,7 @@ __author__ = 'aleksandrsl'
 from libs import mosquitto
 import json
 import logging
-import time,socket
+import time, socket
 
 # import configs.log
 # logging.config.dictConfig(configs.log.config)
@@ -12,8 +12,7 @@ log = logging.getLogger("bf_mqtt")
 
 
 class MqttAdapter:
-
-    def __init__(self,client_id="blackfly_test_suite", max_retry_attempt=15, retry_delay=15):
+    def __init__(self, client_id="blackfly_test_suite", max_retry_attempt=15, retry_delay=15):
         """
         Contructor takes single argument which is reference to device registry object .
         :param device_registry:
@@ -29,17 +28,17 @@ class MqttAdapter:
         self.mqtt = mosquitto.Mosquitto(self.client_id, clean_session=True)
         self.enable_sys = False
 
-    def set_message_handler(self,on_message_handler):
+    def set_message_handler(self, on_message_handler):
         self.on_message = on_message_handler
 
-    def set_mqtt_params(self,client_id,username="",password="",topic_prefix="",enable_sys=False):
+    def set_mqtt_params(self, client_id, username="", password="", topic_prefix="", enable_sys=False):
         self.mqtt._client_id = client_id
         self.topic_prefix = topic_prefix
         self.enable_sys = enable_sys
         if username:
-            self.mqtt.username_pw_set(username,password)
+            self.mqtt.username_pw_set(username, password)
 
-    def set_global_context(self,context):
+    def set_global_context(self, context):
         self.global_context = context
 
     def connect(self, host="localhost", port=1883, keepalive=60):
@@ -64,7 +63,7 @@ class MqttAdapter:
         for i in xrange(len(all_available_hosts)):
             try:
                 self.reconnect()
-                log.info("BlackflyTestSuite connected to broker . host="+self._host+" port="+str(port))
+                log.info("BlackflyTestSuite connected to broker . host=" + self._host + " port=" + str(port))
                 return True
             except Exception as ex:
                 log.exception(ex)
@@ -74,33 +73,33 @@ class MqttAdapter:
     def __get_next_host(self):
         number_of_available_hosts = len(self._all_hosts)
         index = self._current_host_index + 1
-        if index < number_of_available_hosts :
+        if index < number_of_available_hosts:
             self._current_host_index = index
             return self._all_hosts[index]
-        else :
+        else:
             self._current_host_index = 0
             return self._all_hosts[0]
 
     def reconnect(self):
         self.mqtt.on_message = self._on_message
         self._host = self.__get_next_host()
-        log.info("Reconnecting to broker , host = %s"%self._host)
+        log.info("Reconnecting to broker , host = %s" % self._host)
         self.mqtt.connect(self._host, self._port, self._keepalive)
         self._retry_counter = 0
         log.info("The system reconnected to mqtt broker")
 
     def initiate_listeners(self):
-        topic = self.topic_prefix+self.sub_topic
+        topic = self.topic_prefix + self.sub_topic
         self.mqtt.subscribe(topic, 1)
         # mosquitto internal monitoring topic
-        if self.enable_sys :
-            self.mqtt.subscribe("$SYS/#",1)
+        if self.enable_sys:
+            self.mqtt.subscribe("$SYS/#", 1)
             log.info("mqtt adapter subscribed to $SYS/# mqtt internal monitoring topic.")
-        log.info("mqtt adapter subscribed to topic "+topic)
+        log.info("mqtt adapter subscribed to topic " + topic)
 
     def _on_connect(self, mosq, userdata, rc):
-        if rc == 0 :
-           self.global_context['mqtt_conn_status'] = "online"
+        if rc == 0:
+            self.global_context['mqtt_conn_status'] = "online"
 
     def _on_message(self, mosq, obj, msg):
 
@@ -111,21 +110,21 @@ class MqttAdapter:
         :param msg:
         """
         if self.topic_prefix:
-            msg.topic = msg.topic.replace(self.topic_prefix,"")
+            msg.topic = msg.topic.replace(self.topic_prefix, "")
         try:
-            self.on_message(msg.topic,msg.payload)
-        except Exception as ex :
-            log.error("Exception during messages processing. The message from ropic "+msg.topic+" will be skipped")
-            log.error(ex)
+            self.on_message(msg.topic, json.loads(msg.payload))
+        except Exception as ex:
+            log.error("Exception during messages processing. The message from ropic " + msg.topic + " will be skipped")
+            log.exception(ex)
 
-    def publish(self,address,payload,qos):
-        topic = self.topic_prefix+address
-        log.debug("Publishing msg to topic "+str(address))
+    def publish(self, address, payload, qos):
+        topic = self.topic_prefix + address
+        log.debug("Publishing msg to topic " + str(address))
         log.debug(payload)
-        self.mqtt.publish(topic,payload,qos)
-        log.info("Message was published to topic = "+topic)
+        self.mqtt.publish(topic, payload, qos)
+        log.info("Message was published to topic = " + topic)
 
-    def on_message(self,topic,json_msg):
+    def on_message(self, topic, json_msg):
         log.info("do nothing and skipp the message")
 
     def _loop_start(self):
@@ -150,17 +149,17 @@ class MqttAdapter:
     def _thread_main(self):
         rc = 0
         while not self._thread_terminate:
-            while rc == 0 :
+            while rc == 0:
                 try:
                     rc = self.mqtt.loop()
                     if self._thread_terminate:
-                        rc=1
+                        rc = 1
                 except Exception as ex:
                     log.error("Mqtt loop error")
                     log.exception(ex)
                     rc = 1
 
-            if not self._thread_terminate :
+            if not self._thread_terminate:
                 log.error("Loop interrupted because of error" + str(rc))
                 self.global_context['mqtt_conn_status'] = "reconnecting"
                 time.sleep(self.retry_delay)
@@ -171,20 +170,19 @@ class MqttAdapter:
                         self.reconnect()
                         self.initiate_listeners()
                         log.info("Reconnection succeeded.")
-                    else :
-                        log.warn("The system has tried to reconnect for %s times without success.Going offline."%self._retry_counter)
+                    else:
+                        log.warn("The system has tried to reconnect for %s times without success.Going offline." % self._retry_counter)
                         self._thread_terminate = True
                         self.global_context['mqtt_conn_status'] = "offline"
                     rc = 0
                 except socket.error as err:
                     self.global_context['mqtt_conn_status'] = "offline"
-                    log.error("Reconnection attempt failed because of error : %s"%str(err))
+                    log.error("Reconnection attempt failed because of error : %s" % str(err))
                 except Exception as err:
                     log.exception(err)
                     self.global_context['mqtt_conn_status'] = "offline"
                     log.error("Non recoverable error. Shutting down the adapter")
                     self._thread_terminate = True
-
 
     def start(self):
         self.initiate_listeners()
@@ -192,13 +190,11 @@ class MqttAdapter:
         self.global_context['mqtt_conn_status'] = "online"
         self._loop_start()
 
-
     def stop(self):
         log.info("Stopping mqtt listener loop")
         self.mqtt.disconnect()
         self.global_context['mqtt_conn_status'] = "offline"
         self._loop_stop()
-
 
 
 if __name__ == "__main__":
