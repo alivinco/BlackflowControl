@@ -1,1 +1,0 @@
-{"origin": {"@id": "1", "@type": "zw_ta"}, "uuid": "3ed6d3a4-6ae6-48c0-9646-1ea98a946de2", "creation_time": 1448369751675, "spid": "UNDEFINED", "@context": "http://context.smartly.no", "event": {"default": {"value": true}, "subtype": "routing_info", "@type": "zw_ta", "properties": {"1": [62, 69, 72, 73], "69": [1, 62], "62": [1, 69, 72, 73], "73": [1, 62], "72": [1, 62]}}}

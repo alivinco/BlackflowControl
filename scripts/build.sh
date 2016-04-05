@@ -1,5 +1,5 @@
 #!/bin/sh
-build_root=/tmp/BlackflyTestSuite
+build_root=/tmp/BlackflowControl
 cd ../
 rm -r $build_root
 mkdir $build_root
@@ -8,8 +8,8 @@ cp -r * $build_root
 #cd ../bf_build
 cd /tmp
 pwd=$(pwd)
-tar -zcvf $pwd/blackfly.tar.gz BlackflyTestSuite/
+tar -zcvf $pwd/bfctrl.tar.gz BlackflowControl/
 # tar -zcvf --exclude=.git --exclude=.gitignore --exclude=.idea /tmp/blackfly.tar.gz BlackflyTestSuite/
-cp $pwd/blackfly.tar.gz /var/www/blackfly/
-cp $build_root/scripts/install.sh /var/www/blackfly
-cp $build_root/scripts/install_debian.sh /var/www/blackfly
+cp $pwd/blackfly.tar.gz /var/www/bfctrl/
+cp $build_root/scripts/install.sh /var/www/bfctrl
+cp $build_root/scripts/install_debian.sh /var/www/bfctrl

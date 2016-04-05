@@ -1,1 +1,0 @@
-{"origin": {"@id": "blackfly", "vendor": "blackfly", "@type": "app", "location": "NA"}, "uuid": "b0920f7c-796b-49c4-9915-5c3d2ffb4cbe", "creation_time": 1448369751000, "command": {"default": {"value": true}, "subtype": "get_routing_info", "@type": "zw_ta", "target": ""}, "spid": "S-451-12", "@context": "http://smartly.no/context"}

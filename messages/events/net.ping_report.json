@@ -1,1 +1,0 @@
-{"origin": {"@id": "1", "@type": "zw_ta"}, "uuid": "aa9d501c-0af6-4e8e-84a2-fbc269d77862", "creation_time": 1452004873132, "spid": "UNDEFINED", "@context": "http://context.smartly.no", "event": {"default": {"value": 2}, "subtype": "ping_report", "@type": "net", "properties": {"tx_count": 1, "rx_count": 1}}}

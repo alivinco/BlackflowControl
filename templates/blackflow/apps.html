@@ -19,9 +19,10 @@
    <thead>
       <tr>
         <th><h6>Name</h6></th>
-        <th><h6>Subscribes for</h6></th>
-        <th><h6>Publishes to</h6></th>
-        <th><h6>Configurable properties</h6></th>
+        <th><h6>Version</h6></th>
+        <th><h6>Author</h6></th>
+        <th><h6>Description</h6></th>
+        <th><h6>Container</h6></th>
         <th><h6>Actions</h6></th>
       </tr>
    </thead>
@@ -29,48 +30,19 @@
    {%  for app in bf_response.event.properties.apps %}
        {% set app_full_name = app.developer+"_n"+app.name+"_v"+app.version %}
     <tr>
-        <td >
-            <h5>{{ app.name }} v.{{ app.version }}</h5>
-            <p><small>{{ app.description }}</small></p>
-        </td>
-
-        <td ><ul>
-            {% for key,sub_item in app.sub_for.iteritems() %}
-            <li style="min-width: 300px">
-                <div><h6>Sub name  : {{ key }}</h6></div>
-                {% if sub_item.topic %}<div><small>Topic   : {{ sub_item.topic }}</small></div>{% endif %}
-                <div><small>Adapter     : {% if sub_item.adapter %}{{ sub_item.adapter }}{% else %}local variable{% endif %} </small></div>
-                 {% if sub_item.dev_type %}<div><small>Device type : {{ sub_item.dev_type }}</small></div>{% endif %}
-                 {% if sub_item.msg_type %}<div><small>Message type: {{ sub_item.msg_type }}</small></div>{% endif %}
-                 {% if sub_item.descr %}<div><small>Description : {{ sub_item.descr }}</small></div>{% endif %}
-            </li>
-            {% endfor %}
-           </ul>
-        </td>
-        <td><ul>
-            {% for key,pub_item in app.pub_to.iteritems() %}
-            <li style="min-width: 300px">
-                <div><h6>Pub name  : {{ key }}</h6></div>
-                {% if pub_item.topic %}<div><small>Topic   : {{ pub_item.topic }}</small></div>{% endif %}
-                <div><small>Adapter     : {% if pub_item.adapter %}{{ pub_item.adapter }}{% else %}local variable{% endif %} </small></div>
-                {% if pub_item.dev_type %}<div><small>Device type : {{ pub_item.dev_type }}</small></div>{% endif %}
-                {% if pub_item.msg_type %}<div><small>Message type: {{ pub_item.msg_type }}</small></div>{% endif %}
-                {% if pub_item.descr %}<div><small>Description : {{ pub_item.descr }}</small></div>{% endif %}
-            </li>
-            {% endfor %}
-           </ul></td>
-        <td>
-            <ul>
-                {% for conf in app.configs %}
-                    <li>{{ conf }}</li>
-                {% endfor %}
-            </ul>
-        </td>
-         <td style="min-width: 110px">
-            <a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_instance_config?app_name={{ app_full_name }}"><h4><span class=" glyphicon glyphicon-plus-sign"/></h4></a>
-            <a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_editor?app_name={{ app_full_name }}"><h4><span class=" glyphicon glyphicon-pencil" /></h4></a>
-            <a><h4><span class=" glyphicon glyphicon-refresh" ng-click=reload("{{ app_full_name }}") /></h4></a>
-            <a><h4><span class=" glyphicon glyphicon-trash" ng-click=delete_app("{{ app_full_name }}") /></h4></a>
+        <td ><h5>{{ app.name }} v.{{ app.version }}</h5></td>
+        <td >{{ app.version }}</td>
+        <td >{{ app.developer }}</td>
+        <td><small>{{ app.description }}</small></td>
+        <td></td>
+         <td style="width: 140px">
+           <div >
+            <a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_instance_config?app_name={{ app_full_name }}"><span style="font-size:1.6em;" class=" glyphicon glyphicon-plus-sign"/></a>
+            <a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_editor?app_name={{ app_full_name }}"><span style="font-size:1.6em;" class=" glyphicon glyphicon-pencil" /></a>
+            <a><span style="font-size:1.6em;" class=" glyphicon glyphicon-refresh" ng-click=reload("{{ app_full_name }}") /></a>
+            <span>&nbsp;&nbsp;</span>
+            <a><span style="font-size:1.6em;" class=" glyphicon glyphicon-trash" ng-click=delete_app("{{ app_full_name }}") /></a>
+           </div>
         </td>
     </tr>
    {% endfor %}

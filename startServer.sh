@@ -1,2 +1,2 @@
 #!/bin/sh
-nohup python BlackflyTestSuite.py > /dev/null 2>&1&
+nohup python BlackflowControl.py -c configs/global.json > /dev/null 2>&1&

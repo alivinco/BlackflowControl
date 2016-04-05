@@ -1,1 +1,0 @@
-{"origin": {"@id": "1", "@type": "zw_ta"}, "uuid": "e8207a7f-286e-40a7-b670-f7ad8fbf3352", "creation_time": 1448369993064, "spid": "UNDEFINED", "@context": "http://context.smartly.no", "event": {"default": {"value": "STAGE_STARTING_INTERVIEW"}, "subtype": "inclusion_stage", "@type": "zw_ta", "properties": {"description": "Node id = 73"}}}

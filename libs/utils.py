@@ -57,6 +57,15 @@ def rfc3339_to_unix_time(rfc3339_str):
     return int(t*1000)
 
 
+def load_config(conf_path):
+    with open(conf_path, "r") as app_file:
+                    return json.loads(app_file.read())
+
+
+def save_config(conf_path,conf_dict):
+     with open(conf_path, "w") as f:
+            f.write(json.dumps(conf_dict, indent=True))
+
 
 if __name__ == "__main__":
     dt = rfc3339_to_unix_time("2016-01-18T12:49:51.372Z")

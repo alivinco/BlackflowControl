@@ -1,19 +1,19 @@
 #!/bin/sh
 
-BF_ROOT=/opt/BlackflyTestSuite
+BF_ROOT=/opt/BlackflowControl
 # Creating user
 echo "Adding blackfly user and group"
-useradd -r -m -d /var/lib/blackfly -s /usr/sbin/nologin blackfly
+useradd -r -m -d /var/lib/blackfly -s /usr/sbin/nologin bfctrl
 
 # Checking existing installation
 if [ -d $BF_ROOT ]
 then
  echo "The script found current installation and is doing backup of config folder"
- service blackfly stop
+ service bfctrl stop
  cp -r $BF_ROOT/configs /tmp
  cp -r $BF_ROOT/messages/events /tmp
  echo "The config folder copied to /tmp/configs"
- echo "Removing blackfly isntallation"
+ echo "Removing bfctrl isntallation"
  rm -r $BF_ROOT
  is_upgrade=1
 else
@@ -38,63 +38,42 @@ pip install influxdb
 pip install pyRFC3339
 
 echo "Copying init scripts"
-chmod a+x scripts/etc/init.d/blackfly_debian
-chmod a+x BlackflyTestSuite.py
-cp  scripts/etc/init.d/blackfly_debian /etc/init.d/blackfly
+chmod a+x scripts/etc/init.d/bfctrl_debian
+chmod a+x BlackflowControl.py
+cp  scripts/etc/init.d/bfctrl_debian /etc/init.d/bfctrl
 cp  scripts/configs/log_debian.py configs/log.py
 
 # Creating log dir
-mkdir /var/log/blackfly
-chown blackfly:blackfly /var/log/blackfly
+mkdir /var/log/bfctrl
+chown bfctrl:bfctrl /var/log/bfctrl
 
 
 # address mapping replaced by fresh address mapping
 if [ $is_upgrade = 1 ]
 then
  echo "Copying address_mapping.json and global.json from previous installation"
- cp /tmp/configs/address_mapping.json configs/
  cp /tmp/configs/global.json configs/
- cp /tmp/configs/filters.json configs/
- cp /tmp/configs/dashboards.json configs/
- cp /tmp/configs/msg_to_log_mapping.json configs/
- cp -r /tmp/events messages/
- if [ -e "/tmp/configs/filters.json" ];
-    then
-        cp /tmp/configs/filters.json configs/
-    else
-        cp  scripts/configs/filters.json configs/
- fi
  if [ -e "/tmp/configs/users.json" ];
     then
         cp /tmp/configs/users.json configs/
     else
         cp  scripts/configs/users.json configs/
  fi
- if [ -e "/tmp/configs/msg_to_log_mapping.json" ];
-    then
-        cp /tmp/configs/msg_to_log_mapping.json configs/
-    else
-        cp  scripts/configs/msg_to_log_mapping.json configs/
- fi
  echo "Running update script"
  python scripts/upgrade.py
 else
  echo "Copying default address_mapping.json"
- cp  scripts/configs/address_mapping.json configs/
- cp  scripts/configs/filters.json configs/
  cp  scripts/configs/users.json configs/
- cp  scripts/configs/msg_to_log_mapping.json configs/
 fi
 
-# Make sure blackfly user owns the directory
-chown -R blackfly:blackfly $BF_ROOT
+# Make sure bfctrl user owns the directory
+chown -R bfctrl:bfctrl $BF_ROOT
 
 # updating global.json config
 echo "Updating global.json config file"
-python scripts/cmd_update_config.py --file configs/global.json --jpath db.db_path --value /var/lib/blackfly/timeseries.db
 python scripts/cmd_update_config.py --file configs/global.json --jpath system.platform --value debian
 
-update-rc.d blackfly defaults 90
-echo "Starting blackfly daemon..."
-service blackfly start
+update-rc.d bfctrl defaults 90
+echo "Starting bfctrl daemon..."
+service bfctrl start
 

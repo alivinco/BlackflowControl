@@ -13,6 +13,8 @@ from flask import Flask, Response, redirect, url_for, send_from_directory
 from flask import render_template
 from flask import request
 import time
+
+from libs import utils
 from libs.flask_login import LoginManager, login_required
 from libs.utils import format_iso_time_from_sec , gen_sid, convert_bool
 # import modules
@@ -36,6 +38,7 @@ msg_man = None
 
 mqtt = None
 conf = dict()
+conf_path = ""
 sync_async_client = None
 
 # Msg api wrappers message wrapper
@@ -46,7 +49,7 @@ def init_app_components():
     # uri root prefix
     global root_uri, http_server_port
     global app, global_context
-    global mqtt, sync_async_client , conf
+    global mqtt, sync_async_client , conf , conf_path
 
     logging.config.dictConfig(configs.log.config)
     log.info("Checking firewall configuration")
@@ -57,13 +60,13 @@ def init_app_components():
     blackflow_ex.blackflow_bp.url_prefix = root_uri
 
     # Check and init application/service ID (sid)
-    # if not conf["system"]["sid"]:
-    #     the id is base on MAC address , which means it may not be unique
-        # sid = gen_sid()
-        # conf["system"]["sid"] = sid
-        # msg_man.serialize_mapping("global")
-    # else:
-    #     sid = conf["system"]["sid"]
+    if not conf["system"]["sid"]:
+        # the id is base on MAC address , which means it may not be unique
+        sid = gen_sid()
+        conf["system"]["sid"] = sid
+        utils.save_config(conf_path,conf)
+    else:
+        sid = conf["system"]["sid"]
 
     # Flask init
     app = Flask(__name__)
@@ -140,18 +143,10 @@ def init_controllers():
             conf["mqtt"]["global_topic_prefix"] = request.form["mqtt_global_topic_prefix"]
             conf["mqtt"]["enable_sys"] = convert_bool(request.form["enable_sys"])
 
-            conf["influxdb"]["enabled"] = convert_bool(request.form["influx_enabled"])
-            conf["influxdb"]["host"] = request.form["influx_host"]
-            conf["influxdb"]["port"] = int(request.form["influx_port"])
-            conf["influxdb"]["username"] = request.form["influx_username"]
-            conf["influxdb"]["password"] = request.form["influx_password"]
-            conf["influxdb"]["db_name"] = request.form["influx_db_name"]
-
-            conf["db"]["db_path"] = request.form["db_path"]
             mqtt.set_mqtt_params(request.form["mqtt_client_id"], request.form["mqtt_username"], request.form["mqtt_password"], request.form["mqtt_global_topic_prefix"],
                                  conf["mqtt"]["enable_sys"])
 
-            msg_man.serialize_mapping("global")
+            utils.save_config(conf_path, conf)
 
             log.info("Global config was successfully updated")
             log.info("New values are mqtt host = " + request.form["mqtt_host"] + " port = " + request.form["mqtt_port"] + " root topic = " + request.form[
@@ -288,8 +283,8 @@ if __name__ == '__main__':
     parser.add_argument('-c','--conf', help='Config file path')
     parser.add_argument('-a','--apps', help='Apps storage folder')
     args = parser.parse_args()
-    with open(args.conf, "r") as app_file:
-                    conf = json.loads(app_file.read())
+    conf_path = args.conf
+    conf = utils.load_config(conf_path)
     configs.log.config["handlers"]["info_file_handler"]["filename"] = os.path.join(conf["log_dir"], "blackflowctrl_info.log")
     configs.log.config["handlers"]["error_file_handler"]["filename"] = os.path.join(conf["log_dir"], "blackflowctrl_error.log")
     logging.config.dictConfig(configs.log.config)

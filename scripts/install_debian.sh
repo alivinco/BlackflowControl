@@ -1,8 +1,8 @@
 #!/bin/sh
 cd /tmp
-curl -O http://lego.fiicha.net/zmarlin/blackfly.tar.gz
-rm -r BlackflyTestSuite
+curl -O http://lego.fiicha.net/zmarlin/bfctrl.tar.gz
+rm -r BlackflowControl
 tar -zxvf blackfly.tar.gz
-cd BlackflyTestSuite/
+cd BlackflowControl/
 chmod a+x setup_debian.sh
 sudo ./setup_debian.sh
