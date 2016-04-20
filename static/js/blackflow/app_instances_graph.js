@@ -67,7 +67,7 @@ function showAnalytics(data)
 function loadGraph()
 {
     data = []
-    return  $.getJSON(root_uri+'/api/blackflow/'+bf_inst_name+'/app_instances_graph',data, function (data) {
+    return  $.getJSON(root_uri+'/api/app_instances_graph',data, function (data) {
         instancesGraphData = transformData(data)
         instancesGraph.setData(instancesGraphData)
         //console.log(nodeAliasToIdLookup("mqtt:/dev/serial/99/bin_switch/commands"))
@@ -78,15 +78,15 @@ function loadGraph()
 function loadAnalytics()
 {
     data = []
-    $.getJSON(root_uri+'/api/blackflow/'+bf_inst_name+'/analytics',data, function (data) {
+    $.getJSON(root_uri+'/api/analytics',data, function (data) {
 
-        for (i in data.link_counters)
+        for (i in data)
         {
-           from = data.link_counters[i][0]
+           from = data[i][0]
            from_id = nodeAliasToIdLookup(from)
-           to_id = nodeAliasToIdLookup(data.link_counters[i][1])
+           to_id = nodeAliasToIdLookup(data[i][1])
            if (from_id && to_id) {
-               count_v = data.link_counters[i][2]
+               count_v = data[i][2]
                id = from_id + "_" + to_id
                instancesGraphData.edges.update({"id": id, "label": count_v})
            }
@@ -98,7 +98,7 @@ function loadAnalytics()
 function startPoolingAnalytics()
 {
     loadAnalytics()
-    setInterval(loadAnalytics,2000);
+    setInterval(loadAnalytics,10000);
 }
 
 
@@ -108,9 +108,9 @@ function initGraph() {
     var container = document.getElementById('app_instances_graph_div');
     // provide the data in the vis format
     var data = {};
-    var options = {edges:{arrows: 'to'},
+    var options = { edges:{arrows: 'to'},
                    layout:{hierarchical: {
-                          enabled:true,
+                          enabled:false,
                           levelSeparation: 250,
                           direction: 'LR',   // UD, DU, LR, RL
                           sortMethod: 'hubsize' // hubsize, directed

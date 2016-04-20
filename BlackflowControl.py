@@ -18,6 +18,7 @@ from libs import utils
 from libs.flask_login import LoginManager, login_required
 from libs.utils import format_iso_time_from_sec , gen_sid, convert_bool
 # import modules
+from modules.mod_containers import ServiceDiscovery
 from modules.mod_tools import Tools
 # Flask initialization
 import configs.log
@@ -30,7 +31,7 @@ from extensions.blackflow.ui import controller as blackflow_ex
 # Global variables
 from modules.mqtt_adapter import MqttAdapter
 
-root_uri = "/blackfly"
+root_uri = "/blackflow"
 app = None
 http_server_port = None
 global_context = {}
@@ -40,7 +41,7 @@ mqtt = None
 conf = dict()
 conf_path = ""
 sync_async_client = None
-
+bf_containers = None
 # Msg api wrappers message wrapper
 log = logging.getLogger("bf_web")
 
@@ -49,7 +50,7 @@ def init_app_components():
     # uri root prefix
     global root_uri, http_server_port
     global app, global_context
-    global mqtt, sync_async_client , conf , conf_path
+    global mqtt, sync_async_client , conf , conf_path, bf_containers
 
     logging.config.dictConfig(configs.log.config)
     log.info("Checking firewall configuration")
@@ -78,7 +79,7 @@ def init_app_components():
     app.register_blueprint(mod_auth)
     app.register_blueprint(blackflow_ex.blackflow_bp)
 
-    root_uri = conf["system"]["root_uri"] if "root_uri" in conf["system"] else "/blackfly"
+    root_uri = conf["system"]["root_uri"] if "root_uri" in conf["system"] else "/blackflow"
 
     login_manager.init_app(app)
 
@@ -109,9 +110,11 @@ def init_app_components():
     sync_async_client = SyncToAsyncMsgConverter(mqtt)
     mqtt.set_message_handler(sync_async_client.on_message)
     auth_ex.global_context = global_context
+    bf_containers = ServiceDiscovery(sync_async_client)
 
     blackflow_ex.global_context = global_context
     blackflow_ex.sync_async_client = sync_async_client
+    blackflow_ex.svc_discovery = bf_containers
 
 
 def init_controllers():

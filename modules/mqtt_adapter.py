@@ -1,8 +1,9 @@
 import threading
 
+from libs.iot_msg.iot_msg_converter import IotMsgConverter
+
 __author__ = 'aleksandrsl'
 from libs import mosquitto
-import json
 import logging
 import time, socket
 
@@ -112,19 +113,20 @@ class MqttAdapter:
         if self.topic_prefix:
             msg.topic = msg.topic.replace(self.topic_prefix, "")
         try:
-            self.on_message(msg.topic, json.loads(msg.payload))
+            log.debug(msg.payload)
+            self.on_message(msg.topic, IotMsgConverter.string_to_iot_msg(msg.topic, msg.payload))
         except Exception as ex:
             log.error("Exception during messages processing. The message from ropic " + msg.topic + " will be skipped")
             log.exception(ex)
 
-    def publish(self, address, payload, qos):
+    def publish(self, address, iot_msg, qos=1):
         topic = self.topic_prefix + address
         log.debug("Publishing msg to topic " + str(address))
-        log.debug(payload)
-        self.mqtt.publish(topic, payload, qos)
+        log.debug(iot_msg)
+        self.mqtt.publish(topic, IotMsgConverter.iot_msg_with_topic_to_str(address,iot_msg) , qos)
         log.info("Message was published to topic = " + topic)
 
-    def on_message(self, topic, json_msg):
+    def on_message(self, topic, iot_msg):
         log.info("do nothing and skipp the message")
 
     def _loop_start(self):

@@ -14,7 +14,7 @@ app.controller("AppInstancesController",["$scope","$http",function($scope,$http)
     $scope.deleteAppInstance = function (inst_id){
         packet = getMessagePacket("command","blackflow","delete_app_instance")
         packet.command.default.value = inst_id
-        $http.post(root_uri+"/api/blackflow/"+bf_inst_name+"/proxy",{"req_type":"one_way","req_payload":packet}).
+        $http.post(root_uri+"/api/proxy",{"req_type":"one_way","req_payload":packet}).
         then(function(response) {
             alert("App instance was deleted")
             location.reload()
@@ -26,7 +26,7 @@ app.controller("AppInstancesController",["$scope","$http",function($scope,$http)
         packet = getMessagePacket("command","blackflow","control_app_instance")
         packet.command.default.value = inst_id
         packet.command.properties = {"action":action}
-        $http.post(root_uri+"/api/blackflow/"+bf_inst_name+"/proxy",{"req_type":"one_way","req_payload":packet}).
+        $http.post(root_uri+"/api/proxy",{"req_type":"one_way","req_payload":packet}).
         then(function(response) {
            location.reload()
           }, function(response) {

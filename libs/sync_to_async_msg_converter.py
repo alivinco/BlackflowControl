@@ -1,3 +1,4 @@
+import copy
 import json
 import threading
 import time
@@ -13,7 +14,9 @@ class RequestResponseStruct:
         self.response_topic = ""
         self.correlation_id = ""
         # entire response message
-        self.response_msg = ""
+        self.response_msg = None
+        # Flag indicates whether to ex
+        self.single_response = True
         # enum(COR_ID,NO_COR_ID,MSG_TYPE)
         # COR_ID - response correlation id field is used for correlation between request and response
         # NO_COR_ID - no correlation is used , first message in response topic will considered as response
@@ -38,23 +41,13 @@ class SyncToAsyncMsgConverter:
         msg["corid"] = corrid
 
     def __extract_correlation_id(self, msg, is_request=True):
-        if "corid" in msg:
-            return msg["corid"]
-        elif "uuid" in msg:
-            return msg["uuid"]
-        else:
-            return None
+        return msg.get_corid() if msg.get_corid() else msg.get_uuid()
 
     def __extract_message_type(self, msg):
-        if "event" in msg:
-            return msg["event"]["@type"] + "." + msg["event"]["subtype"]
-        elif "command" in msg:
-            return msg["command"]["@type"] + "." + msg["command"]["subtype"]
-        else:
-            return None
+        return msg.get_msg_class() + "." + msg.get_msg_subclass()
 
-    def __publish_to_msg_system(self, topic, msg):
-        self.msg_system.publish(topic, json.dumps(msg), 1)
+    def __publish_to_msg_system(self, topic, iot_msg):
+        self.msg_system.publish(topic, iot_msg, 1)
 
     def get_request_table_size(self):
         return len(self.request_table)
@@ -70,13 +63,48 @@ class SyncToAsyncMsgConverter:
 
         return self.wait(req_row,timeout)
 
+    def send_and_wait_aggregated_response(self, msg, request_topic, response_topic , correlation_msg_type,wait_time=1):
+        """
+        Method single message and then waits for a given time and combines all received responses into single result .
+        THe method is blocking and is executed in callers thread.
+
+        :type msg : IotMsg
+        :param msg: message object
+        :param request_topic: request topic
+        :param response_topic: the topic to listen for responses
+        :param wait_time: time in seconds
+        :return : list of IotMsg objects .
+        """
+        req_row = RequestResponseStruct()
+        req_row.request_topic = request_topic
+        req_row.response_topic = response_topic
+        req_row.correlation_type = "MSG_TYPE"
+        req_row.correlation_id = correlation_msg_type
+        req_row.single_response = False
+         # adding object reference to list , means , we can still have the object
+        with self.request_table_lock:
+            self.request_table.append(req_row)
+
+        self.__publish_to_msg_system(request_topic, msg)
+        time.sleep(wait_time)
+        result = list()
+        for item in list(self.request_table):
+            if item.response_topic == response_topic and item.correlation_type == "MSG_TYPE" and item.correlation_id == correlation_msg_type:
+                with self.request_table_lock:
+                    if item.response_msg:
+                        result.append(item.response_msg)
+                    self.request_table.remove(item)
+        return result
+
+
     def send_sync_msg(self, msg, request_topic, response_topic, timeout=30, generate_corrid=False, correlation_type="COR_ID", correlation_msg_type=""):
 
         """
         The method sends message over async messaging subsystem and is waiting for response (blocking) .
         The method is executed in callers thread , which means it block the thread . Request and response
         correlated by corrid.
-        :param msg: msg as python object
+        :type msg:IotMsg
+        :param msg: message object
         :param request_topic:
         :param response_topic:
         :param timeout:
@@ -126,6 +154,7 @@ class SyncToAsyncMsgConverter:
     def on_message(self, topic, msg):
         """
         The method should be invoked by a message processing pipeline code or something else when a new message appears in msg subsystem .
+        It iterates over request_table and is looking for message which correlates with msg .
 
         :param topic:
         :param msg: msg as json object
@@ -146,6 +175,12 @@ class SyncToAsyncMsgConverter:
                         extr_msg_type = self.__extract_message_type(msg)
                         if extr_msg_type:
                             if extr_msg_type == req_row.correlation_id:
-                                req_row.response_msg = msg
+                                if req_row.single_response:
+                                    req_row.response_msg = msg
+                                else:
+                                    if not req_row.response_msg:
+                                        self.request_table.append(copy.copy(req_row))
+                                        req_row.response_msg = msg
+
                     elif req_row.correlation_type == "NO_COR_ID":
                         req_row.response_msg = msg

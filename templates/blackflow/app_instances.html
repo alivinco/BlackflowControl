@@ -27,17 +27,18 @@
         <th><h6>Alias/App/Info</h6></th>
         <th><h6>Subscribes for</h6></th>
         <th><h6>Publishes to</h6></th>
+        <th><h6>Container</h6></th>
         <th><h6>Status</h6></th>
         <th><h6>Action</h6></th>
       </tr>
    </thead>
    <tbody>
-   {%  for app in bf_response.event.properties.app_instances %}
+   {%  for app in bf_response %}
     <tr>
         <td >{{ app.id }}</td>
 {#        <td ></td>#}
         <td >{{ app.alias }}
-           <p><small><a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_editor?app_name={{ app.app_full_name }}">App:{{ app.app_full_name }}</a></small></p>
+           <p><small><a href="{{ global_context.root_uri }}/ui/app_editor?app_name={{ app.app_full_name }}&container_id={{ app.container_id }}">App:{{ app.app_full_name }}</a></small></p>
            <p><small>Descr. :{{ app.comments }}</small></p>
         </td>
         <td >
@@ -55,10 +56,10 @@
             </p>
             {% endfor %}
            </td>
-
+        <td>{{ app.container_id }}</td>
         <td>{{ app.state }}</td>
         <td style="min-width: 115px">
-            <a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_instance_config?id={{ app.id }}&app_name={{ app.app_full_name }}"><span class=" glyphicon glyphicon-cog"/></a>
+            <a href="{{ global_context.root_uri }}/ui/app_instance_config?id={{ app.id }}&app_name={{ app.app_full_name }}&container_id={{ app.container_id }}"><span class=" glyphicon glyphicon-cog"/></a>
             <a ><span ng-click="controlAppInstance({{ app.id }},'START')" class=" glyphicon glyphicon-play"/></a>
             <a ng-click="controlAppInstance({{ app.id }},'PAUSE')"><span class=" glyphicon glyphicon-pause"/></a>
             <a ng-click="controlAppInstance({{ app.id }},'STOP')"><span class=" glyphicon glyphicon-stop"/></a>

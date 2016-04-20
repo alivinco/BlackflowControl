@@ -2,9 +2,10 @@ __author__ = 'alivinco'
 
 
 class AppGraphManager():
-    def __init__(self, app_instances):
+    def __init__(self, app_instances, container_id):
         self.app_instances = app_instances
         self.max_node_id = 0
+        self.container_id = container_id
 
     def convert_app_instances_into_graph(self):
         self.nodes = []
@@ -18,7 +19,7 @@ class AppGraphManager():
                     new_id = self.__add_unknown_node("local:time_scheduler")
                     edge = {"to": app_inst["id"], "from": new_id}
                     if not (edge in self.edges): self.edges.append(edge)
-
+            app_inst["group"] = self.container_id
             self.nodes.append(app_inst)
             for key, pub_to in app_inst["pub_to"].iteritems():
                 # list_of_target_ids = self.__get_target_app_ids_by_pub_topic(pub_to)
@@ -55,7 +56,7 @@ class AppGraphManager():
         new_id = self.__get_next_node_id()
         search = filter(lambda node: node["alias"] == topic, self.nodes)
         if len(search) == 0:
-            self.nodes.append({"id": new_id, "alias": topic})
+            self.nodes.append({"id": new_id, "alias": topic , "group":self.container_id})
         else:
             new_id = search[0]["id"]
         return new_id

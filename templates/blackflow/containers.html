@@ -15,101 +15,36 @@
 {% endblock %}
 {% block body %}
 </h1>
-<h3>App store</h3>
+<h3>Discovered resources</h3>
 
-<div ng-app="AppStore" ng-controller="AppStoreController" class="container-fluid">
+<div ng-app="AppStore" class="container-fluid">
 <table class="table table-bordered table-striped table-hover">
    <thead>
       <tr>
+        <th><h6>Type</h6></th>
         <th><h6>Name</h6></th>
-        <th><h6>Ver.</h6></th>
-        <th><h6>Developer</h6></th>
-        <th><h6>Categories</h6></th>
-        <th><h6>Tags</h6></th>
-        <th><h6>Rating</h6></th>
-        <th><h6>Downloads</h6></th>
-        <th><h6>Public</h6></th>
-        <th><h6>Updated</h6></th>
+        <th><h6>Uri</h6></th>
+        <th><h6>Sdk</h6></th>
+        <th><h6>Ip</h6></th>
+        <th><h6>Container id</h6></th>
       </tr>
    </thead>
    <tbody>
-
-    <tr ng-repeat="app in asData" ng-click="openAppExtendedInfoModal($index)">
-        <td >{[ app.app_name ]} <p> <small>{[app.short_description]}</small></p></td>
-        <td >{[ app.version ]}</td>
-        <td >{[ app.developer ]}</td>
-        <td >{[ app.categories[0] ]}</td>
-        <td >{[ app.tags ]}</td>
-        <td >{[ app.rating ]}</td>
-        <td >{[ app.downloads ]}</td>
-        <td >{[ app.public ]}</td>
-        <td >{[ app.updated ]}</td>
+ {%  for cont in containers %}
+    <tr>
+        <td >{{ cont.type }}</td>
+        <td >{{ cont.name }}</td>
+        <td >{{ cont.uri }}</td>
+        <td >{{ cont.sdk }}</td>
+        <td >{{ cont.ip }}</td>
+        <td >{{ cont.props.container_id }}</td>
     </tr>
-
+ {% endfor %}
   <tbody>
 </table>
 
 
 {#Modal dialog #}
-<div class="modal fade" id="app_extended_info_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Create new application</h4>
-      </div>
-      <br/>
-      <div >
-            <form class="form-horizontal" role="form" >
-              <div class="form-group">
-                <label for="inputName" class="col-sm-3 control-label">Unique id</label>
-                <div class="col-sm-6">
-                  <input type="text" name="find" readonly class="form-control" id="inputName" ng-model="selected_app.id" placeholder="" value="">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputName" class="col-sm-3 control-label">Name</label>
-                <div class="col-sm-6">
-                  <input type="text" readonly name="find" class="form-control" id="inputName" ng-model="selected_app.app_name" placeholder="" value="">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputName" class="col-sm-3 control-label">Developer</label>
-                <div class="col-sm-6">
-                  <input type="text" name="find" readonly class="form-control" id="inputName" ng-model="selected_app.developer" placeholder="" value="">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="inputAddress" class="col-sm-3 control-label">Version</label>
-                <div class="col-sm-6">
-                  <input type="text" readonly name="replace_to" class="form-control" id="inputAddress" ng-model="selected_app.version" value="">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputAddress" class="col-sm-3 control-label">Short description</label>
-                <div class="col-sm-6">
-                  <input type="text" name="replace_to" class="form-control" id="inputAddress" ng-model="selected_app.short_description" value="">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="inputAddress" class="col-sm-3 control-label">Categories</label>
-                <div class="col-sm-6">
-                  <input type="text" name="replace_to" class="form-control" id="inputAddress" ng-model="selected_app.categories[0]" value="">
-                </div>
-              </div>
-              <div class="modal-footer">
-                  <button type="button" class="btn btn-danger pull-left" ng-click="deleteApp()">Delete</button>
-                <button type="button" class="btn btn-success" ng-click="installApp()">Install</button>
-                <button type="button" class="btn btn-default" ng-click="downloadApp()">Download</button>
-                <button type="button" class="btn btn-default" ng-click="saveApp()">Save</button>
-                <button type="button" class="btn btn-default"  data-dismiss="modal">Close</button>
-              </div>
-            </form>
-      </div>
-    </div>
-  </div>
-</div>
 
 </div>
 {% endblock %}

@@ -27,18 +27,18 @@
       </tr>
    </thead>
    <tbody>
-   {%  for app in bf_response.event.properties.apps %}
+   {%  for app in bf_response %}
        {% set app_full_name = app.developer+"_n"+app.name+"_v"+app.version %}
     <tr>
         <td ><h5>{{ app.name }} v.{{ app.version }}</h5></td>
         <td >{{ app.version }}</td>
         <td >{{ app.developer }}</td>
         <td><small>{{ app.description }}</small></td>
-        <td></td>
+        <td>{{ app.container_id }}</td>
          <td style="width: 140px">
            <div >
-            <a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_instance_config?app_name={{ app_full_name }}"><span style="font-size:1.6em;" class=" glyphicon glyphicon-plus-sign"/></a>
-            <a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/app_editor?app_name={{ app_full_name }}"><span style="font-size:1.6em;" class=" glyphicon glyphicon-pencil" /></a>
+            <a href="{{ global_context.root_uri }}/ui/app_instance_config?app_name={{ app_full_name }}&container_id={{ app.container_id }}"><span style="font-size:1.6em;" class=" glyphicon glyphicon-plus-sign"/></a>
+            <a href="{{ global_context.root_uri }}/ui/app_editor?app_name={{ app_full_name }}&container_id={{ app.container_id }}"><span style="font-size:1.6em;" class=" glyphicon glyphicon-pencil" /></a>
             <a><span style="font-size:1.6em;" class=" glyphicon glyphicon-refresh" ng-click=reload("{{ app_full_name }}") /></a>
             <span>&nbsp;&nbsp;</span>
             <a><span style="font-size:1.6em;" class=" glyphicon glyphicon-trash" ng-click=delete_app("{{ app_full_name }}") /></a>
@@ -86,7 +86,16 @@
                   <input type="text"  class="form-control"  ng-model="app_developer" value="">
                 </div>
               </div>
-
+              <div class="form-group">
+                <label for="inputAddress" class="col-sm-3 control-label">Container</label>
+                <div class="col-sm-6">
+                  <select class="form-control" name="container_id" ng-model="app_container">
+                      {% for cont in containers %}
+                      <option value="{{ cont }}">{{ cont }}</option>
+                      {% endfor %}
+                  </select>
+                </div>
+              </div>
               <div class="modal-footer">
                 <button type="submit" class="btn btn-default" ng-click="init_new_app()">Create</button>
                 <button type="button" class="btn btn-default"  data-dismiss="modal">Close</button>

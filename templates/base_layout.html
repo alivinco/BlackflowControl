@@ -134,40 +134,39 @@
                 <span>Services</span>
               </li>
               <li {% block li_inter_console %} {% endblock %} >
-                  <a href="{{ global_context.root_uri }}/ui/inter_console">
-                      <i class="glyphicon glyphicon-globe"></i><span>Explore</span>
+                  <a href="{{ global_context.root_uri }}/ui/discovery">
+                      <i class="glyphicon glyphicon-globe"></i><span>Discovery</span>
                   </a>
               </li>
 
               <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                <span>Blackflow apps</span>
+                <span>Apps</span>
               </li>
               <li >
-                  <a href="{{ global_context.root_uri }}/ui/blackflow/default/apps"  >
+                  <a href="{{ global_context.root_uri }}/ui/apps"  >
                       <i class="glyphicon glyphicon-list-alt"></i><span>Installed</span>
                   </a>
               </li>
               <li >
-                  <a href="{{ global_context.root_uri }}/ui/blackflow/default/app_store"  >
-                      <i class="glyphicon glyphicon-list-alt"></i><span>App store</span>
-                  </a>
-              </li>
-              <li >
-                  <a href="{{ global_context.root_uri }}/ui/blackflow/default/app_instances"  >
+                  <a href="{{ global_context.root_uri }}/ui/app_instances"  >
                       <i class="glyphicon glyphicon-list-alt"></i><span>Instances</span>
                   </a>
               </li>
               <li >
-                  <a href="{{ global_context.root_uri }}/ui/blackflow/default/app_instances_graph"  >
+                  <a href="{{ global_context.root_uri }}/ui/app_instances_graph"  >
                       <i class="glyphicon glyphicon-list-alt"></i><span>Instances graph</span>
                   </a>
               </li>
               <li >
-                  <a href="{{ global_context.root_uri }}/ui/blackflow/{{ bf_inst_name }}/context"  >
+                  <a href="{{ global_context.root_uri }}/ui/context"  >
                       <i class="glyphicon glyphicon-list-alt"></i><span>Context</span>
                   </a>
               </li>
-
+              <li >
+                  <a href="{{ global_context.root_uri }}/ui/app_store"  >
+                      <i class="glyphicon glyphicon-list-alt"></i><span>App store</span>
+                  </a>
+              </li>
             </ul>
         </nav>
 
