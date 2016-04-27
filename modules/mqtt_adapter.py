@@ -1,6 +1,6 @@
 import threading
 
-from libs.iot_msg.iot_msg_converter import IotMsgConverter
+from libs.iot_msg_lib.iot_msg_converter import IotMsgConverter
 
 __author__ = 'aleksandrsl'
 from libs import mosquitto
@@ -22,7 +22,7 @@ class MqttAdapter:
         self._retry_counter = 0
         self._max_retry_attempts = max_retry_attempt
         self._thread = None
-        self.sub_topic = "/#"
+        self.sub_topics = ["/app/blackflow/+/events","/discovery/events"]
         self.topic_prefix = ""
         self.global_context = {}
         self.client_id = client_id
@@ -90,13 +90,10 @@ class MqttAdapter:
         log.info("The system reconnected to mqtt broker")
 
     def initiate_listeners(self):
-        topic = self.topic_prefix + self.sub_topic
-        self.mqtt.subscribe(topic, 1)
-        # mosquitto internal monitoring topic
-        if self.enable_sys:
-            self.mqtt.subscribe("$SYS/#", 1)
-            log.info("mqtt adapter subscribed to $SYS/# mqtt internal monitoring topic.")
-        log.info("mqtt adapter subscribed to topic " + topic)
+        for topic in self.sub_topics:
+            sub_topic = self.topic_prefix + topic
+            self.mqtt.subscribe(sub_topic, 1)
+            log.info("mqtt adapter subscribed to topic " + sub_topic)
 
     def _on_connect(self, mosq, userdata, rc):
         if rc == 0:

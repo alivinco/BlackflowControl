@@ -1,4 +1,4 @@
-from libs.iot_msg.iot_msg import IotMsg, PayloadType, MsgType
+from libs.iot_msg_lib.iot_msg import IotMsg, PayloadType, MsgType
 
 
 class ServiceDiscovery:

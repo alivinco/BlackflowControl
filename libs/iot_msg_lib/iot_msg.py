@@ -74,13 +74,6 @@ class IotMsg:
     def get_corid(self):
         return self.corid
 
-    # def set_corr_id_from_iotmsg(self,iot_msg):
-    #     """
-    #
-    #     :param request_msg:
-    #     """
-    #     self._msg["corid"] = iot_msg.get_uuid()
-
     def set_default(self, value, unit=None, type_=None):
         """
 
@@ -107,12 +100,6 @@ class IotMsg:
 
     def get_properties(self):
         return self.properties
-
-    # def get_dict(self):
-    #     return self._msg
-    #
-    # def get_json(self):
-    #     return json.dumps(self._msg)
 
     def get_msg_class(self):
         return self.msg_class

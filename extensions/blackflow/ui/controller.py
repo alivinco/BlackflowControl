@@ -1,6 +1,6 @@
 from extensions.blackflow.app_graph_manager import AppGraphManager
-from libs.iot_msg.iot_msg import MsgType, IotMsg
-from libs.iot_msg.iot_msg_converter import IotMsgConverter
+from libs.iot_msg_lib.iot_msg import MsgType, IotMsg
+from libs.iot_msg_lib.iot_msg_converter import IotMsgConverter
 from libs.utils import split_app_full_name
 import json
 import logging
@@ -117,17 +117,18 @@ def blackflow_proxy():
     correlation_msg_type = data["corr_msg_type"] if "corr_msg_type" in data else ""
     correlation_type = data["corr_type"] if "corr_type" in data else "MSG_TYPE"
     sync_request_timeout = int(data["sync_req_timeout"]) if "sync_req_timeout" in data else 30
-    request_payload = json.dumps(data["req_payload"])
+    request_payload = data["req_payload"]
     log.info("Proxy request . type = %s , correlation_msg_type = %s , request_payload = %s " % (request_type, correlation_msg_type, request_payload))
     if request_type == "one_way":
-        sync_async_client.msg_system.publish(request_topic, request_payload, 1)
-        response = "{}"
+        msg = IotMsgConverter.dict_to_iot_msg(request_topic,request_payload)
+        sync_async_client.msg_system.publish(request_topic, msg, 1)
+        return Response(response="{}" , mimetype='application/json')
     elif request_type == "sync_response":
         request_payload = data["req_payload"]
         msg = IotMsgConverter.dict_to_iot_msg(request_topic,request_payload)
         response = sync_async_client.send_sync_msg(msg, request_topic, response_topic, sync_request_timeout, correlation_msg_type=correlation_msg_type,
                                                    correlation_type=correlation_type)
-    return Response(response=IotMsgConverter.iot_msg_with_topic_to_str(response_topic,response) , mimetype='application/json')
+        return Response(response=IotMsgConverter.iot_msg_with_topic_to_str(response_topic,response) , mimetype='application/json')
 
 
 @blackflow_bp.route('/ui/app_instances_graph/', methods=["GET"])

@@ -4,11 +4,8 @@
 #     JSON_IOT_MSG_V1 = 1
 #     # Binary encoded IOT message format
 #     BINARY_IOT_MSG_V1 = 3
-import uuid
 
-import time
-
-from libs.iot_msg.iot_msg import MsgType, IotMsg
+from libs.iot_msg_lib.iot_msg import MsgType, IotMsg
 
 
 class IotMsgCodec:
@@ -53,7 +50,8 @@ class IotMsgToJsonIotMsgV0Codec(IotMsgCodec):
         if "corid" in dict_msg :
             imsg.corid = dict_msg["corid"]
         imsg.default = dict_msg[msg_type_str]["default"]
-        imsg.set_properties(dict_msg[msg_type_str]["properties"])
+        if "properties" in dict_msg[msg_type_str]:
+            imsg.set_properties(dict_msg[msg_type_str]["properties"])
         imsg.uuid = dict_msg["uuid"]
         return imsg
 
@@ -91,26 +89,3 @@ class IotMsgToBinaryIotMsgV1MsgCodec:
     @staticmethod
     def decode(IotMsg):
         pass
-
-
-# def init_from_params(self, msg_type, msg_class, msg_subclass, request_msg=None):
-    #     self._msg = {"origin": {"@id": self._app_name, "@type": "app"},
-    #            "uuid": str(uuid.uuid4()),
-    #            "creation_time": int(time.time()) * 1000,
-    #                  msg_type: {"default": {"value": ""}, "subtype": msg_subclass, "@type": msg_class, "properties": {}},
-    #            "spid": "SP1"
-    #                  }
-    #     self.msg_type = msg_type
-    #     if request_msg:
-    #         self._msg["corid"] = request_msg["uuid"]
-    #
-    # def init_from_dict(self, json_msg):
-    #     """
-    #
-    #     :param json_msg:
-    #     """
-    #     self._msg = json_msg
-    #     if "command" in self._msg:
-    #         self.msg_type = "command"
-    #     else :
-    #         self.msg_type = "event"

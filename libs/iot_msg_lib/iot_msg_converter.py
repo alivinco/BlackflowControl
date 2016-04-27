@@ -1,7 +1,7 @@
 import json
 
-from libs.iot_msg.iot_msg import PayloadType, IotMsg, MsgType
-from libs.iot_msg.iot_msg_codecs import IotMsgToJsonIotMsgV0Codec, IotMsgToJsonIotMsgV1Codec
+from libs.iot_msg_lib.iot_msg import PayloadType, IotMsg, MsgType
+from libs.iot_msg_lib.iot_msg_codecs import IotMsgToJsonIotMsgV0Codec, IotMsgToJsonIotMsgV1Codec
 import logging
 log = logging.getLogger("iot_msg_converter")
 
