@@ -71,7 +71,7 @@ def init_app_components():
 
     # Flask init
     app = Flask(__name__)
-    app.secret_key = '\x94&J\x8f\xe2+\x93Hr\xdd\xb8\x15./\xd0\x13\xf0\x88\x15f\x8f`\xec\xcd'
+    app.secret_key = '\xb5\xd4\xa1\xa5_\xc9\x07"\xaa\xb5\x1d1\xea\xd0\x08\\\xe9\x0b\x056\xf9J\x8f\xd0'
     app.config['SESSION_TYPE'] = 'filesystem'
     app.config['SESSION_FILE_DIR'] = '/tmp/'
     app.config['LOGIN_DISABLED'] = conf["system"]["ui_security_disabled"]
