@@ -111,16 +111,3 @@ class IotMsg:
         return "msg_type = %s , msg_class = %s , msg_subclass = %s \n default : %s  \n properties : %s \n uuid : %s \n corid : %s \n"%(
                 self.msg_type, self.msg_class, self.msg_subclass , self.default , self.properties , self.uuid ,self.corid
         )
-
-
-if __name__ == '__main__':
-    m = IotMsg.new_iot_msg("blackflow", "command", "binary", "switch")
-    m.set_default(True)
-    m.set_properties({"p1":165})
-    print json.dumps(m.get_dict())
-    json_str = '{"origin": {"@id": "blackflow", "@type": "app"}, "event": {"default": {"value": true}, "subtype": "switch", "@type": "binary", "properties": {"p1": 165}}, "creation_time": 1459696245000, "uuid": "e48fbe58-3aaf-442d-b769-7a24aed8b716", "spid": "SP1"}'
-    m2 = IotMsg.new_iot_msg_from_dict("blackflow", json.loads(json_str))
-    print m2.get_default()["value"]
-    print m2.get_properties()
-    print m2.get_msg_class()
-    print m2.get_msg_subclass()
