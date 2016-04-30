@@ -29,8 +29,8 @@ function transformData(data)
         shape = get_node_shape(alias)
         data.nodes[i]["shape"] = shape["shape"]
         data.nodes[i]["color"] = shape["color"]
-
     }
+    console.dir(data.nodes)
     for(i in data.edges)
     {
         data.edges[i]["id"] = data.edges[i].from+"_"+data.edges[i].to
@@ -102,13 +102,34 @@ function startPoolingAnalytics()
 }
 
 
+function repositionaNodes()
+{
+    instancesGraphData.nodes.forEach(function(node) {
+        console.dir(node.id)
+        npos = localStorage.getItem("npos_" + node.id)
+        if (npos) {
+            npos = JSON.parse(npos)
+            instancesGraphData.nodes.update(npos)
+        }
+    })
+}
+
+function updateNodePosition(nodeId,xPos,yPos){
+    console.log(nodeId)
+    if (nodeId){
+        upd = {id:nodeId,x:xPos,y:yPos,fixed:true}
+        instancesGraphData.nodes.update(upd)
+        localStorage.setItem("npos_"+nodeId,JSON.stringify(upd))
+    }
+}
+
 function initGraph() {
 
     // create a network
     var container = document.getElementById('app_instances_graph_div');
     // provide the data in the vis format
     var data = {};
-    var options = { edges:{arrows: 'to'},
+    var options = { edges:{arrows: 'to',smooth:false},
                    layout:{hierarchical: {
                           enabled:false,
                           levelSeparation: 250,
@@ -130,11 +151,32 @@ function initGraph() {
     //        };
     // initialize your network!
     instancesGraph = new vis.Network(container, data, options);
+    instancesGraph.on("dragEnd",function(obj){
+        //console.dir(obj)
+        nodeId = obj.nodes[0]
+        updateNodePosition(nodeId,obj.pointer.canvas.x,obj.pointer.canvas.y)
+        console.dir(instancesGraphData.nodes)
+    })
+    instancesGraph.on("dragStart",function(obj){
+        //console.dir(obj)
+        nodeId = obj.nodes[0]
+        if (nodeId) {
+            instancesGraphData.nodes.update({id: nodeId, fixed: false})
+        }
+    })
+    instancesGraph.on("doubleClick",function(obj){
+        console.dir(obj)
+        nodeId = obj.nodes[0]
+        if (nodeId) {
+            instancesGraphData.nodes.update({id: nodeId, fixed: false})
+        }
+    })
 }
  $(function(){
 
     initGraph()
     loadGraph().done(function(data){
+        repositionaNodes()
         startPoolingAnalytics()
     })
     //document.getElementById('draw').onclick = set_dates()

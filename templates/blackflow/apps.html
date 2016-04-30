@@ -39,9 +39,9 @@
            <div >
             <a href="{{ global_context.root_uri }}/ui/app_instance_config?app_name={{ app_full_name }}&container_id={{ app.container_id }}"><span style="font-size:1.6em;" class=" glyphicon glyphicon-plus-sign"/></a>
             <a href="{{ global_context.root_uri }}/ui/app_editor?app_name={{ app_full_name }}&container_id={{ app.container_id }}"><span style="font-size:1.6em;" class=" glyphicon glyphicon-pencil" /></a>
-            <a><span style="font-size:1.6em;" class=" glyphicon glyphicon-refresh" ng-click=reload("{{ app_full_name }}") /></a>
+            <a><span style="font-size:1.6em;" class=" glyphicon glyphicon-refresh" ng-click=reload("{{ app_full_name }}","{{ app.container_id }}") /></a>
             <span>&nbsp;&nbsp;</span>
-            <a><span style="font-size:1.6em;" class=" glyphicon glyphicon-trash" ng-click=delete_app("{{ app_full_name }}") /></a>
+            <a><span style="font-size:1.6em;" class=" glyphicon glyphicon-trash" ng-click=delete_app("{{ app_full_name }}","{{ app.container_id }}") /></a>
            </div>
         </td>
     </tr>

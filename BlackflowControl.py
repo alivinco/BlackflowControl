@@ -74,6 +74,7 @@ def init_app_components():
     app.secret_key = '\xb5\xd4\xa1\xa5_\xc9\x07"\xaa\xb5\x1d1\xea\xd0\x08\\\xe9\x0b\x056\xf9J\x8f\xd0'
     app.config['SESSION_TYPE'] = 'filesystem'
     app.config['SESSION_FILE_DIR'] = '/tmp/'
+    app.config['SESSION_COOKIE_NAME'] = 'bflowctr'
     app.config['LOGIN_DISABLED'] = conf["system"]["ui_security_disabled"]
     # app.config['APPLICATION_ROOT'] = root_uri
     app.register_blueprint(mod_auth)
