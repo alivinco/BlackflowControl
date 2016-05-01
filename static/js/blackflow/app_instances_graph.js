@@ -25,18 +25,20 @@ function transformData(data)
     for(i in data.nodes)
     {
         alias = data.nodes[i].alias
-        data.nodes[i]["label"] = alias
         shape = get_node_shape(alias)
+        if (shape.shape == "circle"){
+            data.nodes[i]["label"] = alias +" \n "+data.nodes[i]["group"]
+        }else{
+            data.nodes[i]["label"] = alias
+        }
         data.nodes[i]["shape"] = shape["shape"]
         data.nodes[i]["color"] = shape["color"]
     }
-    console.dir(data.nodes)
     for(i in data.edges)
     {
         data.edges[i]["id"] = data.edges[i].from+"_"+data.edges[i].to
         //data.edges[i]["label"] = "1"
     }
-    console.dir(data)
     result = {
         edges : new vis.DataSet(data.edges),
         nodes : new vis.DataSet(data.nodes)
@@ -105,7 +107,6 @@ function startPoolingAnalytics()
 function repositionaNodes()
 {
     instancesGraphData.nodes.forEach(function(node) {
-        console.dir(node.id)
         npos = localStorage.getItem("npos_" + node.id)
         if (npos) {
             npos = JSON.parse(npos)
@@ -142,13 +143,6 @@ function initGraph() {
                             "timestep": 0.48
                           }
     };
-    //var options = {
-    //            layout: {
-    //                hierarchical: {
-    //                    direction: directionInput
-    //                }
-    //            }
-    //        };
     // initialize your network!
     instancesGraph = new vis.Network(container, data, options);
     instancesGraph.on("dragEnd",function(obj){
@@ -167,11 +161,31 @@ function initGraph() {
     instancesGraph.on("doubleClick",function(obj){
         console.dir(obj)
         nodeId = obj.nodes[0]
+
         if (nodeId) {
-            instancesGraphData.nodes.update({id: nodeId, fixed: false})
+            node = instancesGraphData.nodes.get(nodeId)
+            console.dir(node)
+            selectedInstanceId = node.id
+            selectedAppFullName = node.app_full_name
+            selectedContainer = node.group
+            $("#mod_inst_name").html(node.alias)
+            $("#mod_app_full_name").html(node.app_full_name)
+            $("#mod_comments").html(node.comments)
+            $("#mod_container").html(node.group)
+            $("#nodeInfoModal").modal({show:true})
+
         }
     })
 }
+function openInstanceConfig()
+{
+  window.location = root_uri+"/ui/app_instance_config?id="+selectedInstanceId+"&app_name="+selectedAppFullName+"&container_id="+selectedContainer
+}
+function openAppConfig()
+{
+  window.location = root_uri+"/ui/app_editor?app_name="+selectedAppFullName+"&container_id="+selectedContainer
+}
+
  $(function(){
 
     initGraph()

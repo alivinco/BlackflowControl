@@ -98,6 +98,16 @@
                   <input type="text" name="replace_to" class="form-control" id="inputAddress" ng-model="selected_app.categories[0]" value="">
                 </div>
               </div>
+               <div class="form-group">
+                <label for="inputAddress" class="col-sm-3 control-label">Target container</label>
+                <div class="col-sm-6">
+                  <select class="form-control" name="container_id" ng-model="container_id">
+                      {% for cont in containers %}
+                      <option value="{{ cont }}">{{ cont }}</option>
+                      {% endfor %}
+                  </select>
+                </div>
+              </div>
               <div class="modal-footer">
                   <button type="button" class="btn btn-danger pull-left" ng-click="deleteApp()">Delete</button>
                 <button type="button" class="btn btn-success" ng-click="installApp()">Install</button>
@@ -110,6 +120,8 @@
     </div>
   </div>
 </div>
+
+
 
 </div>
 {% endblock %}

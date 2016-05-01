@@ -53,7 +53,7 @@ app.controller("AppStoreController",["$scope","$http","$filter",function($scope,
         packet = getMessagePacket("command","app_store","download_app")
         packet.command.default.value = $scope.selected_app.id
         packet.command.properties = {app_store_url:app_store_api,sec_token:""}
-        $http.post(root_uri+"/api/blackflow/"+bf_inst_name+"/proxy",{"req_type":"sync_response","req_payload":packet,"corr_type":"COR_ID"}).
+        $http.post(root_uri+"/api/proxy",{"req_type":"sync_response","req_payload":packet,"corr_type":"COR_ID","container_id":$scope.container_id}).
         then(function(response) {
             console.dir(response.data)
             if(response.data.event.default.value == 200){

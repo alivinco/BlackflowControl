@@ -149,7 +149,8 @@ def app_editor_ui():
 @blackflow_bp.route('/ui/app_store', methods=["GET"])
 @login_required
 def app_store_ui():
-    return render_template('blackflow/app_store.html', global_context=global_context, format_time=utils.format_iso_time_from_sec)
+    containers = svc_discovery.get_containers()
+    return render_template('blackflow/app_store.html', containers=containers, global_context=global_context, format_time=utils.format_iso_time_from_sec)
 
 
 @blackflow_bp.route('/ui/discovery', methods=["GET"])

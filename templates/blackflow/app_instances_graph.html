@@ -16,9 +16,43 @@
 </h1>
 <h3>Application instances graph </h3>
 <div  class="container-fluid">
-<div  id="app_instances_graph_div">
-
+    <div  id="app_instances_graph_div">
+    </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="nodeInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Instance info</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-3">Instance name:</div>
+          <div class="col-md-6" id = "mod_inst_name"></div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">App fuull name:</div>
+          <div class="col-md-6" id = "mod_app_full_name"></div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">Container:</div>
+          <div class="col-md-6" id = "mod_container"></div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">Comments:</div>
+          <div class="col-md-6" id = "mod_comments"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" onclick="openInstanceConfig()">Configure instance</button>
+        <button type="button" class="btn btn-default" onclick="openAppConfig()">Modify app</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
