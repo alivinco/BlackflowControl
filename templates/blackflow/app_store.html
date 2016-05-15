@@ -11,13 +11,29 @@
             border: 1px solid lightgray;
         }
     </style>
-<script src="{{ global_context.root_uri }}/static/js/angular.min.js"></script>
+{#<script src="{{ global_context.root_uri }}/static/js/angular.min.js"></script>#}
+
+<!-- START From Auth0 -->
+<!-- Auth0's lock widget library -->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
+<!-- Angular cookie wrapper library for client cookies -->
+{#<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-cookies.js"></script>#}
+<!-- Angular's Router Library for SPA -->
+{#<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.js"></script>#}
+<!-- Angular wrapper library for JWT-->
+<script src="http://cdn.rawgit.com/auth0/angular-jwt/master/dist/angular-jwt.js" type="text/javascript"> </script>
+<!-- STOP From Auth0 -->
+
+
 {% endblock %}
 {% block body %}
 </h1>
 <h3>App store</h3>
+<div ng-app="AppStore">
+<div  ng-controller="AppStoreController" class="container-fluid">
+<br/>
+<a href="" ng-click="loadData()" class="btn btn-default">Reload</a>
 
-<div ng-app="AppStore" ng-controller="AppStoreController" class="container-fluid">
 <table class="table table-bordered table-striped table-hover">
    <thead>
       <tr>
@@ -98,6 +114,12 @@
                   <input type="text" name="replace_to" class="form-control" id="inputAddress" ng-model="selected_app.categories[0]" value="">
                 </div>
               </div>
+              <div class="form-group">
+                <label for="inputAddress" class="col-sm-3 control-label">Public</label>
+                <div class="col-sm-6">
+                  <input type="checkbox" name="public" class="form-control" id="inputAddress" ng-model="selected_app.public" value="">
+                </div>
+              </div>
                <div class="form-group">
                 <label for="inputAddress" class="col-sm-3 control-label">Target container</label>
                 <div class="col-sm-6">
@@ -121,7 +143,9 @@
   </div>
 </div>
 
+{#<p>Current user :{{ current_user.id_token }}</p>#}
 
+</div>
 
 </div>
 {% endblock %}
@@ -129,6 +153,7 @@
     <script>
       var bf_inst_name = "{{ bf_inst_name }}"
       var app_store_api = "{{ global_context.app_store_api_url }}"
+      var id_token = "{{ current_user.id_token }}"
     </script>
     <script src="{{ global_context.root_uri }}/static/js/stupidtable.min.js"></script>
      <script src="{{ global_context.root_uri }}/static/js/utils.js" type="text/javascript" charset="utf-8"></script>

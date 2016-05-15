@@ -4,6 +4,10 @@ import os
 __author__ = 'alivinco'
 from werkzeug.security import generate_password_hash,check_password_hash
 
+class AuthType :
+    local = 1
+    auth0 = 2
+
 class User:
     """An admin user capable of viewing reports.
 
@@ -11,6 +15,7 @@ class User:
     :param str password: encrypted password for the user
 
     """
+
     def __init__(self,username,password):
         """
 
@@ -20,6 +25,8 @@ class User:
         self.username = username
         self.password = password
         self.authenticated = True
+        self.auth_type = AuthType.local
+        self.id_token = None
 
     def set_password(self,password):
         self.password = generate_password_hash(password)
@@ -46,15 +53,20 @@ class User:
     def check_password(self,password):
         return check_password_hash(self.password, password)
 
+    def set_id_token(self,id_token):
+        self.id_token = id_token
+        self.authenticated = True
+
 
 class UserManager:
     def __init__(self):
         self.users = {}
         self.app_root_path = os.getcwd()
         self.users_path = os.path.join(self.app_root_path, "configs", "users.json")
-        self.load_from_storage()
+        # self.load_from_storage()
 
     def load_from_storage(self):
+
         jobj  = json.load(file(self.users_path))
         for user in jobj:
             self.users[user["username"]] = User(user["username"],user["password"])
@@ -73,7 +85,9 @@ class UserManager:
         except:
             return None
 
-    def add_user(self,username,password):
+    def add_user(self,username,password,id_token=None):
         self.users[username]=User(username,"")
         self.users[username].set_password(password)
-        self.serialize_to_storage()
+        if not id_token:
+            self.serialize_to_storage()
+        return self.users[username]

@@ -2,7 +2,12 @@ from extensions.auth.datamodel import UserManager
 from flask import render_template, Blueprint, request , url_for
 import flask
 from libs.flask_login import LoginManager, login_user, logout_user, login_required
+from auth0.v2.authentication import Database
+import logging
+
 __author__ = 'alivinco'
+
+log = logging.getLogger("auth_ctrl")
 
 global_context = {}
 mod_auth = Blueprint('mod_auth', __name__)
@@ -12,6 +17,9 @@ login_manager = LoginManager()
 
 # user = User("shurik","test")
 um = UserManager()
+
+def init_auth0():
+    return Database('zmarlin.eu.auth0.com')
 
 
 @login_manager.user_loader
@@ -29,22 +37,43 @@ def login():
     # Here we use a class of some kind to represent and validate our
     # client-side form data. For example, WTForms is a library that will
     # handle this for us.
+    error = ""
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-        user = um.get_user(username)
-        if user :
-            if user.check_password(password):
-                # Login and validate the user.
-                login_user(user,remember=True)
+        auth_type = global_context["auth_type"]
+        if auth_type=="local":
+            user = um.get_user(username)
+            if user :
+                if user.check_password(password):
+                    # Login and validate the user.
+                    login_user(user,remember=True)
+                    log.info("User %s logged in successfully . Using %s"%(username,auth_type))
+                    flask.flash('Logged in successfully.')
 
-                flask.flash('Logged in successfully.')
+                    next = flask.request.args.get('next')
 
-                next = flask.request.args.get('next')
+                    return flask.redirect(next or url_for("index"))
+                else :
+                    log.info("User %s used wrong password . Using %s"%(username,auth_type))
 
-                return flask.redirect(next or url_for("index"))
-
-    return render_template('auth/login.html',global_context=global_context)
+        elif auth_type=="auth0":
+            auth0 = init_auth0()
+            try:
+                result = auth0.login("njwDYXaCFOS2TzTHGQaBUTk8GiXNgLti",username=username,password=password,connection="Username-Password-Authentication",
+                            grant_type="password", scope="openid email nickname app_metadata")
+                if result:
+                    user = um.get_user(username)
+                    if not user:
+                        user=um.add_user(username,"")
+                    user.set_id_token(result["id_token"])
+                    log.info("User %s logged in successfully . Using %s"%(username,auth_type))
+                    login_user(user,remember=True)
+                    next = flask.request.args.get('next')
+                    return flask.redirect(next or url_for("index"))
+            except Exception as ex :
+                error = ex.message
+    return render_template('auth/login.html',error=error,global_context=global_context)
 
 
 @mod_auth.route('/ui/auth_manager', methods=['GET', 'POST'])

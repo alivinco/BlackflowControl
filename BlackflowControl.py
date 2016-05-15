@@ -88,6 +88,7 @@ def init_app_components():
     global_context["root_uri"] = root_uri
     global_context["app_store_api_url"] = conf["app_store"]["api_url"]
     global_context["app_store_username"] = conf["app_store"]["username"]
+    global_context["auth_type"] = conf["system"]["auth_type"]
     http_server_port = conf["system"]["http_server_port"]
     # Influx DB
     # Mqtt Adapter
@@ -111,6 +112,8 @@ def init_app_components():
     sync_async_client = SyncToAsyncMsgConverter(mqtt)
     mqtt.set_message_handler(sync_async_client.on_message)
     auth_ex.global_context = global_context
+    if global_context["auth_type"] == "local":
+        auth_ex.um.load_from_storage()
     bf_containers = ServiceDiscovery(sync_async_client)
 
     blackflow_ex.global_context = global_context

@@ -1,16 +1,22 @@
 /**
  * Created by alivinco on 26/07/15.
  */
-var app = angular.module('AppStore', []);
+var app = angular.module('AppStore', ['angular-jwt']);
 
-app.config(['$interpolateProvider', function($interpolateProvider) {
+app.config(function($interpolateProvider,jwtInterceptorProvider,$httpProvider) {
   $interpolateProvider.startSymbol('{[');
   $interpolateProvider.endSymbol(']}');
-}]);
+  //Angular HTTP Interceptor function
+  jwtInterceptorProvider.tokenGetter = function() {
+        return id_token;
+  }
+  //Push interceptor function to $httpProvider's interceptors
+  $httpProvider.interceptors.push('jwtInterceptor');
 
+
+});
 
 app.controller("AppStoreController",["$scope","$http","$filter",function($scope,$http,$filter){
-
     $scope.loadData = function () {
         $http.get(app_store_api+'/apps').
         then(function (response) {
@@ -68,4 +74,5 @@ app.controller("AppStoreController",["$scope","$http","$filter",function($scope,
     }
 
 }])
+
 

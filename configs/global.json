@@ -11,16 +11,17 @@
  }, 
  "system": {
   "http_server_port": 5001, 
-  "distro_server_uri": "http://lego.fiicha.net/blackfly", 
-  "platform": "sg", 
+  "distro_server_uri": "http://lego.fiicha.net/blackfly",
+  "platform": "sg",
   "ui_security_disabled": false, 
   "version": "1.5.5", 
-  "sid": "3c15c2d4eeae"
+  "sid": "3c15c2d4eeae",
+  "auth_type":"auth0"
  }, 
  "app_store": {
   "username": "alivinco", 
   "password": "", 
-  "api_url": "http://lego.fiicha.net/bfhub/api"
+  "api_url": "http://localhost:5050/bfhub/api"
  }, 
  "log_dir": "./"
 }

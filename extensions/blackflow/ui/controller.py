@@ -5,7 +5,7 @@ from libs.utils import split_app_full_name
 import json
 import logging
 from flask import render_template, Blueprint, request, Response
-from libs.flask_login import LoginManager, login_required
+from libs.flask_login import LoginManager, login_required,current_user
 from flask import Response, redirect
 from libs import utils
 from modules.mod_containers import ServiceDiscovery
@@ -150,7 +150,8 @@ def app_editor_ui():
 @login_required
 def app_store_ui():
     containers = svc_discovery.get_containers()
-    return render_template('blackflow/app_store.html', containers=containers, global_context=global_context, format_time=utils.format_iso_time_from_sec)
+    log.debug(current_user.username)
+    return render_template('blackflow/app_store.html', containers=containers, global_context=global_context, format_time=utils.format_iso_time_from_sec ,current_user = current_user )
 
 
 @blackflow_bp.route('/ui/discovery', methods=["GET"])
