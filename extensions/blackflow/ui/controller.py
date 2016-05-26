@@ -157,7 +157,8 @@ def app_store_ui():
 @blackflow_bp.route('/ui/discovery', methods=["GET"])
 @login_required
 def discovery_ui():
-    result = svc_discovery.discover()
+    rediscover = True if request.args.get("rediscover", None) else False
+    result = svc_discovery.discover(force_rediscover = rediscover)
     return render_template('blackflow/containers.html', global_context=global_context, format_time=utils.format_iso_time_from_sec,containers = result )
 
 

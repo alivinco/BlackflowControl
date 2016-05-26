@@ -16,8 +16,11 @@
 {% block body %}
 </h1>
 <h3>Discovered resources</h3>
-
 <div ng-app="AppStore" class="container-fluid">
+ <div class="btn-group">
+  <button type="button" class="btn btn-default" onclick="location.href='/blackflow/ui/discovery?rediscover=true'">Rediscover</button>
+</div>
+
 <table class="table table-bordered table-striped table-hover">
    <thead>
       <tr>
@@ -55,5 +58,5 @@
     </script>
     <script src="{{ global_context.root_uri }}/static/js/stupidtable.min.js"></script>
      <script src="{{ global_context.root_uri }}/static/js/utils.js" type="text/javascript" charset="utf-8"></script>
-    <script src="{{ global_context.root_uri }}/static/js/blackflow/app_store.js"></script>
+{#    <script src="{{ global_context.root_uri }}/static/js/blackflow/app_store.js"></script>#}
 {% endblock %}

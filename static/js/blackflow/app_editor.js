@@ -75,7 +75,7 @@ app.controller("AppEditorController",["$scope","$http","$base64",function($scope
     $scope.upload_to_app_store = function (){
         packet = getMessagePacket("command","app_store","upload_app")
         packet.command.default.value = app_name
-        packet.command.properties = {app_store_url:app_store_api,sec_token:""}
+        packet.command.properties = {app_store_url:app_store_api,id_token:id_token}
         $http.post(root_uri+"/api/proxy",{"req_type":"sync_response","req_payload":packet,"corr_type":"COR_ID","container_id":bf_inst_name}).
         then(function(response) {
             console.dir(response.data)
