@@ -9,6 +9,7 @@ __author__ = 'alivinco'
 
 log = logging.getLogger("auth_ctrl")
 
+AUTH0_CLIENT_ID = ""
 global_context = {}
 mod_auth = Blueprint('mod_auth', __name__)
 login_manager = LoginManager()
@@ -17,6 +18,7 @@ login_manager = LoginManager()
 
 # user = User("shurik","test")
 um = UserManager()
+
 
 def init_auth0():
     return Database('zmarlin.eu.auth0.com')
@@ -60,7 +62,7 @@ def login():
         elif auth_type=="auth0":
             auth0 = init_auth0()
             try:
-                result = auth0.login("njwDYXaCFOS2TzTHGQaBUTk8GiXNgLti",username=username,password=password,connection="Username-Password-Authentication",
+                result = auth0.login(AUTH0_CLIENT_ID,username=username,password=password,connection="Username-Password-Authentication",
                             grant_type="password", scope="openid email nickname app_metadata")
                 if result:
                     user = um.get_user(username)

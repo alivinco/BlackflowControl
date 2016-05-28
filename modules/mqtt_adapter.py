@@ -95,6 +95,13 @@ class MqttAdapter:
             self.mqtt.subscribe(sub_topic, 1)
             log.info("mqtt adapter subscribed to topic " + sub_topic)
 
+    def stop_listeners(self):
+        for topic in self.sub_topics:
+            sub_topic = self.topic_prefix + topic
+            self.mqtt.unsubscribe(sub_topic)
+            log.info("mqtt adapter unsubscribed from topic " + sub_topic)
+
+
     def _on_connect(self, mosq, userdata, rc):
         if rc == 0:
             self.global_context['mqtt_conn_status'] = "online"
@@ -190,6 +197,7 @@ class MqttAdapter:
         self._loop_start()
 
     def stop(self):
+        self.stop_listeners()
         log.info("Stopping mqtt listener loop")
         self.mqtt.disconnect()
         self.global_context['mqtt_conn_status'] = "offline"

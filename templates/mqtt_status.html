@@ -1,0 +1,14 @@
+{% extends "base_layout.html" %}
+{% block li_msg_types %}class="active"{% endblock %}
+{% block body %}
+</h1>
+<h3>Mqtt status:{{ status }}</h3>
+
+
+
+<button type="button" onclick="location.href = '{{ global_context.root_uri }}/ui/settings'" class="btn btn-default">Ok</button>
+
+{% endblock %}
+{% block js_scripts %}
+
+{% endblock %}
