@@ -10,18 +10,18 @@
   "port": "1883"
  }, 
  "system": {
+  "auth_type": "auth0", 
   "http_server_port": 5001, 
-  "distro_server_uri": "http://lego.fiicha.net/blackfly",
-  "platform": "sg",
+  "distro_server_uri": "http://lego.fiicha.net/blackfly", 
+  "platform": "sg", 
   "ui_security_disabled": false, 
   "version": "1.5.5", 
-  "sid": "3c15c2d4eeae",
-  "auth_type":"auth0"
+  "sid": "3c15c2d4eeae"
  }, 
  "app_store": {
   "username": "alivinco", 
   "password": "", 
-  "api_url": "http://localhost:5050/bfhub/api"
+  "api_url": "https://zmarlin.com/bfhub/api"
  }, 
  "log_dir": "./"
 }

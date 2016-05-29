@@ -22,7 +22,7 @@ class MqttAdapter:
         self._retry_counter = 0
         self._max_retry_attempts = max_retry_attempt
         self._thread = None
-        self.sub_topics = ["/app/blackflow/+/events","/discovery/events"]
+        self.sub_topics = ["jim1/app/blackflow/+/events","jim1/discovery/events"]
         self.topic_prefix = ""
         self.global_context = {}
         self.client_id = client_id

@@ -12,7 +12,7 @@ class ServiceDiscovery:
             return self.cache["containers"]
         else:
             msg = IotMsg("blackflow", MsgType.CMD, "discovery", "find")
-            r = self.sync_async_client.send_and_wait_aggregated_response(msg, "/discovery/commands", "/discovery/events", "discovery.report" ,2)
+            r = self.sync_async_client.send_and_wait_aggregated_response(msg, "jim1/discovery/commands", "jim1/discovery/events", "discovery.report" ,2)
             result = list()
             for item in r :
                 result.append(item.get_properties())

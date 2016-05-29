@@ -57,6 +57,7 @@ function getMessagePacket(msg_type,msg_class,msg_subclass)
          "default":{"value":""},
          "properties":{}
          }
+
     console.dir(template)
     return template
 }
