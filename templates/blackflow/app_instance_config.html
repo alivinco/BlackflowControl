@@ -100,6 +100,7 @@
                           <input style="width: 70px" type="number"  class="form-control" ng-model="sh.hours" placeholder="hours" >
                           <input style="width: 80px" type="number"  class="form-control" ng-model="sh.minutes" placeholder="minutes" >
                           <input style="width: 80px" type="number"  class="form-control" ng-model="sh.seconds" placeholder="seconds" >
+                          <input style="width: 120px" type="text"  class="form-control" ng-model="sh.timezone" placeholder="seconds" >
                       </span>
                       <span ng-if="sh.trigger_type=='cron'" >
                           <input style="width: 70px" type="text"  class="form-control" ng-model="sh.year" placeholder="year" >
@@ -126,6 +127,7 @@
                           <input style="width: 70px" type="number" min="0" max="23" class="form-control" ng-model="sh.hour" placeholder="hour" >
                           <input style="width: 70px" type="number" min="0" max="59" class="form-control" ng-model="sh.minute" placeholder="minute" >
                           <input style="width: 85px" type="number" min="0" max="59" class="form-control" ng-model="sh.second" placeholder="second" >
+                           <input style="width: 120px" type="text"  class="form-control" ng-model="sh.timezone" placeholder="seconds" >
 
                       </span>
                       <button  class="btn btn-default"  value="Info" >
@@ -193,6 +195,8 @@
     var bf_inst_name = "{{ bf_inst_name }}"
     </script>
     <script src="{{ global_context.root_uri }}/static/js/utils.js" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ global_context.root_uri }}/static/js/moment.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ global_context.root_uri }}/static/js/moment-timezone-with-data.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="{{ global_context.root_uri }}/static/js/blackflow/app_instances_config.js"></script>
 
 {% endblock %}

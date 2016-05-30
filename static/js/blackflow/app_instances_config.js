@@ -105,7 +105,9 @@ app.controller("AppConfigController",function($scope,$http){
     }
     $scope.add_schedule = function(trigger_type)
     {
-        $scope.schedules.push({trigger_type:trigger_type})
+        tz = moment.tz.guess();
+        console.log(tz)
+        $scope.schedules.push({trigger_type:trigger_type,timezone:tz})
     }
     $scope.del_schedule = function(index)
     {
