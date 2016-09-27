@@ -20,7 +20,7 @@ app.controller("AppsListController",["$scope","$http",function($scope,$http){
         packet = getMessagePacket("command","blackflow","init_new_app")
         packet.command.default.value = $scope.app_name
         packet.command.properties = {"version":$scope.app_version,"developer":$scope.app_developer}
-        $http.post(root_uri+"/api/proxy",{"req_type":"sync_response","corr_type":"COR_ID","req_payload":packet,"container_id":$scope.app_container}).
+        $http.post(root_uri+"/api/proxy",{"req_type":"sync_response","corr_type":"COR_ID","req_payload":packet,"container_id":$scope.app_container_id}).
         then(function(response) {
             if(response.data.event.default.value == 200) {
                 alert("New app was added")
