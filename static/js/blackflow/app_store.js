@@ -3,13 +3,16 @@
  */
 var app = angular.module('AppStore', ['angular-jwt']);
 
-app.config(function($interpolateProvider,jwtInterceptorProvider,$httpProvider) {
+app.config(function($interpolateProvider,jwtInterceptorProvider,jwtOptionsProvider,$httpProvider) {
   $interpolateProvider.startSymbol('{[');
   $interpolateProvider.endSymbol(']}');
   //Angular HTTP Interceptor function
   jwtInterceptorProvider.tokenGetter = function() {
         return id_token;
   }
+  jwtOptionsProvider.config({
+          whiteListedDomains: ['zmarlin.com', 'localhost']
+      })
   //Push interceptor function to $httpProvider's interceptors
   $httpProvider.interceptors.push('jwtInterceptor');
 

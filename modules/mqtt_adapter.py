@@ -34,7 +34,9 @@ class MqttAdapter:
 
     def set_mqtt_params(self, client_id, username="", password="", topic_prefix="", enable_sys=False):
         self.mqtt._client_id = client_id
-        self.topic_prefix = topic_prefix
+        if topic_prefix:
+            self.topic_prefix = topic_prefix+"/"
+
         self.enable_sys = enable_sys
         if username:
             self.mqtt.username_pw_set(username, password)

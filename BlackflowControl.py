@@ -16,6 +16,7 @@ from modules.mod_tools import Tools
 # Flask initialization
 import configs.log
 import logging, logging.config
+from os import environ as env
 from libs.sync_to_async_msg_converter import SyncToAsyncMsgConverter
 from extensions.auth.ui import controller as auth_ex
 from extensions.auth.ui.controller import mod_auth, login_manager
@@ -24,7 +25,9 @@ from extensions.blackflow.ui import controller as blackflow_ex
 # Global variables
 from modules.mqtt_adapter import MqttAdapter
 
-root_uri = "/blackflow"
+instance_name = "blackflow"
+auth_ex.APP_INSTANCE = instance_name
+root_uri = "/"+instance_name
 app = None
 http_server_port = None
 global_context = {}
@@ -72,23 +75,14 @@ def init_app_components():
     # app.config['APPLICATION_ROOT'] = root_uri
     app.register_blueprint(mod_auth)
     app.register_blueprint(blackflow_ex.blackflow_bp)
-
-    root_uri = conf["system"]["root_uri"] if "root_uri" in conf["system"] else "/blackflow"
-
     login_manager.init_app(app)
 
-    global_context["version"] = conf["system"]["version"]
-    global_context["root_uri"] = root_uri
-    global_context["app_store_api_url"] = conf["app_store"]["api_url"]
-    global_context["app_store_username"] = conf["app_store"]["username"]
-    global_context["auth_type"] = conf["system"]["auth_type"]
     http_server_port = conf["system"]["http_server_port"]
     # Influx DB
     # Mqtt Adapter
     mqtt = MqttAdapter(conf["mqtt"]["client_id"])
     mqtt.set_mqtt_params(conf["mqtt"]["client_id"], conf["mqtt"]["username"], conf["mqtt"]["password"],
                          conf["mqtt"]["global_topic_prefix"], conf["mqtt"]["enable_sys"])
-    mqtt.sub_topic = conf["mqtt"]["root_topic"]
     mqtt.set_global_context(global_context)
     try:
         if mqtt.connect(conf["mqtt"]["host"], int(conf["mqtt"]["port"])):
@@ -136,7 +130,6 @@ def init_controllers():
 
             conf["mqtt"]["host"] = request.form["mqtt_host"]
             conf["mqtt"]["port"] = request.form["mqtt_port"]
-            conf["mqtt"]["root_topic"] = request.form["mqtt_root_topic"]
             conf["mqtt"]["client_id"] = request.form["mqtt_client_id"]
             conf["mqtt"]["username"] = request.form["mqtt_username"]
             conf["mqtt"]["password"] = request.form["mqtt_password"]
@@ -149,8 +142,7 @@ def init_controllers():
             utils.save_config(conf_path, conf)
 
             log.info("Global config was successfully updated")
-            log.info("New values are mqtt host = " + request.form["mqtt_host"] + " port = " + request.form["mqtt_port"] + " root topic = " + request.form[
-                "mqtt_root_topic"] + " client id=" + request.form["mqtt_client_id"])
+            log.info("New values are mqtt host = " + request.form["mqtt_host"] + " port = " + request.form["mqtt_port"] + " root topic = " + " client id=" + request.form["mqtt_client_id"])
 
         return render_template('settings.html', cfg=conf, global_context=global_context)
 
@@ -271,7 +263,6 @@ def init_controllers():
             try:
                 if global_context['mqtt_conn_status']=="offline" or global_context['mqtt_conn_status']=="reconnecting":
                     if mqtt.connect(conf["mqtt"]["host"], int(conf["mqtt"]["port"])):
-                        mqtt.sub_topic = conf["mqtt"]["root_topic"]
                         mqtt.start()
                         status = "Connected to broker."
                     else :
@@ -307,14 +298,55 @@ def init_controllers():
         return render_template('config_editor.html', global_context=global_context, status=status)
 
 
-if __name__ == '__main__':
+def configure():
+    global conf,root_uri, instance_name,global_context
     parser = argparse.ArgumentParser()
     parser.add_argument('-c','--conf', help='Config file path')
     parser.add_argument('-acli','--authclientid', help='Auth0 application client id')
+    parser.add_argument('-acsec','--authclientsecret', help='Auth0 client secret')
+    parser.add_argument('-acredir','--authredirect', help='Auth0 redirect ui')
     args = parser.parse_args()
     auth_ex.AUTH0_CLIENT_ID = args.authclientid
+    auth_ex.AUTH0_CLIENT_SECRET = args.authclientsecret
     conf_path = args.conf
     conf = utils.load_config(conf_path)
+    if env.get("ZM_MQTT_BROKER_ADDR"):
+        add_split = env.get("ZM_MQTT_BROKER_ADDR").split(":")
+        conf["mqtt"]["host"] = add_split[0]
+        if len(add_split) == 2:
+            conf["mqtt"]["port"] = add_split[1]
+    if env.get("ZM_MQTT_USERNAME"):
+        conf["mqtt"]["username"] = env.get("ZM_MQTT_USERNAME")
+    if env.get("ZM_MQTT_PASSWORD"):
+        conf["mqtt"]["password"] = env.get("ZM_MQTT_PASSWORD")
+    if env.get("ZM_MQTT_CLIENTID"):
+        conf["mqtt"]["client_id"] = env.get("ZM_MQTT_CLIENTID")
+    if env.get("ZM_APP_INSTANCE"):
+        instance_name = env.get("ZM_APP_INSTANCE")
+        auth_ex.APP_INSTANCE = instance_name
+        root_uri = "/"+instance_name
+        global_context["root_uri"] = root_uri
+    if env.get("ZM_DOMAIN"):
+        conf["mqtt"]["global_topic_prefix"] = env.get("ZM_DOMAIN")
+    if env.get("ZW_APP_AUTH_CLIENT_ID"):
+        auth_ex.AUTH0_CLIENT_ID = env.get("ZW_APP_AUTH_CLIENT_ID")
+    if env.get("ZW_APP_AUTH_CLIENT_SECRET"):
+        auth_ex.AUTH0_CLIENT_SECRET = env.get("ZW_APP_AUTH_CLIENT_SECRET")
+    if env.get("ZW_APP_AUTH_REDIRECT_URI"):
+        auth_ex.REDIRECT_URI = env.get("ZW_APP_AUTH_REDIRECT_URI")
+    elif args.authredirect :
+        auth_ex.REDIRECT_URI = args.authredirect
+    else:
+        auth_ex.REDIRECT_URI = "/blacktower/applogincallback"
+
+    global_context["version"] = conf["system"]["version"]
+    global_context["root_uri"] = root_uri
+    global_context["app_store_api_url"] = conf["app_store"]["api_url"]
+    global_context["app_store_username"] = conf["app_store"]["username"]
+    global_context["auth_type"] = conf["system"]["auth_type"]
+
+if __name__ == '__main__':
+    configure()
     configs.log.config["handlers"]["info_file_handler"]["filename"] = os.path.join(conf["log_dir"], "blackflowctrl_info.log")
     configs.log.config["handlers"]["error_file_handler"]["filename"] = os.path.join(conf["log_dir"], "blackflowctrl_error.log")
     logging.config.dictConfig(configs.log.config)

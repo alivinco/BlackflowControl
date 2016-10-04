@@ -14,6 +14,10 @@ __author__ = 'alivinco'
 log = logging.getLogger("auth_ctrl")
 
 AUTH0_CLIENT_ID = ""
+AUTH0_CLIENT_SECRET = ""
+REDIRECT_URI = ""
+APP_INSTANCE = ""
+
 global_context = {}
 mod_auth = Blueprint('mod_auth', __name__)
 login_manager = LoginManager()
@@ -44,10 +48,20 @@ def login():
     # client-side form data. For example, WTForms is a library that will
     # handle this for us.
     error = ""
+    auth_type = global_context["auth_type"]
+    if request.method == "GET":
+        if auth_type == "local":
+            return render_template('auth/login.html', error=error, global_context=global_context)
+        elif auth_type == "auth0":
+            state = APP_INSTANCE+":123456"
+            return render_template('auth/auth0login.html', global_context=global_context ,
+                                   auth_client_id=AUTH0_CLIENT_ID,
+                                   redirect_uri = REDIRECT_URI,
+                                   state=state)
+
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-        auth_type = global_context["auth_type"]
         if auth_type == "local":
             user = um.get_user(username)
             if user:
@@ -62,24 +76,24 @@ def login():
                     return flask.redirect(next or url_for("index"))
                 else:
                     log.info("User %s used wrong password . Using %s" % (username, auth_type))
+            return render_template('auth/login.html', error=error, global_context=global_context)
 
-        elif auth_type == "auth0":
-            auth0 = init_auth0()
-            try:
-                result = auth0.login(AUTH0_CLIENT_ID, username=username, password=password, connection="Username-Password-Authentication",
-                                     grant_type="password", scope="openid email nickname app_metadata")
-                if result:
-                    user = um.get_user(username)
-                    if not user:
-                        user = um.add_user(username, "")
-                    user.set_id_token(result["id_token"])
-                    log.info("User %s logged in successfully . Using %s" % (username, auth_type))
-                    login_user(user, remember=True)
-                    next = flask.request.args.get('next')
-                    return flask.redirect(next or url_for("index"))
-            except Exception as ex:
-                error = ex.message
-    return render_template('auth/auth0login.html', error=error, global_context=global_context)
+        # elif auth_type == "auth0":
+        #     auth0 = init_auth0()
+        #     try:
+        #         result = auth0.login(AUTH0_CLIENT_ID, username=username, password=password, connection="Username-Password-Authentication",
+        #                              grant_type="password", scope="openid email nickname app_metadata")
+        #         if result:
+        #             user = um.get_user(username)
+        #             if not user:
+        #                 user = um.add_user(username, "")
+        #             user.set_id_token(result["id_token"])
+        #             log.info("User %s logged in successfully . Using %s" % (username, auth_type))
+        #             login_user(user, remember=True)
+        #             next = flask.request.args.get('next')
+        #             return flask.redirect(next or url_for("index"))
+        #     except Exception as ex:
+        #         error = ex.message
 
 
 @mod_auth.route('/authcallback')
@@ -92,9 +106,9 @@ def callback_handling():
     token_url = "https://{domain}/oauth/token".format(domain='zmarlin.eu.auth0.com')
 
     token_payload = {
-        'client_id': 'fjb9syCR9Q5yhNQ2jcdbnZD8qBTh20mQ',
-        'client_secret': 'L2wF2LUQ1oYcYz50-dlcIIgkih0eEAgtrrpmHW8mdoYC2vRSzYD2AnVNfl7ucboa',
-        'redirect_uri': 'http://192.168.80.237:5011',
+        'client_id': AUTH0_CLIENT_ID,
+        'client_secret': AUTH0_CLIENT_SECRET,
+        'redirect_uri': REDIRECT_URI , #'http://192.168.80.237:5011',
         'code': code,
         'grant_type': 'authorization_code'
     }

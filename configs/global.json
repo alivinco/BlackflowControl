@@ -1,16 +1,15 @@
 {
  "mqtt": {
   "username": "blackfly_test", 
-  "root_topic": "/#", 
-  "enable_sys": false, 
+  "enable_sys": false,
   "global_topic_prefix": "", 
-  "host": "localhost", 
+  "host": "localhost",
   "client_id": "blackflowctrl", 
   "password": "blackfly_test", 
   "port": "1883"
  }, 
  "system": {
-  "auth_type": "auth0", 
+  "auth_type": "auth0",
   "http_server_port": 5001, 
   "distro_server_uri": "http://lego.fiicha.net/blackfly", 
   "platform": "sg", 

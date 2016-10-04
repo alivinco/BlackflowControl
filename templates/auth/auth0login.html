@@ -5,13 +5,13 @@
     <title>Login</title>
 <script src="https://cdn.auth0.com/js/lock/10.2/lock.min.js"></script>
 <script type="text/javascript">
-  var lock = new Auth0Lock('fjb9syCR9Q5yhNQ2jcdbnZD8qBTh20mQ', 'zmarlin.eu.auth0.com', {
+  var lock = new Auth0Lock('{{ auth_client_id }}', 'zmarlin.eu.auth0.com', {
     auth: {
-      redirectUrl: 'http://192.168.80.237:5011/blacktower/applogincallback',
+      redirectUrl: '{{ redirect_uri }}',
       responseType: 'code',
       params: {
-        scope: 'openid email',
-        state: 'blackflow:123456'  // Learn about scopes: https://auth0.com/docs/scopes
+        scope: 'openid email nickname app_metadata',
+        state: '{{ state }}'  // Learn about scopes: https://auth0.com/docs/scopes
       }
     }
   });

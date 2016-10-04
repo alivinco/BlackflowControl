@@ -31,7 +31,7 @@ def app_context():
     result = dict()
     msg = IotMsg("blackflow", MsgType.CMD, "blackflow", "context_get")
     for container_id in svc_discovery.get_containers():
-        response = sync_async_client.send_sync_msg(msg, "jim1/app/blackflow/%s/commands" % container_id, "jim1/app/blackflow/%s/events" % container_id, timeout=10,
+        response = sync_async_client.send_sync_msg(msg, "jim1/cmd/app/blackflow/%s" % container_id, "jim1/evt/app/blackflow/%s" % container_id, timeout=10,
                                                    correlation_msg_type="blackflow.context", correlation_type="MSG_TYPE")
         result[container_id] = response.get_properties()
 
@@ -47,7 +47,7 @@ def apps():
     msg = IotMsg("blackflow", MsgType.CMD, "blackflow", "get_apps")
     containers = svc_discovery.get_containers()
     for container_id in containers:
-        response = sync_async_client.send_sync_msg(msg, "jim1/app/blackflow/%s/commands" % container_id, "jim1/app/blackflow/%s/events" % container_id, timeout=10,
+        response = sync_async_client.send_sync_msg(msg, "jim1/cmd/app/blackflow/%s" % container_id, "jim1/evt/app/blackflow/%s" % container_id, timeout=10,
                                                    correlation_msg_type="blackflow.apps", correlation_type="MSG_TYPE")
         props = response.get_properties()
         for item in props["apps"] :
@@ -64,7 +64,7 @@ def app_instances():
     msg = IotMsg("blackflow", MsgType.CMD, "blackflow", "get_app_instances")
     result = list()
     for container_id in svc_discovery.get_containers():
-        response = sync_async_client.send_sync_msg(msg, "jim1/app/blackflow/%s/commands" % container_id, "jim1/app/blackflow/%s/events" % container_id, timeout=10,
+        response = sync_async_client.send_sync_msg(msg, "jim1/cmd/app/blackflow/%s" % container_id, "jim1/evt/app/blackflow/%s" % container_id, timeout=10,
                                                    correlation_msg_type="blackflow.app_instances", correlation_type="MSG_TYPE")
         app_instance_state = {
             0: "STOPPED",
@@ -111,8 +111,8 @@ def blackflow_proxy():
     data = request.get_json()
     inst_name = data["container_id"]
     # supported types : one_way , sync_response
-    request_topic = "/app/blackflow/%s/commands" % inst_name
-    response_topic = "/app/blackflow/%s/events" % inst_name
+    request_topic = "/cmd/app/blackflow/%s" % inst_name
+    response_topic = "/evt/app/blackflow/%s" % inst_name
     request_type = data["req_type"] if "req_type" in data else "one_way"
     correlation_msg_type = data["corr_msg_type"] if "corr_msg_type" in data else ""
     correlation_type = data["corr_type"] if "corr_type" in data else "MSG_TYPE"
@@ -179,12 +179,12 @@ def app_instance_config_api():
     msg = IotMsg("blackflow", MsgType.CMD, "blackflow", "get_apps")
 
     # getting list of application manifests
-    response = sync_async_client.send_sync_msg(msg, "jim1/app/blackflow/%s/commands" % inst_name, "jim1/app/blackflow/%s/events" % inst_name, timeout=5,
+    response = sync_async_client.send_sync_msg(msg, "jim1/cmd/app/blackflow/%s" % inst_name, "jim1/evt/app/blackflow/%s" % inst_name, timeout=5,
                                                correlation_msg_type="blackflow.apps", correlation_type="MSG_TYPE")
     app_manifest = filter(lambda app: app["developer"] == developer and app["name"] == app_name and app["version"] == version, response.get_properties()["apps"])[0]
     # getting a list of instance configurations
     msg = IotMsg("blackflow", MsgType.CMD, "blackflow", "get_app_instances")
-    all_app_instances = sync_async_client.send_sync_msg(msg, "jim1/app/blackflow/%s/commands" % inst_name, "jim1/app/blackflow/%s/events" % inst_name, timeout=5,
+    all_app_instances = sync_async_client.send_sync_msg(msg, "jim1/cmd/app/blackflow/%s" % inst_name, "jim1/evt/app/blackflow/%s" % inst_name, timeout=5,
                                                         correlation_msg_type="blackflow.app_instances", correlation_type="MSG_TYPE")
     if inst_id:
         app_instance = filter(lambda inst: inst["id"] == inst_id, all_app_instances.get_properties()["app_instances"])[0]
@@ -213,7 +213,7 @@ def app_instances_graph():
     result = {"nodes":[],"edges":[]}
     for container_id in svc_discovery.get_containers():
         msg = IotMsg("blackflow", MsgType.CMD, "blackflow", "get_app_instances")
-        response = sync_async_client.send_sync_msg(msg, "jim1/app/blackflow/%s/commands" % container_id, "jim1/app/blackflow/%s/events" % container_id, timeout=5,
+        response = sync_async_client.send_sync_msg(msg, "jim1/cmd/app/blackflow/%s" % container_id, "jim1/evt/app/blackflow/%s" % container_id, timeout=5,
                                                    correlation_msg_type="blackflow.app_instances", correlation_type="MSG_TYPE")
         graph = AppGraphManager(response.get_properties()["app_instances"],container_id).convert_app_instances_into_graph()
         result["nodes"].extend(graph["nodes"])
@@ -228,7 +228,7 @@ def blackflow_analytics():
     result = []
     for container_id in svc_discovery.get_containers():
         msg = IotMsg("blackflow", MsgType.CMD, "blackflow", "analytics_get")
-        response = sync_async_client.send_sync_msg(msg, "jim1/app/blackflow/%s/commands" % container_id, "jim1/app/blackflow/%s/events" % container_id, timeout=5,
+        response = sync_async_client.send_sync_msg(msg, "jim1/cmd/app/blackflow/%s" % container_id, "jim1/evt/app/blackflow/%s" % container_id, timeout=5,
                                                    correlation_msg_type="blackflow.analytics", correlation_type="MSG_TYPE")
 
         result.extend(response.get_properties()["link_counters"])

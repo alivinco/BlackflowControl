@@ -24,11 +24,7 @@
        <td>{% if global_context.mqtt_conn_status == "online" %}<b style="color: #75c841;font-size: large" class="glyphicon glyphicon-thumbs-up"></b>
         {% else %} <b  style="color: red" class="glyphicon glyphicon-warning-sign"></b> {% endif %}</td>
       </tr>
-      <tr>
-       <td> MQTT broker <-> Deviceregistry(App) connection </td>
-       <td>{% if devicereg_is_ok %}<b style="color: #75c841;font-size: large" class="glyphicon glyphicon-thumbs-up"></b>
-        {% else %} <b  style="color: red" class="glyphicon glyphicon-warning-sign"></b> {% endif %}</td>
-      </tr>
+
      </tbody>
 
  </table>
