@@ -21,6 +21,7 @@ from libs.sync_to_async_msg_converter import SyncToAsyncMsgConverter
 from extensions.auth.ui import controller as auth_ex
 from extensions.auth.ui.controller import mod_auth, login_manager
 from extensions.blackflow.ui import controller as blackflow_ex
+from configs import globals
 
 # Global variables
 from modules.mqtt_adapter import MqttAdapter
@@ -53,7 +54,8 @@ def init_app_components():
     log.info(Tools.open_port_in_firewall())
     # Injecting root uri prefix
     mod_auth.url_prefix = root_uri
-    login_manager.login_view ="%s/ui/login"%root_uri
+    login_manager.login_view = globals.get_full_url("/ui/login")
+    log.debug("Login view url = %s" % login_manager.login_view)
     blackflow_ex.blackflow_bp.url_prefix = root_uri
 
     # Check and init application/service ID (sid)
@@ -113,9 +115,9 @@ def init_controllers():
     def send_js(path):
         return send_from_directory('static', path)
 
-    @app.route('/')
+    @app.route(root_uri +'/')
     def root_page():
-        return redirect(root_uri + "/ui/index")
+        return redirect(globals.get_full_url("/ui/index"))
 
     @app.route(root_uri + '/ui/index')
     @login_required
@@ -305,11 +307,13 @@ def configure():
     parser.add_argument('-acli','--authclientid', help='Auth0 application client id')
     parser.add_argument('-acsec','--authclientsecret', help='Auth0 client secret')
     parser.add_argument('-acredir','--authredirect', help='Auth0 redirect ui')
+    parser.add_argument('-rurl','--rooturl', help='Application root url')
     args = parser.parse_args()
-    auth_ex.AUTH0_CLIENT_ID = args.authclientid
-    auth_ex.AUTH0_CLIENT_SECRET = args.authclientsecret
+    globals.AUTH0_CLIENT_ID = args.authclientid
+    globals.AUTH0_CLIENT_SECRET = args.authclientsecret
     conf_path = args.conf
     conf = utils.load_config(conf_path)
+    # ENV variables set by BlackTower automatically
     if env.get("ZM_MQTT_BROKER_ADDR"):
         add_split = env.get("ZM_MQTT_BROKER_ADDR").split(":")
         conf["mqtt"]["host"] = add_split[0]
@@ -323,33 +327,43 @@ def configure():
         conf["mqtt"]["client_id"] = env.get("ZM_MQTT_CLIENTID")
     if env.get("ZM_APP_INSTANCE"):
         instance_name = env.get("ZM_APP_INSTANCE")
-        auth_ex.APP_INSTANCE = instance_name
+        globals.APP_INSTANCE = instance_name
         root_uri = "/"+instance_name
         global_context["root_uri"] = root_uri
     if env.get("ZM_DOMAIN"):
         conf["mqtt"]["global_topic_prefix"] = env.get("ZM_DOMAIN")
-    if env.get("ZW_APP_AUTH_CLIENT_ID"):
-        auth_ex.AUTH0_CLIENT_ID = env.get("ZW_APP_AUTH_CLIENT_ID")
-    if env.get("ZW_APP_AUTH_CLIENT_SECRET"):
-        auth_ex.AUTH0_CLIENT_SECRET = env.get("ZW_APP_AUTH_CLIENT_SECRET")
-    if env.get("ZW_APP_AUTH_REDIRECT_URI"):
-        auth_ex.REDIRECT_URI = env.get("ZW_APP_AUTH_REDIRECT_URI")
-    elif args.authredirect :
-        auth_ex.REDIRECT_URI = args.authredirect
-    else:
-        auth_ex.REDIRECT_URI = "/blacktower/applogincallback"
 
+    # ENV variables set by BlackTower but have to be set manually per app .
+    if env.get("ZW_APP_AUTH_CLIENT_ID"):
+        globals.AUTH0_CLIENT_ID = env.get("ZW_APP_AUTH_CLIENT_ID")
+    if env.get("ZW_APP_AUTH_CLIENT_SECRET"):
+        globals.AUTH0_CLIENT_SECRET = env.get("ZW_APP_AUTH_CLIENT_SECRET")
+    if env.get("ZW_APP_AUTH_REDIRECT_URI"):
+        globals.REDIRECT_URI = env.get("ZW_APP_AUTH_REDIRECT_URI")
+    elif args.authredirect :
+        globals.REDIRECT_URI = args.authredirect
+    else:
+        globals.REDIRECT_URI = "/blacktower/applogincallback"
+    if env.get("ZW_APP_HTTP_ROOT_URL"):
+        globals.ROOT_URL = env.get("ZW_APP_HTTP_ROOT_URL")
+    elif args.rooturl :
+        globals.ROOT_URL = args.rooturl
+    else :
+        globals.ROOT_URL = conf["system"]["http_root_url"]
+    globals.ROOT_URL = "%s/%s" % (globals.ROOT_URL, globals.APP_INSTANCE)
     global_context["version"] = conf["system"]["version"]
     global_context["root_uri"] = root_uri
     global_context["app_store_api_url"] = conf["app_store"]["api_url"]
     global_context["app_store_username"] = conf["app_store"]["username"]
     global_context["auth_type"] = conf["system"]["auth_type"]
 
+
 if __name__ == '__main__':
     configure()
     configs.log.config["handlers"]["info_file_handler"]["filename"] = os.path.join(conf["log_dir"], "blackflowctrl_info.log")
     configs.log.config["handlers"]["error_file_handler"]["filename"] = os.path.join(conf["log_dir"], "blackflowctrl_error.log")
     logging.config.dictConfig(configs.log.config)
+    log.info("App HTTP full root url = %s" % globals.ROOT_URL)
     init_app_components()
     init_controllers()
     app.run(host="0.0.0.0", port=http_server_port, debug=True, use_debugger=True, threaded=True, use_reloader=False)

@@ -20,9 +20,9 @@ sync_async_client = None
 
 blackflow_bp = Blueprint('blackflow_bp', __name__)
 login_manager = LoginManager()
-login_manager.login_view = "/ui/login"
 app_name = "bfctrl"
 svc_discovery = None
+
 
 @blackflow_bp.route('/ui/context', methods=["GET"])
 @login_required

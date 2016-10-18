@@ -1,17 +1,18 @@
 {
  "mqtt": {
-  "username": "blackfly_test", 
+  "username": "1-EMQTEST",
   "enable_sys": false,
-  "global_topic_prefix": "", 
+  "global_topic_prefix": "1-EMQTEST",
   "host": "localhost",
-  "client_id": "blackflowctrl", 
-  "password": "blackfly_test", 
+  "client_id": "1-EMQTEST",
+  "password": "emqtest",
   "port": "1883"
  }, 
  "system": {
   "auth_type": "auth0",
-  "http_server_port": 5001, 
-  "distro_server_uri": "http://lego.fiicha.net/blackfly", 
+  "http_server_port": 5001,
+  "http_root_url":"http://localhost:5001",
+  "distro_server_uri": "http://lego.fiicha.net/blackfly",
   "platform": "sg", 
   "ui_security_disabled": false, 
   "version": "1.5.5", 

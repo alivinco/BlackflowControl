@@ -8,15 +8,11 @@ from libs.flask_login import LoginManager, login_user, logout_user, login_requir
 from auth0.v2.authentication import Database
 import requests
 import logging
+from configs import globals
 
 __author__ = 'alivinco'
 
 log = logging.getLogger("auth_ctrl")
-
-AUTH0_CLIENT_ID = ""
-AUTH0_CLIENT_SECRET = ""
-REDIRECT_URI = ""
-APP_INSTANCE = ""
 
 global_context = {}
 mod_auth = Blueprint('mod_auth', __name__)
@@ -53,10 +49,10 @@ def login():
         if auth_type == "local":
             return render_template('auth/login.html', error=error, global_context=global_context)
         elif auth_type == "auth0":
-            state = APP_INSTANCE+":123456"
+            state = globals.APP_INSTANCE+":123456"
             return render_template('auth/auth0login.html', global_context=global_context ,
-                                   auth_client_id=AUTH0_CLIENT_ID,
-                                   redirect_uri = REDIRECT_URI,
+                                   auth_client_id=globals.AUTH0_CLIENT_ID,
+                                   redirect_uri = globals.REDIRECT_URI,
                                    state=state)
 
     if request.method == "POST":
@@ -73,7 +69,7 @@ def login():
 
                     next = flask.request.args.get('next')
 
-                    return flask.redirect(next or url_for("index"))
+                    return flask.redirect(next or globals.get_full_url("/ui/index"))
                 else:
                     log.info("User %s used wrong password . Using %s" % (username, auth_type))
             return render_template('auth/login.html', error=error, global_context=global_context)
@@ -106,9 +102,9 @@ def callback_handling():
     token_url = "https://{domain}/oauth/token".format(domain='zmarlin.eu.auth0.com')
 
     token_payload = {
-        'client_id': AUTH0_CLIENT_ID,
-        'client_secret': AUTH0_CLIENT_SECRET,
-        'redirect_uri': REDIRECT_URI , #'http://192.168.80.237:5011',
+        'client_id': globals.AUTH0_CLIENT_ID,
+        'client_secret': globals.AUTH0_CLIENT_SECRET,
+        'redirect_uri': globals.REDIRECT_URI , #'http://192.168.80.237:5011',
         'code': code,
         'grant_type': 'authorization_code'
     }
@@ -130,7 +126,8 @@ def callback_handling():
 
     # Redirect to the User logged in page that you want here
     # In our case it's /dashboard
-    return flask.redirect(url_for("index"))
+
+    return flask.redirect(globals.get_full_url("/ui/index"))
     # return redirect('/dashboard')
 
 
@@ -151,4 +148,4 @@ def auth_manager():
 def logout():
     # user = current_user
     logout_user()
-    return flask.redirect(url_for(".login"))
+    return flask.redirect(globals.get_full_url("/ui/login"))
