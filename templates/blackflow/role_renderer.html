@@ -1,0 +1,5 @@
+{% if value.role == 'lamp' %}
+    <img src="{{ global_context.root_uri }}/static/img/illumination.svg" width="30">
+{% elif value.role == 'switch' %}
+    <img src="{{ global_context.root_uri }}/static/img/power-button.svg" width="30">
+{% endif %}

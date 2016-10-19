@@ -20,16 +20,43 @@ function get_node_shape(alias)
     return {"color":color,"shape":shape}
 }
 
+function map_role_to_image(role)
+{
+    var mapping = {
+        "lamp":root_uri+"/static/img/illumination.svg",
+        "switch":root_uri+"/static/img/power-button.svg",
+        "clock":root_uri+"/static/img/clock.svg"
+    }
+    return mapping[role]
+}
+
 function transformData(data)
 {
     for(i in data.nodes)
     {
         alias = data.nodes[i].alias
         shape = get_node_shape(alias)
+        role = data.nodes[i].role
+        desc = data.nodes[i].desc
+        var imgUrl = ""
         if (shape.shape == "circle"){
             data.nodes[i]["label"] = alias +" \n "+data.nodes[i]["group"]
         }else{
-            data.nodes[i]["label"] = alias
+            if (role && desc){
+
+                imgUrl = map_role_to_image(role)
+                if (imgUrl != null){
+                    data.nodes[i]["label"] = desc
+                    data.nodes[i]["image"] = imgUrl
+                    shape["shape"] = "image"
+                }else {
+                    data.nodes[i]["label"] = "r:"+role+" d:"+desc
+                }
+
+            }else {
+                data.nodes[i]["label"] = alias
+            }
+
         }
         data.nodes[i]["shape"] = shape["shape"]
         data.nodes[i]["color"] = shape["color"]

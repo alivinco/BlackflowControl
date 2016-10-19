@@ -33,7 +33,8 @@ def app_context():
     for container_id in svc_discovery.get_containers():
         response = sync_async_client.send_sync_msg(msg, "jim1/cmd/app/blackflow/%s" % container_id, "jim1/evt/app/blackflow/%s" % container_id, timeout=10,
                                                    correlation_msg_type="blackflow.context", correlation_type="MSG_TYPE")
-        result[container_id] = response.get_properties()
+        if response:
+            result[container_id] = response.get_properties()
 
     return render_template('blackflow/context.html', bf_response=result, global_context=global_context,
                            format_time=utils.format_iso_time_from_sec)
@@ -49,9 +50,10 @@ def apps():
     for container_id in containers:
         response = sync_async_client.send_sync_msg(msg, "jim1/cmd/app/blackflow/%s" % container_id, "jim1/evt/app/blackflow/%s" % container_id, timeout=10,
                                                    correlation_msg_type="blackflow.apps", correlation_type="MSG_TYPE")
-        props = response.get_properties()
-        for item in props["apps"] :
-            item["container_id"] = container_id
+        if response :
+            props = response.get_properties()
+            for item in props["apps"] :
+                item["container_id"] = container_id
         result.extend(props["apps"])
 
     return render_template('blackflow/apps.html', bf_response=result, containers = containers, global_context=global_context, format_time=utils.format_iso_time_from_sec)
@@ -80,9 +82,9 @@ def app_instances():
             item["state"] = app_instance_state[item["state"]]
             item["container_id"] = container_id
             return item
-
-        response.get_properties()["app_instances"] = map(mod_response, response.get_properties()["app_instances"])
-        result.extend(response.get_properties()["app_instances"])
+        if response:
+            response.get_properties()["app_instances"] = map(mod_response, response.get_properties()["app_instances"])
+            result.extend(response.get_properties()["app_instances"])
 
     return render_template('blackflow/app_instances.html', bf_response=result, global_context=global_context,
                            format_time=utils.format_iso_time_from_sec)

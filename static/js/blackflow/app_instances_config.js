@@ -84,14 +84,14 @@ app.controller("AppConfigController",function($scope,$http){
         $http.post(root_uri+"/api/proxy",{"req_type":"one_way","req_payload":packet,"container_id":bf_inst_name})
     }
     $scope.add_sub = function(){
-        $scope.sub_for.push({"key":"","value":{"topic":""}})
+        $scope.sub_for.push({"key":"","value":{"topic":"","role":"","description":""}})
     }
     $scope.del_sub = function(index){
         $scope.sub_for.splice(index,1)
     }
     //
     $scope.add_pub = function(){
-        $scope.pub_to.push({"key":"","value":{"topic":""}})
+        $scope.pub_to.push({"key":"","value":{"topic":"","role":"","description":""}})
     }
     $scope.del_pub = function(index){
         $scope.pub_to.splice(index,1)

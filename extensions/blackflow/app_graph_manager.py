@@ -21,18 +21,22 @@ class AppGraphManager():
             if "schedules" in app_inst :
                 app_inst["schedules"] = True if len(app_inst["schedules"]) > 0 else False
                 if app_inst["schedules"] :
-                    new_id = self.__add_unknown_node("local:time_scheduler")
+                    new_id = self.__add_unknown_node("local:time_scheduler","","")
                     edge = {"to": self.get_id(app_inst["id"]), "from": self.get_id(new_id)}
                     if not (edge in self.edges): self.edges.append(edge)
             app_inst["group"] = self.container_id
             self.nodes.append(app_inst)
             for key, pub_to in app_inst["pub_to"].iteritems():
-                new_id = self.__add_unknown_node(pub_to["topic"])
+                new_id = self.__add_unknown_node(pub_to["topic"],
+                                                 pub_to["role"] if "role" in pub_to else "" ,
+                                                 pub_to["description"] if "description" in pub_to else "")
                 edge = {"from": self.get_id(app_inst["id"]), "to": self.get_id(new_id)}
                 if not (edge in self.edges): self.edges.append(edge)
 
             for key, sub_for in app_inst["sub_for"].iteritems():
-                new_id = self.__add_unknown_node(sub_for["topic"])
+                new_id = self.__add_unknown_node(sub_for["topic"],
+                                                 sub_for["role"] if "role" in sub_for else "" ,
+                                                 sub_for["description"] if "description" in sub_for else "" )
                 edge = {"to": self.get_id(app_inst["id"]), "from": self.get_id(new_id)}
                 if not (edge in self.edges): self.edges.append(edge)
 
@@ -47,12 +51,12 @@ class AppGraphManager():
         self.max_node_id += 1
         return self.max_node_id
 
-    def __add_unknown_node(self, topic, desc=""):
+    def __add_unknown_node(self, topic, role="", desc=""):
         # check to avoid dublicates
         new_id = self.__get_next_node_id()
         search = filter(lambda node: node["alias"] == topic, self.nodes)
         if len(search) == 0:
-            self.nodes.append({"id": self.get_id(new_id), "alias": topic , "group":self.container_id})
+            self.nodes.append({"id": self.get_id(new_id), "alias": topic , "group":self.container_id, "role": role,"desc": desc})
         else:
             new_id = search[0]["id"]
         return new_id
