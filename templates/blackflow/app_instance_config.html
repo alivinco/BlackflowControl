@@ -50,9 +50,28 @@
       <div class="tab-pane active" id="app_sub_tab">
           <div ng-repeat="sub in sub_for" class="form-group form-inline row" >
                     <div class="col-sm-12 col-md-12 col-lg-12">
-                      <input style="width: 170px" type="text"  class="form-control" ng-readonly="sub.value.app_def" ng-model="sub.key" placeholder="type" >
-                      <input style="width: 350px" type="text"  class="form-control" ng-model="sub.value.topic" placeholder="subtype" >
-                      <input style="width: 150px" type="text"  class="form-control" ng-model="sub.value.role" placeholder="role" >
+                      <input style="width: 170px" type="text"  class="form-control" ng-readonly="sub.value.app_def" ng-model="sub.key" placeholder="Key" >
+                      <input style="width: 140px" type="text"  class="form-control"  ng-model="sub.value.msg_type" placeholder="Msg type" >
+                      <select style="width: 60px" type="text"  class="form-control" ng-model="sub.value.transport" placeholder="Transport" >
+                          <option value="mqtt">mqtt</option>
+                          <option value="local">local</option>
+                      </select>
+                      <input style="width: 300px" type="text"  class="form-control" ng-model="sub.value.topic" placeholder="subtype" >
+                      <select style="width: 150px" class="form-control" ng-model="sub.value.role">
+                          <option value="">No role</option>
+                          <option value="lamp">Lamp</option>
+                          <option value="switch">Switch</option>
+                          <option value="temp_sensor">Temperature sensor</option>
+                          <option value="light_sensor">Light sensor</option>
+                          <option value="console">Console</option>
+                          <option value="key">Key</option>
+                          <option value="lock">Lock</option>
+                          <option value="heating">Heating</option>
+                          <option value="plug">Plug</option>
+                          <option value="motion">Motion</option>
+                          <option value="notification">Notification</option>
+                          <option value="alarm">Alarm</option>
+                      </select>
                       <input style="width: 100px" type="text"  class="form-control" ng-model="sub.value.description" placeholder="description" >
                       <button  class="btn btn-default" id="add_msg_type"  value="Info" >
                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true" ></span>
@@ -74,8 +93,27 @@
            <div ng-repeat="pub in pub_to" class="form-group form-inline row" >
                     <div class="col-sm-12 col-md-12 col-lg-12">
                       <input style="width: 170px" type="text"  class="form-control" ng-readonly="pub.value.app_def" ng-model="pub.key"  >
-                      <input style="width: 350px" type="text"  class="form-control" ng-model="pub.value.topic"  >
-                      <input style="width: 150px" type="text"  class="form-control" ng-model="pub.value.role" placeholder="role" >
+                      <input style="width: 140px" type="text"  class="form-control"  ng-model="pub.value.msg_type" placeholder="Msg type" >
+                      <select style="width: 70px" type="text"  class="form-control" ng-model="pub.value.transport" placeholder="Transport" >
+                          <option value="mqtt">mqtt</option>
+                          <option value="local">local</option>
+                      </select>
+                      <input style="width: 300px" type="text"  class="form-control" ng-model="pub.value.topic"  >
+                      <select style="width: 150px" class="form-control" ng-model="pub.value.role">
+                          <option value="">No role</option>
+                          <option value="lamp">Lamp</option>
+                          <option value="switch">Switch</option>
+                          <option value="temp_sensor">Temperature sensor</option>
+                          <option value="light_sensor">Light sensor</option>
+                          <option value="console">Console</option>
+                          <option value="key">Key</option>
+                          <option value="lock">Lock</option>
+                          <option value="heating">Heating</option>
+                          <option value="plug">Plug</option>
+                          <option value="motion">Motion</option>
+                          <option value="notification">Notification</option>
+                          <option value="alarm">Alarm</option>
+                      </select>
                       <input style="width: 100px" type="text"  class="form-control" ng-model="pub.value.description" placeholder="description" >
                       <button  class="btn btn-default" id="add_msg_type"  value="Info" >
                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true" ></span>

@@ -30,12 +30,15 @@ function getInstConfigRequest(inst_config_orig,sub_for,pub_to,configs)
     angular.copy(pub_to,pub_to_new)
     angular.copy(configs,configs_new)
     angular.copy(inst_config_orig,inst_config)
+    mergeTransportAndTopic(sub_for_new)
+    mergeTransportAndTopic(pub_to_new)
     inst_config.sub_for = convertKeyValueListToDict(sub_for_new)
     inst_config.pub_to = convertKeyValueListToDict(pub_to_new)
     inst_config.configs = convertKeyValueListToDict(configs_new)
     inst_config.comments = inst_config_orig.comments
     //inst_config.schedules = inst_config_orig.schedules
     // cleaning up unneeded fields
+
     for (i in inst_config.sub_for)
     {
         delete inst_config.sub_for[i].app_def
@@ -47,6 +50,20 @@ function getInstConfigRequest(inst_config_orig,sub_for,pub_to,configs)
     return inst_config
 }
 
+function splitTransportFromTopics(items){
+    for (i in items){
+        splited =  items[i].value.topic.split(":")
+        items[i].value.topic = splited[1]
+        items[i].value["transport"] = splited[0]
+    }
+}
+
+function mergeTransportAndTopic(items){
+    for (i in items){
+        items[i].value.topic = items[i].value.transport+":"+items[i].value.topic
+    }
+}
+
 app.controller("AppConfigController",function($scope,$http){
 
     $http.get(root_uri+'/api/app_instance_config',{params:{"id":inst_id,"app_name":app_name,"container_id":bf_inst_name}}).success(function(data) {
@@ -55,6 +72,8 @@ app.controller("AppConfigController",function($scope,$http){
         $scope.sub_for = convertDictToKeyValList(data.sub_for)
         $scope.pub_to = convertDictToKeyValList(data.pub_to)
         $scope.configs = convertDictToKeyValList(data.configs)
+        splitTransportFromTopics($scope.sub_for)
+        splitTransportFromTopics($scope.pub_to)
         if (!data.schedules)
            data.schedules = []
         $scope.schedules = data.schedules
@@ -107,7 +126,7 @@ app.controller("AppConfigController",function($scope,$http){
     {
         tz = moment.tz.guess();
         console.log(tz)
-        $scope.schedules.push({trigger_type:trigger_type,timezone:tz})
+        $scope.schedules.push({trigger_type:trigger_type,timezone:tz,role:"clock",description:""})
     }
     $scope.del_schedule = function(index)
     {

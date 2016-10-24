@@ -29,7 +29,6 @@
         <div ng-repeat="sub in sub_for" class="form-group form-inline" style="padding-left: 20px" >
                 <div class="col-sm-13 col-md-13 col-lg-13 ">
                   <input style="width: 170px" type="text"  class="form-control"  ng-model="sub.key" placeholder="Name" >
-                  <input style="width: 100px" type="text"  class="form-control" ng-model="sub.value.dev_type" placeholder="Device type" >
                   <input style="width: 170px" type="text"  class="form-control"  ng-model="sub.value.msg_type" placeholder="Msg type" >
                   <select style="width: 70px" type="text"  class="form-control" ng-model="sub.value.adapter" placeholder="Adapter" >
                       <option value="mqtt">mqtt</option>
@@ -58,7 +57,6 @@
           <div ng-repeat="pub in pub_to" class="form-group form-inline" style="padding-left: 20px"  >
                 <div class="col-sm-13 col-md-13 col-lg-13 ">
                   <input style="width: 170px" type="text"  class="form-control" ng-model="pub.key" placeholder="Name"  >
-                  <input style="width: 100px" type="text"  class="form-control" ng-model="pub.value.dev_type" placeholder="Device type" >
                   <input style="width: 170px" type="text"  class="form-control"  ng-model="pub.value.msg_type" placeholder="Msg type" >
                   <select style="width: 70px" type="text"  class="form-control" ng-model="pub.value.adapter" placeholder="Adapter" >
                       <option value="mqtt">mqtt</option>

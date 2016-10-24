@@ -177,32 +177,48 @@ def app_instance_config_api():
     inst_name = request.args.get("container_id", "")
     app_full_name = request.args.get("app_name", "")
     developer, app_name, version = split_app_full_name(app_full_name)
-    # app_name =
     msg = IotMsg("blackflow", MsgType.CMD, "blackflow", "get_apps")
-
-    # getting list of application manifests
+    msg.set_properties({"filter":{"name":app_name,"version":version , "developer":developer}})
+    # getting application manifest
     response = sync_async_client.send_sync_msg(msg, "jim1/cmd/app/blackflow/%s" % inst_name, "jim1/evt/app/blackflow/%s" % inst_name, timeout=5,
                                                correlation_msg_type="blackflow.apps", correlation_type="MSG_TYPE")
-    app_manifest = filter(lambda app: app["developer"] == developer and app["name"] == app_name and app["version"] == version, response.get_properties()["apps"])[0]
-    # getting a list of instance configurations
+    # app_manifest = filter(lambda app: app["developer"] == developer and app["name"] == app_name and app["version"] == version, response.get_properties()["apps"])[0]
+    if response:
+        app_manifest = response.get_properties()["apps"][0]
+    else :
+        log.error("Can't get application manifest from container.")
+        return Response(response=json.dumps([]), mimetype='application/json')
+
+    # getting application instance config
     msg = IotMsg("blackflow", MsgType.CMD, "blackflow", "get_app_instances")
+    msg.set_properties({"filter": {"id": inst_id}})
     all_app_instances = sync_async_client.send_sync_msg(msg, "jim1/cmd/app/blackflow/%s" % inst_name, "jim1/evt/app/blackflow/%s" % inst_name, timeout=5,
                                                         correlation_msg_type="blackflow.app_instances", correlation_type="MSG_TYPE")
-    if inst_id:
-        app_instance = filter(lambda inst: inst["id"] == inst_id, all_app_instances.get_properties()["app_instances"])[0]
-        for key, sub in app_instance["sub_for"].iteritems():
-            if key in app_manifest["sub_for"]: sub["app_def"] = app_manifest["sub_for"][key]
-        for key, pub in app_instance["pub_to"].iteritems():
-            if key in app_manifest["pub_to"]: pub["app_def"] = app_manifest["pub_to"][key]
-    else:
-        app_instance = {"id": None, "app_full_name": app_full_name, "alias": "", "sub_for": {}, "pub_to": {}, "configs": {}, "comments": ""}
-        for key, sub in app_manifest["sub_for"].iteritems():
-            topic = sub["topic"] if "topic" in sub else ""
-            app_instance["sub_for"][key] = {"topic": topic, "app_def": sub}
-        for key, pub in app_manifest["pub_to"].iteritems():
-            app_instance["pub_to"][key] = {"topic": "", "app_def": pub}
-        for conf in app_manifest["configs"]:
-            app_instance["configs"][conf] = ""
+    if all_app_instances:
+        if inst_id :
+            # Existing app instance
+            # app_instance = filter(lambda inst: inst["id"] == inst_id, all_app_instances.get_properties()["app_instances"])[0]
+            app_instance = all_app_instances.get_properties()["app_instances"][0]
+            for key, sub in app_instance["sub_for"].iteritems():
+                if key in app_manifest["sub_for"]: sub["app_def"] = app_manifest["sub_for"][key]
+            for key, pub in app_instance["pub_to"].iteritems():
+                if key in app_manifest["pub_to"]: pub["app_def"] = app_manifest["pub_to"][key]
+        else:
+            # New app instance
+            app_instance = {"id": None, "app_full_name": app_full_name, "alias": "", "sub_for": {}, "pub_to": {}, "configs": {}, "comments": ""}
+            for key, sub in app_manifest["sub_for"].iteritems():
+                topic = sub["topic"] if "topic" in sub else ""
+                msg_type = sub["msg_type"] if "msg_type" in sub else ""
+                app_instance["sub_for"][key] = {"topic": topic, "app_def": sub, "msg_type":msg_type}
+            for key, pub in app_manifest["pub_to"].iteritems():
+                topic = pub["topic"] if "topic" in pub else ""
+                msg_type = pub["msg_type"] if "msg_type" in pub else ""
+                app_instance["pub_to"][key] = {"topic": topic, "app_def": pub,"msg_type":msg_type}
+            for conf in app_manifest["configs"]:
+                app_instance["configs"][conf] = ""
+    else :
+        log.error("Can't get app instance from container . Reason : Empty response")
+        app_instance = []
 
     result_json = json.dumps(app_instance)
     return Response(response=result_json, mimetype='application/json')
@@ -214,6 +230,7 @@ def app_instances_graph():
     log.info("Blackflow Instances graph")
     result = {"nodes":[],"edges":[]}
     for container_id in svc_discovery.get_containers():
+
         msg = IotMsg("blackflow", MsgType.CMD, "blackflow", "get_app_instances")
         response = sync_async_client.send_sync_msg(msg, "jim1/cmd/app/blackflow/%s" % container_id, "jim1/evt/app/blackflow/%s" % container_id, timeout=5,
                                                    correlation_msg_type="blackflow.app_instances", correlation_type="MSG_TYPE")
@@ -232,6 +249,6 @@ def blackflow_analytics():
         msg = IotMsg("blackflow", MsgType.CMD, "blackflow", "analytics_get")
         response = sync_async_client.send_sync_msg(msg, "jim1/cmd/app/blackflow/%s" % container_id, "jim1/evt/app/blackflow/%s" % container_id, timeout=5,
                                                    correlation_msg_type="blackflow.analytics", correlation_type="MSG_TYPE")
-
-        result.extend(response.get_properties()["link_counters"])
+        if response:
+            result.extend(response.get_properties()["link_counters"])
     return Response(response=json.dumps(result), mimetype='application/json')

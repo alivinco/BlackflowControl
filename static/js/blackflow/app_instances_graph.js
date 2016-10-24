@@ -15,7 +15,7 @@ function get_node_shape(alias)
       color = "Salmon"
     }
     else {
-      shape = "circle"
+      shape = "ellipse"
       color = "LightGreen" }
     return {"color":color,"shape":shape}
 }
@@ -23,9 +23,20 @@ function get_node_shape(alias)
 function map_role_to_image(role)
 {
     var mapping = {
-        "lamp":root_uri+"/static/img/illumination.svg",
-        "switch":root_uri+"/static/img/power-button.svg",
-        "clock":root_uri+"/static/img/clock.svg"
+        "lamp":root_uri+"/static/img/icons/illumination.svg",
+        "switch":root_uri+"/static/img/icons/power-button.svg",
+        "clock":root_uri+"/static/img/icons/clock.svg",
+        "temp_sensor":root_uri+"/static/img/icons/thermometer.svg",
+        "light_sensor":root_uri+"/static/img/icons/solar-panel.svg",
+        "console":root_uri+"/static/img/icons/console.svg",
+        "key":root_uri+"/static/img/icons/electronic-key.svg",
+        "lock":root_uri+"/static/img/icons/padlock.svg",
+        "heating":root_uri+"/static/img/icons/heating.svg",
+        "plug":root_uri+"/static/img/icons/plug.svg",
+        "motion":root_uri+"/static/img/icons/eye.svg",
+        "notification":root_uri+"/static/img/icons/notification.svg",
+        "alarm":root_uri+"/static/img/icons/alarm.svg"
+
     }
     return mapping[role]
 }
@@ -38,12 +49,13 @@ function transformData(data)
         shape = get_node_shape(alias)
         role = data.nodes[i].role
         desc = data.nodes[i].desc
+        // app or node
+        type = data.nodes[i].type
         var imgUrl = ""
-        if (shape.shape == "circle"){
-            data.nodes[i]["label"] = alias +" \n "+data.nodes[i]["group"]
+        if (type == "app"){
+            data.nodes[i]["label"] = alias +" \n @"+data.nodes[i]["group"]
         }else{
-            if (role && desc){
-
+            if (role){
                 imgUrl = map_role_to_image(role)
                 if (imgUrl != null){
                     data.nodes[i]["label"] = desc
@@ -191,26 +203,38 @@ function initGraph() {
 
         if (nodeId) {
             node = instancesGraphData.nodes.get(nodeId)
-            console.dir(node)
-            selectedInstanceId = node.id
-            selectedAppFullName = node.app_full_name
-            selectedContainer = node.group
-            $("#mod_inst_name").html(node.alias)
-            $("#mod_app_full_name").html(node.app_full_name)
-            $("#mod_comments").html(node.comments)
-            $("#mod_container").html(node.group)
-            $("#nodeInfoModal").modal({show:true})
+            if (node.type == "app"){
+                console.dir(node)
+                selectedInstanceId = node.id
+                selectedAppFullName = node.app_full_name
+                selectedContainer = node.group
+                $("#mod_inst_name").html(node.alias)
+                $("#mod_app_full_name").html(node.app_full_name)
+                $("#mod_comments").html(node.comments)
+                $("#mod_container").html(node.group)
+                $("#appInfoModal").modal({show:true})
+            }else if (node.type == "node"){
+                $("#mod_node_msg_type").html(node.msg_type)
+                $("#mod_node_topic_addr").html(node.alias)
+                $("#mod_node_role").html(node.role)
+                $("#mod_node_description").html(node.description)
+                $("#mod_node_container").html(node.group)
+                $("#nodeInfoModal").modal({show:true})
+            }
 
         }
     })
 }
 function openInstanceConfig()
 {
-  window.location = root_uri+"/ui/app_instance_config?id="+selectedInstanceId+"&app_name="+selectedAppFullName+"&container_id="+selectedContainer
+  idSplit = selectedInstanceId.split("_")
+  //window.location = root_uri+"/ui/app_instance_config?id="+idSplit[1]+"&app_name="+selectedAppFullName+"&container_id="+selectedContainer
+  window.open(root_uri+"/ui/app_instance_config?id="+idSplit[1]+"&app_name="+selectedAppFullName+"&container_id="+selectedContainer)
 }
 function openAppConfig()
 {
-  window.location = root_uri+"/ui/app_editor?app_name="+selectedAppFullName+"&container_id="+selectedContainer
+  //window.location = root_uri+"/ui/app_editor?app_name="+selectedAppFullName+"&container_id="+selectedContainer
+  window.open(root_uri+"/ui/app_editor?app_name="+selectedAppFullName+"&container_id="+selectedContainer)
 }
 
  $(function(){
