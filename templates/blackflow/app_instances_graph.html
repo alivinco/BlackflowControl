@@ -2,7 +2,7 @@
 {% extends "base_layout.html" %}
 {% block li_dr_registry %}class="active"{% endblock %}
 {% block css_scripts %}
-<link rel="stylesheet" href="{{ global_context.root_uri }}/static/css/custom_icons.css">
+<link rel="stylesheet" href="{{ global_context.root_uri }}/static/css/custom_icons.css" xmlns="http://www.w3.org/1999/html">
 
 
 <link href="{{ global_context.root_uri }}/static/visjs/dist/vis.css" rel="stylesheet" type="text/css">
@@ -20,6 +20,11 @@
 <div  class="container-fluid">
     <div  id="app_instances_graph_div">
     </div>
+</div>
+<br>
+<div class="col-sm-5">
+      <button type="button" onclick="loadAnalytics()" class="btn btn-default">Reload counters</button>
+      <button type="button" onclick="openMqttClientModal()" class="btn btn-default">Send mqtt msg</button>
 </div>
 
 <!-- Modal -->
@@ -86,8 +91,58 @@
           <div class="col-md-3">Container:</div>
           <div class="col-md-6" id = "mod_node_container"></div>
         </div>
+        <div class="row">
+            <div class="col-md-3">Last message:</div>
+            <div class="col-md-6">
+                <textarea name="payload" id="mod_node_msg_payload" rows="15" cols="60" ></textarea>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">Update type:</div>
+          <div class="col-md-6"    >
+              <label class="radio">
+                <input type="radio" class="form-control" name = "mod_node_update_type" value="context" checked="checked">Update context
+              </label>
+              <label class="radio">
+                <input type="radio" class="form-control" name = "mod_node_update_type" value="mqtt">Send regular MQTT messaage
+              </label>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-default" onclick="sendContextRecord()" >Send</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="mqttClientModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Mqtt client</h4>
+      </div>
+      <div class="modal-body" >
+        <div class="row" style="padding: 7px">
+          <div class="form-group ">
+            <label for="mqtt_client_topic" class="col-sm-2 col-lg-1  control-label">Address</label>
+            <div class="col-sm-8 ">
+              <input type="text" name="address" class="form-control" id="mqtt_client_topic"  value="{{ address }}">
+            </div>
+          </div>
+        </div>
+         <div class="row" style="padding: 7px">
+            <div >
+                <textarea name="payload" class="form-control" id="mqtt_client_payload" rows="20" >{{ payload }}</textarea>
+            </div>
+         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" onclick="sendMqttMsg()" >Send</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -101,6 +156,7 @@
 
     </script>
     <script src="{{ global_context.root_uri }}/static/js/stupidtable.min.js"></script>
+     <script src="{{ global_context.root_uri }}/static/js/utils.js" type="text/javascript" charset="utf-8"></script>
     <script src="{{ global_context.root_uri }}/static/visjs/dist/vis.js"></script>
     <script src="{{ global_context.root_uri }}/static/js/blackflow/app_instances_graph.js"></script>
 {% endblock %}

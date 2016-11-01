@@ -69,7 +69,19 @@ def init_app_components():
 
     # Flask init
     app = Flask(__name__)
-    app.secret_key = '\xb5\xd4\xa1\xa5_\xc9\x07"\xaa\xb5\x1d1\xea\xd0\x08\\\xe9\x0b\x056\xf9J\x8f\xd0'
+    secret_key = ""
+    try :
+        secret_file = open("secret.db","r")
+        secret_key = secret_file.read()
+        secret_file.close()
+    except IOError :
+        import os
+        secret_file = open("secret.db","w")
+        secret_key = str(os.urandom(24))
+        secret_file.write(secret_key)
+        secret_file.close()
+    # app.secret_key = '\xb5\xd4\xa1\xa5_\xc9\x07"\xaa\xb5\x1d1\xea\xd0\x08\\\xe9\x0b\x056\xf9J\x8f\xd0'
+    app.secret_key = secret_key
     app.config['SESSION_TYPE'] = 'filesystem'
     app.config['SESSION_FILE_DIR'] = '/tmp/'
     app.config['SESSION_COOKIE_NAME'] = 'bflowctr'

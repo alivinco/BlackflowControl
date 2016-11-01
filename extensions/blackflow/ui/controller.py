@@ -110,7 +110,8 @@ def blackflow_proxy():
     corr_type should be - "MSG_TYPE","COR_ID" . Where MSG_TYPE - message correlated by message type , COR_ID - correlated by cor_id property.
 
     """
-    data = request.get_json()
+
+    data = request.get_json(force=True)
     inst_name = data["container_id"]
     # supported types : one_way , sync_response
     request_topic = "/cmd/app/blackflow/%s" % inst_name
@@ -252,3 +253,14 @@ def blackflow_analytics():
         if response:
             result.extend(response.get_properties()["link_counters"])
     return Response(response=json.dumps(result), mimetype='application/json')
+
+@blackflow_bp.route('/api/mqtt_client', methods=["POST"])
+@login_required
+def mqtt_client():
+    topic = request.form["topic"]
+    payload = request.form["payload"]
+    log.info("Topic:"+topic)
+    log.info("Payload:" + str(payload))
+    iot_msg = IotMsgConverter.string_to_iot_msg(topic,payload)
+    sync_async_client.msg_system.publish(topic, iot_msg, 1)
+    return Response(response=json.dumps({"status":"ok"}), mimetype='application/json')

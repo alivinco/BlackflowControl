@@ -1,5 +1,6 @@
 var instancesGraph;
 var instancesGraphData;
+var selectedTopic;
 function get_node_shape(alias)
 {
     if(alias.indexOf("mqtt:") > -1) {
@@ -139,7 +140,7 @@ function loadAnalytics()
 function startPoolingAnalytics()
 {
     loadAnalytics()
-    setInterval(loadAnalytics,10000);
+    setInterval(loadAnalytics,60000);
 }
 
 
@@ -203,28 +204,79 @@ function initGraph() {
 
         if (nodeId) {
             node = instancesGraphData.nodes.get(nodeId)
+            selectedContainer = node.group
             if (node.type == "app"){
                 console.dir(node)
                 selectedInstanceId = node.id
                 selectedAppFullName = node.app_full_name
-                selectedContainer = node.group
                 $("#mod_inst_name").html(node.alias)
                 $("#mod_app_full_name").html(node.app_full_name)
                 $("#mod_comments").html(node.comments)
                 $("#mod_container").html(node.group)
                 $("#appInfoModal").modal({show:true})
             }else if (node.type == "node"){
+                selectedTopic = node.alias
+                selectedContainer = node.group
                 $("#mod_node_msg_type").html(node.msg_type)
                 $("#mod_node_topic_addr").html(node.alias)
                 $("#mod_node_role").html(node.role)
                 $("#mod_node_description").html(node.description)
                 $("#mod_node_container").html(node.group)
+                loadContextRecord(node.alias)
                 $("#nodeInfoModal").modal({show:true})
             }
 
         }
     })
 }
+
+function loadContextRecord(topic){
+        packet = getMessagePacket("command","blackflow","context_record_get")
+        packet.command.default.value = topic
+        $.ajax({url : root_uri+"/api/proxy",
+                    type: 'POST',
+                    dataType : "json",
+                    data: JSON.stringify({"req_type":"sync_response","req_payload":packet,"corr_type":"COR_ID","container_id":selectedContainer}),
+                    success:function(data) {
+                        //console.dir(data)
+                        $("#mod_node_msg_payload").val( JSON.stringify(data.event.default.value,null,2))
+                    },
+                    error: function() {alert(data); }
+               })
+}
+function sendContextRecord(){
+        payload = $("#mod_node_msg_payload").val()
+        if ($("input:radio[name=mod_node_update_type]:checked").val()=="context") {
+            console.log("Updating context")
+            packet = getMessagePacket("command", "blackflow", "context_record_set")
+            try {
+                packet.command.default.value = JSON.parse(payload)
+                packet.command.default.type = "IotMsg"
+            } catch (e) {
+                packet.command.default.value = payload
+                packet.command.default.type = "string"
+            }
+            packet.command.properties["topic"] = selectedTopic
+            $.ajax({
+                url: root_uri + "/api/proxy",
+                type: 'POST',
+                dataType: "json",
+                data: JSON.stringify({"req_type": "one_way", "req_payload": packet, "container_id": selectedContainer}),
+                success: function (data) {
+                    console.log("context record was set")
+                },
+                error: function () {
+                    alert(data);
+                }
+            })
+        }else {
+            console.log("Sending MQTT msg")
+            topic = selectedTopic.split(":")[1]
+            publishMqttMsg(topic,payload)
+        }
+}
+
+
 function openInstanceConfig()
 {
   idSplit = selectedInstanceId.split("_")
@@ -236,7 +288,23 @@ function openAppConfig()
   //window.location = root_uri+"/ui/app_editor?app_name="+selectedAppFullName+"&container_id="+selectedContainer
   window.open(root_uri+"/ui/app_editor?app_name="+selectedAppFullName+"&container_id="+selectedContainer)
 }
+function openMqttClientModal(){
+     $("#mqttClientModal").modal({show:true})
+}
+function sendMqttMessage(){
+    publishMqttMsg($("#mqtt_client_topic").val(),$("#mqtt_client_payload").val())
+}
 
+function publishMqttMsg(topic,payload){
+    $.ajax({url : root_uri+"/api/mqtt_client",
+                    type: 'POST',
+                    data: {topic:topic,payload:payload},
+                    success:function(data) {
+                        console.log("Message was sent")
+                    },
+                    error: function() {alert(data); }
+               })
+}
  $(function(){
 
     initGraph()
