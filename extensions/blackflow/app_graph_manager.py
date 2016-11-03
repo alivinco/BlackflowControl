@@ -14,7 +14,7 @@ class AppGraphManager():
             new_id = "%s_%s"%(self.container_id,nid)
         else:
             new_id = nid
-        print "new id = %s"%new_id
+        # print "new id = %s"%new_id
         return new_id
 
     def convert_app_instances_into_graph(self):

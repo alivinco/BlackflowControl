@@ -22,6 +22,9 @@ from extensions.auth.ui import controller as auth_ex
 from extensions.auth.ui.controller import mod_auth, login_manager
 from extensions.blackflow.ui import controller as blackflow_ex
 from configs import globals
+import mimetypes
+
+mimetypes.add_type('image/svg+xml', '.svg')
 
 # Global variables
 from modules.mqtt_adapter import MqttAdapter

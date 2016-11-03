@@ -134,7 +134,7 @@ def blackflow_proxy():
         return Response(response=IotMsgConverter.iot_msg_with_topic_to_str(response_topic,response) , mimetype='application/json')
 
 
-@blackflow_bp.route('/ui/app_instances_graph/', methods=["GET"])
+@blackflow_bp.route('/ui/app_instances_graph', methods=["GET"])
 @login_required
 def app_instances_graph_ui():
     return render_template('blackflow/app_instances_graph.html', global_context=global_context, format_time=utils.format_iso_time_from_sec)
