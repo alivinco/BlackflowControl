@@ -62,7 +62,7 @@ class AppGraphManager():
     def __add_unknown_node(self, topic, role="", desc="" , msg_type =""):
         # check to avoid dublicates
         new_id = self.__get_next_node_id()
-        search = filter(lambda node: node["alias"] == topic, self.nodes)
+        search = filter(lambda node: node["alias"] == topic and node["msg_type"] == msg_type, self.nodes)
         if len(search) == 0:
             self.nodes.append({"id": self.get_id(new_id), "alias": topic , "group":self.container_id, "role": role,"desc": desc , "type":"node","msg_type":msg_type})
         else:

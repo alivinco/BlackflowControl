@@ -11,7 +11,7 @@ app.config(function($interpolateProvider,jwtInterceptorProvider,jwtOptionsProvid
         return id_token;
   }
   jwtOptionsProvider.config({
-          whiteListedDomains: ['zmarlin.com', 'localhost']
+          whiteListedDomains: ['iot.zmarlin.com', 'localhost']
       })
   //Push interceptor function to $httpProvider's interceptors
   $httpProvider.interceptors.push('jwtInterceptor');

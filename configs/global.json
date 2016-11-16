@@ -21,7 +21,7 @@
  "app_store": {
   "username": "alivinco", 
   "password": "", 
-  "api_url": "https://zmarlin.com/bfhub/api"
+  "api_url": "https://iot.zmarlin.com/bfhub/api"
  }, 
  "log_dir": "./"
 }
